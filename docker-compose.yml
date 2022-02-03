@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  # postgresql://foodle:foodle@localhost:5431
+  postgres:
+    image: postgres
+    container_name: foodle
+    restart: always
+    environment:
+      - POSTGRES_USER=foodle
+      - POSTGRES_PASSWORD=foodle
+    ports:
+      - "5431:5432"
