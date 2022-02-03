@@ -3,27 +3,27 @@ import { seed } from "../utils/seed";
 import { clean } from "../utils/clean";
 
 beforeAll(async () => {
-  clean();
-  seed();
+  await clean();
+  await seed();
 });
 
 describe("Find user query", () => {
   const query = `query Query($handle: String!) {
- findUser(handle: $handle) {
-   User {
-     id
-     email
-     handle
-     fullName
-     zip
-   }
-   ClientErrorUserNotExists {
-     message
-   }
-   ClientErrorInvalidHandle {
-     message
-   }
- }`;
+    findUser(handle: $handle) {
+        User {
+            email
+            handle
+            fullName
+            zip
+        }
+        ClientErrorUserNotExists {
+            message
+        }
+        ClientErrorInvalidHandle {
+            message
+        }
+        }
+    }`;
   it("can query a single user by the handle", async () => {
     const res = await server.executeOperation({
       query,

@@ -78,7 +78,15 @@ export const Query = extendType({
                 handle: args.handle,
               },
             });
-            return { User: user };
+            if (user) {
+              return { User: user };
+            } else {
+              return {
+                ClientErrorUserNotExists: {
+                  message: "no user exists with this handle",
+                },
+              };
+            }
           } catch (e) {
             return {
               ClientErrorUserNotExists: {
