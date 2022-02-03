@@ -3,19 +3,23 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Foodle",
+  "private": "true",
   "scripts": {
     "db:up": "docker-compose up -d",
     "db:down": "docker-compose down",
+    "db:reset": "dotenv -e .env.local prisma migrate reset",
     "prisma:generate": "dotenv -e .env.local prisma generate",
     "prisma:migrate:dev": "dotenv -e .env.local prisma migrate dev",
     "prisma:migrate:deploy": "dotenv -e .env.local prisma migrate deploy",
-    "dev": "dotenv -e .env.local -- ts-node-dev --respawn --transpile-only server/index.ts",
-    "nexus:watch": "nodemon --exec 'yarn ts-node server/graphql/schema' --ext 'ts' --watch 'server/graphql/**/*.ts' --ignore 'graphql/generated/schema.graphql'",
-    "format": "eslint --fix ."
+    "dev": "dotenv -e .env.local -- ts-node-dev --no-notify --respawn --transpile-only server/index.ts",
+    "nexus:watch": "nodemon --exec 'yarn ts-node server/schema' --ext 'ts' --watch 'server/graphql/**/*.ts' --ignore 'graphql/generated/schema.graphql'",
+    "db:seed": "dotenv -e .env.local yarn ts-node server/seed.ts",
+    "format": "eslint --fix .",
+    "test:api": "dotenv -e .env.local -- jest --config ./jest.config.ts --runInBand --force-exit"
   },
   "dependencies": {
     "@prisma/client": "^3.9.1",
-    "graphql": "^16.3.0",
+    "graphql": "14.6.0",
     "jsonwebtoken": "^8.5.1",
     "nexus": "^1.2.0"
   },
@@ -24,6 +28,7 @@
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.14",
     "apollo-server-express": "^3.6.2",
+    "dotenv-cli": "^4.1.1",
     "eslint": "^8.8.0",
     "express": "^4.17.2",
     "jest": "^27.4.7",
