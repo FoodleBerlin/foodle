@@ -2,10 +2,19 @@
 
 exports[`Find user query can query a single user by the handle 1`] = `
 Object {
-  "data": undefined,
-  "errors": Array [
-    [SyntaxError: Syntax Error: Expected Name, found <EOF>],
-  ],
+  "data": Object {
+    "findUser": Object {
+      "ClientErrorInvalidHandle": null,
+      "ClientErrorUserNotExists": null,
+      "User": Object {
+        "email": "user1@gmail.com",
+        "fullName": "User 1",
+        "handle": "user1",
+        "zip": 13000,
+      },
+    },
+  },
+  "errors": undefined,
   "extensions": undefined,
   "http": Object {
     "headers": Headers {
