@@ -7,3 +7,9 @@
 5. `yarn nexus:watch` to generate the graphql.schema
 6. `yarn dev` to start the server in development
 7. navigate to "localhost:5000/graphql" for the apollo interface where you can manually test queries/mutations
+8. `yarn db:seed` to seed the database.
+
+## Test
+
+1. Important: Dev Server needs to be stopped.
+2. `yarn test:api` to start the test
