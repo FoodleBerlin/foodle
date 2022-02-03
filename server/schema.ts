@@ -24,7 +24,7 @@ const schema = makeSchema({
     module: path.join(__dirname, "/context.ts"),
   },
   sourceTypes: {
-    modules: [{ module: "./prisma/client", alias: "PrismaClient" }],
+    modules: [{ module: ".prisma/client", alias: "PrismaClient" }],
   },
 });
 

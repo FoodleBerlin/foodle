@@ -1,0 +1,173 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ModelKind {
+  user
+  property
+  booking
+  bookingDay
+  propertyAvailability
+  facility
+  payment
+  paymentMethod
+}
+
+enum DayOfWeek {
+  mon
+  tue
+  wed
+  thu
+  fri
+  sat
+  sun
+}
+
+enum Frequency {
+  none
+  weekly
+  biweekly
+  triweekly
+}
+
+enum PaymentType {
+  reservation
+  fee
+  refund
+}
+
+enum PaymentStatus {
+  pending
+  paid
+  rejected
+}
+
+enum CancellationType {
+  fullRefundBefore1Week
+  fullRefundBefore1WeekPartialRefundAfter
+  fullRefundBefore2Weeks
+  fullRefundBefore2WeeksPartialRefundAfter
+}
+
+enum Role {
+  tenant
+  landlord
+  tenantLandlord
+}
+
+enum BookingStatus {
+  accepted
+  pending
+  rejected
+}
+
+model User {
+  kind             ModelKind  @default(user)
+  handle            String    @unique
+  fullName         String
+  email            String     @unique
+  id               String     @id @default(cuid())
+  image            String?
+  zip              Int
+  description      String?
+  isVerified       Boolean    @default(false)
+  role             Role
+  bookings         Booking[]  @relation("tenant")
+  rentingOut       Property[] @relation("owner")
+  superOwner       Boolean    @default(false)
+  passport         String?
+  passportVerified Boolean    @default(false)
+  license          String?
+  licenseVerified  Boolean    @default(false)
+  solvency         String?
+  solvencyVerified Boolean    @default(false)
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+model BookingDay {
+  kind                   ModelKind            @default(bookingDay)
+  id                     String               @id @default(cuid())
+  bookingId              String               @unique
+  booking                Booking              @relation(name: "booking", fields: [bookingId], references: [id])
+  propertyAvailabilityId String               @unique
+  propertyAvailability   PropertyAvailability @relation(name: "propertyAvailability", fields: [propertyAvailabilityId], references: [id])
+  dayOfWeek              DayOfWeek
+  startTime              DateTime // should just be 15:00 for ex
+  endTime                DateTime
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+}
+
+model Booking {
+  kind          ModelKind     @default(booking)
+  id            String        @id @default(cuid())
+  tenantId      String        @unique
+  tenant        User          @relation(name: "tenant", fields: [tenantId], references: [id])
+  propertyId    String        @unique
+  property      Property      @relation(name: "property", fields: [propertyId], references: [id])
+  bookingStatus BookingStatus
+  totalPrice    BigInt        @default(0)
+  startDate     DateTime
+  endDate       DateTime
+  bookingDays   BookingDay[]  @relation("booking")
+  frequency     Frequency
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model PropertyAvailability {
+  kind          ModelKind    @default(propertyAvailability)
+  id            String       @id @default(cuid())
+  startDate     DateTime
+  endDate       DateTime
+  availableDays BookingDay[] @relation("propertyAvailability")
+  frequency     Frequency
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Property {
+  kind             ModelKind        @default(property)
+  id               String           @id @default(cuid())
+  size             Int // will be sq.ft
+  ownerId          String           @unique
+  owner            User             @relation(name: "owner", fields: [ownerId], references: [id])
+  bookings         Booking[]        @relation("property")
+  street           String
+  streetNumber     Int
+  zip              Int
+  city             String
+  description      String
+  pickup           Boolean          @default(false)
+  facilities       Facility[]
+  isVerified       Boolean          @default(false)
+  dailyPrice       BigInt           @default(0)
+  serviceFee       BigInt           @default(0)
+  cancellationType CancellationType
+  thingsToKnow     String
+  rules            String[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  // TODO add availability
+}
+
+model Facility {
+  kind        ModelKind @default(facility)
+  id          String    @id @default(cuid())
+  propertyId  String    @unique
+  property    Property  @relation(fields: [propertyId], references: [id])
+  name        String
+  description String?
+  amount      Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}

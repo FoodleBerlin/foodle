@@ -24,7 +24,9 @@ export async function main() {
   await apollo.start();
   apollo.applyMiddleware({ app, cors: corsOptions });
   server.listen({ port: PORT }, () => {
-    `Server read at http://localhost${PORT}${apollo.graphqlPath}`;
+    console.log(
+      `✨Server read at http://localhost:${PORT}${apollo.graphqlPath}`
+    );
   });
 }
 
