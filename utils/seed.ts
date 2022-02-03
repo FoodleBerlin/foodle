@@ -1,4 +1,4 @@
-import prisma from "./singletons/prisma";
+import prisma from "../server/singletons/prisma";
 export async function seed() {
   const [users] = await Promise.all(
     await prisma.$transaction([
@@ -44,5 +44,4 @@ export async function seed() {
     ])
   );
 }
-seed();
 export default seed();

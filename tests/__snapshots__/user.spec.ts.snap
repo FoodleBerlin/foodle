@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Find user query can query a single user by the handle 1`] = `
+Object {
+  "data": undefined,
+  "errors": Array [
+    [SyntaxError: Syntax Error: Expected Name, found <EOF>],
+  ],
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;

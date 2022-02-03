@@ -13,7 +13,8 @@
     "prisma:migrate:deploy": "dotenv -e .env.local prisma migrate deploy",
     "dev": "dotenv -e .env.local -- ts-node-dev --no-notify --respawn --transpile-only server/index.ts",
     "nexus:watch": "nodemon --exec 'yarn ts-node server/schema' --ext 'ts' --watch 'server/graphql/**/*.ts' --ignore 'graphql/generated/schema.graphql'",
-    "db:seed": "dotenv -e .env.local yarn ts-node server/seed.ts",
+    "db:seed": "dotenv -e .env.local yarn ts-node utils/runSeed.ts",
+    "db:clean": "dotenv -e .env.local yarn ts-node utils/runClean.ts",
     "format": "eslint --fix .",
     "test:api": "dotenv -e .env.local -- jest --config ./jest.config.ts --runInBand --force-exit"
   },

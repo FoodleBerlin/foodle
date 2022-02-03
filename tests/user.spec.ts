@@ -1,7 +1,10 @@
 import { apollo as server } from "../server/index";
+import { seed } from "../utils/seed";
+import { clean } from "../utils/clean";
+
 beforeAll(async () => {
-  // TODO reset()
-  // TODO seed
+  clean();
+  seed();
 });
 
 describe("Find user query", () => {
