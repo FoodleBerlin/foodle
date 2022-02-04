@@ -17,16 +17,17 @@
     "db:clean": "dotenv -e .env.local yarn ts-node utils/runClean.ts",
     "format": "eslint --fix .",
     "test:api": "cross-env TEST=true dotenv -e .env.local -- jest --config ./jest.config.ts --runInBand --force-exit",
-    "client:dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "next:dev": "next dev",
+    "next:build": "next build",
+    "next:start": "next start",
+    "next:lint": "next lint"
   },
   "dependencies": {
     "@prisma/client": "^3.9.1",
     "apollo-server": "^3.6.2",
     "graphql": "14.6.0",
     "jsonwebtoken": "^8.5.1",
+    "sass": "^1.49.7",
     "next": "12.0.10",
     "nexus": "^1.2.0",
     "react": "17.0.2",
