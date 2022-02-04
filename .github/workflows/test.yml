@@ -17,5 +17,6 @@ jobs:
       - run: yarn db:up
       - run: yarn
       - run: echo ${{ secrets.DATABASE_URL }}
+      - run: echo ${process.env.DATABASE_URL}
       - run: yarn prisma:migrate:deploy
       - run: yarn test:api
