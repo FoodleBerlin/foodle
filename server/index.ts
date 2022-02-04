@@ -1,30 +1,19 @@
-import { ApolloServer } from "apollo-server-express";
-import express from "Express";
+import { ApolloServer } from "apollo-server";
 import schema from "./schema";
 import { createContext } from "./context";
 
-const { PORT = 5000 } = process.env;
-const app = express();
-app.use(express.json());
-
-const corsOptions = {
-  credentials: true,
-};
-
 export const apollo = new ApolloServer({
+  // An executable GraphQL schema.
   schema,
   introspection: true,
-  apollo: {},
+  // An object (or a function that creates an object) that's passed to every resolver that executes for a particular operation.
+  // This enables resolvers to share helpful context, such as a database connection.
   context: createContext,
 });
 
 export async function main() {
-  await apollo.start();
-  apollo.applyMiddleware({ app, cors: corsOptions });
-  app.listen({ port: PORT }, () => {
-    console.log(
-      `✨Server read at http://localhost:${PORT}${apollo.graphqlPath}`
-    );
+  await apollo.listen({
+    port: 5000,
   });
 }
 
