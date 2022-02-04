@@ -4,6 +4,8 @@ import * as types from "./graphql/types";
 
 const schema = makeSchema({
   types: [types],
+  // TODO implement isTypeOf field in all objects
+  // https://nexusjs.org/docs/guides/abstract-types
   features: {
     abstractTypeStrategies: {
       isTypeOf: true,
