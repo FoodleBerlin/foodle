@@ -4,6 +4,7 @@ import Image from "next/image";
 import React from "react";
 import styles from "../styles/pages/Home.module.scss";
 import Navbar from "../components/Layout/Navbar";
+import LandingInfo from "../components/Layout/LandingInfo";
 
 const Home: NextPage = () => {
   const [email, setEmail] = React.useState<string>("");
@@ -38,17 +39,17 @@ const Home: NextPage = () => {
             <input
               className={styles["hero__left--email"] + " standard-form"}
               type="text"
-              placeholder="email@beemail.com"
+              placeholder="Notify me for early access"
               onChange={(val) => setEmail(val.target.value)}
             ></input>
             <button onClick={() => console.log(email)} className="primary-btn">
-              Submit
+              Submit Email
             </button>
           </div>
         </div>
         <div className={styles["hero__right"]}>
           <div className={styles["hero__right"]}>
-            <Image src={"/landing-2.jpg"} width={450} height={300} />
+            <Image src={"/programming.png"} width={450} height={350} />
           </div>
         </div>
       </div>
@@ -78,6 +79,7 @@ const Home: NextPage = () => {
           />
         </div>
       </div>
+      <LandingInfo />
     </div>
   );
 };
