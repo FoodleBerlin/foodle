@@ -14,9 +14,15 @@
   &__left {
     display: flex;
     flex: 1 1 60%;
-    flex-direction: column;
-    gap: 3rem;
-    padding: 0 10vw 0 4vw;
+    justify-content: center;
+    align-items: center;
+
+    &--inner {
+      display: flex;
+      max-width: 58rem;
+      gap: 3rem;
+      flex-direction: column;
+    }
 
     &--email {
       width: 25vw;
@@ -96,11 +102,10 @@
     align-items: center;
     gap: 12rem;
   }
-}
-
-.landing-div {
-  max-width: 450px;
-  &--small {
+  &__left {
+    max-width: 450px;
+  }
+  &__right {
     max-width: 250px;
   }
 }

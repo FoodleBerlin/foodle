@@ -28,23 +28,28 @@ const Home: NextPage = () => {
       <Navbar />
       <div className={styles["hero"]}>
         <div className={styles["hero__left"]}>
-          <h1 className={"header-primary"}>
-            Renting Licensed Kitchen Space is about to get way easier.
-          </h1>
-          <h2 className={"body-text"}>
-            Foodle is being cooked right now. Stay tuned for our launch by
-            submitting your email!
-          </h2>
-          <div>
-            <input
-              className={styles["hero__left--email"] + " standard-form"}
-              type="text"
-              placeholder="Notify me for early access"
-              onChange={(val) => setEmail(val.target.value)}
-            ></input>
-            <button onClick={() => console.log(email)} className="primary-btn">
-              Submit Email
-            </button>
+          <div className={styles["hero__left--inner"]}>
+            <h1 className={"header-primary"}>
+              Renting Licensed Kitchen Space is about to get way easier.
+            </h1>
+            <h1 className={"body-text"}>
+              Foodle is being cooked right now. Stay tuned for our launch by
+              submitting your email!
+            </h1>
+            <div>
+              <input
+                className={styles["hero__left--email"] + " standard-form"}
+                type="text"
+                placeholder="Notify me for early access"
+                onChange={(val) => setEmail(val.target.value)}
+              ></input>
+              <button
+                onClick={() => console.log(email)}
+                className="primary-btn"
+              >
+                Submit Email
+              </button>
+            </div>
           </div>
         </div>
         <div className={styles["hero__right"]}>
@@ -83,15 +88,13 @@ const Home: NextPage = () => {
         leftText="Always wanted to sell your homemade recipes? "
         rightText="You’ll need to find a licensed kitchen near you. 
         That can be a big challenge."
-        containerStyle={"landing-info--white"}
-        containerStyleInside={"landing-info__wrapper"}
+        containerStyle={"landing-info__white"}
       />
       <LandingInfo
         leftText="Foodle helps you do just that."
         rightText="With the click of a button, browse and book the kitchen that best fits your needs.
         And support local businesses in the process."
         containerStyle={"landing-info--green"}
-        containerStyleInside={"landing-info__wrapper"}
       />
     </div>
   );

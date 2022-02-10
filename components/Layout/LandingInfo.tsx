@@ -9,17 +9,16 @@ interface LandingInfoProps {
   leftText: string;
   rightText: string;
   containerStyle: string;
-  containerStyleInside: string;
 }
 
 const LandingInfo = (props: LandingInfoProps) => {
   return (
     <div className={styles[props.containerStyle]}>
-      <div className={styles[props.containerStyleInside]}>
-        <div className={styles["landing-div"] + " header-secondary"}>
+      <div className={styles["landing-info__wrapper"]}>
+        <div className={styles["landing-info__left"] + " header-secondary"}>
           {props.leftText}
         </div>
-        <div className={styles["landing-div--small"] + " body-text"}>
+        <div className={styles["landing-info__right"] + " body-text"}>
           {props.rightText}
         </div>
       </div>
