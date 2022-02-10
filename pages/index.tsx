@@ -79,7 +79,20 @@ const Home: NextPage = () => {
           />
         </div>
       </div>
-      <LandingInfo />
+      <LandingInfo
+        leftText="Always wanted to sell your homemade recipes? "
+        rightText="You’ll need to find a licensed kitchen near you. 
+        That can be a big challenge."
+        containerStyle={"landing-info--white"}
+        containerStyleInside={"landing-info__wrapper"}
+      />
+      <LandingInfo
+        leftText="Foodle helps you do just that."
+        rightText="With the click of a button, browse and book the kitchen that best fits your needs.
+        And support local businesses in the process."
+        containerStyle={"landing-info--green"}
+        containerStyleInside={"landing-info__wrapper"}
+      />
     </div>
   );
 };
