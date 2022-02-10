@@ -15,8 +15,8 @@ const Navbar: NextComponentType = () => {
           <a>
             <Image
               src="/foodle_logo.svg"
-              width={70}
-              height={45}
+              width={50}
+              height={35}
               alt="Foodle Logo"
             />
           </a>
@@ -27,6 +27,10 @@ const Navbar: NextComponentType = () => {
         <Tab href="/" title="How It Works" />
         <Tab href="/" title="List Your Kitchen" />
         <Tab href="/" title="Contact" />
+      </div>
+      <div className={styles["navbar__auth-btns"]}>
+        <button className="secondary-btn">Login</button>
+        <button className=" secondary-btn">Signup</button>
       </div>
     </nav>
   );
