@@ -30,7 +30,7 @@ const Home: NextPage = () => {
           <h1 className={"header-primary"}>
             Renting Licensed Kitchen Space is about to get way easier.
           </h1>
-          <h2 className={"header-secondary"}>
+          <h2 className={"body-text"}>
             Foodle is being cooked right now. Stay tuned for our launch by
             submitting your email!
           </h2>
