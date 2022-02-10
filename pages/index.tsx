@@ -52,7 +52,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <h2 className={styles["random-text"] + "header-secondary"}>
+      <h2 className={styles["random-text"] + " header-secondary"}>
         Make your entrepreneurial food dreams come true.
       </h2>
     </div>
