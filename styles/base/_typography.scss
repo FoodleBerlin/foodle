@@ -1,15 +1,21 @@
+@font-face {
+  font-family: "Archia Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Archia Regular"), url("Archia-Regular.woff") format("woff");
+}
 body {
-  font-family: $font-family, sans-serif;
+  font-family: "Archia Regular" !important;
   font-weight: 400;
-  line-height: 1.7;
   color: $color-white;
-  font-size: $default-font-size;
 }
 
 .heading-primary {
+  font-size: 4.2rem;
 }
 
 .heading-secondary {
+  font-size: 1.8rem;
 }
 
 .heading-tertiary {
