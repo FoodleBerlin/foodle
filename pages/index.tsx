@@ -7,11 +7,8 @@ import Navbar from "../components/Layout/Navbar";
 
 const Home: NextPage = () => {
   const [email, setEmail] = React.useState<string>("");
-  const handleSubmit = () => {
-    console.log(email);
-  };
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Foodle</title>
         <meta
@@ -28,7 +25,7 @@ const Home: NextPage = () => {
         </style>
       </Head>
       <Navbar />
-      <main className={styles["hero"]}>
+      <div className={styles["hero"]}>
         <div className={styles["hero__left"]}>
           <h1 className={"header-primary"}>
             Renting Licensed Kitchen Space is about to get way easier.
@@ -54,7 +51,10 @@ const Home: NextPage = () => {
             <Image src={"/landing-2.jpg"} width={450} height={300} />
           </div>
         </div>
-      </main>
+      </div>
+      <h2 className={styles["random-text"] + "header-secondary"}>
+        Make your entrepreneurial food dreams come true.
+      </h2>
     </div>
   );
 };
