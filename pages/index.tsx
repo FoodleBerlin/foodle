@@ -94,7 +94,7 @@ const Home: NextPage = () => {
         leftText="Foodle helps you do just that."
         rightText="With the click of a button, browse and book the kitchen that best fits your needs.
         And support local businesses in the process."
-        containerStyle={"landing-info--green"}
+        containerStyle={"landing-info__green"}
       />
     </div>
   );
