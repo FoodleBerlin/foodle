@@ -28,8 +28,8 @@ const Home: NextPage = () => {
         </style>
       </Head>
       <Navbar />
-      <main className={styles["landing"]}>
-        <div className={styles["landing__left"]}>
+      <main className={styles["hero"]}>
+        <div className={styles["hero__left"]}>
           <h1 className={"header-primary"}>
             Renting Licensed Kitchen Space is about to get way easier.
           </h1>
@@ -39,7 +39,7 @@ const Home: NextPage = () => {
           </h2>
           <div>
             <input
-              className={styles["landing__left--email"] + " standard-form"}
+              className={styles["hero__left--email"] + " standard-form"}
               type="text"
               placeholder="email@beemail.com"
               onChange={(val) => setEmail(val.target.value)}
@@ -49,8 +49,8 @@ const Home: NextPage = () => {
             </button>
           </div>
         </div>
-        <div className={styles["landing__right"]}>
-          <div className={styles["landing__right"]}>
+        <div className={styles["hero__right"]}>
+          <div className={styles["hero__right"]}>
             <Image src={"/landing-2.jpg"} width={450} height={300} />
           </div>
         </div>
