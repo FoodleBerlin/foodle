@@ -62,20 +62,20 @@ const Home: NextPage = () => {
           <Image
             alt="carousel-image"
             src={"/carousel-image-1.png"}
-            width={461}
-            height={515}
+            width={361}
+            height={415}
           />
           <Image
             alt="carousel-image"
             src={"/carousel-image-2.png"}
-            width={461}
-            height={515}
+            width={361}
+            height={415}
           />
           <Image
             alt="carousel-image"
             src={"/carousel-image-3.png"}
-            width={461}
-            height={515}
+            width={361}
+            height={415}
           />
         </div>
       </div>
