@@ -4,7 +4,6 @@ import Image from "next/image";
 import React from "react";
 import styles from "../../styles/pages/Home.module.scss";
 import Tab from "./Tab";
-import Search from "./Search";
 import { BurgerMenu } from "./BurgerMenu";
 
 interface LandingInfoProps {
