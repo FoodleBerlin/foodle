@@ -8,10 +8,6 @@ import Search from "./Search";
 import { BurgerMenu } from "./BurgerMenu";
 
 const Navbar: NextComponentType = () => {
-  const [email, setEmail] = React.useState<string>("");
-  const handleSubmit = () => {
-    console.log(email);
-  };
   return (
     <nav className={styles["navbar"]}>
       <div className={styles["navbar__logo"]}>
