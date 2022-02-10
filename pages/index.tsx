@@ -55,6 +55,29 @@ const Home: NextPage = () => {
       <h2 className={styles["random-text"] + "header-secondary"}>
         Make your entrepreneurial food dreams come true.
       </h2>
+      <div className={styles["carousel"]}>
+        <h2 className={"header-secondary"}>Licensed Kitchens For Rent</h2>
+        <div className={styles["carousel__wrapper"]}>
+          <Image
+            alt="carousel-image"
+            src={"/carousel-image-1.png"}
+            width={461}
+            height={515}
+          />
+          <Image
+            alt="carousel-image"
+            src={"/carousel-image-2.png"}
+            width={461}
+            height={515}
+          />
+          <Image
+            alt="carousel-image"
+            src={"/carousel-image-3.png"}
+            width={461}
+            height={515}
+          />
+        </div>
+      </div>
     </div>
   );
 };
