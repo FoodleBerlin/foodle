@@ -10,7 +10,7 @@ interface TabProps {
 const Tab = (props: TabProps) => (
   <div className={styles["navbar__menu--item"]}>
     <Link href={props.href || "/"}>
-      <a className={styles["navbar__menu--link"]}>
+      <a className={styles["navbar__menu--link"] + " flex-center"}>
         <span className={styles["navbar__menu--underline"]}>{props.title}</span>
       </a>
     </Link>
