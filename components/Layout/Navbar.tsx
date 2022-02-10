@@ -7,8 +7,8 @@ import Tab from "./Tab";
 
 const Navbar: NextComponentType = () => {
   return (
-    <nav className={styles["navbar"]}>
-      <div className={styles["navbar__logo"]}>
+    <nav className={styles["navbar"] + " flex-center"}>
+      <div className={styles["navbar__logo"] + " flex-center"}>
         <Link href="/">
           <a>
             <Image
