@@ -1,0 +1,63 @@
+.navbar {
+  width: 100%;
+  background-color: white;
+  position: fixed;
+  height: 6.5rem;
+  top: 0;
+  z-index: 1;
+  color: rgb(153, 130, 130);
+  border-bottom: 0.1rem solid #b3b3b3;
+
+  &__logo {
+    position: absolute;
+    top: 0.2rem;
+    left: 2vw;
+    margin-top: 1rem;
+    padding: 0.3rem 0 0 0;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.5;
+      transition: all 0.2s;
+    }
+  }
+  &__auth-btns {
+    position: absolute;
+    right: 1vw;
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  &__menu {
+    flex: 0 0 10%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+    &--underline {
+      display: inline-block;
+      &:hover::after {
+        width: 100%;
+      }
+      &::after {
+        content: "";
+        width: 0px;
+        height: 0.6px;
+        display: block;
+        background: #b3b3b3;
+        transition: 300ms;
+      }
+    }
+    &--link {
+      color: black;
+      cursor: pointer;
+      height: 100%;
+      width: 17rem;
+      transition: all 0.2s;
+      height: 100%;
+      padding: 1rem 1rem;
+      font-size: 1.5rem;
+    }
+  }
+}
