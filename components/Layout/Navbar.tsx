@@ -1,11 +1,15 @@
 import { NextComponentType, NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Navbar.module.scss";
 import Tab from "./Tab";
+import Modal from "./Modal";
 
 const Navbar: NextComponentType = () => {
+  // state to open/close the Modal
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <nav className={styles["navbar"] + " flex-center"}>
       <div className={styles["navbar__logo"] + " flex-center"}>
@@ -27,8 +31,13 @@ const Navbar: NextComponentType = () => {
         <Tab href="/" title="Contact" />
       </div>
       <div className={styles["navbar__auth-btns"]}>
-        <button className="secondary-btn">Login</button>
-        <button className=" secondary-btn">Signup</button>
+        <button className="secondary-btn" onClick={() => setOpenModal(true)}>
+          Login
+        </button>
+        <button className=" secondary-btn" onClick={() => setOpenModal(true)}>
+          Signup
+        </button>
+        <Modal onClose={() => setOpenModal(false)} show={openModal} />
       </div>
     </nav>
   );
