@@ -17,12 +17,28 @@ const Modal = (props: IModalProps) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles["modal__header"]}>
-          <h4 className={styles["modal__title"]}>Modal title</h4>
+          <div className={styles["modal__title"] + " body-text"}>
+            Log in or sign up
+          </div>
+          <a
+            className={styles["modal__close"]}
+            href="#"
+            onClick={props.onClose}
+          >
+            X
+          </a>
         </div>
-        <div className={styles["modal__body"]}>This is modal content</div>
-        <div className={styles["modal__footer"]}>
-          <button onClick={props.onClose}>Close</button>
+        <div className={styles["modal__body"]}>
+          <h2 className="header-secondary">Welcome to Foodle!</h2>
+          <div className={styles["modal__form"]}>
+            <input
+              className={styles["modal__body--zip"] + " standard-form"}
+            ></input>
+            <button className={"primary-btn"}>Continue with google</button>
+            <button className={"primary-btn"}>Continue with facebook</button>
+          </div>
         </div>
+        <div className={styles["modal__footer"]}></div>
       </div>
     </div>
   );

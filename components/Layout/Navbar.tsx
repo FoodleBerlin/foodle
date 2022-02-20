@@ -8,7 +8,7 @@ import Modal from "./Modal";
 
 const Navbar: NextComponentType = () => {
   // state to open/close the Modal
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   return (
     <nav className={styles["navbar"] + " flex-center"}>
