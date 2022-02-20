@@ -38,6 +38,8 @@ const Modal = (props: IModalProps) => {
           <div className={styles["modal__form"]}>
             <input
               className={styles["modal__body--zip"] + " standard-form"}
+              type="number"
+              placeholder="Enter your zip code..."
             ></input>
             <button className={"primary-btn"}>Continue with google</button>
             <button className={"primary-btn"}>Continue with facebook</button>
