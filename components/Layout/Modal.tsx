@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./Modal.module.scss";
+import Link from "next/link";
+import Image from "next/image";
 
 interface IModalProps {
   show: boolean;
@@ -20,13 +22,16 @@ const Modal = (props: IModalProps) => {
           <div className={styles["modal__title"] + " body-text"}>
             Log in or sign up
           </div>
-          <a
-            className={styles["modal__close"]}
-            href="#"
-            onClick={props.onClose}
-          >
-            X
-          </a>
+          <Link href="/">
+            <a className={styles["modal__close"]} onClick={props.onClose}>
+              <Image
+                src="/close-x.svg"
+                width={21}
+                height={21}
+                alt="Close Login"
+              />
+            </a>
+          </Link>
         </div>
         <div className={styles["modal__body"]}>
           <h2 className="header-secondary">Welcome to Foodle!</h2>
