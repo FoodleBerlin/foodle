@@ -5,7 +5,7 @@ import Image from "next/image";
 
 interface IModalProps {
   show: boolean;
-  onClose: Function;
+  onClose: () => void;
 }
 
 const Modal = (props: IModalProps) => {
@@ -41,7 +41,14 @@ const Modal = (props: IModalProps) => {
               type="number"
               placeholder="Enter your zip code..."
             ></input>
-            <button className={"primary-btn"}>Continue with google</button>
+            <button
+              className={"primary-btn"}
+              onClick={() =>
+                window.location.replace("http://localhost:5000/api/auth")
+              }
+            >
+              Continue with google
+            </button>
             <button className={"primary-btn"}>Continue with facebook</button>
           </div>
         </div>
