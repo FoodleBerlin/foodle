@@ -1,6 +1,6 @@
 import prisma from "./singletons/prisma";
 import { PrismaClient } from "@prisma/client";
-import { Request, Response } from "express";
+import jwt from 'jsonwebtoken';
 
 export type Context = {
   req: any;
@@ -10,13 +10,30 @@ export type Context = {
 };
 
 export async function createContext(
-  req: Request,
-  res: Response
+  req: any,
+  res: any
 ): Promise<Context> {
   return {
     req: res,
     res: req,
-    user: null, // TODO get is from req.cookies.jwt,
+    user: extractUserFromToken(req?.req?.cookies?.jwt, req?.req?.headers?.jwt), 
     prisma,
   };
 }
+export const extractUserFromToken = (
+  rawCookieToken: string,
+  rawHeaderToken: string
+): any | null => {
+  if (!rawHeaderToken && !rawCookieToken) return null;
+  return jwt.verify(
+    rawCookieToken ?? rawHeaderToken,
+    process.env.SERVER_SECRET ?? '',
+    (err: any, data: any) => {
+      if (!err && data.user.id) {
+        return data.user;
+      } else {
+        return null;
+      }
+    }
+  );
+};

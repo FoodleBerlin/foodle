@@ -1,26 +1,22 @@
-import { extendType, objectType, stringArg } from 'nexus';
-import { Context } from '../../../context';
-import { ClientErrorInvalidHandle, ClientErrorUserNotExists } from '../Error';
+import { extendType, objectType, stringArg } from "nexus";
+import { Context } from "../../../context";
+import { ClientErrorUserNotExists, ClientErrorInvalidHandle } from "../Error";
 export const User = objectType({
-  name: 'User',
+  name: "User",
   definition(t) {
-    t.string('id');
-    t.string('handle');
-    t.string('fullName');
-    t.string('email');
-    t.string('handle');
-    t.int('zip');
+    t.string("id");
+    t.string("fullName");
+    t.string("email");
+    t.string("handle");
+    t.int("zip");
   },
 });
 
 export const Mutation = extendType({
-  type: 'Mutation',
+  type: "Mutation",
   definition(t) {
-    t.field('createUser', {
-      type: 'Boolean',
-      resolve() {
-        return false;
-      },
+    t.field("createUser", {
+      type: "User",
     });
   },
 });
@@ -47,30 +43,30 @@ export const Mutation = extendType({
  **/
 
 export const findUserResult = objectType({
-  name: 'findUserResult',
+  name: "findUserResult",
   definition(t) {
-    t.nullable.field('User', { type: 'User' });
-    t.nullable.field('ClientErrorUserNotExists', {
+    t.nullable.field("User", { type: "User" });
+    t.nullable.field("ClientErrorUserNotExists", {
       type: ClientErrorUserNotExists,
     });
-    t.nullable.field('ClientErrorInvalidHandle', {
+    t.nullable.field("ClientErrorInvalidHandle", {
       type: ClientErrorInvalidHandle,
     });
   },
 });
 
 export const Query = extendType({
-  type: 'Query',
+  type: "Query",
   definition(t) {
-    t.field('findUser', {
-      type: 'findUserResult',
-      description: 'Takes a handle and returns the user',
+    t.field("findUser", {
+      type: "findUserResult",
+      description: "Takes a handle and returns the user",
       args: { handle: stringArg() },
       resolve: async (_, args, ctx: Context) => {
         if (!args.handle) {
           return {
             ClientErrorInvalidHandle: {
-              message: 'handle is invalid',
+              message: "handle is invalid",
             },
           };
         } else {
@@ -86,14 +82,14 @@ export const Query = extendType({
             } else {
               return {
                 ClientErrorUserNotExists: {
-                  message: 'no user exists with this handle',
+                  message: "no user exists with this handle",
                 },
               };
             }
           } catch (e) {
             return {
               ClientErrorUserNotExists: {
-                message: 'no user exists with this handle',
+                message: "no user exists with this handle",
               },
             };
           }
