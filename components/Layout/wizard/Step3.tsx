@@ -1,4 +1,4 @@
-import { useWizardContext } from '../../../pages/create';
+import { useWizardContext } from './Wizard';
 
 export default function Step3() {
   const wizardContext = useWizardContext();
