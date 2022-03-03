@@ -19,6 +19,9 @@ enum ModelKind {
   facility
   payment
   paymentMethod
+  genericDaySlot
+  bookingSlot
+  propertySlot
 }
 
 enum DayOfWeek {
@@ -93,53 +96,38 @@ model User {
   updatedAt        DateTime   @updatedAt
 }
 
-model BookingDay {
-  kind                   ModelKind            @default(bookingDay)
-  id                     String               @id @default(cuid())
-  bookingId              String               @unique
-  booking                Booking              @relation(name: "booking", fields: [bookingId], references: [id])
-  propertyAvailabilityId String               @unique
-  propertyAvailability   PropertyAvailability @relation(name: "propertyAvailability", fields: [propertyAvailabilityId], references: [id])
-  dayOfWeek              DayOfWeek
-  startTime              DateTime // should just be 15:00 for ex
-  endTime                DateTime
-  createdAt              DateTime             @default(now())
-  updatedAt              DateTime             @updatedAt
-}
-
-model Booking {
-  kind          ModelKind     @default(booking)
-  id            String        @id @default(cuid())
-  tenantId      String        @unique
-  tenant        User          @relation(name: "tenant", fields: [tenantId], references: [id])
-  propertyId    String        @unique
-  property      Property      @relation(name: "property", fields: [propertyId], references: [id])
-  bookingStatus BookingStatus
-  totalPrice    BigInt        @default(0)
-  startDate     DateTime
-  endDate       DateTime
-  bookingDays   BookingDay[]  @relation("booking")
-  frequency     Frequency
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-}
-
-model PropertyAvailability {
-  kind          ModelKind    @default(propertyAvailability)
+model PropertySlot {
+  kind          ModelKind    @default(propertySlot)
   id            String       @id @default(cuid())
   startDate     DateTime
   endDate       DateTime
-  availableDays BookingDay[] @relation("propertyAvailability")
+  minimumMonth  Int
+  repeats       String
+  availableDays GenericDaySlot[] @relation("propertyToGenericSlot")
   frequency     Frequency
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
+  propertyId    String
+  property      Property     @relation("propertySlotToProperty", fields: [propertyId], references: [id])
+}
+
+model GenericDaySlot {
+  kind          ModelKind    @default(genericDaySlot)
+  id            String       @id @default(cuid())
+  startTime     DateTime
+  endTime       DateTime
+  weekday       String
+  propertySlotId  String
+  propertSlot PropertySlot? @relation("propertyToGenericSlot", fields: [propertySlotId], references: [id])
+  bookingSlotId  String
+  bookingSlot    BookingSlot? @relation("bookingToGenericSlot", fields: [bookingSlotId], references: [id])
 }
 
 model Property {
   kind             ModelKind        @default(property)
   id               String           @id @default(cuid())
   size             Int // will be sq.ft
-  ownerId          String
+  ownerId          String           
   owner            User             @relation(name: "owner", fields: [ownerId], references: [id])
   bookings         Booking[]        @relation("property")
   street           String
@@ -150,20 +138,54 @@ model Property {
   pickup           Boolean          @default(false)
   facilities       Facility[]
   isVerified       Boolean          @default(false)
-  dailyPrice       Int              @default(0)
-  serviceFee       Int              @default(0)
+  dailyPrice       Int           @default(0)
+  serviceFee       Int           @default(0)
   cancellationType CancellationType
   thingsToKnow     String
   rules            String[]
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
-  // TODO add availability
+  availabilities   PropertySlot?    @relation("propertySlotToProperty")
 }
+
+model BookingSlot {
+  kind          ModelKind    @default(bookingSlot)
+  id            String       @id @default(cuid())
+  startDate     DateTime
+  endDate       DateTime
+  repeats       String
+  bookedDays    GenericDaySlot[] @relation("bookingToGenericSlot")
+  frequency     Frequency
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  bookingId    String
+  booking      Booking     @relation("bookingSlotToBooking", fields: [bookingId], references: [id])
+}
+
+
+model Booking {
+  kind          ModelKind     @default(booking)
+  id            String        @id @default(cuid())
+  tenantId      String        
+  tenant        User          @relation(name: "tenant", fields: [tenantId], references: [id])
+  propertyId    String        
+  property      Property      @relation(name: "property", fields: [propertyId], references: [id])
+  bookingStatus BookingStatus
+  totalPrice    Int        @default(0)
+  startDate     DateTime
+  endDate       DateTime
+  bookingSlot   BookingSlot[]  @relation("bookingSlotToBooking")
+  frequency     Frequency
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+
 
 model Facility {
   kind        ModelKind @default(facility)
   id          String    @id @default(cuid())
-  propertyId  String    @unique
+  propertyId  String    
   property    Property  @relation(fields: [propertyId], references: [id])
   name        String
   description String?

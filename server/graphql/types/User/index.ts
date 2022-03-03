@@ -1,11 +1,10 @@
 import { extendType, objectType, stringArg } from 'nexus';
 import { Context } from '../../../context';
-import { ClientErrorInvalidHandle, ClientErrorUserNotExists } from '../Error';
+import { ClientErrorUserNotExists, ClientErrorInvalidHandle } from '../Error';
 export const User = objectType({
   name: 'User',
   definition(t) {
     t.string('id');
-    t.string('handle');
     t.string('fullName');
     t.string('email');
     t.string('handle');
@@ -19,7 +18,7 @@ export const Mutation = extendType({
     t.field('createUser', {
       type: 'Boolean',
       resolve() {
-        return false;
+        return true;
       },
     });
   },
