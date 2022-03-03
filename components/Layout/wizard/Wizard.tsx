@@ -23,7 +23,7 @@ export default function Wizard() {
 }
 
 // regex to match only alphabetic characters
-const onlyString = /^[A-Za-z]+$/;
+const onlyString = /^[a-zA-Z_ ]*$/;
 
 export const formData = z.object({
   property: z.enum(['partial', 'full']),
