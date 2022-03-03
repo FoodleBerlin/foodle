@@ -1,0 +1,37 @@
+
+exports[`Create Property can create a listing`] = `
+Object {
+  "data": Object {
+    "findUser": Object {
+      "ClientErrorInvalidHandle": null,
+      "ClientErrorUserNotExists": null,
+      "ClientErrorInvalidPropertyInput": null,
+
+      "Property": Object {
+         "zip": 123,
+         "size": 123,
+         "ownerId": "123",
+         "street": "Lohmühlenstraße",
+         "streetNumber": 23,
+         "city": "Berlin",
+         "description": "66",
+         "pickup": true,
+         "isVerified": true,
+         "dailyPrice": 3,
+         "serviceFee": 5,
+         "thingsToKnow": "thingsToKnow",
+         "rules": "Many rules...",
+         "cancellationType": "fullRefundBefore1Week",
+      },
+    };
+   },
+},
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}`
+;
