@@ -21,12 +21,16 @@ export default function Wizard() {
     </div>
   );
 }
+const onlyString = /\d/;
 
 export const formData = z.object({
   property: z.enum(['partial', 'full']),
   size: z.number({ required_error: 'Size is required' }).min(1).max(1000),
   location: z.object({
-    street: z.string({ required_error: 'Street is required' }),
+    street: z
+      .string({ required_error: 'Street is required', invalid_type_error: 'Street must be string' })
+      .nonempty({ message: "Street can't be empty." })
+      .refine((val) => !onlyString.test(val), { message: 'String contains numbers.' }),
     number: z.number({ required_error: 'Number is required' }),
     zip: z.number({ required_error: 'Zip is required' }),
     city: z.string({ required_error: 'City is required' }),
