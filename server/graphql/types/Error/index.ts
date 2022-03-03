@@ -20,3 +20,11 @@ export const ClientErrorInvalidHandle = objectType({
     t.string("message");
   },
 });
+
+
+export const PropertyCreateError = objectType({
+  name: "PropertyCreateError",
+  definition(t) {
+    t.string("message");
+  },
+});

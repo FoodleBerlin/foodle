@@ -1,5 +1,5 @@
-import { CancellationType } from "@prisma/client";
-import {
+import { CancellationType, Prisma } from "@prisma/client";
+/*import {
   extendType,
   objectType,
   nonNull,
@@ -8,7 +8,7 @@ import {
   booleanArg,
   nullable,
 } from "nexus";
-import { ClientErrorUserNotExists, ClientErrorInvalidHandle } from "../Error";
+import { ClientErrorUserNotExists, ClientErrorInvalidHandle, ClientErrorInvalidPropertyInput, PropertyCreateError } from "../Error";
 
 export const Property = objectType({
   name: "Property",
@@ -30,11 +30,11 @@ export const Property = objectType({
     p.int("serviceFee");
     p.string("cancellationType");
     p.string("thingsToKnow");
-    // ('rules');
+    p.string("rules");
   },
 });
 
-export const findPropertyResult = objectType({
+export const findPropertyResult = objectType({ //error removed when object type + name renamed??? dame error as in user.index
   name: "findPropertyResult",
   definition(t) {
     t.nullable.field("Property", { type: "Property" });
@@ -43,6 +43,12 @@ export const findPropertyResult = objectType({
     });
     t.nullable.field("ClientErrorInvalidHandle", {
       type: ClientErrorInvalidHandle,
+    });
+    t.nullable.field("ClientErrorInvalidPropertyInput", {
+      type: ClientErrorInvalidPropertyInput,
+    });
+    t.nullable.field("PropertyCreateError", {
+      type: PropertyCreateError,
     });
   },
 });
@@ -56,66 +62,76 @@ export const PropertyQuery = extendType({
         return null;
       },
     });
+    p.nullable.field('ClientErrorUserNotExists', {
+      type: ClientErrorUserNotExists,
+    });
+    p.nullable.field('ClientErrorInvalidPropertyInput', {
+      type: ClientErrorInvalidPropertyInput,
+    });
+    p.nullable.field("ClientErrorInvalidHandle", {
+      type: ClientErrorInvalidHandle,
+    });
   },
 });
+
+
+
 
 export const CreateListing = extendType({
   type: "Mutation",
   definition(p) {
-    p.nonNull.field("createListing", {
-      type: "findPropertyResult",
+    p.field("createListing", { 
+      type: "Property", // needs to be changed
       args: {
         size: nonNull(intArg()),
         ownerId: nonNull(stringArg()),
-        kind: nullable(stringArg()),
+        //kind: nullable(stringArg()),
         street: nonNull(stringArg()),
         streetNumber: nonNull(intArg()),
         zip: nonNull(intArg()),
         city: nonNull(stringArg()),
         description: nonNull(stringArg()),
-        pickup: nullable(booleanArg()),
-        isVerified: nullable(booleanArg()),
-        dailyPrice: nullable(intArg()),
-        serviceFee: nullable(intArg()),
+        //pickup: nullable(booleanArg()),
+        //isVerified: nullable(booleanArg()),
+        //dailyPrice: nullable(intArg()),
+        //serviceFee: nullable(intArg()),
         thingsToKnow: nonNull(stringArg()),
         rules: nonNull(stringArg()),
         cancellationType: nonNull(stringArg()),
       },
+    
       //check user exists, street length not empty, not longer than 200, zip code lengt, city, enumsn nullable in db? rules
-      async resolve(_root, args, ctx) {
-        async function findUser() {
-          return await ctx.prisma.user.findUnique({
+      resolve(_root, args, ctx) {
+       function findUser() {
+          return ctx.prisma.user.findUnique({
             where: {
               id: args.ownerId,
             },
           });
         }
         function validateCityStreet(): Boolean {
-          if (args.street.lengt > 200) {
+          if (args.street.length > 200 || args.city.length > 200) {
             return false;
-          }
-          if (args.street.hasNumber()) {
-            return false;
-          } else {
-            return true;
-          }
+          }else {
+            return true
+          } 
         }
         function validateZippCode(): Boolean {
-          if (args.zip.toString().lengt > 5) {
+         if (args.zip.toString().length > 5) {
             return false;
           } else {
             return true;
-          }
+          } 
         }
         function validateTextLength(): Boolean {
-          if (args.description.lengt > 1000) {
+          if (args.description.length > 1000) {
             return false;
           } else {
             return true;
-          }
+          } 
         }
-        if (!(await findUser())) {
-          return {
+        if (!(findUser())) {
+           return {
             ClientErrorUserNotExists: {
               message: `owner for ownerId ${args.ownerId} does not exist`,
             },
@@ -156,7 +172,10 @@ export const CreateListing = extendType({
             },
           };
         }
-
+        let thisUser =  ctx.prisma.user.findUnique({
+          where: {
+            id: args.ownerId,
+        },})
         const newProperty = {
           size: args.size,
           ownerId: args.ownerId,
@@ -166,49 +185,43 @@ export const CreateListing = extendType({
           city: args.city,
           description: args.description,
           thingsToKnow: args.thingsToKnow,
-          rules: args.rules.list,
-          cancellationType: args.cancellationType,
+          rules: args.rules,
+          cancellationType: CancellationType.fullRefundBefore1Week,
+          
         };
-        //push to db
         try {
-          let a = ctx.prisma.property.create({ data: newProperty });
-          return a;
+           let a = ctx.prisma.property.create({ data: newProperty});
+          return a
         } catch (e) {
-          // catch enum parse error
           return {
-            ClientErrorUserNotExists: {
-              message: "no user exists with this handle",
+            PropertyCreateError: {
+              message: e,
             },
           };
         }
-      },
-    });
+      }
+    }); 
   },
 });
-
-// enum
-// list of rules
-// error handling
-// which ones nullable
-
-/*   kind             ModelKind        @default(property)
-  id               String           @id @default(cuid())
-  size             Int // will be sq.ft
-  ownerId          String           @unique
-  owner            User             @relation(name: "owner", fields: [ownerId], references: [id])
-  bookings         Booking[]        @relation("property")
-  street           String
-  streetNumber     Int
-  zip              Int
-  city             String
-  description      String
-  pickup           Boolean          @default(false)
-  facilities       Facility[]
-  isVerified       Boolean          @default(false)
-  dailyPrice       BigInt           @default(0)
-  serviceFee       BigInt           @default(0)
-  cancellationType CancellationType
-  thingsToKnow     String
-  rules            String[]
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt */
+/* kind             ModelKind        @default(property)
+id               String           @id @default(cuid())
+size             Int // will be sq.ft
+ownerId          String           
+owner            User             @relation(name: "owner", fields: [ownerId], references: [id])
+bookings         Booking[]        @relation("property")
+street           String
+streetNumber     Int              
+zip              Int
+city             String
+description      String
+pickup           Boolean          @default(false)
+facilities       Facility[]
+isVerified       Boolean          @default(false)
+dailyPrice       Int           @default(0)
+serviceFee       Int           @default(0)
+cancellationType CancellationType
+thingsToKnow     String
+rules            String[]
+createdAt        DateTime         @default(now())
+updatedAt        DateTime         @updatedAt
+availabilities   PropertySlot?    @relation("propertySlotToProperty") */ 

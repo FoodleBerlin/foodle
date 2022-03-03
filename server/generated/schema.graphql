@@ -5,6 +5,10 @@ type ClientErrorInvalidHandle {
   message: String!
 }
 
+type ClientErrorInvalidPropertyInput {
+  message: String!
+}
+
 type ClientErrorUserNotExists {
   message: String!
 }
@@ -17,6 +21,10 @@ type findUserResult {
 
 type Mutation {
   createUser: Boolean!
+}
+
+type PropertyCreateError {
+  message: String!
 }
 
 type Query {
