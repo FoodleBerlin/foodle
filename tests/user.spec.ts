@@ -32,3 +32,4 @@ describe("Find user query", () => {
     expect(res).toMatchSnapshot();
   });
 });
+

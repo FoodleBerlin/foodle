@@ -31,12 +31,21 @@ export interface NexusGenObjects {
   ClientErrorInvalidHandle: { // root type
     message: string; // String!
   }
+  ClientErrorInvalidPropertyInput: { // root type
+    message: string; // String!
+  }
   ClientErrorUserNotExists: { // root type
     message: string; // String!
   }
   Mutation: {};
+  Property: PrismaClient.Property;
   Query: {};
   User: PrismaClient.User;
+  findPropertyResult: { // root type
+    ClientErrorInvalidHandle?: NexusGenRootTypes['ClientErrorInvalidHandle'] | null; // ClientErrorInvalidHandle
+    ClientErrorUserNotExists?: NexusGenRootTypes['ClientErrorUserNotExists'] | null; // ClientErrorUserNotExists
+    Property?: NexusGenRootTypes['Property'] | null; // Property
+  }
   findUserResult: { // root type
     ClientErrorInvalidHandle?: NexusGenRootTypes['ClientErrorInvalidHandle'] | null; // ClientErrorInvalidHandle
     ClientErrorUserNotExists?: NexusGenRootTypes['ClientErrorUserNotExists'] | null; // ClientErrorUserNotExists
@@ -58,14 +67,36 @@ export interface NexusGenFieldTypes {
   ClientErrorInvalidHandle: { // field return type
     message: string; // String!
   }
+  ClientErrorInvalidPropertyInput: { // field return type
+    message: string; // String!
+  }
   ClientErrorUserNotExists: { // field return type
     message: string; // String!
   }
   Mutation: { // field return type
+    createListing: NexusGenRootTypes['findPropertyResult']; // findPropertyResult!
     createUser: NexusGenRootTypes['User']; // User!
+  }
+  Property: { // field return type
+    cancellationType: string; // String!
+    city: string; // String!
+    dailyPrice: number; // Int!
+    description: string; // String!
+    id: string; // String!
+    isVerified: boolean; // Boolean!
+    kind: string; // String!
+    ownerId: string; // String!
+    pickup: boolean; // Boolean!
+    serviceFee: number; // Int!
+    size: number; // Int!
+    street: string; // String!
+    streetNumber: number; // Int!
+    thingsToKnow: string; // String!
+    zip: number; // Int!
   }
   Query: { // field return type
     findUser: NexusGenRootTypes['findUserResult']; // findUserResult!
+    propertyList: NexusGenRootTypes['findPropertyResult'][] | null; // [findPropertyResult!]
   }
   User: { // field return type
     email: string; // String!
@@ -73,6 +104,11 @@ export interface NexusGenFieldTypes {
     handle: string; // String!
     id: string; // String!
     zip: number; // Int!
+  }
+  findPropertyResult: { // field return type
+    ClientErrorInvalidHandle: NexusGenRootTypes['ClientErrorInvalidHandle'] | null; // ClientErrorInvalidHandle
+    ClientErrorUserNotExists: NexusGenRootTypes['ClientErrorUserNotExists'] | null; // ClientErrorUserNotExists
+    Property: NexusGenRootTypes['Property'] | null; // Property
   }
   findUserResult: { // field return type
     ClientErrorInvalidHandle: NexusGenRootTypes['ClientErrorInvalidHandle'] | null; // ClientErrorInvalidHandle
@@ -85,14 +121,36 @@ export interface NexusGenFieldTypeNames {
   ClientErrorInvalidHandle: { // field return type name
     message: 'String'
   }
+  ClientErrorInvalidPropertyInput: { // field return type name
+    message: 'String'
+  }
   ClientErrorUserNotExists: { // field return type name
     message: 'String'
   }
   Mutation: { // field return type name
+    createListing: 'findPropertyResult'
     createUser: 'User'
+  }
+  Property: { // field return type name
+    cancellationType: 'String'
+    city: 'String'
+    dailyPrice: 'Int'
+    description: 'String'
+    id: 'String'
+    isVerified: 'Boolean'
+    kind: 'String'
+    ownerId: 'String'
+    pickup: 'Boolean'
+    serviceFee: 'Int'
+    size: 'Int'
+    street: 'String'
+    streetNumber: 'Int'
+    thingsToKnow: 'String'
+    zip: 'Int'
   }
   Query: { // field return type name
     findUser: 'findUserResult'
+    propertyList: 'findPropertyResult'
   }
   User: { // field return type name
     email: 'String'
@@ -100,6 +158,11 @@ export interface NexusGenFieldTypeNames {
     handle: 'String'
     id: 'String'
     zip: 'Int'
+  }
+  findPropertyResult: { // field return type name
+    ClientErrorInvalidHandle: 'ClientErrorInvalidHandle'
+    ClientErrorUserNotExists: 'ClientErrorUserNotExists'
+    Property: 'Property'
   }
   findUserResult: { // field return type name
     ClientErrorInvalidHandle: 'ClientErrorInvalidHandle'
@@ -109,6 +172,25 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    createListing: { // args
+      cancellationType: string; // String!
+      city: string; // String!
+      dailyPrice?: number | null; // Int
+      description: string; // String!
+      isVerified?: boolean | null; // Boolean
+      kind?: string | null; // String
+      ownerId: string; // String!
+      pickup?: boolean | null; // Boolean
+      rules: string; // String!
+      serviceFee?: number | null; // Int
+      size: number; // Int!
+      street: string; // String!
+      streetNumber: number; // Int!
+      thingsToKnow: string; // String!
+      zip: number; // Int!
+    }
+  }
   Query: {
     findUser: { // args
       handle?: string | null; // String

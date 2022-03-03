@@ -7,6 +7,13 @@ export const ClientErrorUserNotExists = objectType({
   },
 });
 
+export const ClientErrorInvalidPropertyInput =  objectType({
+  name: "ClientErrorInvalidPropertyInput",
+  definition(t) {
+    t.string("message");
+  },
+});
+
 export const ClientErrorInvalidHandle = objectType({
   name: "ClientErrorInvalidHandle",
   definition(t) {
