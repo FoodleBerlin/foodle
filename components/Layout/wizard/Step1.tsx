@@ -46,12 +46,67 @@ export default function Step1() {
       {formState.errors.location?.street && (
         <span className={styles['error']}>{formState.errors.location?.street.message}</span>
       )}
-      <input type="number"></input>
-      <input type="number"></input>
-      <input></input>
-      <input></input>
+
+      <input
+        type="number"
+        {...register('location.number')}
+        onChange={(c) =>
+          setValue('location.number', parseInt(c.target.value), {
+            shouldTouch: true,
+            shouldDirty: true,
+            shouldValidate: true,
+          })
+        }
+      ></input>
+      {formState.errors.location?.number && (
+        <span className={styles['error']}>{formState.errors.location?.number.message}</span>
+      )}
+
+      <input
+        type="number"
+        {...register('location.zip')}
+        onChange={(c) =>
+          setValue('location.zip', parseInt(c.target.value), {
+            shouldTouch: true,
+            shouldDirty: true,
+            shouldValidate: true,
+          })
+        }
+      ></input>
+      {formState.errors.location?.zip && (
+        <span className={styles['error']}>{formState.errors.location?.zip.message}</span>
+      )}
+
+      <input
+        {...register('location.city')}
+        onChange={(c) =>
+          setValue('location.city', c.target.value, {
+            shouldTouch: true,
+            shouldDirty: true,
+            shouldValidate: true,
+          })
+        }
+      ></input>
+      {formState.errors.location?.city && (
+        <span className={styles['error']}>{formState.errors.location?.city.message}</span>
+      )}
+
+      <input
+        {...register('location.country')}
+        onChange={(c) =>
+          setValue('location.country', c.target.value, {
+            shouldTouch: true,
+            shouldDirty: true,
+            shouldValidate: true,
+          })
+        }
+      ></input>
+      {formState.errors.location?.country && (
+        <span className={styles['error']}>{formState.errors.location?.country.message}</span>
+      )}
+
       <button
-        disabled={formState.errors.property ? true : false}
+        disabled={formState.errors.property || formState.errors.size || formState.errors.location ? true : false}
         onClick={() => {
           nextStep(1);
         }}

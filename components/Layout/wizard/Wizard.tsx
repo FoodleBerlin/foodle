@@ -21,7 +21,9 @@ export default function Wizard() {
     </div>
   );
 }
-const onlyString = /\d/;
+
+// regex to match only alphabetic characters
+const onlyString = /^[A-Za-z]+$/;
 
 export const formData = z.object({
   property: z.enum(['partial', 'full']),
@@ -29,12 +31,18 @@ export const formData = z.object({
   location: z.object({
     street: z
       .string({ required_error: 'Street is required', invalid_type_error: 'Street must be string' })
-      .nonempty({ message: "Street can't be empty." })
-      .refine((val) => !onlyString.test(val), { message: 'String contains numbers.' }),
+      .nonempty({ message: "Street can't be empty" })
+      .refine((val) => onlyString.test(val), { message: "Address can't contain numbers" }),
     number: z.number({ required_error: 'Number is required' }),
     zip: z.number({ required_error: 'Zip is required' }),
-    city: z.string({ required_error: 'City is required' }),
-    country: z.string({ required_error: 'Country is required' }),
+    city: z
+      .string({ required_error: 'City is required' })
+      .nonempty({ message: "City can't be empty" })
+      .refine((val) => onlyString.test(val), { message: "City can't contain numbers" }),
+    country: z
+      .string({ required_error: 'Country is required' })
+      .nonempty({ message: "Country can't be empty" })
+      .refine((val) => onlyString.test(val), { message: "Country can't contain numbers" }),
   }),
   // TODO add fields for step2, step3, ...
 });
@@ -61,7 +69,7 @@ const WizardContext = React.createContext<WizardContext>({
       city: 'Berlin',
       country: 'Germany',
       number: 0,
-      street: '',
+      street: 'Foodlestreet',
       zip: 0,
     },
   },
@@ -82,7 +90,7 @@ export const WizardProvider = ({ children }: any) => {
       city: 'Berlin',
       country: 'Germany',
       number: 0,
-      street: '',
+      street: 'Foodlestreet',
       zip: 0,
     },
   } as FormData;
