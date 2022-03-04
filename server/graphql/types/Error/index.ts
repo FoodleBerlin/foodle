@@ -28,3 +28,10 @@ export const PropertyCreateError = objectType({
     t.string("message");
   },
 });
+
+export const ClientErrorPropertyNotExists = objectType({
+  name: "ClientErrorPropertyNotExists",
+  definition(t) {
+    t.string("message");
+  },
+});

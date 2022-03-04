@@ -10,7 +10,7 @@ import {
   booleanArg,
   nullable,
 } from "nexus";
-import { ClientErrorUserNotExists, ClientErrorInvalidHandle, ClientErrorInvalidPropertyInput, PropertyCreateError } from "../Error";
+import { ClientErrorUserNotExists, ClientErrorInvalidHandle, ClientErrorInvalidPropertyInput, PropertyCreateError, ClientErrorPropertyNotExists } from "../Error";
 import { Exception } from "sass";
 import { isRegExp } from "util/types";
 
@@ -37,6 +37,84 @@ export const Property = objectType({
     p.string("rules");
   },
 });
+
+
+
+
+// Query Property By Id
+
+export const FindPropertyResult = objectType({
+  name: 'findPropertyResult',
+  definition(t) {
+    t.nullable.field('Property', { type: 'Property' });
+    t.nullable.field('ClientErrorPropertyNotExists', {
+      type: ClientErrorPropertyNotExists,
+    });
+    t.nullable.field('ClientErrorInvalidHandle', {
+      type: ClientErrorInvalidHandle,
+    });
+  },
+});
+
+export const QueryById = extendType({
+  type: 'Query',
+  definition(t) {
+    t.field('findProperty', {
+      type: 'findPropertyResult',
+      description: 'Takes a handle and returns the user',
+      args: { id: stringArg() },
+      resolve: async (_, args, ctx: Context) => {
+        if (!args.id) {
+          return {
+            ClientErrorInvalidHandle: {
+              message: 'id is null',
+            },
+          };
+        } else {
+          // TODO validate handle
+          try {
+            const property = await ctx.prisma.property.findUnique({
+              where: {
+                id: args.id,
+              },
+            });
+            if (property) {
+              return { Property: property };
+            } else {
+              return {
+                ClientErrorPropertyNotExists: {
+                  message: `no property exists with id ${args.id}`,
+                },
+              };
+            }
+          } catch (e) {
+            return {
+              ClientErrorPropertyNotExists: {
+                message: `no property exists with id ${args.id}`,
+              },
+            };
+          }
+        }
+      },
+    });
+  },
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 export const CreatePropertyReturn = objectType({ //error removed when object type + name renamed??? dame error as in user.index

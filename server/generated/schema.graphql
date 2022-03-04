@@ -9,6 +9,10 @@ type ClientErrorInvalidPropertyInput {
   message: String!
 }
 
+type ClientErrorPropertyNotExists {
+  message: String!
+}
+
 type ClientErrorUserNotExists {
   message: String!
 }
@@ -23,6 +27,12 @@ type createPropertyReturn {
 
 type findAllProperties {
   ClientErrorInvalidHandle: ClientErrorInvalidHandle
+  Property: Property
+}
+
+type findPropertyResult {
+  ClientErrorInvalidHandle: ClientErrorInvalidHandle
+  ClientErrorPropertyNotExists: ClientErrorPropertyNotExists
   Property: Property
 }
 
@@ -75,6 +85,11 @@ type Query {
   Takes a handle and returns the user
   """
   findAllProperties: findAllProperties!
+
+  """
+  Takes a handle and returns the user
+  """
+  findProperty(id: String): findPropertyResult!
 
   """
   Takes a handle and returns the user
