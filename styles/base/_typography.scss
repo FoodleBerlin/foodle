@@ -1,11 +1,12 @@
-@font-face {
-  font-family: "Archia Regular";
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+/*@font-face {
+  font-family: ""Archia Regular"";
   font-style: normal;
   font-weight: normal;
   src: local("Archia Regular"), url("Archia-Regular.woff") format("woff");
-}
+}*/
 body {
-  font-family: "Archia Regular" !important;
+  font-family: 'Inter', sans-serif !important;
   font-weight: 400;
   color: $color-white;
 }
