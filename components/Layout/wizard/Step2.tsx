@@ -9,7 +9,7 @@ export default function Step2() {
     <div>
       <h1>Landlord component flow 2</h1>
       <h2>How would you describe the space?</h2>
-      <input
+      <textarea
         {...register('description')}
         onChange={(c) =>
           setValue('description', c.target.value as FormData['description'], {
@@ -18,7 +18,7 @@ export default function Step2() {
             shouldValidate: true,
           })
         }
-      ></input>
+      ></textarea>
       {formState.errors.description && <span className={styles['error']}>{formState.errors.description.message}</span>}
       <h2>What features does your kitchen offer?</h2>
       <input
