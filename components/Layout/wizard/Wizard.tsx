@@ -21,22 +21,51 @@ export default function Wizard() {
     </div>
   );
 }
-const onlyString = /\d/;
+
+// regex to match only alphabetic characters
+const onlyString = /^[a-zA-Z_ ]*$/;
 
 export const formData = z.object({
+  /* STEP 1 */
   property: z.enum(['partial', 'full']),
-  size: z.number({ required_error: 'Size is required' }).min(1).max(1000),
+  size: z.number({ required_error: 'Size is required', invalid_type_error: 'Size can not be empty' }).min(1).max(1000),
   location: z.object({
     street: z
       .string({ required_error: 'Street is required', invalid_type_error: 'Street must be string' })
-      .nonempty({ message: "Street can't be empty." })
-      .refine((val) => !onlyString.test(val), { message: 'String contains numbers.' }),
-    number: z.number({ required_error: 'Number is required' }),
-    zip: z.number({ required_error: 'Zip is required' }),
-    city: z.string({ required_error: 'City is required' }),
-    country: z.string({ required_error: 'Country is required' }),
+      .nonempty({ message: "Street can't be empty" })
+      .refine((val) => onlyString.test(val), { message: "Address can't contain numbers" }),
+    number: z.number({ required_error: 'Number is required', invalid_type_error: "Number can't be empty" }),
+    zip: z.number({ required_error: 'Zip is required', invalid_type_error: "Zip can't be empty" }),
+    city: z
+      .string({ required_error: 'City is required' })
+      .nonempty({ message: "City can't be empty" })
+      .refine((val) => onlyString.test(val), { message: "City can't contain numbers" }),
+    country: z
+      .string({ required_error: 'Country is required' })
+      .nonempty({ message: "Country can't be empty" })
+      .refine((val) => onlyString.test(val), { message: "Country can't contain numbers" }),
   }),
   // TODO add fields for step2, step3, ...
+  /* STEP 2 */
+  description: z.string({ required_error: 'Description is required' }).min(20).max(7000),
+  features: z.enum([
+    'Unfurnished',
+    'A/C',
+    'Elevator',
+    'Storefron',
+    'Parking',
+    'Dishwasher',
+    'Heating',
+    'Water',
+    'Oven',
+  ]),
+  stay: z.object({
+    hours: z.number({
+      required_error: 'Hours per week is required',
+      invalid_type_error: 'Hours per week can not be empty',
+    }),
+    weeks: z.number({ required_error: 'Weeks is required', invalid_type_error: 'Weeks can not be empty' }),
+  }),
 });
 
 export type FormData = z.infer<typeof formData>;
@@ -55,14 +84,22 @@ type WizardContext = {
 const WizardContext = React.createContext<WizardContext>({
   step: 1,
   defaults: {
+    /* STEP 1 */
     property: 'full' as FormData['property'],
     size: 0,
     location: {
       city: 'Berlin',
       country: 'Germany',
       number: 0,
-      street: '',
+      street: 'Foodlestreet',
       zip: 0,
+    },
+    /* STEP 2 */
+    description: '',
+    features: 'Unfurnished' as FormData['features'],
+    stay: {
+      hours: 0,
+      weeks: 0,
     },
   },
   formState: {} as FormState<FormData>,
@@ -77,13 +114,21 @@ const WizardContext = React.createContext<WizardContext>({
 export const WizardProvider = ({ children }: any) => {
   const [step, setStep] = useState<number>(1);
   const defaults = {
+    /* STEP 1 */
     property: 'full',
     location: {
       city: 'Berlin',
       country: 'Germany',
       number: 0,
-      street: '',
+      street: 'Foodlestreet',
       zip: 0,
+    },
+    /* STEP 2 */
+    description: '',
+    features: 'Unfurnished',
+    stay: {
+      hours: 0,
+      weeks: 0,
     },
   } as FormData;
   const { register, setValue, formState, getValues } = useForm<FormData>({
