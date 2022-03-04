@@ -1,5 +1,7 @@
 import { CancellationType, Prisma } from "@prisma/client";
-/*import {
+
+import { Context } from '../../../context';
+import {
   extendType,
   objectType,
   nonNull,
@@ -9,6 +11,8 @@ import { CancellationType, Prisma } from "@prisma/client";
   nullable,
 } from "nexus";
 import { ClientErrorUserNotExists, ClientErrorInvalidHandle, ClientErrorInvalidPropertyInput, PropertyCreateError } from "../Error";
+import { Exception } from "sass";
+import { isRegExp } from "util/types";
 
 export const Property = objectType({
   name: "Property",
@@ -34,8 +38,9 @@ export const Property = objectType({
   },
 });
 
-export const findPropertyResult = objectType({ //error removed when object type + name renamed??? dame error as in user.index
-  name: "findPropertyResult",
+
+export const CreatePropertyReturn = objectType({ //error removed when object type + name renamed??? dame error as in user.index
+  name: "createPropertyReturn",
   definition(t) {
     t.nullable.field("Property", { type: "Property" });
     t.nullable.field("ClientErrorUserNotExists", {
@@ -53,35 +58,12 @@ export const findPropertyResult = objectType({ //error removed when object type 
   },
 });
 
-export const PropertyQuery = extendType({
-  type: "Query",
-  definition(p) {
-    p.nullable.list.field("propertyList", {
-      type: "findPropertyResult",
-      resolve() {
-        return null;
-      },
-    });
-    p.nullable.field('ClientErrorUserNotExists', {
-      type: ClientErrorUserNotExists,
-    });
-    p.nullable.field('ClientErrorInvalidPropertyInput', {
-      type: ClientErrorInvalidPropertyInput,
-    });
-    p.nullable.field("ClientErrorInvalidHandle", {
-      type: ClientErrorInvalidHandle,
-    });
-  },
-});
-
-
-
 
 export const CreateListing = extendType({
   type: "Mutation",
   definition(p) {
     p.field("createListing", { 
-      type: "Property", // needs to be changed
+      type: "createPropertyReturn", // needs to be changed
       args: {
         size: nonNull(intArg()),
         ownerId: nonNull(stringArg()),
@@ -101,7 +83,7 @@ export const CreateListing = extendType({
       },
     
       //check user exists, street length not empty, not longer than 200, zip code lengt, city, enumsn nullable in db? rules
-      resolve(_root, args, ctx) {
+       resolve(_root, args, ctx) {
        function findUser() {
           return ctx.prisma.user.findUnique({
             where: {
@@ -111,9 +93,9 @@ export const CreateListing = extendType({
         }
         function validateCityStreet(): Boolean {
           if (args.street.length > 200 || args.city.length > 200) {
-            return false;
+            return true;
           }else {
-            return true
+            return false
           } 
         }
         function validateZippCode(): Boolean {
@@ -134,13 +116,6 @@ export const CreateListing = extendType({
            return {
             ClientErrorUserNotExists: {
               message: `owner for ownerId ${args.ownerId} does not exist`,
-            },
-          };
-        }
-        if (!validateCityStreet) {
-          return {
-            ClientErrorInvalidPropertyInput: {
-              message: `street name ${args.street} must not contain numbers and should have a max. length of 200 characters`,
             },
           };
         }
@@ -190,12 +165,16 @@ export const CreateListing = extendType({
           
         };
         try {
-           let a = ctx.prisma.property.create({ data: newProperty});
-          return a
-        } catch (e) {
+           const prop = ctx.prisma.property.create({ data: newProperty});
+          return {'Property': prop}
+        } catch (error) {
+          let errorMessage = "Unkknown error"
+          if(error instanceof Error){
+            errorMessage = error.message
+          }
           return {
             PropertyCreateError: {
-              message: e,
+              message: errorMessage,
             },
           };
         }
@@ -203,25 +182,35 @@ export const CreateListing = extendType({
     }); 
   },
 });
-/* kind             ModelKind        @default(property)
-id               String           @id @default(cuid())
-size             Int // will be sq.ft
-ownerId          String           
-owner            User             @relation(name: "owner", fields: [ownerId], references: [id])
-bookings         Booking[]        @relation("property")
-street           String
-streetNumber     Int              
-zip              Int
-city             String
-description      String
-pickup           Boolean          @default(false)
-facilities       Facility[]
-isVerified       Boolean          @default(false)
-dailyPrice       Int           @default(0)
-serviceFee       Int           @default(0)
-cancellationType CancellationType
-thingsToKnow     String
-rules            String[]
-createdAt        DateTime         @default(now())
-updatedAt        DateTime         @updatedAt
-availabilities   PropertySlot?    @relation("propertySlotToProperty") */ 
+// defualts, nullable, enum, nested relationships, tests
+
+export const findAllProperties = objectType({
+  name: 'findAllProperties',
+  definition(t) {
+    t.nullable.field('Property', { type: 'Property' });
+    t.nullable.field('ClientErrorInvalidHandle', {
+      type: ClientErrorInvalidHandle,
+    });
+  },
+});
+
+export const Query2 = extendType({
+  type: 'Query',
+  definition(t) {
+    t.field('findAllProperties', {
+      type: 'findAllProperties',
+      description: 'Takes a handle and returns the user',
+      resolve: async (_, args, ctx: Context) => {
+        let a = await ctx.prisma.property.findFirst()
+        if(a){
+          return {'Property': a}
+        }else {
+          return   {ClientErrorInvalidHandle: {
+            message: 'No properties found',
+          },
+        };
+      }
+      },
+    });
+  },
+});

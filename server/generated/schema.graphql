@@ -13,6 +13,19 @@ type ClientErrorUserNotExists {
   message: String!
 }
 
+type createPropertyReturn {
+  ClientErrorInvalidHandle: ClientErrorInvalidHandle
+  ClientErrorInvalidPropertyInput: ClientErrorInvalidPropertyInput
+  ClientErrorUserNotExists: ClientErrorUserNotExists
+  Property: Property
+  PropertyCreateError: PropertyCreateError
+}
+
+type findAllProperties {
+  ClientErrorInvalidHandle: ClientErrorInvalidHandle
+  Property: Property
+}
+
 type findUserResult {
   ClientErrorInvalidHandle: ClientErrorInvalidHandle
   ClientErrorUserNotExists: ClientErrorUserNotExists
@@ -20,7 +33,37 @@ type findUserResult {
 }
 
 type Mutation {
-  createUser: Boolean!
+  createListing(
+    cancellationType: String!
+    city: String!
+    description: String!
+    ownerId: String!
+    rules: String!
+    size: Int!
+    street: String!
+    streetNumber: Int!
+    thingsToKnow: String!
+    zip: Int!
+  ): createPropertyReturn!
+}
+
+type Property {
+  cancellationType: String!
+  city: String!
+  dailyPrice: Int!
+  description: String!
+  id: String!
+  isVerified: Boolean!
+  kind: String!
+  ownerId: String!
+  pickup: Boolean!
+  rules: String!
+  serviceFee: Int!
+  size: Int!
+  street: String!
+  streetNumber: Int!
+  thingsToKnow: String!
+  zip: Int!
 }
 
 type PropertyCreateError {
@@ -28,6 +71,11 @@ type PropertyCreateError {
 }
 
 type Query {
+  """
+  Takes a handle and returns the user
+  """
+  findAllProperties: findAllProperties!
+
   """
   Takes a handle and returns the user
   """

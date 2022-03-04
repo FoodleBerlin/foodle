@@ -12,7 +12,7 @@ export const User = objectType({
   },
 });
 
-export const Mutation = extendType({
+/* export const Mutation = extendType({
   type: 'Mutation',
   definition(t) {
     t.field('createUser', {
@@ -100,4 +100,4 @@ export const Query = extendType({
       },
     });
   },
-});
+}); 
