@@ -111,8 +111,8 @@ export default function Step1() {
           nextStep(1);
         }}
       >
-        {/* TODO disable unless all fields in this step are valid */}
         {/* TODO: create helper function for checking every field for disabling the button*/}
+        {/* TODO: this button goes into a own component --> see design in figma! */}
         next
       </button>
     </div>
