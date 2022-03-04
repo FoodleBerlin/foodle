@@ -5,8 +5,13 @@ export default function Step1() {
   return (
     <div>
       <h1>Landlord component flow 1</h1>
-      <h2>What kind of property is it?</h2>
-      <input
+      <div className={styles['step1']}>
+      <h2 className='header-secondary'>What kind of property do you own?</h2>
+      <div className={styles['step1__buttonWrapper']} >
+        <button className='inactive-btn' >Entire Kitchen</button>
+        <button className='active-btn' >Part of Kitchen</button>
+        </div>
+        <input
         {...register('property')}
         onChange={(c) =>
           setValue('property', c.target.value as FormData['property'], {
@@ -18,8 +23,11 @@ export default function Step1() {
       ></input>
       {formState.errors.property && <span className={styles['error']}>{formState.errors.property.message}</span>}
       {/* The current form value that will be submitted {getValues('property')} */}
-      <h2>How big is is it?</h2>
+      <h2 className='header-secondary'>How big is the kitchen?</h2>
+      <div className={styles['step1__flexWrapper']}>
       <input
+      className={styles['step1__shortInput']+ ' standard-form'}
+      placeholder='200'
         type="number"
         {...register('size')}
         onChange={(c) =>
@@ -30,10 +38,15 @@ export default function Step1() {
           })
         }
       ></input>
+      <label className={styles['step1__label']}>Size in square meters</label>
+      </div>
       {formState.errors.size && <span className={styles['error']}>{formState.errors.size.message}</span>}
-      <h2>Where is it located?</h2>
-      <label>Adress</label>
+      <h2 className='header-secondary'>Where is it located?</h2>
+      <label className={styles['step1__label']}>Address</label>
+      <div className={styles['step1__addressGridWrapper']}>
       <input
+        className={styles['step1__inputWide']+ ' standard-form'} 
+        placeholder='Foodlestraße'
         {...register('location.street')}
         onChange={(c) =>
           setValue('location.street', c.target.value, {
@@ -46,8 +59,9 @@ export default function Step1() {
       {formState.errors.location?.street && (
         <span className={styles['error']}>{formState.errors.location?.street.message}</span>
       )}
-
       <input
+        className='standard-form'      
+        placeholder='12'
         type="number"
         {...register('location.number')}
         onChange={(c) =>
@@ -63,6 +77,8 @@ export default function Step1() {
       )}
 
       <input
+        className='standard-form'
+        placeholder='12435'
         type="number"
         {...register('location.zip')}
         onChange={(c) =>
@@ -78,6 +94,8 @@ export default function Step1() {
       )}
 
       <input
+        className='standard-form'
+        placeholder='Berlin'
         {...register('location.city')}
         onChange={(c) =>
           setValue('location.city', c.target.value, {
@@ -92,6 +110,8 @@ export default function Step1() {
       )}
 
       <input
+      className='standard-form'
+      placeholder='Germany'
         {...register('location.country')}
         onChange={(c) =>
           setValue('location.country', c.target.value, {
@@ -101,6 +121,8 @@ export default function Step1() {
           })
         }
       ></input>
+      </div>
+    </div>
       {formState.errors.location?.country && (
         <span className={styles['error']}>{formState.errors.location?.country.message}</span>
       )}
