@@ -1,28 +1,23 @@
 //TODO: Extract styles from here into 7-1 SCSS
 //TODO: Move Wizard folder from /Layout into components/Create directory
 .preview-img {
-  margin: 5px;
+  margin: 2rem;
   border: 1px solid #ccc;
   float: left;
-  width: 200px;
+  width: auto;
   &__first {
     height: 10vh;
   }
   img {
-    width: 100%;
-    height: 140px;
-  }
-
-  &:hover {
-    border: 1px solid #777;
-    > .preview-img__delete {
-      visibility: visible;
-      padding: 15px;
-      text-align: center;
-    }
+    width: auto;
+    height: auto;
+    max-height: 25rem;
+    max-width: 25rem;
   }
   &__delete {
-    visibility: hidden;
+    border: 1px solid #777;
+    padding: 15px;
+    text-align: center;
   }
 }
 

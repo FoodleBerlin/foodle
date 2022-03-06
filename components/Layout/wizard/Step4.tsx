@@ -46,6 +46,7 @@ export default function Step4() {
         <Uploader
           addToImages={(file: UploaderImage) => addToImages(file)}
           idCount={idCount}
+          imageAmount={images.length}
           setIdCount={(id) => setIdCount(id)}
         />
         {images.length > 0 ? (

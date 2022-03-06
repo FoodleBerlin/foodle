@@ -7,6 +7,7 @@ interface UploaderProps {
   addToImages: (image: UploaderImage) => void;
   idCount: number;
   setIdCount: (idCount: number) => void;
+  imageAmount: number;
 }
 
 const Uploader = (props: UploaderProps) => {
@@ -34,21 +35,25 @@ const Uploader = (props: UploaderProps) => {
   };
   const readAndAddImages = (files: FileList) => {
     const fileArray = Array.from(files);
-    fileArray.forEach((file: any, index) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = {
-          file: reader.result,
-          size: file.size,
-          name: file.name,
-          id: props.idCount,
+    if (props.imageAmount > 4) {
+      return;
+    } else {
+      fileArray.forEach((file: any, index) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const result = {
+            file: reader.result,
+            size: file.size,
+            name: file.name,
+            id: props.idCount,
+          };
+          props.setIdCount(props.idCount + 1);
+          setImageValidationError('null');
+          props.addToImages(result);
         };
-        props.setIdCount(props.idCount + 1);
-        setImageValidationError('null');
-        props.addToImages(result);
-      };
-      reader.readAsDataURL(file);
-    });
+        reader.readAsDataURL(file);
+      });
+    }
   };
 
   const checkMimeType = (event: any) => {
@@ -77,8 +82,10 @@ const Uploader = (props: UploaderProps) => {
         name="file"
         id="file"
         onChange={imagesSelectedHandler}
+        max={5}
+        maxLength={5}
         accept="image/png, image/jpeg"
-        multiple
+        multiple={true}
         {...getInputProps()}
       />
       <p className="body-text">Drag to Upload</p>
