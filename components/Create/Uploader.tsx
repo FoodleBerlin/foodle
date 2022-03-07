@@ -19,9 +19,9 @@ const Uploader = (props: UploaderProps) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: (acceptedFiles) => {
-      imagesSelectedHandler;
       // @ts-ignore
       readAndAddImages(acceptedFiles);
+      s3IdUpdate(props.images);
     },
   });
 
@@ -66,7 +66,6 @@ const Uploader = (props: UploaderProps) => {
         err += `${files[x].type} is not a supported format\n`;
       }
     }
-
     if (err !== '') {
       event.target.value = null;
       setImageValidationError(err);
@@ -81,6 +80,11 @@ const Uploader = (props: UploaderProps) => {
     imageArray.forEach((image) => {
       setS3Ids([...s3Ids, image.s3Id]);
     });
+    setValue('images', s3Ids, {
+      shouldTouch: true,
+      shouldDirty: true,
+      shouldValidate: true,
+    });
   };
   return (
     //TODO:Use another utility class instead of flex column or modify flex column
@@ -94,13 +98,8 @@ const Uploader = (props: UploaderProps) => {
         multiple={true}
         {...register('images')}
         onChange={(c) => {
-          s3IdUpdate(props.images);
-          setValue('images', s3Ids, {
-            shouldTouch: true,
-            shouldDirty: true,
-            shouldValidate: true,
-          });
           imagesSelectedHandler;
+          s3IdUpdate(props.images);
         }}
         {...getInputProps()}
       />
