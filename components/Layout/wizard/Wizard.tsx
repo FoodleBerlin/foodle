@@ -47,7 +47,11 @@ export const formData = z.object({
   }),
   // TODO add fields for step2, step3, ...
   /* STEP 2 */
-  description: z.string({ required_error: 'Description is required' }).min(20).max(7000),
+  description: z
+    .string({ required_error: 'Description is required' })
+    .min(20, { message: 'Must be 20 or more characters long' })
+    .max(7000, { message: 'You reached the maximum amount of characters' })
+    .nonempty({ message: 'Description can not be empty' }),
   features: z.enum([
     'Unfurnished',
     'A/C',
@@ -66,6 +70,29 @@ export const formData = z.object({
     }),
     weeks: z.number({ required_error: 'Weeks is required', invalid_type_error: 'Weeks can not be empty' }),
   }),
+  /* STEP 3 */
+  rent: z
+    .number({ required_error: 'Rent per hour is required', invalid_type_error: 'Rent per hour can not be empty' })
+    .min(1, { message: 'Rent must be greater than or equal to 1' }),
+  deposit: z.number().min(0, { message: 'Deposit must be greater than or equal to 1' }).optional(),
+  availability: z.object({
+    starting: z.preprocess((arg) => {
+      if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
+    }, z.date()),
+    days: z.enum(['M', 'T', 'W', 'T', 'F', 'SA', 'SU']),
+    from: z.number({ required_error: 'This field is required', invalid_type_error: 'This field can not be empty' }),
+    to: z.number({ required_error: 'This field is required', invalid_type_error: 'This field can not be empty' }),
+    repeat: z.enum(['none', 'Every week']),
+    until: z.date(),
+    stay: z
+      .string({ required_error: 'Minimum stay is required, e.g. 1 month' })
+      .nonempty({ message: 'Minimum stay can not be empty' }),
+  }),
+  rules: z
+    .string({ required_error: 'Rules are required' })
+    .min(10, { message: 'Must be 10 or more characters long' })
+    .max(7000, { message: 'You reached the maximum amount of characters' })
+    .nonempty({ message: 'Rules can not be empty' }),
 });
 
 export type FormData = z.infer<typeof formData>;
@@ -101,6 +128,19 @@ const WizardContext = React.createContext<WizardContext>({
       hours: 0,
       weeks: 0,
     },
+    /* STEP 3 */
+    rent: 0,
+    deposit: 0,
+    availability: {
+      starting: new Date('2015-03-25'),
+      days: 'M',
+      from: 10,
+      to: 1.5,
+      repeat: 'Every week',
+      until: new Date(),
+      stay: '1 month',
+    },
+    rules: '',
   },
   formState: {} as FormState<FormData>,
   nextStep: () => {},
@@ -130,6 +170,19 @@ export const WizardProvider = ({ children }: any) => {
       hours: 0,
       weeks: 0,
     },
+    /* STEP 3 */
+    rent: 0,
+    deposit: 0,
+    availability: {
+      starting: new Date(),
+      days: 'M',
+      from: 10,
+      to: 1.5,
+      repeat: 'Every week',
+      until: new Date(),
+      stay: '1 month',
+    },
+    rules: '',
   } as FormData;
   const { register, setValue, formState, getValues } = useForm<FormData>({
     resolver: zodResolver(formData),

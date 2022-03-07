@@ -12,7 +12,7 @@ export default function Step2() {
       <textarea
         {...register('description')}
         onChange={(c) =>
-          setValue('description', c.target.value as FormData['description'], {
+          setValue('description', c.target.value, {
             shouldTouch: true,
             shouldDirty: true,
             shouldValidate: true,
