@@ -3,8 +3,7 @@ import styles from './Create.module.scss';
 import { UploaderImage } from '../Layout/wizard/Step4';
 import { useDropzone } from 'react-dropzone';
 import { useWizardContext } from '../Layout/wizard/Wizard';
-import { randomUUID } from 'crypto';
-
+import { v4 as uuidv4 } from 'uuid';
 interface UploaderProps {
   addToImages: (image: UploaderImage) => void;
   idCount: number;
@@ -46,7 +45,7 @@ const Uploader = (props: UploaderProps) => {
             size: file.size,
             name: file.name,
             id: props.idCount,
-            s3Id: randomUUID(),
+            s3Id: uuidv4(),
           };
           props.setIdCount(props.idCount + 1);
           setImageValidationError('null');
@@ -73,7 +72,8 @@ const Uploader = (props: UploaderProps) => {
     }
     return true;
   };
-  const { formState, nextStep, register, setValue } = useWizardContext();
+  const { formState, nextStep, register, setValue, getValues } = useWizardContext();
+
   const [s3Ids, setS3Ids] = useState<string[]>([]);
   const s3IdUpdate = (images: UploaderImage[]) => {
     const imageArray = Array.from(images);

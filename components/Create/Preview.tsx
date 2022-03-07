@@ -67,6 +67,7 @@ const Preview = (props: PreviewProps) => {
         className={first ? styles['preview-img preview-img__first'] : styles['preview-img']}
         id={id.toString()}
         draggable
+        key={id}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onDragOver={(e) => handleOver(e)}
