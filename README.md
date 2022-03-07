@@ -5,7 +5,7 @@
 ### Server
 
 1. `yarn db:up` to start the database
-2. Add a `.env.local` file to the root and set `DATABASE_URL` to the string commented in the docker-compose.yml file. Also set a `SERVER_SECRET` to any string value, and `GOOGLE_CLIENT_ID`, and `GOOGLE_CLIENT_SECRET` (ask a teammate for the value).
+2. Add a `.env.local` file to the root and set `DATABASE_URL` to the string commented in the docker-compose.yml file. Also set a `SERVER_SECRET` to any string value, and `GOOGLE_CLIENT_ID`, and `GOOGLE_CLIENT_SECRET`, and `AWS_POOL_ID` (ask a teammate for the values).
 3. `yarn prisma:migrate:deploy` to project the generated migration from prisma.schema onto your database
 4. `yarn nexus:watch` to generate the graphql.schema
 5. `yarn dev` to start the server in development
