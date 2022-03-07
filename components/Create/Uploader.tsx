@@ -1,19 +1,19 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import styles from './Create.module.scss';
-import { UploaderImage } from '../../pages/create2';
+import { UploaderImage } from '../Layout/wizard/Step4';
 import { useDropzone } from 'react-dropzone';
+import { useWizardContext } from '../Layout/wizard/Wizard';
+import { randomUUID } from 'crypto';
 
 interface UploaderProps {
   addToImages: (image: UploaderImage) => void;
   idCount: number;
   setIdCount: (idCount: number) => void;
   imageAmount: number;
+  images: UploaderImage[];
 }
 
 const Uploader = (props: UploaderProps) => {
-  const user = {
-    id: 'user1',
-  };
   const [imageValidationError, setImageValidationError] = useState('');
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -46,6 +46,7 @@ const Uploader = (props: UploaderProps) => {
             size: file.size,
             name: file.name,
             id: props.idCount,
+            s3Id: randomUUID(),
           };
           props.setIdCount(props.idCount + 1);
           setImageValidationError('null');
@@ -73,19 +74,34 @@ const Uploader = (props: UploaderProps) => {
     }
     return true;
   };
-
+  const { formState, nextStep, register, setValue } = useWizardContext();
+  const [s3Ids, setS3Ids] = useState<string[]>([]);
+  const s3IdUpdate = (images: UploaderImage[]) => {
+    const imageArray = Array.from(images);
+    imageArray.forEach((image) => {
+      setS3Ids([...s3Ids, image.s3Id]);
+    });
+  };
   return (
     //TODO:Use another utility class instead of flex column or modify flex column
     <div className={styles['drag-drop__uploader'] + ' flex-column'} {...getRootProps()}>
       <input
         type="file"
-        name="file"
         id="file"
-        onChange={imagesSelectedHandler}
         max={5}
         maxLength={5}
         accept="image/png, image/jpeg"
         multiple={true}
+        {...register('images')}
+        onChange={(c) => {
+          s3IdUpdate(props.images);
+          setValue('images', s3Ids, {
+            shouldTouch: true,
+            shouldDirty: true,
+            shouldValidate: true,
+          });
+          imagesSelectedHandler;
+        }}
         {...getInputProps()}
       />
       <p className="body-text">Drag to Upload</p>

@@ -66,6 +66,7 @@ export const formData = z.object({
     }),
     weeks: z.number({ required_error: 'Weeks is required', invalid_type_error: 'Weeks can not be empty' }),
   }),
+  images: z.array(z.string({ required_error: 'Images are required' }).max(5)),
 });
 
 export type FormData = z.infer<typeof formData>;
@@ -101,6 +102,7 @@ const WizardContext = React.createContext<WizardContext>({
       hours: 0,
       weeks: 0,
     },
+    images: [],
   },
   formState: {} as FormState<FormData>,
   nextStep: () => {},
@@ -130,6 +132,8 @@ export const WizardProvider = ({ children }: any) => {
       hours: 0,
       weeks: 0,
     },
+    /* STEP 4 */
+    images: [''],
   } as FormData;
   const { register, setValue, formState, getValues } = useForm<FormData>({
     resolver: zodResolver(formData),

@@ -1,6 +1,6 @@
 import { Fragment, MouseEventHandler, useEffect, useState } from 'react';
 import styles from './Create.module.scss';
-import { UploaderImage } from '../../pages/create2';
+import { UploaderImage } from '../Layout/wizard/Step4';
 import Image from 'next/image';
 interface PreviewProps {
   addToImages: (image: UploaderImage) => void;
@@ -61,6 +61,7 @@ const Preview = (props: PreviewProps) => {
 
   const previewImage = (image: UploaderImage, first: boolean) => {
     const id = image.id ? image.id : -1;
+
     return (
       <div
         className={first ? styles['preview-img preview-img__first'] : styles['preview-img']}

@@ -9,6 +9,7 @@ export interface UploaderImage {
   size: number;
   name: string;
   id?: number;
+  s3Id: string;
 }
 
 export default function Step4() {
@@ -44,10 +45,11 @@ export default function Step4() {
       }
       <div className={styles['drag-drop'] + ' flex-row'}>
         <Uploader
-          addToImages={(file: UploaderImage) => addToImages(file)}
+          addToImages={(image: UploaderImage) => addToImages(image)}
           idCount={idCount}
           imageAmount={images.length}
           setIdCount={(id) => setIdCount(id)}
+          images={images}
         />
         {images.length > 0 ? (
           <Preview
