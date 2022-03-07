@@ -93,6 +93,7 @@ export const formData = z.object({
     .min(10, { message: 'Must be 10 or more characters long' })
     .max(7000, { message: 'You reached the maximum amount of characters' })
     .nonempty({ message: 'Rules can not be empty' }),
+  images: z.array(z.string({ required_error: 'Images are required' }).max(5)),
 });
 
 export type FormData = z.infer<typeof formData>;
@@ -141,6 +142,7 @@ const WizardContext = React.createContext<WizardContext>({
       stay: '1 month',
     },
     rules: '',
+    images: [],
   },
   formState: {} as FormState<FormData>,
   nextStep: () => {},
@@ -183,6 +185,8 @@ export const WizardProvider = ({ children }: any) => {
       stay: '1 month',
     },
     rules: '',
+    /* STEP 4 */
+    images: [''],
   } as FormData;
   const { register, setValue, formState, getValues } = useForm<FormData>({
     resolver: zodResolver(formData),

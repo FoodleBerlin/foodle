@@ -3,6 +3,16 @@
   justify-content: center;
   align-items: center;
 }
+.flex-column {
+  display: flex;
+  justify-content: column !important;
+  align-items: column;
+}
+.flex-row {
+  display: flex;
+  justify-content: column;
+  align-items: center;
+}
 
 // Top Margin
 .mt-small {
