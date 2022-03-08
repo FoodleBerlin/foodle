@@ -62,7 +62,7 @@ export const Query = extendType({
   type: 'Query',
   definition(t) {
     t.field('findUser', {
-      type: 'findUserResult',
+      type: findUserResult,
       description: 'Takes a handle and returns the user',
       args: { handle: stringArg() },
       resolve: async (_, args, ctx: Context) => {

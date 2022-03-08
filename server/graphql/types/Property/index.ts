@@ -42,8 +42,7 @@ export const Property = objectType({
 
 
 // Query Property By Id
-
-export const FindPropertyResult = objectType({
+ export const FindPropertyResult = objectType({
   name: 'findPropertyResult',
   definition(t) {
     t.nullable.field('Property', { type: 'Property' });
@@ -60,7 +59,7 @@ export const QueryById = extendType({
   type: 'Query',
   definition(t) {
     t.field('findProperty', {
-      type: 'findPropertyResult',
+      type: FindPropertyResult,
       description: 'Takes a handle and returns the user',
       args: { id: stringArg() },
       resolve: async (_, args, ctx: Context) => {
@@ -99,21 +98,6 @@ export const QueryById = extendType({
     });
   },
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

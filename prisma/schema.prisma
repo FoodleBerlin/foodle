@@ -123,6 +123,9 @@ model GenericDaySlot {
   bookingSlot    BookingSlot? @relation("bookingToGenericSlot", fields: [bookingSlotId], references: [id])
 }
 
+
+
+//title: string, unique handle => lowercase title unique
 model Property {
   kind             ModelKind        @default(property)
   id               String           @id @default(cuid())

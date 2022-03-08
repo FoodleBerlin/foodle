@@ -46,7 +46,7 @@ describe("Create Property", () => {
           cancellationType: "fullRefundBefore1Week",
         },
       });
-      //expect(res).toMatchSnapshot();
+      expect(res).toMatchSnapshot();
     });
   });
   

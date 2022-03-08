@@ -1,3 +1,4 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Create Property can create a listing`] = `
 Object {
@@ -33,5 +34,19 @@ Object {
       Symbol(map): Object {},
     },
   },
-}`
-;
+}`;
+
+exports[`Create Property can create a listing 1`] = `
+Object {
+  "data": undefined,
+  "errors": Array [
+    [SyntaxError: Syntax Error: Expected Name, found $],
+  ],
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
