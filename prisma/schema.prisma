@@ -184,7 +184,6 @@ model Booking {
 }
 
 
-
 model Facility {
   kind        ModelKind @default(facility)
   id          String    @id @default(cuid())

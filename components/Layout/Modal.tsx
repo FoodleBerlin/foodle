@@ -44,7 +44,7 @@ const Modal = (props: IModalProps) => {
             <button
               className={"primary-btn"}
               onClick={() =>
-                window.location.replace("http://localhost:5000/api/auth")
+                window.location.replace("http://localhost:5080/api/auth")
               }
             >
               Continue with google

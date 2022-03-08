@@ -27,7 +27,7 @@ type createPropertyReturn {
 
 type findAllProperties {
   ClientErrorInvalidHandle: ClientErrorInvalidHandle
-  Property: Property
+  Properties: [Property!]
 }
 
 type findPropertyResult {
@@ -81,9 +81,6 @@ type PropertyCreateError {
 }
 
 type Query {
-  """
-  Takes a handle and returns the user
-  """
   findAllProperties: findAllProperties!
 
   """

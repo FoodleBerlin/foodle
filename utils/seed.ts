@@ -2,6 +2,22 @@ import prisma from "../server/singletons/prisma";
 export async function seed() {
   const [users] = await Promise.all(
     await prisma.$transaction([
+      // prisma.property.createMany({
+      //   data: [
+      //     {
+      //       size: 123,
+      //       ownerId: "still missing "
+      //       street: "testhbdbjkfsdbjf",
+      //       streetNumber: 1233,
+      //       zip: 123445,
+      //       city: "berlin",
+      //       description: "testhbdbjkfsdbjf",
+      //       thingsToKnow: "testhbdbjkfsdbjf",
+      //       rules: "fffff",
+      //       cancellationType: "test",
+      //     }
+      //   ]
+      // }),
       prisma.user.createMany({
         data: [
           {
@@ -41,7 +57,7 @@ export async function seed() {
           },
         ],
       }),
-    ])
+    ]),
   );
 }
 export default seed;
