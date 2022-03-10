@@ -195,7 +195,7 @@ export const CreateListing = extendType({
             },
           };
         }
-        if (!validateZippCode) {
+        if (!validateZipCode) {
           return {
             ClientErrorInvalidPropertyInput: {
               message: `zip code ${args.zip} is invalid, must have a max length of 5`,
@@ -279,7 +279,7 @@ export const findAllProperties = extendType({
       resolve: async (_, args, ctx: Context) => {
         let properties = await ctx.prisma.property.findMany()
         if (properties.length > 0) {
-          console.log(properties)
+          console.log(properties) 
           return { 'Properties': properties }
         } else {
           return {
