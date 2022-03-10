@@ -1,0 +1,11 @@
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  position: fixed;
+  background-color: white;
+  border-right: 1px solid grey;
+  .menu {
+    color: green;
+    text-align: left;
+  }
+}
