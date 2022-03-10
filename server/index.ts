@@ -31,7 +31,7 @@ export async function main() {
   app.use(router);
   apollo.applyMiddleware({ app });
   app.listen({
-    port: 5080,
+    port: process.env["PORT"],
   });
 }
 main();
