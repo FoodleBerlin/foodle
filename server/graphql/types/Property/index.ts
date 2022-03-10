@@ -102,6 +102,7 @@ export const FindPropertyById = extendType({
       description: 'Takes a propertyId and returns the property',
       args: { id: stringArg() },
       resolve: async (_, args, ctx: Context) => {
+        console.log(!args.id)
         if (!args.id) {
           return {
             ClientErrorInvalidHandle: {
