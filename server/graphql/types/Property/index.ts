@@ -76,6 +76,7 @@ export const QueryById = extendType({
       description: 'Takes a handle and returns the user',
       args: { id: stringArg() },
       resolve: async (_, args, ctx: Context) => {
+        console.log(!args.id)
         if (!args.id) {
           return {
             ClientErrorInvalidHandle: {
