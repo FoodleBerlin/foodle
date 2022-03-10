@@ -1,60 +1,86 @@
-import { CancellationType, Prisma } from "@prisma/client";
+import { CancellationType, Prisma } from '@prisma/client';
 
 import { Context } from '../../../context';
+import { extendType, objectType, nonNull, intArg, stringArg, booleanArg, nullable } from 'nexus';
 import {
-  extendType,
-  objectType,
-  nonNull,
-  intArg,
-  stringArg,
-  booleanArg,
-  nullable,
-} from "nexus";
-import { ClientErrorUserNotExists, ClientErrorInvalidHandle, ClientErrorInvalidPropertyInput, PropertyCreateError, ClientErrorPropertyNotExists } from "../Error";
-import { Exception } from "sass";
-import { isRegExp } from "util/types";
-import { User } from "../User";
-import { type } from "os";
+  ClientErrorUserNotExists,
+  ClientErrorInvalidHandle,
+  ClientErrorInvalidPropertyInput,
+  PropertyCreateError,
+  ClientErrorPropertyNotExists,
+} from '../Error';
+import { User } from '../User';
+import { Booking } from '../Booking';
+import { Facility } from '../Facility';
+import { PropertySlot } from '../PropertySlot';
+import { argsToArgsConfig } from 'graphql/type/definition';
 
 export const Property = objectType({
-  name: "Property",
+  name: 'Property',
   definition(p) {
-    p.string("id");
-    p.int("size");
-    // p.field("owner", {
-    //   type: User,
-    //   async resolve(root, args, ctx: Context) {
-    //     let user =  await ctx.prisma.user.findUnique({
-    //       where: {
-    //         id: "asdf",
-    //       },
-    //     })
-    //     return  user
-    //   }
-    // });
-    p.string("ownerId");
-    p.string("kind");
-
-    p.string("street");
-    p.int("streetNumber");
-    p.int("zip");
-    p.string("city");
-    p.string("description");
-    p.boolean("pickup");
-
-    p.boolean("isVerified");
-    p.int("dailyPrice");
-    p.int("serviceFee");
-    p.string("cancellationType");
-    p.string("thingsToKnow");
-    p.string("rules");
+    p.int('size');
+    p.nullable.field('owner', {
+      type: User,
+      async resolve(parent, args, ctx) {
+        return await ctx.prisma.user.findUnique({
+          where: {
+            id: parent.ownerId,
+          },
+        });
+      },
+    });
+    p.string('kind');
+    p.list.field('bookings', {
+      type: Booking,
+      async resolve(parent, args, ctx) {
+        return await ctx.prisma.booking.findMany({
+          where: {
+            propertyId: parent.id,
+          },
+        });
+      },
+    });
+    p.string('street');
+    p.int('streetNumber');
+    p.int('zip');
+    p.string('city');
+    p.string('description');
+    p.boolean('pickup');
+    p.list.field('facilities', {
+      type: Facility,
+      async resolve(parent, args, ctx) {
+        return await ctx.prisma.facility.findMany({
+          where: {
+            propertyId: parent.id,
+          },
+        });
+      },
+    });
+    p.boolean('isVerified');
+    p.int('dailyPrice');
+    p.int('serviceFee');
+    p.string('cancellationType');
+    p.string('thingsToKnow');
+    p.list.string('rules');
+    p.nullable.field('availabilities', {
+      type: PropertySlot,
+      async resolve(parent, args, ctx: Context) {
+        const slot = await ctx.prisma.propertySlot.findUnique({
+          where: {
+            propertyId: parent.id,
+          },
+        });
+        if (slot) {
+          return slot;
+        } else {
+          return null;
+        }
+      },
+    });
   },
 });
 
 
-
-
-// Query Property By Id
 export const FindPropertyResult = objectType({
   name: 'findPropertyResult',
   definition(t) {
@@ -68,22 +94,21 @@ export const FindPropertyResult = objectType({
   },
 });
 
-export const QueryById = extendType({
+export const FindPropertyById = extendType({
   type: 'Query',
   definition(t) {
     t.field('findProperty', {
       type: FindPropertyResult,
-      description: 'Takes a handle and returns the user',
+      description: 'Takes a propertyId and returns the property',
       args: { id: stringArg() },
       resolve: async (_, args, ctx: Context) => {
         if (!args.id) {
           return {
             ClientErrorInvalidHandle: {
-              message: 'id is null',
+              message: 'id can not be null',
             },
           };
         } else {
-          // TODO validate handle
           try {
             const property = await ctx.prisma.property.findUnique({
               where: {
@@ -112,33 +137,30 @@ export const QueryById = extendType({
   },
 });
 
-
-
-export const CreatePropertyReturn = objectType({ //error removed when object type + name renamed??? dame error as in user.index
-  name: "createPropertyReturn",
+export const CreatePropertyReturn = objectType({
+  name: 'createPropertyReturn',
   definition(t) {
-    t.nullable.field("Property", { type: "Property" });
-    t.nullable.field("ClientErrorUserNotExists", {
+    t.nullable.field('Property', { type: 'Property' });
+    t.nullable.field('ClientErrorUserNotExists', {
       type: ClientErrorUserNotExists,
     });
-    t.nullable.field("ClientErrorInvalidHandle", {
+    t.nullable.field('ClientErrorInvalidHandle', {
       type: ClientErrorInvalidHandle,
     });
-    t.nullable.field("ClientErrorInvalidPropertyInput", {
+    t.nullable.field('ClientErrorInvalidPropertyInput', {
       type: ClientErrorInvalidPropertyInput,
     });
-    t.nullable.field("PropertyCreateError", {
+    t.nullable.field('PropertyCreateError', {
       type: PropertyCreateError,
     });
   },
 });
 
-
 export const CreateListing = extendType({
-  type: "Mutation",
+  type: 'Mutation',
   definition(p) {
-    p.field("createListing", {
-      type: "createPropertyReturn", // needs to be changed
+    p.field('createListing', {
+      type: 'createPropertyReturn', // needs to be changed
       args: {
         size: nonNull(intArg()),
         ownerId: nonNull(stringArg()),
@@ -148,7 +170,7 @@ export const CreateListing = extendType({
         zip: nonNull(intArg()),
         city: nonNull(stringArg()),
         description: nonNull(stringArg()),
-        //pickup: nullable(booleanArg()),
+        pickup: nonNull(booleanArg()),
         //isVerified: nullable(booleanArg()),
         //dailyPrice: nullable(intArg()),
         //serviceFee: nullable(intArg()),
@@ -170,7 +192,7 @@ export const CreateListing = extendType({
           if (args.street.length > 200 || args.city.length > 200) {
             return true;
           } else {
-            return false
+            return false;
           }
         }
         function validateZippCode(): Boolean {
@@ -187,7 +209,7 @@ export const CreateListing = extendType({
             return true;
           }
         }
-        if (!(findUser())) {
+        if (!findUser()) {
           return {
             ClientErrorUserNotExists: {
               message: `owner for ownerId ${args.ownerId} does not exist`,
@@ -226,7 +248,7 @@ export const CreateListing = extendType({
           where: {
             id: args.ownerId,
           },
-        })
+        });
         const newProperty = {
           size: args.size,
           ownerId: args.ownerId,
@@ -238,15 +260,15 @@ export const CreateListing = extendType({
           thingsToKnow: args.thingsToKnow,
           rules: [args.rules],
           cancellationType: CancellationType.fullRefundBefore1Week,
-
+          //pickup: true,
         };
         try {
           const prop = ctx.prisma.property.create({ data: newProperty });
-          return { 'Property': prop }
+          return { Property: prop };
         } catch (error) {
-          let errorMessage = "Unkknown error"
+          let errorMessage = 'Unkknown error';
           if (error instanceof Error) {
-            errorMessage = error.message
+            errorMessage = error.message;
           }
           return {
             PropertyCreateError: {
@@ -254,11 +276,10 @@ export const CreateListing = extendType({
             },
           };
         }
-      }
+      },
     });
   },
 });
-// defualts, nullable, enum, nested relationships, tests
 
 export const findAllPropertiesReturn = objectType({
   name: 'findAllProperties',
@@ -276,10 +297,10 @@ export const findAllProperties = extendType({
     t.field('findAllProperties', {
       type: findAllPropertiesReturn,
       resolve: async (_, args, ctx: Context) => {
-        let properties = await ctx.prisma.property.findMany()
+        let properties = await ctx.prisma.property.findMany();
         if (properties.length > 0) {
-          console.log(properties)
-          return { 'Properties': properties }
+          console.log(properties);
+          return { Properties: properties };
         } else {
           return {
             ClientErrorInvalidHandle: {
