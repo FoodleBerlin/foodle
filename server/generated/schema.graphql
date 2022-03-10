@@ -22,7 +22,7 @@ type createPropertyReturn {
   ClientErrorInvalidPropertyInput: ClientErrorInvalidPropertyInput
   ClientErrorUserNotExists: ClientErrorUserNotExists
   Property: Property
-  PropertyCreateError: PropertyCreateError
+  UnknownError: UnknownError
 }
 
 type findAllProperties {
@@ -76,10 +76,6 @@ type Property {
   zip: Int!
 }
 
-type PropertyCreateError {
-  message: String!
-}
-
 type Query {
   findAllProperties: findAllProperties!
 
@@ -92,6 +88,10 @@ type Query {
   Takes a handle and returns the user
   """
   findUser(handle: String): findUserResult!
+}
+
+type UnknownError {
+  message: String!
 }
 
 type User {

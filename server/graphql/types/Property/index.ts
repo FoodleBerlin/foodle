@@ -10,7 +10,7 @@ import {
   booleanArg,
   nullable,
 } from "nexus";
-import { ClientErrorUserNotExists, ClientErrorInvalidHandle, ClientErrorInvalidPropertyInput, PropertyCreateError, ClientErrorPropertyNotExists } from "../Error";
+import { ClientErrorUserNotExists, ClientErrorInvalidHandle, ClientErrorInvalidPropertyInput, UnknownError, ClientErrorPropertyNotExists } from "../Error";
 import { Exception } from "sass";
 import { isRegExp } from "util/types";
 import { User } from "../User";
@@ -128,8 +128,8 @@ export const CreatePropertyReturn = objectType({ //error removed when object typ
     t.nullable.field("ClientErrorInvalidPropertyInput", {
       type: ClientErrorInvalidPropertyInput,
     });
-    t.nullable.field("PropertyCreateError", {
-      type: PropertyCreateError,
+    t.nullable.field("UnknownError", {
+      type: UnknownError,
     });
   },
 });
@@ -250,7 +250,7 @@ export const CreateListing = extendType({
             errorMessage = error.message
           }
           return {
-            PropertyCreateError: {
+            UnknownError: {
               message: errorMessage,
             },
           };

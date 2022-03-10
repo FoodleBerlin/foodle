@@ -22,8 +22,8 @@ export const ClientErrorInvalidHandle = objectType({
 });
 
 
-export const PropertyCreateError = objectType({
-  name: "PropertyCreateError",
+export const UnknownError = objectType({
+  name: "UnknownError",
   definition(t) {
     t.string("message");
   },
