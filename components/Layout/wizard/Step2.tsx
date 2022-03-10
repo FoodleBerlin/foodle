@@ -8,8 +8,11 @@ export default function Step2() {
   return (
     <div>
       <h1>Landlord component flow 2</h1>
-      <h2>How would you describe the space?</h2>
-      <textarea
+      <h2 className='header-secondary' >How would you describe the space?</h2>
+      <div className={styles['step1__flexWrapper']}>
+      <textarea 
+        className= 'standard-form'
+        placeholder='This is what users will see as the description under the overview tab on the listing page.'
         {...register('description')}
         onChange={(c) =>
           setValue('description', c.target.value as FormData['description'], {
@@ -19,8 +22,9 @@ export default function Step2() {
           })
         }
       ></textarea>
+      </div>
       {formState.errors.description && <span className={styles['error']}>{formState.errors.description.message}</span>}
-      <h2>What features does your kitchen offer?</h2>
+      <h2 className='header-secondary'>What features does your kitchen offer?</h2>
       <input
         {...register('features')}
         onChange={(c) =>
@@ -32,7 +36,7 @@ export default function Step2() {
         }
       ></input>
       {formState.errors.features && <span className={styles['error']}>{formState.errors.features.message}</span>}
-      <h2>What’s the minimum stay?</h2>
+      <h2 className='header-secondary'>What’s the minimum stay?</h2>
       <input
         type="number"
         {...register('stay.hours')}
