@@ -1,15 +1,94 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Find user query can query a single user by the handle 1`] = `
+exports[`Find user by handle with valid cookie does not return payment data if the user is not me 1`] = `
 Object {
   "data": Object {
     "findUser": Object {
       "ClientErrorInvalidHandle": null,
       "ClientErrorUserNotExists": null,
       "User": Object {
+        "charges": Array [],
+        "defaultPayment": null,
         "email": "user1@gmail.com",
         "fullName": "User 1",
         "handle": "user1",
+        "paymentMethods": Array [],
+        "zip": 13000,
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Find user by handle with valid cookie returns payment data if the user is me 1`] = `
+Object {
+  "data": Object {
+    "findUser": Object {
+      "ClientErrorInvalidHandle": null,
+      "ClientErrorUserNotExists": null,
+      "User": Object {
+        "charges": Array [
+          Object {
+            "amount": 10,
+            "card": null,
+            "currency": "EUR",
+            "date": null,
+            "description": "test",
+            "invoiceId": null,
+            "status": "succeeded",
+          },
+        ],
+        "defaultPayment": Object {
+          "cardNumber": "customer",
+          "expiryMonth": 0,
+          "expiryYear": 7,
+          "type": "notsure yet",
+        },
+        "email": "user1@gmail.com",
+        "fullName": "User 1",
+        "handle": "user1",
+        "paymentMethods": Array [
+          Object {
+            "cardNumber": null,
+            "expiryMonth": 1,
+            "expiryYear": 2020,
+            "type": null,
+          },
+        ],
+        "zip": 13000,
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Find user by handle without valid cookie does not return payment data if there is no valid cookie 1`] = `
+Object {
+  "data": Object {
+    "findUser": Object {
+      "ClientErrorInvalidHandle": null,
+      "ClientErrorUserNotExists": null,
+      "User": Object {
+        "charges": Array [],
+        "defaultPayment": null,
+        "email": "user1@gmail.com",
+        "fullName": "User 1",
+        "handle": "user1",
+        "paymentMethods": Array [],
         "zip": 13000,
       },
     },

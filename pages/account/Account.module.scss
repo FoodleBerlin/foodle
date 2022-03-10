@@ -1,0 +1,14 @@
+.account {
+  margin-top: 65px;
+  color: black;
+  .container {
+    width: 100%;
+    padding-left: 300px;
+    .row {
+      display: flex;
+      border: 1px;
+      border-radius: 4px;
+      justify-content: space-around;
+    }
+  }
+}

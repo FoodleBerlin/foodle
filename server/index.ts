@@ -5,8 +5,11 @@ import express from 'express';
 import session from 'express-session';
 import passport from './passport';
 import forgeJWT from '../utils/forgeJWT';
+import { DataSources } from 'apollo-server-core/dist/graphqlOptions';
+import StripeWrapper from './singletons/stripe/endpoints';
+import datasources from './singletons/datasources';
 
-const app = express();
+export const app = express();
 app.use(passport.initialize());
 
 app.use(
@@ -23,8 +26,10 @@ export const apollo: ApolloServer = new ApolloServer({
   introspection: true,
   // This enables resolvers to share helpful context, such as a database connection.
   context: createContext,
+  dataSources: () => datasources() as DataSources<Record<'stripeWrapper', StripeWrapper>>,
 });
-const router = express.Router();
+
+export const router = express.Router();
 
 export async function main() {
   await apollo.start();
@@ -40,7 +45,7 @@ router.get('/api/auth', passport.authenticate('google', { scope: ['profile', 'em
 
 router.get('/api/callback', (req: any, res: any, next) => {
   passport.authenticate('google', async (err: any, user: any) => {
-    console.log('ayeee' + user);
+    if (!user) throw new Error('NO USER');
     const token = await forgeJWT(user);
     res.cookie('jwt', token, {
       httpOnly: true,
