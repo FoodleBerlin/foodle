@@ -18,12 +18,14 @@ passport.use(
         if (!accessToken || !profile) return cb('error', null);
         const user = await prisma.user.findUnique({
           where: {
-            email: profile?.emails[0].value,
+            email: profile?.emails[0].value ?? '',
           },
         });
+        console.log('user first');
         if (!user) {
+          console.log('no user');
           // Create user for them on stripe
-          const stripeId = await stripeWrapper.createCustomer({ email: profile.emails[0].value });
+          //const stripeId = await stripeWrapper.createCustomer({ email: profile.emails[0].value });
           const res = await prisma.user.create({
             data: {
               kind: 'user',
@@ -47,11 +49,15 @@ passport.use(
               solvencyVerified: false,
             },
           });
+          console.log('user');
           return cb(null, res);
         } else {
+          console.log('cb');
           return cb(null, user);
         }
+        console.log('here');
       } catch (e) {
+        console.log('ERROR', e);
         return cb(e);
       }
     }
