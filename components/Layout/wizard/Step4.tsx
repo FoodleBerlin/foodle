@@ -5,11 +5,11 @@ import Preview from '../../Create/Preview';
 import styles from '../../Create/Create.module.scss';
 
 export interface UploaderImage {
-  file: any;
+  file?: any;
   size: number;
   name: string;
   id?: number;
-  s3Id: string;
+  s3Id?: string;
 }
 
 export default function Step4() {
@@ -47,6 +47,7 @@ export default function Step4() {
         <Uploader
           addToImages={(image: UploaderImage) => addToImages(image)}
           idCount={idCount}
+          setImages={(images: UploaderImage[]) => setImages(images)}
           imageAmount={images.length}
           setIdCount={(id) => setIdCount(id)}
           images={images}
