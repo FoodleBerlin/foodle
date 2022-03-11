@@ -1,5 +1,11 @@
 @use '../base/colors';
 
+.rainbow-multi {
+  background: linear-gradient(61.54deg, colors.$color-tertiary-light 15%, colors.$color-secondary-light 74.15%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
+}
 .hero {
   width: 100%;
   padding: 0 5rem;
@@ -8,14 +14,13 @@
   background-color: white;
   justify-content: center;
   align-items: center;
+  .rainbow {
+    color: colors.$color-primary-light;
+  }
 
   height: 80vh;
   width: 100%;
-  .tagline {
-    max-width: 601px;
-    margin: 0 auto;
-    text-align: center;
-  }
+
   &__left {
     display: flex;
     flex: 1 1 60%;
@@ -50,6 +55,10 @@
   justify-content: center;
   align-items: center;
   color: black;
+  max-width: 501px;
+  margin: 0 auto;
+  text-align: center;
+  display: block;
 }
 
 .carousel {

@@ -26,9 +26,11 @@ const Home: NextPage = () => {
       <div className={styles['hero']}>
         <div className={styles['hero__left']}>
           <div className={styles['hero__left--inner']}>
-            <h1 className={'header-primary'}>Renting Kitchens just got easier.</h1>
+            <h1 className={'header-primary'}>
+              Renting kitchens just got <span className={styles['rainbow']}>easier</span>.
+            </h1>
             <h3 className={'body-text-secondary'}>
-              We pair licensed kitchen owners with new chefs and bakers so businesses can grow together.{' '}
+              We pair licensed kitchen owners with new chefs and bakers so businesses can grow together.
             </h3>
             <div>
               <input
@@ -49,8 +51,8 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <h2 className={styles['random-text'] + ' header-secondary ' + styles['tagline']}>
-        Make your entrepreneurial food dreams come true.
+      <h2 className={styles['random-text'] + ' header-secondary'}>
+        Make your entrepreneurial food<span className={styles['rainbow-multi']}> dreams come true.</span>
       </h2>
       <div className={styles['carousel']}>
         <h2 className={'header-secondary'}>Licensed Kitchens For Rent</h2>

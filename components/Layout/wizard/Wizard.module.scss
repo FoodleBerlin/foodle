@@ -222,11 +222,37 @@
     }
   }
 }
-
-.dots-step1 {
-  width: 50px;
-  height: 50px;
-  border-radius: 100%;
+.item {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  &__activeOrPassed {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    .dots {
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      background-color: colors.$color-primary-light;
+    }
+    span {
+      padding-left: 1rem;
+      color: colors.$color-primary-light;
+    }
+  }
+  .dots {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-color: colors.$color-grey;
+  }
+  span {
+    padding-left: 1rem;
+    color: colors.$color-grey;
+  }
+}
+.sidebar-container {
   margin: 0 auto;
-  background-color: colors.$color-primary-light;
+  width: 50%;
 }

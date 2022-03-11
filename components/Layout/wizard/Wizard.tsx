@@ -15,13 +15,31 @@ export default function Wizard() {
   return (
     <div>
       <Sidebar user={undefined}>
-        <>
-          <div className={styles['dots-step1']}></div>
-          <div className={styles['dots-step2']}></div>
-          <div className={styles['dots-step3']}></div>
-          <div className={styles['dots-step4']}></div>
-          <div className={styles['dots-step5']}></div>
-        </>
+        <div className={styles['sidebar-container']}>
+          <div className={styles['flex']}>
+            <div className={wizardContext.step >= 1 ? styles['item__activeOrPassed'] : styles['item']}>
+              <div className={styles['dots']}></div>
+              <span>Property</span>
+            </div>
+
+            <div className={wizardContext.step >= 2 ? styles['item__activeOrPassed'] : styles['item']}>
+              <div className={styles['dots']}></div>
+              <span>Features</span>
+            </div>
+            <div className={wizardContext.step >= 3 ? styles['item__activeOrPassed'] : styles['item']}>
+              <div className={styles['dots']}></div>
+              <span>Logistics</span>
+            </div>
+            <div className={wizardContext.step >= 4 ? styles['item__activeOrPassed'] : styles['item']}>
+              <div className={styles['dots']}></div>
+              <span>Photos</span>
+            </div>
+            <div className={wizardContext.step >= 5 ? styles['item__activeOrPassed'] : styles['item']}>
+              <div className={styles['dots']}></div>
+              <span>Summary</span>
+            </div>
+          </div>
+        </div>
       </Sidebar>
       <div className={styles['wizard']}>
         {wizardContext.step == 1 && <Step1></Step1>}
