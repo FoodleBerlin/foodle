@@ -19,19 +19,21 @@ const Uploader = (props: UploaderProps) => {
     accept: 'image/*',
     maxFiles: 5,
     onDrop: (acceptedFiles) => {
-      let idNumber: number = props.idCount;
-      acceptedFiles.map((file) => {
-        Object.assign(file, {
-          file: URL.createObjectURL(file),
-          id: idNumber,
-          s3Id: uuidv4(),
+      if (props.images.length + acceptedFiles.length < 6) {
+        let idNumber: number = props.idCount;
+        acceptedFiles.map((file) => {
+          Object.assign(file, {
+            file: URL.createObjectURL(file),
+            id: idNumber,
+            s3Id: uuidv4(),
+          });
+          idNumber++;
         });
-        idNumber++;
-      });
-      const imageArray = [...props.images, ...acceptedFiles];
-      props.setImages(imageArray);
-      s3IdUpdate(imageArray);
-      props.setIdCount(idNumber);
+        const imageArray = [...props.images, ...acceptedFiles];
+        props.setImages(imageArray);
+        s3IdUpdate(imageArray);
+        props.setIdCount(idNumber);
+      }
     },
   });
 
@@ -60,8 +62,6 @@ const Uploader = (props: UploaderProps) => {
       <input
         type="file"
         id="file"
-        max={5}
-        maxLength={5}
         accept="image/png, image/jpeg"
         multiple={true}
         {...register('images')}
