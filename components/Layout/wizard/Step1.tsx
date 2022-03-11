@@ -5,7 +5,7 @@ export default function Step1() {
   return (
     <div className={styles['step1']}>
       <div className={styles['formItem']}>
-        <h2 className="header-secondary">What kind of property do you own?</h2>
+        <h2 className="header-tertiary">What kind of property do you own?</h2>
         <div className={styles['step1__buttonWrapper']}>
           <input
             {...register('property')}
@@ -47,7 +47,7 @@ export default function Step1() {
         </div>
       </div>
       <div className={styles['formItem']}>
-        <h2 className="header-secondary">How big is the kitchen?</h2>
+        <h2 className="header-tertiary">How big is the kitchen?</h2>
         <div className={styles['step1__flexWrapper']}>
           <input
             className={styles['step1__shortInput'] + ' standard-form'}
@@ -62,13 +62,13 @@ export default function Step1() {
               })
             }
           ></input>
-          <label className={styles['step1__label']}>Size in square meters</label>
+          <label className={styles['step1__label body-text-secondary']}>Size in square meters</label>
         </div>
         {formState.errors.size && <span className={styles['error']}>{formState.errors.size.message}</span>}
       </div>
       <div className={styles['formItem']}>
-        <h2 className="header-secondary">Where is it located?</h2>
-        <label className={styles['step1__label']}>Address</label>
+        <h2 className="header-tertiary">Where is it located?</h2>
+        <label className={styles['step1__label body-text-secondary']}>Address</label>
         <div className={styles['step1__addressGridWrapper']}>
           <input
             className={styles['step1__input--street'] + ' standard-form'}

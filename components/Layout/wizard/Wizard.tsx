@@ -8,11 +8,21 @@ import styles from './Wizard.module.scss';
 import { z } from 'zod';
 import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Sidebar from '../Sidebar';
 
 export default function Wizard() {
   const wizardContext = useWizardContext();
   return (
     <div>
+      <Sidebar user={undefined}>
+        <>
+          <div className={styles['dots-step1']}></div>
+          <div className={styles['dots-step2']}></div>
+          <div className={styles['dots-step3']}></div>
+          <div className={styles['dots-step4']}></div>
+          <div className={styles['dots-step5']}></div>
+        </>
+      </Sidebar>
       <div className={styles['wizard']}>
         {wizardContext.step == 1 && <Step1></Step1>}
         {wizardContext.step == 2 && <Step2></Step2>}

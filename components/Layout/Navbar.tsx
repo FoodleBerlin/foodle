@@ -25,7 +25,7 @@ const Navbar = (props: NavbarProps) => {
       <div className={styles['navbar__menu']}>
         <Tab href="/" title="EN/DE" />
         <Tab href="/" title="How It Works" />
-        <Tab href="/" title="List Your Kitchen" />
+        <Tab href="/create" title="List Your Kitchen" />
         <Tab href="/" title="Contact" />
       </div>
       {!props.user && (
