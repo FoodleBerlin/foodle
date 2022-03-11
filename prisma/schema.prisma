@@ -76,6 +76,7 @@ model User {
   kind             ModelKind  @default(user)
   handle            String    @unique
   fullName         String
+  stripeId         String? @unique
   email            String     @unique
   id               String     @id @default(cuid())
   image            String?

@@ -9,6 +9,16 @@ type ClientErrorUserNotExists {
   message: String!
 }
 
+type CustomerCharge {
+  amount: Int
+  card: String
+  currency: String
+  date: Int
+  description: String
+  invoiceId: String
+  status: String
+}
+
 type findUserResult {
   ClientErrorInvalidHandle: ClientErrorInvalidHandle
   ClientErrorUserNotExists: ClientErrorUserNotExists
@@ -19,17 +29,27 @@ type Mutation {
   createUser: Boolean!
 }
 
+type PaymentInformation {
+  cardNumber: String
+  expiryMonth: Int
+  expiryYear: Int
+  type: String
+}
+
 type Query {
   """
-  Takes a handle and returns the user
+  Takes a handle and returns the user.
   """
   findUser(handle: String): findUserResult!
 }
 
 type User {
+  charges: [CustomerCharge!]!
+  defaultPayment: PaymentInformation
   email: String!
   fullName: String!
   handle: String!
   id: String!
+  paymentMethods: [PaymentInformation!]!
   zip: Int!
 }
