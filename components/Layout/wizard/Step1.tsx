@@ -7,22 +7,46 @@ export default function Step1() {
       <h1>Landlord component flow 1</h1>
       <div className={styles['step1']}>
         <h2 className="header-secondary">What kind of property do you own?</h2>
+
         <div className={styles['step1__buttonWrapper']}>
-          {/* TO-DO THIS HAS TO BE RADIO BUTTONS: */}
-          <button className="inactive-btn">Entire Kitchen</button>
-          <button className="active-btn">Part of Kitchen</button>
+          <input
+            {...register('property')}
+            type="radio"
+            id="full"
+            name="kitchen"
+            value="full"
+            onChange={(c) =>
+              setValue('property', c.target.value as FormData['property'], {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          />
+          <label className={styles['propertyLabel']} htmlFor="full">
+            <p className="body-text">Entire Kitchen</p>
+          </label>
+
+          <input
+            {...register('property')}
+            type="radio"
+            id="partial"
+            name="kitchen"
+            value="partial"
+            onChange={(c) =>
+              setValue('property', c.target.value as FormData['property'], {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          />
+          <label className={styles['propertyLabel']} htmlFor="partial">
+            <p className="body-text">Part of kitchen</p>
+          </label>
+          {formState.errors.property && <span className={styles['error']}>{formState.errors.property.message}</span>}
         </div>
-        <input
-          {...register('property')}
-          onChange={(c) =>
-            setValue('property', c.target.value as FormData['property'], {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        ></input>
-        {formState.errors.property && <span className={styles['error']}>{formState.errors.property.message}</span>}
+
         {/* The current form value that will be submitted {getValues('property')} */}
         <h2 className="header-secondary">How big is the kitchen?</h2>
         <div className={styles['step1__flexWrapper']}>

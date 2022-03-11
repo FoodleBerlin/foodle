@@ -101,6 +101,19 @@
   }
 }
 
+.propertyLabel {
+  height: 104px;
+  width: 225px;
+  border: 1px solid #00695c;
+  position: relative;
+  margin: auto;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
 .step2 {
   width: 100%;
   padding: 0 5rem;
