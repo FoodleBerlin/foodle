@@ -253,8 +253,6 @@ export default function Step3() {
         
         {formState.errors.rules && <span className={styles['error']}>{formState.errors.rules.message}</span>}
       </div>
-      <button onClick={() => wizardContext.previousStep(3)}>previous</button>
-      <button onClick={() => wizardContext.nextStep(3)}>next</button>
     </div>
   );
 }

@@ -1,10 +1,10 @@
-input[type="checkbox"]::before {
+input[type='checkbox']::before {
 }
 
 .standard-form {
   font-size: 1.8rem;
-  outline: #b3b3b3;
-  border: 1px solid rgb(170, 170, 170);
+  outline: $color-grey;
+  border: 1px solid $color-grey;
   border-radius: 1rem;
   padding: 1rem 1rem;
   margin-right: -2rem;

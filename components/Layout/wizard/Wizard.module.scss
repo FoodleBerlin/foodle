@@ -1,8 +1,15 @@
 @use '../../../styles/base/colors';
+@use '../../../styles/components/buttons';
 
 .wizard {
   color: #2b2b2b;
-  margin-top: 200px;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  margin-left: 300px;
+  max-width: 811px;
+  .formItem {
+    margin-bottom: 50px;
+  }
 }
 
 .error {
@@ -16,8 +23,6 @@
   background-color: white;
   justify-content: center;
   align-items: center;
-
-  height: 80vh;
   width: 100%;
   &__buttonWrapper {
     display: inline-flex;
@@ -211,4 +216,60 @@
     grid-row: 3/4;
   }
 
+}
+
+.footer {
+  background-color: white;
+  border: 1px solid grey;
+  position: fixed;
+  padding-left: 300px;
+  bottom: 0;
+  width: 100%;
+
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    max-height: 70px;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    .hidden {
+      visibility: hidden;
+    }
+  }
+}
+.item {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  &__activeOrPassed {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    .dots {
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      background-color: colors.$color-primary-light;
+    }
+    span {
+      padding-left: 1rem;
+      color: colors.$color-primary-light;
+    }
+  }
+  .dots {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-color: colors.$color-grey;
+  }
+  span {
+    padding-left: 1rem;
+    color: colors.$color-grey;
+  }
+}
+.sidebar-container {
+  margin: 0 auto;
+  width: 50%;
 }

@@ -14,6 +14,11 @@
     background-color: white;
     border: 2px solid #009688;
   }
+  &:disabled {
+    background-color: #c4c4c4;
+    color: colors.$color-white;
+    border: 2px solid #c4c4c4;
+  }
 }
 .secondary-btn {
   height: 100%;
@@ -60,7 +65,7 @@
   }
 }
 
-input[type='radio'] {
+.radio {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -68,7 +73,7 @@ input[type='radio'] {
   width: 0;
 }
 
-input[type='radio']:checked + label {
+.radio:checked + label {
   background-color: colors.$color-primary;
   color: colors.$color-white;
 }

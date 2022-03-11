@@ -8,16 +8,62 @@ import styles from './Wizard.module.scss';
 import { z } from 'zod';
 import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Sidebar from '../Sidebar';
+import Footer from './Footer';
 
 export default function Wizard() {
   const wizardContext = useWizardContext();
   return (
-    <div className={styles['wizard']}>
-      {wizardContext.step == 1 && <Step1></Step1>}
-      {wizardContext.step == 2 && <Step2></Step2>}
-      {wizardContext.step == 3 && <Step3></Step3>}
-      {wizardContext.step == 4 && <Step4></Step4>}
-      {wizardContext.step == 5 && <Step5></Step5>}
+    <div>
+      <Sidebar user={undefined}>
+        <div className={styles['sidebar-container']}>
+          <div className={styles['flex']}>
+            <div className={wizardContext.step >= 1 ? styles['item__activeOrPassed'] : styles['item']}>
+              <div className={styles['dots']}></div>
+              <span>Property</span>
+            </div>
+
+            <div className={wizardContext.step >= 2 ? styles['item__activeOrPassed'] : styles['item']}>
+              <div className={styles['dots']}></div>
+              <span>Features</span>
+            </div>
+            <div className={wizardContext.step >= 3 ? styles['item__activeOrPassed'] : styles['item']}>
+              <div className={styles['dots']}></div>
+              <span>Logistics</span>
+            </div>
+            <div className={wizardContext.step >= 4 ? styles['item__activeOrPassed'] : styles['item']}>
+              <div className={styles['dots']}></div>
+              <span>Photos</span>
+            </div>
+            <div className={wizardContext.step >= 5 ? styles['item__activeOrPassed'] : styles['item']}>
+              <div className={styles['dots']}></div>
+              <span>Summary</span>
+            </div>
+          </div>
+        </div>
+      </Sidebar>
+      <div className={styles['wizard']}>
+        {wizardContext.step == 1 && <Step1></Step1>}
+        {wizardContext.step == 2 && <Step2></Step2>}
+        {wizardContext.step == 3 && <Step3></Step3>}
+        {wizardContext.step == 4 && <Step4></Step4>}
+        {wizardContext.step == 5 && <Step5></Step5>}
+      </div>
+      {/*       <div className={styles['footer']}>
+        <div className={styles['footer-container']}>
+          <button
+            onClick={() => wizardContext.previousStep(wizardContext.step)}
+            className={wizardContext.step === 1 ? styles['hidden'] : styles['secondary-btn']}
+          >
+            back
+          </button>
+
+          <button className={styles['primary-btn']} onClick={() => wizardContext.nextStep(wizardContext.step)}>
+            {wizardContext.step === 5 ? 'submit' : 'next'}
+          </button>
+        </div>
+      </div> */}
+      <Footer step={wizardContext.step} />
     </div>
   );
 }
