@@ -1,4 +1,4 @@
-@use "../../../styles/base/colors";
+@use '../../../styles/base/colors';
 
 .wizard {
   color: #2b2b2b;
@@ -101,6 +101,19 @@
   }
 }
 
+.propertyLabel {
+  height: 104px;
+  width: 225px;
+  border: 1px solid #00695c;
+  position: relative;
+  margin: auto;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
 .step2 {
   width: 100%;
   padding: 0 5rem;
@@ -126,7 +139,7 @@
 
   height: 80vh;
   width: 100%;
-  
+
   &__textArea {
     width: 100%;
   }
@@ -142,31 +155,28 @@
     gap: 30px;
   }
 
-// wrapper - for date
+  // wrapper - for date
 
-&__weekDaySelector input {
-  display: none!important;
-}
+  &__weekDaySelector input {
+    display: none !important;
+  }
 
-&__weekDaySelector--weekday input[type=checkbox] + label {
-  display: inline-block;
-  border-radius: 6px;
-  background: #dddddd;
-  height: 40px;
-  width: 30px;
-  margin-right: 3px;
-  line-height: 40px;
-  text-align: center;
-  cursor: pointer;
-}
+  &__weekDaySelector--weekday input[type='checkbox'] + label {
+    display: inline-block;
+    border-radius: 6px;
+    background: #dddddd;
+    height: 40px;
+    width: 30px;
+    margin-right: 3px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+  }
 
-&__weekDaySelector--selector input[type=checkbox]:checked + label {
-  background: #2AD705;
-  color: #ffffff;
-}
-
-
-
+  &__weekDaySelector--selector input[type='checkbox']:checked + label {
+    background: #2ad705;
+    color: #ffffff;
+  }
 
   &__dateGridWrapper {
     display: grid;
@@ -174,11 +184,8 @@
     grid-gap: 6px 30px;
   }
 
-  &__
-
-  &__timeInput--monday-from {
+  &__ &__timeInput--monday-from {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
   }
-
 }
