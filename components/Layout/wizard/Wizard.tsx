@@ -12,12 +12,28 @@ import { zodResolver } from '@hookform/resolvers/zod';
 export default function Wizard() {
   const wizardContext = useWizardContext();
   return (
-    <div className={styles['wizard']}>
-      {wizardContext.step == 1 && <Step1></Step1>}
-      {wizardContext.step == 2 && <Step2></Step2>}
-      {wizardContext.step == 3 && <Step3></Step3>}
-      {wizardContext.step == 4 && <Step4></Step4>}
-      {wizardContext.step == 5 && <Step5></Step5>}
+    <div>
+      <div className={styles['wizard']}>
+        {wizardContext.step == 1 && <Step1></Step1>}
+        {wizardContext.step == 2 && <Step2></Step2>}
+        {wizardContext.step == 3 && <Step3></Step3>}
+        {wizardContext.step == 4 && <Step4></Step4>}
+        {wizardContext.step == 5 && <Step5></Step5>}
+      </div>
+      <div className={styles['footer']}>
+        <div className={styles['footer-container']}>
+          <button
+            onClick={() => wizardContext.previousStep(wizardContext.step)}
+            className={wizardContext.step === 1 ? styles['hidden'] : styles['secondary-btn']}
+          >
+            back
+          </button>
+
+          <button className={styles['primary-btn']} onClick={() => wizardContext.nextStep(wizardContext.step)}>
+            {wizardContext.step === 5 ? 'submit' : 'next'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

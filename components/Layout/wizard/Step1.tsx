@@ -3,16 +3,15 @@ import styles from './Wizard.module.scss';
 export default function Step1() {
   const { formState, nextStep, register, setValue } = useWizardContext();
   return (
-    <div>
-      <h1>Landlord component flow 1</h1>
-      <div className={styles['step1']}>
+    <div className={styles['step1']}>
+      <div className={styles['formItem']}>
         <h2 className="header-secondary">What kind of property do you own?</h2>
-
         <div className={styles['step1__buttonWrapper']}>
           <input
             {...register('property')}
             type="radio"
             id="full"
+            className={styles['radio']}
             name="kitchen"
             value="full"
             onChange={(c) =>
@@ -46,8 +45,8 @@ export default function Step1() {
           </label>
           {formState.errors.property && <span className={styles['error']}>{formState.errors.property.message}</span>}
         </div>
-
-        {/* The current form value that will be submitted {getValues('property')} */}
+      </div>
+      <div className={styles['formItem']}>
         <h2 className="header-secondary">How big is the kitchen?</h2>
         <div className={styles['step1__flexWrapper']}>
           <input
@@ -66,6 +65,8 @@ export default function Step1() {
           <label className={styles['step1__label']}>Size in square meters</label>
         </div>
         {formState.errors.size && <span className={styles['error']}>{formState.errors.size.message}</span>}
+      </div>
+      <div className={styles['formItem']}>
         <h2 className="header-secondary">Where is it located?</h2>
         <label className={styles['step1__label']}>Address</label>
         <div className={styles['step1__addressGridWrapper']}>
@@ -161,17 +162,6 @@ export default function Step1() {
           )}
         </div>
       </div>
-
-      <button
-        disabled={formState.errors.property || formState.errors.size || formState.errors.location ? true : false}
-        onClick={() => {
-          nextStep(1);
-        }}
-      >
-        {/* TODO: create helper function for checking every field for disabling the button*/}
-        {/* TODO: this button goes into a own component --> see design in figma! */}
-        next
-      </button>
     </div>
   );
 }

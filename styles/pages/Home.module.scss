@@ -1,4 +1,4 @@
-@use "../base/colors";
+@use '../base/colors';
 
 .hero {
   width: 100%;
@@ -11,6 +11,11 @@
 
   height: 80vh;
   width: 100%;
+  .tagline {
+    max-width: 601px;
+    margin: 0 auto;
+    text-align: center;
+  }
   &__left {
     display: flex;
     flex: 1 1 60%;

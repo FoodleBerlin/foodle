@@ -60,7 +60,7 @@
   }
 }
 
-input[type='radio'] {
+.radio {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -68,7 +68,7 @@ input[type='radio'] {
   width: 0;
 }
 
-input[type='radio']:checked + label {
+.radio:checked + label {
   background-color: colors.$color-primary;
   color: colors.$color-white;
 }
