@@ -283,12 +283,14 @@ export const CreateListing = extendType({
 });
 
 export const findAllPropertiesReturn = objectType({
-  name: 'findAllProperties',
-  definition(t) {
-    t.nullable.list.field('Properties', { type: Property });
-    t.nullable.field('ClientErrorInvalidHandle', {
-      type: ClientErrorInvalidHandle,
+  name: 'findAllPropertiesReturn',
+  definition(t) {  
+    t.nullable.list.field('Properties', { 
+      type: Property, 
     });
+    t.nullable.field("UnknownError", {
+      type: UnknownError
+    })
   },
 });
 
@@ -298,18 +300,17 @@ export const findAllProperties = extendType({
     t.field('findAllProperties', {
       type: findAllPropertiesReturn,
       resolve: async (_, args, ctx: Context) => {
-        let properties = await ctx.prisma.property.findMany();
-        if (properties.length > 0) {
-          console.log(properties);
-          return { Properties: properties };
-        } else {
+        try {
+          let properties = await ctx.prisma.property.findMany();
+            return { Properties: properties };
+        } catch (e) {
           return {
-            ClientErrorInvalidHandle: {
-              message: 'No properties found',
+            UnknownError: {
+              message: 'Erorr fetching properties from database',
             },
           };
         }
-      },
+      }
     });
   },
 });

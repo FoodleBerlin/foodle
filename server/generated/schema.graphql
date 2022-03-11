@@ -33,9 +33,9 @@ type Facility {
   id: String!
 }
 
-type findAllProperties {
-  ClientErrorInvalidHandle: ClientErrorInvalidHandle
+type findAllPropertiesReturn {
   Properties: [Property!]
+  UnknownError: UnknownError
 }
 
 type findPropertyResult {
@@ -92,7 +92,7 @@ type PropertySlot {
 }
 
 type Query {
-  findAllProperties: findAllProperties!
+  findAllProperties: findAllPropertiesReturn!
 
   """
   Takes a propertyId and returns the property
