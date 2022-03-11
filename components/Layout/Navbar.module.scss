@@ -1,3 +1,5 @@
+@use '../../styles/base/colors';
+
 .navbar {
   width: 100%;
   background-color: white;
@@ -7,9 +9,15 @@
   z-index: 1;
   color: rgb(153, 130, 130);
   border-bottom: 0.1rem solid #b3b3b3;
-
+  padding-right: 20px;
+  padding-left: 20px;
+  .avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(226.46deg, colors.$color-secondary-light 9.5%, rgba(244, 143, 177, 0.25) 87.45%);
+    border-radius: 100%;
+  }
   &__logo {
-    position: absolute;
     top: 0.2rem;
     left: 2vw;
     margin-top: 1rem;
@@ -21,17 +29,16 @@
     }
   }
   &__auth-btns {
-    position: absolute;
     right: 1vw;
     display: flex;
     gap: 1.5rem;
   }
 
   &__menu {
-    flex: 0 0 10%;
     height: 100%;
     display: flex;
     justify-content: center;
+    flex-grow: 1;
     @media screen and (max-width: 768px) {
       display: none;
     }
@@ -41,7 +48,7 @@
         width: 100%;
       }
       &::after {
-        content: "";
+        content: '';
         width: 0px;
         height: 0.6px;
         display: block;

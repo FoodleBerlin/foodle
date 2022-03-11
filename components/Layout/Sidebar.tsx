@@ -3,11 +3,10 @@ import Image from 'next/image';
 import React, { ReactChildren, useState } from 'react';
 import styles from './Sidebar.module.scss';
 import Tab from './Tab';
-import Modal from './Modal';
-import { AccountProps } from '~/pages/account';
+import { AuthenticatedProps } from '~/pages/account';
 
 type SidebarProps = {
-  user?: AccountProps['session'];
+  user?: AuthenticatedProps['session'];
   children?: React.ReactElement;
 };
 const Sidebar = (props: SidebarProps) => {
