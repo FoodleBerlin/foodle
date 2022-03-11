@@ -1,4 +1,4 @@
-@use "../../../styles/base/colors";
+@use '../../../styles/base/colors';
 
 .wizard {
   color: #2b2b2b;
@@ -126,7 +126,7 @@
 
   height: 80vh;
   width: 100%;
-  
+
   &__textArea {
     width: 100%;
   }
@@ -142,43 +142,48 @@
     gap: 30px;
   }
 
-// wrapper - for date
+  // wrapper - for date
 
-&__weekDaySelector input {
-  display: none!important;
-}
+  &__weekDaysSelector input[type='checkbox'] {
+    display: none !important;
+  }
 
-&__weekDaySelector--weekday input[type=checkbox] + label {
-  display: inline-block;
-  border-radius: 6px;
-  background: #dddddd;
-  height: 40px;
-  width: 30px;
-  margin-right: 3px;
-  line-height: 40px;
-  text-align: center;
-  cursor: pointer;
-}
+  &__weekDaysSelector input[type='checkbox'] + label {
+    display: inline-block;
+    border-radius: 6px;
+    background: #ecf4f1;
+    color: black;
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+  }
 
-&__weekDaySelector--selector input[type=checkbox]:checked + label {
-  background: #2AD705;
-  color: #ffffff;
-}
+  &__weekDaysSelector input[type='checkbox']:checked + label {
+    background: colors.$color-primary-light;
+    color: #ffffff;
+  }
 
-
-
-
-  &__dateGridWrapper {
+  &__availabilityGridWrapper {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     grid-gap: 6px 30px;
   }
-
-  &__
-
-  &__timeInput--monday-from {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
+  // inner grid
+  &__weekDaysSelector {
+    grid-column: 1 / 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 
+  &__daysOfWeek {
+    align-self: center;
+    grid-column: 1 / 2;
+  }
+  &__timeInput {
+    grid-column: 2 / 3;
+
+  }
+  // end of inner grid
 }

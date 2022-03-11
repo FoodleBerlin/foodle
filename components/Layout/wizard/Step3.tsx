@@ -64,35 +64,78 @@ export default function Step3() {
         {formState.errors.availability?.starting && (
           <span className={styles['error']}>{formState.errors.availability?.starting.message}</span>
         )}
-        <div>
-          <div className={styles['step3__weekDaySelector']}>
-            <input type="checkbox" id="weekday-mon" className={styles['step3__weekDaySelector--weekday']} />
+        <div className={styles['step3__availabilityGridWrapper']}>
+          <div className={styles["step3__weekDaysSelector"]}>
+          <div className={styles['step3__daysOfWeek']}>
+          <label className={styles['step3__label']}>Days of week</label>
+          <div>
+            <input type="checkbox" id="weekday-mon" className={'weekday'} />
             <label htmlFor="weekday-mon">M</label>
-            <input type="checkbox" id="weekday-tue" className={styles['step3__weekDaySelector--weekday']} />
+            <input type="checkbox" id="weekday-tue" className="weekday" />
             <label htmlFor="weekday-tue">T</label>
-            <input type="checkbox" id="weekday-wed" className={styles['step3__weekDaySelector--weekday']} />
+            <input type="checkbox" id="weekday-wed" className="weekday" />
             <label htmlFor="weekday-wed">W</label>
-            <input type="checkbox" id="weekday-thu" className={styles['step3__weekDaySelector--weekday']} />
+            <input type="checkbox" id="weekday-thu" className="weekday" />
             <label htmlFor="weekday-thu">T</label>
-            <input type="checkbox" id="weekday-fri" className={styles['step3__weekDaySelector--weekday']} />
+            <input type="checkbox" id="weekday-fri" className="weekday" />
             <label htmlFor="weekday-fri">F</label>
-            <input type="checkbox" id="weekday-sat" className={styles['step3__weekDaySelector--weekday']} />
+            <input type="checkbox" id="weekday-sat" className="weekday" />
             <label htmlFor="weekday-sat">S</label>
-            <input type="checkbox" id="weekday-sun" className={styles['step3__weekDaySelector--weekday']} />
+            <input type="checkbox" id="weekday-sun" className="weekday" />
             <label htmlFor="weekday-sun">S</label>
           </div>
-
-          <div>
+        </div>
+          <div className={styles['step3__timeInput']}>
             <span className={styles['step3__flexWrapper']}>
+              <input type="checkbox" checked id="time-mon" className="weekday" />
+              <label htmlFor="time-mon">M</label>
               <input className="standard-form" type="time" />
               <label className={styles['step3__label']}>to</label>
               <input className="standard-form" type="time" />
             </span>
             <span className={styles['step3__flexWrapper']}>
+            <input type="checkbox"  checked id="time-tue" className="weekday" />
+              <label htmlFor="time-tue">T</label>
               <input className="standard-form" type="time" />
               <label className={styles['step3__label']}>to</label>
               <input className="standard-form" type="time" />
             </span>
+            <span className={styles['step3__flexWrapper']}>
+            <input type="checkbox"  checked id="time-wed" className="weekday" />
+              <label htmlFor="time-wed">W</label>
+              <input className="standard-form" type="time" />
+              <label className={styles['step3__label']}>to</label>
+              <input className="standard-form" type="time" />
+            </span>
+            <span className={styles['step3__flexWrapper']}>
+            <input type="checkbox"  checked id="time-thu" className="weekday" />
+              <label htmlFor="time-thu">T</label>
+              <input className="standard-form" type="time" />
+              <label className={styles['step3__label']}>to</label>
+              <input className="standard-form" type="time" />
+            </span>
+            <span className={styles['step3__flexWrapper']}>
+            <input type="checkbox"  checked id="time-fri" className="weekday" />
+              <label htmlFor="time-fri">F</label>
+              <input className="standard-form" type="time" />
+              <label className={styles['step3__label']}>to</label>
+              <input className="standard-form" type="time" />
+            </span>
+            <span className={styles['step3__flexWrapper']}>
+            <input type="checkbox"  checked id="time-sat" className="weekday" />
+              <label htmlFor="time-sat">S</label>
+              <input className="standard-form" type="time" />
+              <label className={styles['step3__label']}>to</label>
+              <input className="standard-form" type="time" />
+            </span>
+            <span className={styles['step3__flexWrapper']}>
+            <input type="checkbox"  checked id="time-sun" className="weekday" />
+              <label htmlFor="time-sun">S</label>
+              <input className="standard-form" type="time" />
+              <label className={styles['step3__label']}>to</label>
+              <input className="standard-form" type="time" />
+            </span>
+          </div>
           </div>
         </div>
         <p>Days of week</p>
