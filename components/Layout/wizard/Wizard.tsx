@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Sidebar from '../Sidebar';
+import Footer from './Footer';
 
 export default function Wizard() {
   const wizardContext = useWizardContext();
@@ -30,7 +31,7 @@ export default function Wizard() {
         {wizardContext.step == 4 && <Step4></Step4>}
         {wizardContext.step == 5 && <Step5></Step5>}
       </div>
-      <div className={styles['footer']}>
+      {/*       <div className={styles['footer']}>
         <div className={styles['footer-container']}>
           <button
             onClick={() => wizardContext.previousStep(wizardContext.step)}
@@ -43,7 +44,8 @@ export default function Wizard() {
             {wizardContext.step === 5 ? 'submit' : 'next'}
           </button>
         </div>
-      </div>
+      </div> */}
+      <Footer step={wizardContext.step} />
     </div>
   );
 }

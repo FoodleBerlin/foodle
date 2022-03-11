@@ -1,3 +1,4 @@
+import Footer from './Footer';
 import { FormData, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 export default function Step1() {
@@ -11,7 +12,7 @@ export default function Step1() {
             {...register('property')}
             type="radio"
             id="full"
-            className={styles['radio']}
+            className="radio"
             name="kitchen"
             value="full"
             onChange={(c) =>
@@ -30,6 +31,7 @@ export default function Step1() {
             {...register('property')}
             type="radio"
             id="partial"
+            className="radio"
             name="kitchen"
             value="partial"
             onChange={(c) =>
