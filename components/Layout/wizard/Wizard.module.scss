@@ -115,3 +115,70 @@
     width: 100%;
   }
 }
+
+.step3 {
+  width: 100%;
+  padding: 0 5rem;
+  color: black;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+
+  height: 80vh;
+  width: 100%;
+  
+  &__textArea {
+    width: 100%;
+  }
+  &__shortInput {
+    width: 8rem;
+  }
+  &__label {
+    font-size: 2.8rem;
+  }
+
+  &__flexWrapper {
+    display: flex;
+    gap: 30px;
+  }
+
+// wrapper - for date
+
+&__weekDaySelector input {
+  display: none!important;
+}
+
+&__weekDaySelector--weekday input[type=checkbox] + label {
+  display: inline-block;
+  border-radius: 6px;
+  background: #dddddd;
+  height: 40px;
+  width: 30px;
+  margin-right: 3px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+&__weekDaySelector--selector input[type=checkbox]:checked + label {
+  background: #2AD705;
+  color: #ffffff;
+}
+
+
+
+
+  &__dateGridWrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 6px 30px;
+  }
+
+  &__
+
+  &__timeInput--monday-from {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+}
