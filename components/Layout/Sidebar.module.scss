@@ -1,11 +1,17 @@
 .sidebar {
-  width: 300px;
+  flex: 1 1 30%;
   height: 100vh;
-  position: fixed;
+  padding-left: 5rem;
   background-color: white;
   border-right: 1px solid grey;
   .menu {
     color: green;
     text-align: left;
+    a {
+      color: black;
+    }
+    button {
+      margin-top: 20rem;
+    }
   }
 }

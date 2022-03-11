@@ -1,9 +1,10 @@
 .account {
   margin-top: 65px;
   color: black;
+  display: flex;
   .container {
     width: 100%;
-    padding-left: 300px;
+    flex: 1 1 70%;
     .row {
       display: flex;
       border: 1px;
@@ -11,4 +12,24 @@
       justify-content: space-around;
     }
   }
+  main {
+    flex: 1 1 70%;
+    margin: 5vh 30vw 5vh 5vw;
+    h2 {
+      font-size: 2.5rem;
+    }
+    section {
+      margin: 3rem 0;
+    }
+    input[type='file'] {
+      display: none;
+    }
+    footer {
+      width: 100%;
+      max-width: 50rem;
+    }
+  }
+}
+.description-input {
+  height: 15vh;
 }

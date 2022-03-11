@@ -35,20 +35,7 @@
     @media screen and (max-width: 768px) {
       display: none;
     }
-    &--underline {
-      display: inline-block;
-      &:hover::after {
-        width: 100%;
-      }
-      &::after {
-        content: "";
-        width: 0px;
-        height: 0.6px;
-        display: block;
-        background: #b3b3b3;
-        transition: 300ms;
-      }
-    }
+
     &--link {
       color: black;
       cursor: pointer;

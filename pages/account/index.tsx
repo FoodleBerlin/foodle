@@ -51,7 +51,7 @@ const Account: NextPage<AccountProps> = (props: AccountProps) => {
   return (
     <div className={styles['account']}>
       <Navbar user={props.session}></Navbar>
-      <Sidebar user={props.session}></Sidebar>
+      <Sidebar></Sidebar>
       <div className={styles['container']}>
         <h2>Payment Methods</h2>
         {data?.findUser.User?.paymentMethods.map((method) => {

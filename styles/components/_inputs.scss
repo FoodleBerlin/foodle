@@ -1,11 +1,17 @@
-input[type="checkbox"]::before {
-}
-
-.standard-form {
-  font-size: 1.8rem;
+@mixin input($font-size, $padding) {
   outline: #b3b3b3;
   border: 1px solid rgb(170, 170, 170);
   border-radius: 1rem;
-  padding: 1rem 1rem;
+  padding: $padding;
+  font-size: $font-size;
+}
+
+.standard-form {
+  @include input(1.8rem, 1rem 1rem);
   margin-right: -2rem;
+}
+
+.profile-form {
+  @include input(2.2rem, 1rem 1rem);
+  width: 100%;
 }

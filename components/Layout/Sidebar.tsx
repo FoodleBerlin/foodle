@@ -6,18 +6,32 @@ import Tab from './Tab';
 import Modal from './Modal';
 import { AccountProps } from '~/pages/account';
 
-type SidebarProps = {
-  user: AccountProps['session'];
-};
-const Sidebar = (props: SidebarProps) => {
-  console.log(props.user);
+const Sidebar = () => {
   return (
     <div className={styles['sidebar']}>
       <div className={styles['menu']}>
-        <Tab href="/" title="Profile" />
-        <Tab href="/" title="My bookings" />
-        <Tab href="/" title="My payments" />
-        <button className={'primary-btn'}>Contact support</button>
+        <div className={'mt-three'}>
+          <Link href="/account/profile">
+            <a className="body-text">
+              <span className={'underline-link'}>Profile</span>
+            </a>
+          </Link>
+        </div>
+        <div className={'mt-three'}>
+          <Link href="/account/bookings">
+            <a className="body-text">
+              <span className={'underline-link'}>My Bookings</span>
+            </a>
+          </Link>
+        </div>
+        <div className={'mt-three'}>
+          <Link href="/account/payments">
+            <a className="body-text">
+              <span className={'underline-link'}>My Payments</span>
+            </a>
+          </Link>
+        </div>
+        <button className={'primary-btn mt-two body-text'}>Contact support</button>
       </div>
     </div>
   );
