@@ -64,27 +64,26 @@ export default function Step3() {
         {formState.errors.availability?.starting && (
           <span className={styles['error']}>{formState.errors.availability?.starting.message}</span>
         )}
-        <div className={styles['step3__availabilityGridWrapper']}>
-          <div className={styles["step3__weekDaysSelector"]}>
+        <div className={styles['step3__weekDaysSelector']}>
           <div className={styles['step3__daysOfWeek']}>
-          <label className={styles['step3__label']}>Days of week</label>
-          <div>
-            <input type="checkbox" id="weekday-mon" className={'weekday'} />
-            <label htmlFor="weekday-mon">M</label>
-            <input type="checkbox" id="weekday-tue" className="weekday" />
-            <label htmlFor="weekday-tue">T</label>
-            <input type="checkbox" id="weekday-wed" className="weekday" />
-            <label htmlFor="weekday-wed">W</label>
-            <input type="checkbox" id="weekday-thu" className="weekday" />
-            <label htmlFor="weekday-thu">T</label>
-            <input type="checkbox" id="weekday-fri" className="weekday" />
-            <label htmlFor="weekday-fri">F</label>
-            <input type="checkbox" id="weekday-sat" className="weekday" />
-            <label htmlFor="weekday-sat">S</label>
-            <input type="checkbox" id="weekday-sun" className="weekday" />
-            <label htmlFor="weekday-sun">S</label>
+            <label className={styles['step3__label']}>Days of week</label>
+            <div>
+              <input type="checkbox" id="weekday-mon" className={'weekday'} />
+              <label htmlFor="weekday-mon">M</label>
+              <input type="checkbox" id="weekday-tue" className="weekday" />
+              <label htmlFor="weekday-tue">T</label>
+              <input type="checkbox" id="weekday-wed" className="weekday" />
+              <label htmlFor="weekday-wed">W</label>
+              <input type="checkbox" id="weekday-thu" className="weekday" />
+              <label htmlFor="weekday-thu">T</label>
+              <input type="checkbox" id="weekday-fri" className="weekday" />
+              <label htmlFor="weekday-fri">F</label>
+              <input type="checkbox" id="weekday-sat" className="weekday" />
+              <label htmlFor="weekday-sat">S</label>
+              <input type="checkbox" id="weekday-sun" className="weekday" />
+              <label htmlFor="weekday-sun">S</label>
+            </div>
           </div>
-        </div>
           <div className={styles['step3__timeInput']}>
             <span className={styles['step3__flexWrapper']}>
               <input type="checkbox" checked id="time-mon" className="weekday" />
@@ -94,143 +93,154 @@ export default function Step3() {
               <input className="standard-form" type="time" />
             </span>
             <span className={styles['step3__flexWrapper']}>
-            <input type="checkbox"  checked id="time-tue" className="weekday" />
+              <input type="checkbox" checked id="time-tue" className="weekday" />
               <label htmlFor="time-tue">T</label>
               <input className="standard-form" type="time" />
               <label className={styles['step3__label']}>to</label>
               <input className="standard-form" type="time" />
             </span>
             <span className={styles['step3__flexWrapper']}>
-            <input type="checkbox"  checked id="time-wed" className="weekday" />
+              <input type="checkbox" checked id="time-wed" className="weekday" />
               <label htmlFor="time-wed">W</label>
               <input className="standard-form" type="time" />
               <label className={styles['step3__label']}>to</label>
               <input className="standard-form" type="time" />
             </span>
             <span className={styles['step3__flexWrapper']}>
-            <input type="checkbox"  checked id="time-thu" className="weekday" />
+              <input type="checkbox" checked id="time-thu" className="weekday" />
               <label htmlFor="time-thu">T</label>
               <input className="standard-form" type="time" />
               <label className={styles['step3__label']}>to</label>
               <input className="standard-form" type="time" />
             </span>
             <span className={styles['step3__flexWrapper']}>
-            <input type="checkbox"  checked id="time-fri" className="weekday" />
+              <input type="checkbox" checked id="time-fri" className="weekday" />
               <label htmlFor="time-fri">F</label>
               <input className="standard-form" type="time" />
               <label className={styles['step3__label']}>to</label>
               <input className="standard-form" type="time" />
             </span>
             <span className={styles['step3__flexWrapper']}>
-            <input type="checkbox"  checked id="time-sat" className="weekday" />
+              <input type="checkbox" checked id="time-sat" className="weekday" />
               <label htmlFor="time-sat">S</label>
               <input className="standard-form" type="time" />
               <label className={styles['step3__label']}>to</label>
               <input className="standard-form" type="time" />
             </span>
             <span className={styles['step3__flexWrapper']}>
-            <input type="checkbox"  checked id="time-sun" className="weekday" />
+              <input type="checkbox" checked id="time-sun" className="weekday" />
               <label htmlFor="time-sun">S</label>
               <input className="standard-form" type="time" />
               <label className={styles['step3__label']}>to</label>
               <input className="standard-form" type="time" />
             </span>
           </div>
+
+          <input
+            type="button"
+            {...register('availability.days')}
+            onChange={(c) => {
+              setValue('availability.days', c.target.value, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              });
+            }}
+          ></input>
+          {formState.errors.availability?.days && (
+            <span className={styles['error']}>{formState.errors.availability?.days.message}</span>
+          )}
+          <input
+            type="number"
+            {...register('availability.from')}
+            onChange={(c) => {
+              setValue('availability.from', parseInt(c.target.value), {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              });
+            }}
+          ></input>
+          {formState.errors.availability?.from && (
+            <span className={styles['error']}>{formState.errors.availability?.from.message}</span>
+          )}
+
+          <input
+            type="number"
+            {...register('availability.to')}
+            onChange={(c) => {
+              setValue('availability.to', parseInt(c.target.value), {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              });
+            }}
+          ></input>
+          {formState.errors.availability?.to && (
+            <span className={styles['error']}>{formState.errors.availability?.to.message}</span>
+          )}
+          <div className={styles['step3__weekRepeatSelect']} >
+            <select
+              
+              {...register('availability.repeat')}
+              onChange={(c) => {
+                setValue('availability.repeat', c.target.value as FormData['availability.repeat'], {
+                  shouldTouch: true,
+                  shouldDirty: true,
+                  shouldValidate: true,
+                });
+              }}
+            >
+              {' '}
+              <option value="Every week">Every week</option>
+              <option value="none">None</option>
+            </select>
+          </div>
+
+          {formState.errors.availability?.repeat && (
+            <span className={styles['error']}>{formState.errors.availability?.repeat.message}</span>
+          )}
+          <div className={styles['step3__untilDatePicker']}>
+            <label className={styles['step3__label']}>Until</label> <br />
+            <input
+              className="standard-form"
+              type="date"
+              {...register('availability.until')}
+              onChange={(c) => {
+                console.log(c.target.value);
+                setValue('availability.until', new Date(c.target.value), {
+                  shouldTouch: true,
+                  shouldDirty: true,
+                  shouldValidate: true,
+                });
+              }}
+            ></input>
+            {formState.errors.availability?.until && (
+              <span className={styles['error']}>{formState.errors.availability?.until.message}</span>
+            )}
+          </div>
+          <div className={styles['step3__minimumStay']}>
+            <label className={styles['step3__label']}>Minimum stay</label> <br />
+            <input
+              className="standard-form"
+              {...register('availability.stay')}
+              onChange={(c) => {
+                setValue('availability.stay', c.target.value, {
+                  shouldTouch: true,
+                  shouldDirty: true,
+                  shouldValidate: true,
+                });
+              }}
+            ></input>
+            {formState.errors.availability?.stay && (
+              <span className={styles['error']}>{formState.errors.availability?.stay.message}</span>
+            )}
           </div>
         </div>
-        <p>Days of week</p>
-        <input
-          type="button"
-          {...register('availability.days')}
-          onChange={(c) => {
-            setValue('availability.days', c.target.value, {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            });
-          }}
-        ></input>
-        {formState.errors.availability?.days && (
-          <span className={styles['error']}>{formState.errors.availability?.days.message}</span>
-        )}
-        <input
-          type="number"
-          {...register('availability.from')}
-          onChange={(c) => {
-            setValue('availability.from', parseInt(c.target.value), {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            });
-          }}
-        ></input>
-        {formState.errors.availability?.from && (
-          <span className={styles['error']}>{formState.errors.availability?.from.message}</span>
-        )}
-        <p>to</p>
-        <input
-          type="number"
-          {...register('availability.to')}
-          onChange={(c) => {
-            setValue('availability.to', parseInt(c.target.value), {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            });
-          }}
-        ></input>
-        {formState.errors.availability?.to && (
-          <span className={styles['error']}>{formState.errors.availability?.to.message}</span>
-        )}
-        <select
-          {...register('availability.repeat')}
-          onChange={(c) => {
-            setValue('availability.repeat', c.target.value as FormData['availability.repeat'], {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            });
-          }}
-        >
-          {' '}
-          <option value="Every week">Every week</option>
-          <option value="none">None</option>
-        </select>
-        {formState.errors.availability?.repeat && (
-          <span className={styles['error']}>{formState.errors.availability?.repeat.message}</span>
-        )}
-        <p>Until</p>
-        <input
-          type="date"
-          {...register('availability.until')}
-          onChange={(c) => {
-            console.log(c.target.value);
-            setValue('availability.until', new Date(c.target.value), {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            });
-          }}
-        ></input>
-        {formState.errors.availability?.until && (
-          <span className={styles['error']}>{formState.errors.availability?.until.message}</span>
-        )}
-        <p>Minimum stay</p>
-        <input
-          {...register('availability.stay')}
-          onChange={(c) => {
-            setValue('availability.stay', c.target.value, {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            });
-          }}
-        ></input>
-        {formState.errors.availability?.stay && (
-          <span className={styles['error']}>{formState.errors.availability?.stay.message}</span>
-        )}
         <h2 className="header-secondary">What are the rules?</h2>
+       
         <textarea
+          className={styles['step3__textArea']+ ' standard-form'}
           {...register('rules')}
           onChange={(c) => {
             setValue('rules', c.target.value, {
@@ -240,6 +250,7 @@ export default function Step3() {
             });
           }}
         ></textarea>
+        
         {formState.errors.rules && <span className={styles['error']}>{formState.errors.rules.message}</span>}
       </div>
       <button onClick={() => wizardContext.previousStep(3)}>previous</button>
