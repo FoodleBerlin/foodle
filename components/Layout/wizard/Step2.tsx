@@ -9,8 +9,10 @@ export default function Step2() {
     <div>
       <h1>Landlord component flow 2</h1>
       <div className={styles['step2']}>
-        <h2 className='header-secondary' >How would you describe the space?</h2>
-        <p className='body-text'>This is what users will see as the description under the overview tab on the listing page.</p>
+        <h2 className="header-secondary">How would you describe the space?</h2>
+        <p className="body-text">
+          This is what users will see as the description under the overview tab on the listing page.
+        </p>
         <div className={styles['step1__flexWrapper']}>
           <textarea
             className={styles['step2__textArea'] + ' standard-form'}
@@ -24,9 +26,24 @@ export default function Step2() {
             }
           ></textarea>
         </div>
-        {formState.errors.description && <span className={styles['error']}>{formState.errors.description.message}</span>}
-        <h2 className='header-secondary'>What features does your kitchen offer?</h2>
+        {formState.errors.description && (
+          <span className={styles['error']}>{formState.errors.description.message}</span>
+        )}
+
+        <h2 className="header-secondary">What features does your kitchen offer?</h2>
         <input
+          type="checkbox"
+          {...register('features')}
+          onChange={(c) =>
+            setValue('features', c.target.value as FormData['features'], {
+              shouldTouch: true,
+              shouldDirty: true,
+              shouldValidate: true,
+            })
+          }
+        ></input>
+        <input
+          type="checkbox"
           {...register('features')}
           onChange={(c) =>
             setValue('features', c.target.value as FormData['features'], {
@@ -37,9 +54,10 @@ export default function Step2() {
           }
         ></input>
         {formState.errors.features && <span className={styles['error']}>{formState.errors.features.message}</span>}
-        <h2 className='header-secondary'>What’s the minimum stay?</h2>
+
+        <h2 className="header-secondary">What’s the minimum stay?</h2>
         <input
-          placeholder='0'
+          placeholder="0"
           type="number"
           {...register('stay.hours')}
           onChange={(c) =>
@@ -51,11 +69,12 @@ export default function Step2() {
           }
         ></input>
         <p>Hours per week</p>
-        {formState.errors.stay?.hours && <span className={styles['error']}>{formState.errors.stay?.hours.message}</span>}
+        {formState.errors.stay?.hours && (
+          <span className={styles['error']}>{formState.errors.stay?.hours.message}</span>
+        )}
         <input
-          placeholder='0'
+          placeholder="0"
           type="number"
-
           {...register('stay.weeks')}
           onChange={(c) =>
             setValue('stay.weeks', parseInt(c.target.value), {
@@ -66,9 +85,11 @@ export default function Step2() {
           }
         ></input>
         <p>Recurring weeks</p>
-        {formState.errors.stay?.weeks && <span className={styles['error']}>{formState.errors.stay?.weeks.message}</span>}
-         </div>
-        <button onClick={() => wizardContext.previousStep(2)}>previous</button>
+        {formState.errors.stay?.weeks && (
+          <span className={styles['error']}>{formState.errors.stay?.weeks.message}</span>
+        )}
+      </div>
+      <button onClick={() => wizardContext.previousStep(2)}>previous</button>
       <button
         disabled={formState.errors.description || formState.errors.features || formState.errors.stay ? true : false}
         onClick={() => {

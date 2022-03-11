@@ -62,7 +62,7 @@ export default function Step3() {
         type="button"
         {...register('availability.days')}
         onChange={(c) => {
-          setValue('availability.days', c.target.value, {
+          setValue('availability.days', c.target.value as FormData['availability']['days'], {
             shouldTouch: true,
             shouldDirty: true,
             shouldValidate: true,
@@ -107,7 +107,7 @@ export default function Step3() {
       <select
         {...register('availability.repeat')}
         onChange={(c) => {
-          setValue('availability.repeat', c.target.value as FormData['availability.repeat'], {
+          setValue('availability.repeat', c.target.value as FormData['availability']['repeat'], {
             shouldTouch: true,
             shouldDirty: true,
             shouldValidate: true,

@@ -142,6 +142,7 @@ const WizardContext = React.createContext<WizardContext>({
       stay: '1 month',
     },
     rules: '',
+    /* STEP 4 */
     images: [],
   },
   formState: {} as FormState<FormData>,
