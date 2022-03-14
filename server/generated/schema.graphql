@@ -29,6 +29,16 @@ type createPropertyReturn {
   UnknownError: UnknownError
 }
 
+type CustomerCharge {
+  amount: Int
+  card: String
+  currency: String
+  date: Int
+  description: String
+  invoiceId: String
+  status: String
+}
+
 type Facility {
   id: String!
 }
@@ -64,6 +74,13 @@ type Mutation {
     thingsToKnow: String!
     zip: Int!
   ): createPropertyReturn!
+}
+
+type PaymentInformation {
+  cardNumber: String
+  expiryMonth: Int
+  expiryYear: Int
+  type: String
 }
 
 type Property {
@@ -110,9 +127,12 @@ type UnknownError {
 }
 
 type User {
+  charges: [CustomerCharge!]!
+  defaultPayment: PaymentInformation
   email: String!
   fullName: String!
   handle: String!
   id: String!
+  paymentMethods: [PaymentInformation!]!
   zip: Int!
 }
