@@ -2,29 +2,6 @@ import prisma from "../server/singletons/prisma";
 export async function seed() {
   const [users] = await Promise.all(
     await prisma.$transaction([
-      prisma.property.createMany({
-         data: [
-           {
-             size: 123,
-             ownerId: "still missing ",
-             owner: {
-              email: "user1@gmail.com",
-              handle: "user1",
-              fullName: "User 1",
-              role: "tenant",
-              zip: 13000,
-             },
-             street: "testhbdbjkfsdbjf",
-             streetNumber: 1233,
-             zip: 123445,
-             city: "berlin",
-             description: "testhbdbjkfsdbjf",
-             thingsToKnow: "testhbdbjkfsdbjf",
-             rules: "fffff",
-             cancellationType: "test",
-           }
-         ]
-      }),
       prisma.user.createMany({
         data: [
           {
@@ -64,6 +41,31 @@ export async function seed() {
           },
         ],
       }),
+      prisma.property.createMany({
+        data: [
+          {
+            size: 123,
+            ownerId: "still missing",
+            /** Owner part is the problem and does not let me seed the data base
+             * Which also does not let me execute the tests I have created and test them **/
+            owner: {
+             email: "user4@gmail.com",
+             handle: "user4",
+             fullName: "User 4",
+             role: "landlord",
+             zip: 15000,
+            },
+            street: "testhbdbjkfsdbjf",
+            streetNumber: 1233,
+            zip: 123445,
+            city: "berlin",
+            description: "testhbdbjkfsdbjf",
+            thingsToKnow: "testhbdbjkfsdbjf",
+            rules: "fffff",
+            cancellationType: "fullRefundBefore1Week",
+          }
+        ]
+     }),
     ]),
   );
 }

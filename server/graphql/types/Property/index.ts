@@ -267,7 +267,7 @@ export const CreateListing = extendType({
           const prop = ctx.prisma.property.create({ data: newProperty });
           return { Property: prop };
         } catch (error) {
-          let errorMessage = 'Unkknown error';
+          let errorMessage = 'Unknown error';
           if (error instanceof Error) {
             errorMessage = error.message;
           }
