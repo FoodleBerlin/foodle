@@ -1,32 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Create Property can create a listing`] = `
+exports[` Property can create a listing 1`] = `
 Object {
   "data": Object {
-    "findUser": Object {
+    "createListing": Object {
       "ClientErrorInvalidHandle": null,
-      "ClientErrorUserNotExists": null,
-      "ClientErrorInvalidPropertyInput": null,
-
       "Property": Object {
-         "zip": 123,
-         "size": 123,
-         "ownerId": "123",
-         "street": "Lohmühlenstraße",
-         "streetNumber": 23,
-         "city": "Berlin",
-         "description": "66",
-         "pickup": true,
-         "isVerified": true,
-         "dailyPrice": 3,
-         "serviceFee": 5,
-         "thingsToKnow": "thingsToKnow",
-         "rules": "Many rules...",
-         "cancellationType": "fullRefundBefore1Week",
+        "city": "asf",
       },
-    };
-   },
-},
+    },
+  },
   "errors": undefined,
   "extensions": undefined,
   "http": Object {
@@ -34,14 +17,45 @@ Object {
       Symbol(map): Object {},
     },
   },
-}`;
+}
+`;
 
-exports[`Create Property can create a listing 1`] = `
+exports[` Property can query a list of multiple properties 1`] = `
 Object {
-  "data": undefined,
-  "errors": Array [
-    [SyntaxError: Syntax Error: Expected Name, found $],
-  ],
+  "data": Object {
+    "findAllProperties": Object {
+      "Properties": Array [
+        Object {
+          "city": "berlin",
+        },
+        Object {
+          "city": "asf",
+        },
+      ],
+      "UnknownError": null,
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[` Property can query a single property by the id 1`] = `
+Object {
+  "data": Object {
+    "findProperty": Object {
+      "ClientErrorInvalidHandle": null,
+      "Property": Object {
+        "city": "berlin",
+      },
+    },
+  },
+  "errors": undefined,
   "extensions": undefined,
   "http": Object {
     "headers": Headers {

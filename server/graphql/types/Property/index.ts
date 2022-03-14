@@ -1,4 +1,4 @@
-import { CancellationType, Prisma } from '@prisma/client';
+import { CancellationType } from '@prisma/client';
 
 import { Context } from '../../../context';
 import { extendType, objectType, nonNull, intArg, stringArg, booleanArg, nullable } from 'nexus';
@@ -13,7 +13,6 @@ import { User } from '../User';
 import { Booking } from '../Booking';
 import { Facility } from '../Facility';
 import { PropertySlot } from '../PropertySlot';
-import { argsToArgsConfig } from 'graphql/type/definition';
 
 export const Property = objectType({
   name: 'Property',
@@ -80,7 +79,6 @@ export const Property = objectType({
   },
 });
 
-
 export const FindPropertyResult = objectType({
   name: 'findPropertyResult',
   definition(t) {
@@ -102,7 +100,7 @@ export const FindPropertyById = extendType({
       description: 'Takes a propertyId and returns the property',
       args: { id: stringArg() },
       resolve: async (_, args, ctx: Context) => {
-        console.log(!args.id)
+        console.log(!args.id);
         if (!args.id) {
           return {
             ClientErrorInvalidHandle: {
@@ -151,7 +149,7 @@ export const CreatePropertyReturn = objectType({
     t.nullable.field('ClientErrorInvalidPropertyInput', {
       type: ClientErrorInvalidPropertyInput,
     });
-    t.nullable.field("UnknownError", {
+    t.nullable.field('UnknownError', {
       type: UnknownError,
     });
   },
@@ -245,11 +243,6 @@ export const CreateListing = extendType({
             },
           };
         }
-        let thisUser = ctx.prisma.user.findUnique({
-          where: {
-            id: args.ownerId,
-          },
-        });
         const newProperty = {
           size: args.size,
           ownerId: args.ownerId,
@@ -284,13 +277,13 @@ export const CreateListing = extendType({
 
 export const findAllPropertiesReturn = objectType({
   name: 'findAllPropertiesReturn',
-  definition(t) {  
-    t.nullable.list.field('Properties', { 
-      type: Property, 
+  definition(t) {
+    t.nullable.list.field('Properties', {
+      type: Property,
     });
-    t.nullable.field("UnknownError", {
-      type: UnknownError
-    })
+    t.nullable.field('UnknownError', {
+      type: UnknownError,
+    });
   },
 });
 
@@ -302,7 +295,7 @@ export const findAllProperties = extendType({
       resolve: async (_, args, ctx: Context) => {
         try {
           let properties = await ctx.prisma.property.findMany();
-            return { Properties: properties };
+          return { Properties: properties };
         } catch (e) {
           return {
             UnknownError: {
@@ -310,7 +303,7 @@ export const findAllProperties = extendType({
             },
           };
         }
-      }
+      },
     });
   },
 });

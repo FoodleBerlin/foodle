@@ -31,10 +31,12 @@ export async function main() {
   app.use(router);
   apollo.applyMiddleware({ app });
   app.listen({
-    port: process.env["PORT"],
+    port: 5000,
   });
 }
-main();
+if (!process.env.TEST) {
+  main();
+}
 
 router.get('/api/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
