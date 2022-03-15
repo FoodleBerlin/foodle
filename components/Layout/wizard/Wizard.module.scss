@@ -18,16 +18,12 @@
 
 .step1 {
   width: 100%;
-  padding: 0 5rem;
-  color: black;
-  background-color: white;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+  padding: 0 10rem;
   &__buttonWrapper {
     display: inline-flex;
     flex-wrap: wrap;
     gap: 1rem;
+    margin-top: 3rem;
   }
 
   &_textareaWrapper {
@@ -35,23 +31,31 @@
   }
 
   &__label {
-    font-size: 2.8rem;
+    margin-top: 1rem;
   }
 
   &__flexWrapper {
     display: flex;
     gap: 30px;
+    margin-top: 3rem;
   }
 
-  &__shortInput {
-    width: 8rem;
+  &__addressHeader {
+    margin-bottom: 3rem;
   }
 
-  @media (min-width: 450px) {
+  &__addressGridWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  @media (min-width: 800px) {
     &__addressGridWrapper {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      grid-gap: 6px 30px;
+      grid-gap: 1rem 3.5rem;
     }
 
     &__input--street {
@@ -107,8 +111,8 @@
 }
 
 .propertyLabel {
-  height: 104px;
-  width: 225px;
+  height: 90px;
+  width: 200px;
   border: 1px solid #00695c;
   position: relative;
   margin: auto;
@@ -121,22 +125,27 @@
 
 .step2 {
   width: 100%;
-  padding: 0 5rem;
-  color: black;
-  background-color: white;
-  justify-content: center;
-  align-items: center;
-
-  height: 80vh;
-  width: 100%;
-  &__textArea {
-    width: 100%;
+  padding: 0 10rem;
+  &__formWrapper {
+    margin-bottom: 50px;
+  }
+  &__flexWrapper {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+  &__label {
+    margin-top: 1rem;
+  }
+  &__marginHeadline {
+    margin-top: 5rem;
+    margin-bottom: 2rem;
   }
 }
 
 .step3 {
   width: 100%;
-  padding: 0 5rem;
+  padding: 0 10rem;
   color: black;
   background-color: white;
   justify-content: center;
@@ -193,7 +202,7 @@
   &__daysOfWeek {
     align-self: center;
     grid-column: 1 / 2;
-    grid-row: 1/2
+    grid-row: 1/2;
   }
   &__timeInput {
     grid-column: 2 / 3;
@@ -201,7 +210,6 @@
   }
 
   &__weekRepeatSelect {
-
     grid-column: 1 / 2;
     grid-row: 2 / 3;
   }
@@ -215,7 +223,6 @@
     grid-column: 2/3;
     grid-row: 3/4;
   }
-
 }
 
 .footer {
@@ -248,8 +255,8 @@
     align-items: center;
     margin-top: 20px;
     .dots {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       border-radius: 100%;
       background-color: colors.$color-primary-light;
     }
@@ -259,8 +266,8 @@
     }
   }
   .dots {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 100%;
     background-color: colors.$color-grey;
   }
@@ -270,6 +277,6 @@
   }
 }
 .sidebar-container {
-  margin: 0 auto;
+  margin: 110px auto;
   width: 50%;
 }
