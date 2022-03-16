@@ -1,7 +1,8 @@
 import { CancellationType } from '@prisma/client';
+import { ModelKind } from '@prisma/client';
 
 import { Context } from '../../../context';
-import { extendType, objectType, nonNull, intArg, stringArg, booleanArg, nullable } from 'nexus';
+import { extendType, objectType, nonNull, intArg, stringArg, booleanArg, nullable, list, enumType } from 'nexus';
 import {
   ClientErrorUserNotExists,
   ClientErrorInvalidHandle,
@@ -163,22 +164,21 @@ export const CreateListing = extendType({
       args: {
         size: nonNull(intArg()),
         ownerId: nonNull(stringArg()),
-        //kind: nullable(stringArg()),
+        kind: nullable(stringArg()),
         street: nonNull(stringArg()),
         streetNumber: nonNull(intArg()),
         zip: nonNull(intArg()),
         city: nonNull(stringArg()),
         description: nonNull(stringArg()),
-        pickup: nonNull(booleanArg()),
-        //isVerified: nullable(booleanArg()),
-        //dailyPrice: nullable(intArg()),
-        //serviceFee: nullable(intArg()),
+        pickup: nullable(booleanArg()),
+        isVerified: nullable(booleanArg()),
+        dailyPrice: nullable(intArg()),
+        serviceFee: nullable(intArg()),
         thingsToKnow: nonNull(stringArg()),
-        rules: nonNull(stringArg()),
+        rules: nonNull(list(nonNull(stringArg()))),
         cancellationType: nonNull(stringArg()),
       },
 
-      //check user exists, street length not empty, not longer than 200, zip code lengt, city, enumsn nullable in db? rules
       resolve(_root, args, ctx) {
         function findUser() {
           return ctx.prisma.user.findUnique({
@@ -243,6 +243,92 @@ export const CreateListing = extendType({
             },
           };
         }
+        let dbCancellationType: CancellationType = CancellationType.fullRefundBefore1Week;
+        // parse to prisma enum => is there a better way to do it?
+        switch (args.cancellationType) {
+          case 'fullRefundBefore1WeekPartialRefundAfter': {
+            dbCancellationType = CancellationType.fullRefundBefore1WeekPartialRefundAfter;
+            break;
+          }
+          case 'fullRefundBefore2Weeks': {
+            dbCancellationType = CancellationType.fullRefundBefore2Weeks;
+            break;
+          }
+          case 'fullRefundBefore2WeeksPartialRefundAfter': {
+            dbCancellationType = CancellationType.fullRefundBefore2WeeksPartialRefundAfter;
+            break;
+          }
+          case 'fullRefundBefore1Week': {
+            break;
+          }
+          case null: {
+            break;
+          }
+          default: {
+            return {
+              ClientErrorInvalidPropertyInput: {
+                message: `cancellationType ${args.cancellationType} is not valid`,
+              },
+            };
+          }
+        }
+        let dbModelKind: ModelKind = ModelKind.property;
+        // parse to prisma enum => is there a better way to do it?
+        switch (args.kind) {
+          case 'user': {
+            dbModelKind = ModelKind.user;
+            break;
+          }
+          case 'booking': {
+            dbModelKind = ModelKind.booking;
+            break;
+          }
+          case 'bookingDay': {
+            dbModelKind = ModelKind.bookingDay;
+            break;
+          }
+          case 'propertyAvailability': {
+            dbModelKind = ModelKind.propertyAvailability;
+            break;
+          }
+          case 'facility': {
+            dbModelKind = ModelKind.facility;
+            break;
+          }
+          case 'payment': {
+            dbModelKind = ModelKind.payment;
+            break;
+          }
+          case 'paymentMethod': {
+            dbModelKind = ModelKind.paymentMethod;
+            break;
+          }
+          case 'genericDaySlot': {
+            dbModelKind = ModelKind.genericDaySlot;
+            break;
+          }
+          case 'bookingSlot': {
+            dbModelKind = ModelKind.bookingSlot;
+            break;
+          }
+          case 'propertySlot': {
+            dbModelKind = ModelKind.propertySlot;
+            break;
+          }
+          case 'property': {
+            break
+          }
+          case null: {
+            break;
+          }
+          default: {
+            return {
+              ClientErrorInvalidPropertyInput: {
+                message: `kind ${args.kind} is not a valid ModelKind`,
+              },
+            };
+          }
+        }
         const newProperty = {
           size: args.size,
           ownerId: args.ownerId,
@@ -252,9 +338,14 @@ export const CreateListing = extendType({
           city: args.city,
           description: args.description,
           thingsToKnow: args.thingsToKnow,
-          rules: [args.rules],
-          cancellationType: CancellationType.fullRefundBefore1Week,
-          //pickup: true,
+          rules: args.rules,
+          cancellationType: dbCancellationType,
+          // is there an other solution so that defaults from the db schema are not overwritten?
+          isVerified: args.isVerified ?? false,
+          kind: dbModelKind,
+          dailyPrice: args.dailyPrice ?? 0,
+          serviceFee: args.serviceFee ?? 0,
+          pickup: args.pickup ?? false,
         };
         try {
           const prop = ctx.prisma.property.create({ data: newProperty });
@@ -297,9 +388,13 @@ export const findAllProperties = extendType({
           let properties = await ctx.prisma.property.findMany();
           return { Properties: properties };
         } catch (e) {
+          let errorMessage = 'Unknown error when fetching properties from the database';
+          if (e instanceof Error) {
+            errorMessage = e.message;
+          }
           return {
             UnknownError: {
-              message: 'Erorr fetching properties from database',
+              message: errorMessage,
             },
           };
         }

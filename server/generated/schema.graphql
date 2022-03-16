@@ -64,10 +64,14 @@ type Mutation {
   createListing(
     cancellationType: String!
     city: String!
+    dailyPrice: Int
     description: String!
+    isVerified: Boolean
+    kind: String
     ownerId: String!
-    pickup: Boolean!
-    rules: String!
+    pickup: Boolean
+    rules: [String!]!
+    serviceFee: Int
     size: Int!
     street: String!
     streetNumber: Int!
