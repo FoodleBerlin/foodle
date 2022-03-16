@@ -24,11 +24,11 @@
     "next:lint": "next lint"
   },
   "dependencies": {
-    "@hookform/resolvers": "^2.8.8",
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "^2.4.5",
     "@graphql-codegen/typescript-operations": "^2.3.2",
     "@graphql-codegen/typescript-react-query": "^3.5.5",
+    "@hookform/resolvers": "^2.8.8",
     "@prisma/client": "^3.9.1",
     "apollo-server": "^3.6.2",
     "aws-amplify": "^4.3.14",
@@ -42,14 +42,14 @@
     "passport-google-oauth20": "^2.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-hook-form": "^7.27.1",
     "react-dropzone": "^12.0.4",
+    "react-hook-form": "^7.27.1",
     "react-input-children": "^5.0.0",
-    "sass": "^1.49.7",
-    "zod": "^3.12.0",
     "react-query": "^3.34.16",
+    "sass": "^1.49.7",
     "stripe": "^8.207.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "zod": "^3.12.0"
   },
   "devDependencies": {
     "@dotenv/cli": "^2.0.0",

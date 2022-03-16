@@ -32,6 +32,7 @@ export const User = objectType({
     t.string('email');
     t.string('handle');
     t.int('zip');
+    t.string('dob');
     t.list.field('charges', {
       type: 'CustomerCharge',
       resolve: async (_, args, ctx: Context) => {
@@ -91,7 +92,7 @@ export const User = objectType({
   },
 });
 
-export const Mutation = extendType({
+/* export const Mutation = extendType({
   type: 'Mutation',
   definition(t) {
     t.field('createUser', {
@@ -141,8 +142,8 @@ export const Query = extendType({
   type: 'Query',
   definition(t) {
     t.field('findUser', {
-      type: 'findUserResult',
-      description: 'Takes a handle and returns the user. ',
+      type: findUserResult,
+      description: 'Takes a handle and returns the user',
       args: { handle: stringArg() },
       resolve: async (_, args, ctx: Context) => {
         if (!args.handle) {
@@ -180,3 +181,5 @@ export const Query = extendType({
     });
   },
 });
+
+

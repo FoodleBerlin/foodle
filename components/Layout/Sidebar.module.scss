@@ -1,14 +1,15 @@
 .sidebar {
-  flex: 1 1 30%;
-  height: 100vh;
-  padding-left: 5rem;
+  flex: 1 1 25%;
+  padding: 3vh 0 0 3vw;
   background-color: white;
-  border-right: 1px solid grey;
   .menu {
+    top: 10rem;
     color: green;
     text-align: left;
     a {
       color: black;
+      position: sticky;
+      top: 0rem;
     }
     button {
       margin-top: 20rem;

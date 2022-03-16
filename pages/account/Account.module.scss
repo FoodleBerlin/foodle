@@ -13,13 +13,19 @@
     }
   }
   main {
-    flex: 1 1 70%;
-    margin: 5vh 30vw 5vh 5vw;
+    border-left: 0.3rem solid rgb(214, 214, 214);
+    flex: 1 1 75%;
+    margin: 0 30vw 0vh 5vw;
+    padding: 5vh 0 0 5vw;
     h2 {
       font-size: 2.5rem;
     }
+    p {
+      margin-bottom: 6rem;
+    }
+
     section {
-      margin: 3rem 0;
+      margin: 4rem 0;
     }
     input[type='file'] {
       display: none;

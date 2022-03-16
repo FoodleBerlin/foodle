@@ -5,7 +5,6 @@ import { useFindUserQuery } from '../../codegen';
 import Sidebar from '../../components/Layout/Sidebar';
 import styles from './Account.module.scss';
 import { extractUserFromToken } from '../../server/context';
-import ProfileUpload from '../../components/Profile/ProfileUpload';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   if (!req.cookies['jwt']) {
@@ -74,29 +73,29 @@ const Profile: NextPage<AccountProps> = (props: AccountProps) => {
       <Navbar user={props.session} />
       <Sidebar />
       <main>
-        <h3 className="header-secondary">My Profile</h3>
-        <p className="body-text grey">
+        <h3 className="header-tertiary bold">My Profile</h3>
+        <p className="body-text grey-text">
           This is your personal information, autofilled during booking requests for you to customize.
         </p>
-        <form action="">
+        <form className="mt-three" action="">
           <section>
-            <label className="body-text">First and Last Name</label>
+            <label className="body-text bold-medium">First and Last Name</label>
             <br />
             <input maxLength={50} className="profile-form" type="text" placeholder="Jane Doe" />
           </section>
 
           <section>
-            <label className="body-text">Date of Birth</label>
+            <label className="body-text bold-medium">Date of Birth</label>
             <br />
             <input maxLength={50} className="profile-form" type="text" placeholder="24.12.2000" />
           </section>
           <section>
-            <label className="body-text">Zip Code</label>
+            <label className="body-text bold-medium">Zip Code</label>
             <br />
             <input maxLength={50} className="profile-form" type="text" placeholder="13407" />
           </section>
           <section>
-            <label className="body-text">Please tell us about yourself</label>
+            <label className="body-text  bold-medium">Please tell us about yourself</label>
             <br />
             <textarea
               className={styles['description-input'] + ' profile-form'}
@@ -108,11 +107,11 @@ const Profile: NextPage<AccountProps> = (props: AccountProps) => {
           </section>
           <footer className="flex-space-between">
             <div>
-              <h2 className="mt-two">Passport</h2>
-              <h2 className="mt-two">License</h2>
-              <h2 className="mt-two">Solvency</h2>
+              <h2 className="mt-two body-text">Passport</h2>
+              <h2 className="mt-two body-text">License</h2>
+              <h2 className="mt-two body-text">Solvency</h2>
             </div>
-            <div>
+            <div className="mb-three">
               {buttons(checkPassportExists())}
               {buttons(checkLicenseExists())}
               {buttons(checkSolvencyExists())}

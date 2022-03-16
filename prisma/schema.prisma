@@ -1,6 +1,5 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -74,12 +73,13 @@ enum BookingStatus {
 
 model User {
   kind             ModelKind  @default(user)
-  handle            String    @unique
+  handle           String     @unique
   fullName         String
-  stripeId         String? @unique
+  stripeId         String?    @unique
   email            String     @unique
   id               String     @id @default(cuid())
   image            String?
+  dob              DateTime
   zip              Int
   description      String?
   isVerified       Boolean    @default(false)
@@ -98,49 +98,52 @@ model User {
 }
 
 model PropertySlot {
-  kind          ModelKind    @default(propertySlot)
-  id            String       @id @default(cuid())
+  kind          ModelKind        @default(propertySlot)
+  id            String           @id @default(cuid())
   startDate     DateTime
   endDate       DateTime
   minimumMonth  Int
   repeats       String
   availableDays GenericDaySlot[] @relation("propertyToGenericSlot")
   frequency     Frequency
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  propertyId    String
-  property      Property     @relation("propertySlotToProperty", fields: [propertyId], references: [id])
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  propertyId    String           @unique
+  property      Property         @relation("propertySlotToProperty", fields: [propertyId], references: [id])
 }
 
 model GenericDaySlot {
-  kind          ModelKind    @default(genericDaySlot)
-  id            String       @id @default(cuid())
-  startTime     DateTime
-  endTime       DateTime
-  weekday       String
-  propertySlotId  String
-  propertSlot PropertySlot? @relation("propertyToGenericSlot", fields: [propertySlotId], references: [id])
+  kind           ModelKind     @default(genericDaySlot)
+  id             String        @id @default(cuid())
+  startTime      DateTime
+  endTime        DateTime
+  weekday        String
+  propertySlotId String
+  propertSlot    PropertySlot? @relation("propertyToGenericSlot", fields: [propertySlotId], references: [id])
   bookingSlotId  String
-  bookingSlot    BookingSlot? @relation("bookingToGenericSlot", fields: [bookingSlotId], references: [id])
+  bookingSlot    BookingSlot?  @relation("bookingToGenericSlot", fields: [bookingSlotId], references: [id])
 }
 
+
+
+//title: string, unique handle => lowercase title unique
 model Property {
   kind             ModelKind        @default(property)
   id               String           @id @default(cuid())
   size             Int // will be sq.ft
-  ownerId          String           
+  ownerId          String
   owner            User             @relation(name: "owner", fields: [ownerId], references: [id])
   bookings         Booking[]        @relation("property")
   street           String
-  streetNumber     Int
+  streetNumber     Int              
   zip              Int
   city             String
   description      String
   pickup           Boolean          @default(false)
   facilities       Facility[]
   isVerified       Boolean          @default(false)
-  dailyPrice       Int           @default(0)
-  serviceFee       Int           @default(0)
+  dailyPrice       Int              @default(0)
+  serviceFee       Int              @default(0)
   cancellationType CancellationType
   thingsToKnow     String
   rules            String[]
@@ -150,43 +153,44 @@ model Property {
 }
 
 model BookingSlot {
-  kind          ModelKind    @default(bookingSlot)
-  id            String       @id @default(cuid())
-  startDate     DateTime
-  endDate       DateTime
-  repeats       String
-  bookedDays    GenericDaySlot[] @relation("bookingToGenericSlot")
-  frequency     Frequency
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  bookingId    String
-  booking      Booking     @relation("bookingSlotToBooking", fields: [bookingId], references: [id])
+  kind       ModelKind        @default(bookingSlot)
+  id         String           @id @default(cuid())
+  startDate  DateTime
+  endDate    DateTime
+  repeats    String
+  bookedDays GenericDaySlot[] @relation("bookingToGenericSlot")
+  frequency  Frequency
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  bookingId  String
+  booking    Booking          @relation("bookingSlotToBooking", fields: [bookingId], references: [id])
 }
-
 
 model Booking {
   kind          ModelKind     @default(booking)
   id            String        @id @default(cuid())
-  tenantId      String        
+  tenantId      String
   tenant        User          @relation(name: "tenant", fields: [tenantId], references: [id])
-  propertyId    String        
+  propertyId    String
   property      Property      @relation(name: "property", fields: [propertyId], references: [id])
   bookingStatus BookingStatus
-  totalPrice    Int        @default(0)
+  totalPrice    Int           @default(0)
   startDate     DateTime
   endDate       DateTime
-  bookingSlot   BookingSlot[]  @relation("bookingSlotToBooking")
+  bookingSlot   BookingSlot[] @relation("bookingSlotToBooking")
   frequency     Frequency
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
 
+<<<<<<< Updated upstream
 
-
+=======
+>>>>>>> Stashed changes
 model Facility {
   kind        ModelKind @default(facility)
   id          String    @id @default(cuid())
-  propertyId  String    
+  propertyId  String
   property    Property  @relation(fields: [propertyId], references: [id])
   name        String
   description String?

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Sidebar.module.scss';
 import Tab from './Tab';
 import Modal from './Modal';
@@ -13,20 +13,20 @@ const Sidebar = () => {
         <div className={'mt-three'}>
           <Link href="/account/profile">
             <a className="body-text">
-              <span className={'underline-link'}>Profile</span>
+              <span className={'underline-link  green-text'}>Profile</span>
             </a>
           </Link>
         </div>
         <div className={'mt-three'}>
           <Link href="/account/bookings">
-            <a className="body-text">
+            <a className="body-text bold-medium">
               <span className={'underline-link'}>My Bookings</span>
             </a>
           </Link>
         </div>
         <div className={'mt-three'}>
           <Link href="/account/payments">
-            <a className="body-text">
+            <a className="body-text bold-medium">
               <span className={'underline-link'}>My Payments</span>
             </a>
           </Link>
