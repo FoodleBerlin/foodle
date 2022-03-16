@@ -141,7 +141,7 @@ export const formData = z.object({
     .min(10, { message: 'Must be 10 or more characters long' })
     .max(7000, { message: 'You reached the maximum amount of characters' })
     .nonempty({ message: 'Rules can not be empty' }),
-  images: z.array(z.string({ required_error: 'Images are required' }).max(5)),
+  images: z.array(z.string({ required_error: 'Images are required' })).min(1).max(5),
 });
 
 export type FormData = z.infer<typeof formData>;
@@ -235,7 +235,7 @@ export const WizardProvider = ({ children }: any) => {
     },
     rules: '',
     /* STEP 4 */
-    images: [''],
+    images: [],
   } as FormData;
   const { register, setValue, formState, getValues } = useForm<FormData>({
     resolver: zodResolver(formData),
