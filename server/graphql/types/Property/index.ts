@@ -1,6 +1,6 @@
 import { CancellationType } from '@prisma/client';
 
-import { Context } from '../../../context';
+
 import { extendType, objectType, nonNull, intArg, stringArg, booleanArg, nullable } from 'nexus';
 import {
   ClientErrorUserNotExists,
@@ -63,7 +63,7 @@ export const Property = objectType({
     p.list.string('rules');
     p.nullable.field('availabilities', {
       type: PropertySlot,
-      async resolve(parent, args, ctx: Context) {
+      async resolve(parent, args, ctx) {
         const slot = await ctx.prisma.propertySlot.findUnique({
           where: {
             propertyId: parent.id,
@@ -99,7 +99,7 @@ export const FindPropertyById = extendType({
       type: FindPropertyResult,
       description: 'Takes a propertyId and returns the property',
       args: { id: stringArg() },
-      resolve: async (_, args, ctx: Context) => {
+      resolve: async (_, args, ctx) => {
         console.log(!args.id);
         if (!args.id) {
           return {
@@ -252,7 +252,7 @@ export const CreateListing = extendType({
           city: args.city,
           description: args.description,
           thingsToKnow: args.thingsToKnow,
-          rules: [args.rules],
+          rules:["asdf"],
           cancellationType: CancellationType.fullRefundBefore1Week,
           //pickup: true,
         };
@@ -292,7 +292,7 @@ export const findAllProperties = extendType({
   definition(t) {
     t.field('findAllProperties', {
       type: findAllPropertiesReturn,
-      resolve: async (_, args, ctx: Context) => {
+      resolve: async (_, args, ctx) => {
         try {
           let properties = await ctx.prisma.property.findMany();
           return { Properties: properties };
