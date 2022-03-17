@@ -9,22 +9,3 @@ input[type='checkbox']::before {
   padding: 1rem 1rem;
   margin-right: -2rem;
 }
-
-.select {
-  background-color: white;
-  font-size: 1.8rem;
-  outline: $color-grey;
-  border: 1px solid $color-grey;
-  border-radius: 1rem;
-  padding: 1rem 1rem;
-  margin-right: -2rem;
-}
-
-.input-time {
-  background-color: white;
-  font-size: 1.8rem;
-  outline: $color-grey;
-  border: 1px solid $color-grey;
-  border-radius: 1rem;
-  padding: 1rem 0rem;  
-}
