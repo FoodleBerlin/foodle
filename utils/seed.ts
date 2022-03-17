@@ -48,5 +48,23 @@ export async function seed() {
       }),
     ])
   );
+<<<<<<< Updated upstream
+=======
+  await prisma.property.createMany({
+    data: [
+      {
+        id: '1',
+        size: 123,
+        ownerId: '1',
+        street: 'testhbdbjkfsdbjf',
+        streetNumber: 1233,
+        zip: 123445,
+        city: 'berlin',
+        description: 'testhbdbjkfsdbjf',
+        rules: 'fffff',
+      },
+    ],
+  });
+>>>>>>> Stashed changes
 }
 export default seed;

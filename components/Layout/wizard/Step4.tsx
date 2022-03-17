@@ -1,5 +1,5 @@
-import { useWizardContext } from './Wizard';
-import { useState } from 'react';
+import { FormData, useWizardContext } from './Wizard';
+import { useEffect, useState } from 'react';
 import Uploader from '../../Create/Uploader';
 import Preview from '../../Create/Preview';
 import styles from '../../Create/Create.module.scss';
@@ -16,12 +16,28 @@ export default function Step4() {
   const wizardContext = useWizardContext();
   const [idCount, setIdCount] = useState(1);
   const [images, setImages] = useState<UploaderImage[]>([]);
+  const [s3Ids, setS3Ids] = useState<string[]>([]);
+
+  useEffect(() => {
+    wizardContext.setValue('images', s3Ids as FormData['images'], {
+      shouldTouch: true,
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  }, [s3Ids]);
+
   const addToImages = (url: UploaderImage) => {
     setImages([...images, url]);
   };
   const deleteImage = (id: number) => {
     let idAmount = 1;
     if (images.length > 0) {
+      // Image to Delete
+      const image = images.find((image: UploaderImage) => image.id === id);
+      // Delete its s3ID
+      const filterS3Ids = s3Ids.filter((s3Id: string) => s3Id != image?.s3Id);
+      setS3Ids(filterS3Ids);
+      // Delete its Drag and Drop ID
       const filterImages = images.filter((image: UploaderImage) => image.id != id);
       //Reset Ids
       filterImages.forEach((image) => {
@@ -51,6 +67,7 @@ export default function Step4() {
           imageAmount={images.length}
           setIdCount={(id) => setIdCount(id)}
           images={images}
+          setS3Ids={(idArray: string[]) => setS3Ids(idArray)}
         />
         {images.length > 0 ? (
           <Preview

@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions, useMutation, UseMutationOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -35,8 +35,16 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  findAllProperties: FindAllPropertiesReturn;
+  /** Takes a propertyId and returns the property */
+  findProperty: FindPropertyResult;
   /** Takes a handle and returns the user */
   findUser: FindUserResult;
+};
+
+
+export type QueryFindPropertyArgs = {
+  id?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -44,27 +52,46 @@ export type QueryFindUserArgs = {
   handle?: InputMaybe<Scalars['String']>;
 };
 
-export type FindUserResult = {
-  __typename?: 'findUserResult';
-  ClientErrorInvalidHandle?: Maybe<ClientErrorInvalidHandle>;
-  ClientErrorUserNotExists?: Maybe<ClientErrorUserNotExists>;
-  User?: Maybe<User>;
+export type FindAllPropertiesReturn = {
+  __typename?: 'findAllPropertiesReturn';
+  Properties?: Maybe<Array<Property>>;
+  UnknownError?: Maybe<UnknownError>;
 };
 
-export type ClientErrorInvalidHandle = {
-  __typename?: 'ClientErrorInvalidHandle';
-  message: Scalars['String'];
+export type Property = {
+  __typename?: 'Property';
+  availabilities?: Maybe<PropertySlot>;
+  bookings: Array<Booking>;
+  city: Scalars['String'];
+  dailyPrice?: Maybe<Scalars['Int']>;
+  description: Scalars['String'];
+  facilities: Array<Scalars['String']>;
+  isVerified: Scalars['Boolean'];
+  kind: Scalars['String'];
+  owner?: Maybe<User>;
+  pickup: Scalars['Boolean'];
+  rules: Array<Scalars['String']>;
+  serviceFee: Scalars['Int'];
+  size: Scalars['Int'];
+  street: Scalars['String'];
+  streetNumber: Scalars['Int'];
+  zip: Scalars['Int'];
 };
 
-export type ClientErrorUserNotExists = {
-  __typename?: 'ClientErrorUserNotExists';
-  message: Scalars['String'];
+export type PropertySlot = {
+  __typename?: 'PropertySlot';
+  id: Scalars['String'];
+};
+
+export type Booking = {
+  __typename?: 'Booking';
+  id: Scalars['String'];
 };
 
 export type User = {
   __typename?: 'User';
   charges: Array<CustomerCharge>;
-  defaultPayment: PaymentInformation;
+  defaultPayment?: Maybe<PaymentInformation>;
   email: Scalars['String'];
   fullName: Scalars['String'];
   handle: Scalars['String'];
@@ -92,9 +119,73 @@ export type PaymentInformation = {
   type?: Maybe<Scalars['String']>;
 };
 
+export type UnknownError = {
+  __typename?: 'UnknownError';
+  message: Scalars['String'];
+};
+
+export type FindPropertyResult = {
+  __typename?: 'findPropertyResult';
+  ClientErrorInvalidHandle?: Maybe<ClientErrorInvalidHandle>;
+  ClientErrorPropertyNotExists?: Maybe<ClientErrorPropertyNotExists>;
+  Property?: Maybe<Property>;
+};
+
+export type ClientErrorInvalidHandle = {
+  __typename?: 'ClientErrorInvalidHandle';
+  message: Scalars['String'];
+};
+
+export type ClientErrorPropertyNotExists = {
+  __typename?: 'ClientErrorPropertyNotExists';
+  message: Scalars['String'];
+};
+
+export type FindUserResult = {
+  __typename?: 'findUserResult';
+  ClientErrorInvalidHandle?: Maybe<ClientErrorInvalidHandle>;
+  ClientErrorUserNotExists?: Maybe<ClientErrorUserNotExists>;
+  User?: Maybe<User>;
+};
+
+export type ClientErrorUserNotExists = {
+  __typename?: 'ClientErrorUserNotExists';
+  message: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser: Scalars['Boolean'];
+  createListing: CreatePropertyReturn;
+};
+
+
+export type MutationCreateListingArgs = {
+  city: Scalars['String'];
+  dailyPrice: Scalars['Int'];
+  description: Scalars['String'];
+  facilities: Array<Scalars['String']>;
+  ownerId: Scalars['String'];
+  pickup?: InputMaybe<Scalars['Boolean']>;
+  rules: Array<Scalars['String']>;
+  serviceFee: Scalars['Int'];
+  size: Scalars['Int'];
+  street: Scalars['String'];
+  streetNumber: Scalars['Int'];
+  zip: Scalars['Int'];
+};
+
+export type CreatePropertyReturn = {
+  __typename?: 'createPropertyReturn';
+  ClientErrorInvalidHandle?: Maybe<ClientErrorInvalidHandle>;
+  ClientErrorInvalidPropertyInput?: Maybe<ClientErrorInvalidPropertyInput>;
+  ClientErrorUserNotExists?: Maybe<ClientErrorUserNotExists>;
+  Property?: Maybe<Property>;
+  UnknownError?: Maybe<UnknownError>;
+};
+
+export type ClientErrorInvalidPropertyInput = {
+  __typename?: 'ClientErrorInvalidPropertyInput';
+  message: Scalars['String'];
 };
 
 export type FindUserQueryVariables = Exact<{
@@ -102,7 +193,25 @@ export type FindUserQueryVariables = Exact<{
 }>;
 
 
-export type FindUserQuery = { __typename?: 'Query', findUser: { __typename: 'findUserResult', User?: { __typename: 'User', email: string, handle: string, fullName: string, zip: number, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } } | null, ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle', message: string } | null } };
+export type FindUserQuery = { __typename?: 'Query', findUser: { __typename: 'findUserResult', User?: { __typename: 'User', email: string, handle: string, fullName: string, zip: number, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle', message: string } | null } };
+
+export type CreateListingMutationVariables = Exact<{
+  size: Scalars['Int'];
+  ownerId: Scalars['String'];
+  street: Scalars['String'];
+  streetNumber: Scalars['Int'];
+  zip: Scalars['Int'];
+  city: Scalars['String'];
+  description: Scalars['String'];
+  pickup: Scalars['Boolean'];
+  dailyPrice: Scalars['Int'];
+  facilities: Array<Scalars['String']> | Scalars['String'];
+  rules: Array<Scalars['String']> | Scalars['String'];
+  serviceFee: Scalars['Int'];
+}>;
+
+
+export type CreateListingMutation = { __typename?: 'Mutation', createListing: { __typename?: 'createPropertyReturn', Property?: { __typename?: 'Property', size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup: boolean, facilities: Array<string>, isVerified: boolean, dailyPrice?: number | null, serviceFee: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', id: string } | null } | null } };
 
 
 export const FindUserDocument = `
@@ -159,5 +268,49 @@ export const useFindUserQuery = <
     useQuery<FindUserQuery, TError, TData>(
       ['FindUser', variables],
       fetcher<FindUserQuery, FindUserQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindUserDocument, variables),
+      options
+    );
+export const CreateListingDocument = `
+    mutation CreateListing($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $dailyPrice: Int!, $facilities: [String!]!, $rules: [String!]!, $serviceFee: Int!) {
+  createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, pickup: $pickup, dailyPrice: $dailyPrice, facilities: $facilities, rules: $rules, serviceFee: $serviceFee) {
+    Property {
+      size
+      owner {
+        id
+        fullName
+        email
+      }
+      kind
+      bookings {
+        id
+      }
+      street
+      streetNumber
+      zip
+      city
+      description
+      pickup
+      facilities
+      isVerified
+      dailyPrice
+      serviceFee
+      rules
+      availabilities {
+        id
+      }
+    }
+  }
+}
+    `;
+export const useCreateListingMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<CreateListingMutation, TError, CreateListingMutationVariables, TContext>
+    ) =>
+    useMutation<CreateListingMutation, TError, CreateListingMutationVariables, TContext>(
+      ['CreateListing'],
+      (variables?: CreateListingMutationVariables) => fetcher<CreateListingMutation, CreateListingMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateListingDocument, variables)(),
       options
     );

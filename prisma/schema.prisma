@@ -53,13 +53,6 @@ enum PaymentStatus {
   rejected
 }
 
-enum CancellationType {
-  fullRefundBefore1Week
-  fullRefundBefore1WeekPartialRefundAfter
-  fullRefundBefore2Weeks
-  fullRefundBefore2WeeksPartialRefundAfter
-}
-
 enum Role {
   tenant
   landlord
@@ -76,7 +69,7 @@ model User {
   kind             ModelKind  @default(user)
   handle            String    @unique
   fullName         String
-  stripeId         String? @unique
+  stripeId         String?    @unique
   email            String     @unique
   id               String     @id @default(cuid())
   image            String?
@@ -98,32 +91,33 @@ model User {
 }
 
 model PropertySlot {
-  kind          ModelKind    @default(propertySlot)
-  id            String       @id @default(cuid())
+  kind          ModelKind        @default(propertySlot)
+  id            String           @id @default(cuid())
   startDate     DateTime
   endDate       DateTime
   minimumMonth  Int
   repeats       String
   availableDays GenericDaySlot[] @relation("propertyToGenericSlot")
   frequency     Frequency
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  propertyId    String
-  property      Property     @relation("propertySlotToProperty", fields: [propertyId], references: [id])
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  propertyId    String           @unique
+  property      Property         @relation("propertySlotToProperty", fields: [propertyId], references: [id])
 }
 
 model GenericDaySlot {
-  kind          ModelKind    @default(genericDaySlot)
-  id            String       @id @default(cuid())
-  startTime     DateTime
-  endTime       DateTime
-  weekday       String
-  propertySlotId  String
-  propertSlot PropertySlot? @relation("propertyToGenericSlot", fields: [propertySlotId], references: [id])
+  kind           ModelKind     @default(genericDaySlot)
+  id             String        @id @default(cuid())
+  startTime      DateTime
+  endTime        DateTime
+  weekday        String
+  propertySlotId String
+  propertSlot    PropertySlot? @relation("propertyToGenericSlot", fields: [propertySlotId], references: [id])
   bookingSlotId  String
-  bookingSlot    BookingSlot? @relation("bookingToGenericSlot", fields: [bookingSlotId], references: [id])
+  bookingSlot    BookingSlot?  @relation("bookingToGenericSlot", fields: [bookingSlotId], references: [id])
 }
 
+<<<<<<< Updated upstream
 model Property {
   kind             ModelKind        @default(property)
   id               String           @id @default(cuid())
@@ -147,39 +141,63 @@ model Property {
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   availabilities   PropertySlot?    @relation("propertySlotToProperty")
+=======
+//title: string, unique handle => lowercase title unique
+model Property {
+  kind           ModelKind     @default(property)
+  id             String        @id @default(cuid())
+  size           Int // will be sq.ft
+  ownerId        String
+  owner          User          @relation(name: "owner", fields: [ownerId], references: [id])
+  bookings       Booking[]     @relation("property")
+  street         String
+  streetNumber   Int
+  zip            Int
+  city           String
+  description    String
+  pickup         Boolean       @default(false)
+  facilities     String[]
+  isVerified     Boolean       @default(false)
+  dailyPrice     Int
+  serviceFee     Int
+  rules          String[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  availabilities PropertySlot? @relation("propertySlotToProperty")
+>>>>>>> Stashed changes
 }
 
 model BookingSlot {
-  kind          ModelKind    @default(bookingSlot)
-  id            String       @id @default(cuid())
-  startDate     DateTime
-  endDate       DateTime
-  repeats       String
-  bookedDays    GenericDaySlot[] @relation("bookingToGenericSlot")
-  frequency     Frequency
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  bookingId    String
-  booking      Booking     @relation("bookingSlotToBooking", fields: [bookingId], references: [id])
+  kind       ModelKind        @default(bookingSlot)
+  id         String           @id @default(cuid())
+  startDate  DateTime
+  endDate    DateTime
+  repeats    String
+  bookedDays GenericDaySlot[] @relation("bookingToGenericSlot")
+  frequency  Frequency
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  bookingId  String
+  booking    Booking          @relation("bookingSlotToBooking", fields: [bookingId], references: [id])
 }
-
 
 model Booking {
   kind          ModelKind     @default(booking)
   id            String        @id @default(cuid())
-  tenantId      String        
+  tenantId      String
   tenant        User          @relation(name: "tenant", fields: [tenantId], references: [id])
-  propertyId    String        
+  propertyId    String
   property      Property      @relation(name: "property", fields: [propertyId], references: [id])
   bookingStatus BookingStatus
-  totalPrice    Int        @default(0)
+  totalPrice    Int           @default(0)
   startDate     DateTime
   endDate       DateTime
-  bookingSlot   BookingSlot[]  @relation("bookingSlotToBooking")
+  bookingSlot   BookingSlot[] @relation("bookingSlotToBooking")
   frequency     Frequency
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
+<<<<<<< Updated upstream
 
 
 
@@ -194,3 +212,5 @@ model Facility {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
+=======
+>>>>>>> Stashed changes
