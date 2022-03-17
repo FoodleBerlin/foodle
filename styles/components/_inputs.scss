@@ -8,4 +8,34 @@ input[type='checkbox']::before {
   border-radius: 1rem;
   padding: 1rem 1rem;
   margin-right: -2rem;
+  &__inputSmall {
+    font-size: 1.8rem;
+    outline: $color-grey;
+    border: 1px solid $color-grey;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+    margin-right: -2rem;
+    width: 6rem;
+  }
+  &__inputMedium {
+    font-size: 1.8rem;
+    outline: $color-grey;
+    border: 1px solid $color-grey;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+    margin-right: -2rem;
+    width: 8rem;
+  }
+  &__textarea {
+    font-size: 1.8rem;
+    outline: $color-grey;
+    border: 1px solid $color-grey;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+    margin-right: -2rem;
+    resize: none;
+    max-width: 100%;
+    width: 750px;
+    height: 180px;
+  }
 }

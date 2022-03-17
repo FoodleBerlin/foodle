@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styles from './Create.module.scss';
 import { UploaderImage } from '../Layout/wizard/Step4';
 import { useDropzone } from 'react-dropzone';
-import { useWizardContext } from '../Layout/wizard/Wizard';
+import { FormData, useWizardContext } from '../Layout/wizard/Wizard';
 import { v4 as uuidv4 } from 'uuid';
 import { Storage } from 'aws-amplify';
 interface UploaderProps {
@@ -39,19 +39,24 @@ const Uploader = (props: UploaderProps) => {
 
   const { formState, nextStep, register, setValue, getValues } = useWizardContext();
 
+  const wizardContext = useWizardContext();
   const [s3Ids, setS3Ids] = useState<string[]>([]);
-  const s3IdUpdate = (images: UploaderImage[]) => {
-    const imageArray = Array.from(images);
-    imageArray.forEach((image) => {
-      if (s3Ids && image.s3Id) {
-        setS3Ids([...s3Ids, image.s3Id]);
-      }
-    });
-    setValue('images', s3Ids, {
+  useEffect(() => {
+    setValue('images', s3Ids as FormData['images'], {
       shouldTouch: true,
       shouldDirty: true,
       shouldValidate: true,
     });
+  }, [s3Ids]);
+  const s3IdUpdate = (images: UploaderImage[]) => {
+    const imageArray = Array.from(images);
+    const idArray: string[] = [];
+    imageArray.forEach((image) => {
+      if (s3Ids && image.s3Id) {
+        idArray.push(image.s3Id);
+      }
+    });
+    setS3Ids(idArray);
   };
   const user = {
     id: 'ID20',
