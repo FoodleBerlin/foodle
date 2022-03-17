@@ -31,151 +31,180 @@ export default function Step2() {
 
         <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>What features does your kitchen offer?</h2>
 
-        <input
-          {...register('features')}
-          type="checkbox"
-          value="Unfurnished"
-          id="features1"
-          name="features1"
-          onChange={(c) =>
-            setValue('features', c.target.value as FormData['features'], {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        ></input>
-        <label htmlFor="features1">Unfurnished</label>
+        <div className={styles['step2__buttonsGridWrapper']}>
+          <input
+            {...register('features')}
+            type="checkbox"
+            value="Unfurnished"
+            id="features1"
+            className="checkbox"
+            name="features1"
+            onChange={(c) =>
+              setValue('features', c.target.value as FormData['features'], {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          ></input>
+          <label className={styles['labelButton']} htmlFor="features1">
+            Unfurnished
+          </label>
 
-        <input
-          {...register('features')}
-          type="checkbox"
-          value="A/C"
-          id="features2"
-          name="features2"
-          onChange={(c) =>
-            setValue('features', c.target.value as FormData['features'], {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        ></input>
-        <label htmlFor="features2">A/C</label>
+          <input
+            {...register('features')}
+            type="checkbox"
+            value="A/C"
+            id="features2"
+            className="checkbox"
+            name="features2"
+            onChange={(c) =>
+              setValue('features', c.target.value as FormData['features'], {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          ></input>
+          <label className={styles['labelButton']} htmlFor="features2">
+            A/C
+          </label>
 
-        <input
-          {...register('features')}
-          type="checkbox"
-          value="Elevator"
-          id="features3"
-          name="features3"
-          onChange={(c) =>
-            setValue('features', c.target.value as FormData['features'], {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        ></input>
-        <label htmlFor="features3">Elevator</label>
+          <input
+            {...register('features')}
+            type="checkbox"
+            value="Elevator"
+            id="features3"
+            className="checkbox"
+            name="features3"
+            onChange={(c) =>
+              setValue('features', c.target.value as FormData['features'], {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          ></input>
+          <label className={styles['labelButton']} htmlFor="features3">
+            Elevator
+          </label>
 
-        <input
-          {...register('features')}
-          type="checkbox"
-          value="Storefront"
-          id="features4"
-          name="features4"
-          onChange={(c) =>
-            setValue('features', c.target.value as FormData['features'], {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        ></input>
-        <label htmlFor="features4">Storefront</label>
+          <input
+            {...register('features')}
+            type="checkbox"
+            value="Storefront"
+            id="features4"
+            className="checkbox"
+            name="features4"
+            onChange={(c) =>
+              setValue('features', c.target.value as FormData['features'], {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          ></input>
+          <label className={styles['labelButton']} htmlFor="features4">
+            Storefront
+          </label>
 
-        <input
-          {...register('features')}
-          type="checkbox"
-          value="Parking"
-          id="features5"
-          name="features5"
-          onChange={(c) =>
-            setValue('features', c.target.value as FormData['features'], {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        ></input>
-        <label htmlFor="features5">Parking</label>
+          <input
+            {...register('features')}
+            type="checkbox"
+            value="Parking"
+            id="features5"
+            className="checkbox"
+            name="features5"
+            onChange={(c) =>
+              setValue('features', c.target.value as FormData['features'], {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          ></input>
+          <label className={styles['labelButton']} htmlFor="features5">
+            Parking
+          </label>
 
-        <input
-          {...register('features')}
-          type="checkbox"
-          value="Dishwasher"
-          id="features6"
-          name="features6"
-          onChange={(c) =>
-            setValue('features', c.target.value as FormData['features'], {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        ></input>
-        <label htmlFor="features6">Dishwasher</label>
+          <input
+            {...register('features')}
+            type="checkbox"
+            value="Dishwasher"
+            id="features6"
+            className="checkbox"
+            name="features6"
+            onChange={(c) =>
+              setValue('features', c.target.value as FormData['features'], {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          ></input>
+          <label className={styles['labelButton']} htmlFor="features6">
+            Dishwasher
+          </label>
 
-        <input
-          {...register('features')}
-          type="checkbox"
-          value="Heating"
-          id="features7"
-          name="features7"
-          onChange={(c) =>
-            setValue('features', c.target.value as FormData['features'], {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        ></input>
-        <label htmlFor="features7">Heating</label>
+          <input
+            {...register('features')}
+            type="checkbox"
+            value="Heating"
+            id="features7"
+            className="checkbox"
+            name="features7"
+            onChange={(c) =>
+              setValue('features', c.target.value as FormData['features'], {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          ></input>
+          <label className={styles['labelButton']} htmlFor="features7">
+            Heating
+          </label>
 
-        <input
-          {...register('features')}
-          type="checkbox"
-          value="Water"
-          id="features8"
-          name="features8"
-          onChange={(c) =>
-            setValue('features', c.target.value as FormData['features'], {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        ></input>
-        <label htmlFor="features8">Water</label>
+          <input
+            {...register('features')}
+            type="checkbox"
+            value="Water"
+            id="features8"
+            className="checkbox"
+            name="features8"
+            onChange={(c) =>
+              setValue('features', c.target.value as FormData['features'], {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          ></input>
+          <label className={styles['labelButton']} htmlFor="features8">
+            Water
+          </label>
 
-        <input
-          {...register('features')}
-          type="checkbox"
-          value="Oven"
-          id="features9"
-          name="features9"
-          onChange={(c) =>
-            setValue('features', c.target.value as FormData['features'], {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        ></input>
-        <label htmlFor="features9">Oven</label>
+          <input
+            {...register('features')}
+            type="checkbox"
+            value="Oven"
+            id="features9"
+            className="checkbox"
+            name="features9"
+            onChange={(c) =>
+              setValue('features', c.target.value as FormData['features'], {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+            }
+          ></input>
+          <label className={styles['labelButton']} htmlFor="features9">
+            Oven
+          </label>
 
-        {formState.errors.features && <span className={styles['error']}>{formState.errors.features.message}</span>}
+          {formState.errors.features && <span className={styles['error']}>{formState.errors.features.message}</span>}
+        </div>
       </div>
 
       <div className={styles['step2__formWrapper']}>

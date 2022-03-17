@@ -110,7 +110,7 @@
   }
 }
 
-.propertyLabel {
+.labelButton {
   height: 90px;
   width: 200px;
   border: 1px solid #00695c;
@@ -140,6 +140,19 @@
   &__marginHeadline {
     margin-top: 5rem;
     margin-bottom: 2rem;
+  }
+  &__buttonsGridWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  @media (min-width: 800px) {
+    &__buttonsGridWrapper {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 1rem 3.5rem;
+    }
   }
 }
 

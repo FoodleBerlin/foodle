@@ -2,6 +2,7 @@ import { useWizardContext } from './Wizard';
 
 export default function Step5() {
   const wizardContext = useWizardContext();
+  console.log(JSON.stringify(wizardContext.getValues()));
 
   return (
     <div>

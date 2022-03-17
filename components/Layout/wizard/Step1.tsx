@@ -23,7 +23,7 @@ export default function Step1() {
               })
             }
           />
-          <label className={styles['propertyLabel']} htmlFor="full">
+          <label className={styles['labelButton']} htmlFor="full">
             <p className="body-text">Entire Kitchen</p>
           </label>
 
@@ -42,7 +42,7 @@ export default function Step1() {
               })
             }
           />
-          <label className={styles['propertyLabel']} htmlFor="partial">
+          <label className={styles['labelButton']} htmlFor="partial">
             <p className="body-text">Part of kitchen</p>
           </label>
           {formState.errors.property && <span className={styles['error']}>{formState.errors.property.message}</span>}

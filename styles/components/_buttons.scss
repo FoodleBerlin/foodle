@@ -77,3 +77,16 @@
   background-color: colors.$color-primary;
   color: colors.$color-white;
 }
+
+.checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox:checked + label {
+  background-color: colors.$color-primary;
+  color: colors.$color-white;
+}
