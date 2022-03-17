@@ -17,27 +17,27 @@ export default function Wizard() {
     <div>
       <Sidebar user={undefined}>
         <div className={styles['sidebar-container']}>
-          <div className={'flex'}>
+          <div className={styles['flex']}>
             <div className={wizardContext.step >= 1 ? styles['item__activeOrPassed'] : styles['item']}>
               <div className={styles['dots']}></div>
-              <span className={'small-text'}>Property</span>
+              <span>Property</span>
             </div>
 
             <div className={wizardContext.step >= 2 ? styles['item__activeOrPassed'] : styles['item']}>
               <div className={styles['dots']}></div>
-              <span className={'small-text'}>Features</span>
+              <span>Features</span>
             </div>
             <div className={wizardContext.step >= 3 ? styles['item__activeOrPassed'] : styles['item']}>
               <div className={styles['dots']}></div>
-              <span className={'small-text'}>Logistics</span>
+              <span>Logistics</span>
             </div>
             <div className={wizardContext.step >= 4 ? styles['item__activeOrPassed'] : styles['item']}>
               <div className={styles['dots']}></div>
-              <span className={'small-text'}>Photos</span>
+              <span>Photos</span>
             </div>
             <div className={wizardContext.step >= 5 ? styles['item__activeOrPassed'] : styles['item']}>
               <div className={styles['dots']}></div>
-              <span className={'small-text'}>Summary</span>
+              <span>Summary</span>
             </div>
           </div>
         </div>
@@ -49,6 +49,20 @@ export default function Wizard() {
         {wizardContext.step == 4 && <Step4></Step4>}
         {wizardContext.step == 5 && <Step5></Step5>}
       </div>
+      {/*       <div className={styles['footer']}>
+        <div className={styles['footer-container']}>
+          <button
+            onClick={() => wizardContext.previousStep(wizardContext.step)}
+            className={wizardContext.step === 1 ? styles['hidden'] : styles['secondary-btn']}
+          >
+            back
+          </button>
+
+          <button className={styles['primary-btn']} onClick={() => wizardContext.nextStep(wizardContext.step)}>
+            {wizardContext.step === 5 ? 'submit' : 'next'}
+          </button>
+        </div>
+      </div> */}
       <Footer step={wizardContext.step} />
     </div>
   );
@@ -77,6 +91,7 @@ export const formData = z.object({
       .nonempty({ message: "Country can't be empty" })
       .refine((val) => onlyString.test(val), { message: "Country can't contain numbers" }),
   }),
+  // TODO add fields for step2, step3, ...
   /* STEP 2 */
   description: z
     .string({ required_error: 'Description is required' })
@@ -87,36 +102,19 @@ export const formData = z.object({
     'Unfurnished',
     'A/C',
     'Elevator',
-    'Storefront',
+    'Storefron',
     'Parking',
     'Dishwasher',
     'Heating',
     'Water',
     'Oven',
   ]),
-  /*   features: z.object({
-    unfurnished: z.boolean().optional(),
-    ac: z.boolean().optional(),
-    elevator: z.boolean().optional(),
-    storefront: z.boolean().optional(),
-    parking: z.boolean().optional(),
-    dishwasher: z.boolean().optional(),
-    heating: z.boolean().optional(),
-    water: z.boolean().optional(),
-    oven: z.boolean().optional(),
-  }), */
   stay: z.object({
-    hours: z
-      .number({
-        required_error: 'Hours per week is required',
-        invalid_type_error: 'Hours per week can not be empty',
-      })
-      .min(1, { message: 'At least 1 hour per week is required.' })
-      .max(168, { message: 'You reached the maximum amount of hours per week' }),
-    weeks: z
-      .number({ required_error: 'Weeks is required', invalid_type_error: 'Weeks can not be empty' })
-      .min(0)
-      .max(52, { message: 'You reached the maximum amount of recurring weeks' }),
+    hours: z.number({
+      required_error: 'Hours per week is required',
+      invalid_type_error: 'Hours per week can not be empty',
+    }),
+    weeks: z.number({ required_error: 'Weeks is required', invalid_type_error: 'Weeks can not be empty' }),
   }),
   /* STEP 3 */
   rent: z
@@ -141,7 +139,7 @@ export const formData = z.object({
     .min(10, { message: 'Must be 10 or more characters long' })
     .max(7000, { message: 'You reached the maximum amount of characters' })
     .nonempty({ message: 'Rules can not be empty' }),
-  images: z.array(z.string({ required_error: 'Images are required' })).min(1).max(5),
+  images: z.array(z.string({ required_error: 'Images are required' }).max(5)),
 });
 
 export type FormData = z.infer<typeof formData>;
@@ -235,7 +233,7 @@ export const WizardProvider = ({ children }: any) => {
     },
     rules: '',
     /* STEP 4 */
-    images: [],
+    images: [''],
   } as FormData;
   const { register, setValue, formState, getValues } = useForm<FormData>({
     resolver: zodResolver(formData),

@@ -136,17 +136,6 @@ export default function Step3() {
             </span>
           </div>
 
-          <input
-            type="button"
-            {...register('availability.days')}
-            onChange={(c) => {
-              setValue('availability.days', c.target.value as FormData['availability']['days'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              });
-            }}
-          ></input>
           {formState.errors.availability?.days && (
             <span className={styles['error']}>{formState.errors.availability?.days.message}</span>
           )}
@@ -159,7 +148,7 @@ export default function Step3() {
               className="select"
               {...register('availability.repeat')}
               onChange={(c) => {
-                setValue('availability.repeat', c.target.value as FormData['availability']['repeat'], {
+                setValue('availability.repeat', c.target.value as FormData['availability.repeat'], {
                   shouldTouch: true,
                   shouldDirty: true,
                   shouldValidate: true,
@@ -226,6 +215,7 @@ export default function Step3() {
         ></textarea>
         {formState.errors.rules && <span className={styles['error']}>{formState.errors.rules.message}</span>}
       </div>
+      
     </div>
   );
 }
