@@ -48,8 +48,6 @@ export async function seed() {
       }),
     ])
   );
-<<<<<<< Updated upstream
-=======
   await prisma.property.createMany({
     data: [
       {
@@ -62,9 +60,10 @@ export async function seed() {
         city: 'berlin',
         description: 'testhbdbjkfsdbjf',
         rules: 'fffff',
+        dailyPrice: 100,
+        serviceFee: 0,
       },
     ],
   });
->>>>>>> Stashed changes
 }
 export default seed;
