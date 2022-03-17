@@ -39,9 +39,7 @@ export async function main() {
     port: 5000,
   });
 }
-if (!process.env.TEST) {
-  main();
-}
+main();
 
 router.get('/api/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 

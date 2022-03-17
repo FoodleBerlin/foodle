@@ -52,7 +52,7 @@ export default function Step1() {
         <h2 className="header-tertiary">How big is the kitchen?</h2>
         <div className={styles['step1__flexWrapper']}>
           <input
-            className={'standard-form__inputMedium'}
+            className={styles['step1__shortInput'] + ' standard-form'}
             placeholder="200"
             type="number"
             {...register('size')}
@@ -64,13 +64,13 @@ export default function Step1() {
               })
             }
           ></input>
-          <label className={styles['step1__label'] + ' body-text-secondary'}>Size in square meters</label>
+          <label className={styles['step1__label body-text-secondary']}>Size in square meters</label>
         </div>
         {formState.errors.size && <span className={styles['error']}>{formState.errors.size.message}</span>}
       </div>
       <div className={styles['formItem']}>
-        <h2 className={styles['step1__addressHeader'] + ' header-tertiary'}>Where is it located?</h2>
-        <label className={styles['step1__label'] + ' body-text-secondary'}>Address</label>
+        <h2 className="header-tertiary">Where is it located?</h2>
+        <label className={styles['step1__label body-text-secondary']}>Address</label>
         <div className={styles['step1__addressGridWrapper']}>
           <input
             className={styles['step1__input--street'] + ' standard-form'}

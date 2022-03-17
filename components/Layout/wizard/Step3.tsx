@@ -140,7 +140,7 @@ export default function Step3() {
             type="button"
             {...register('availability.days')}
             onChange={(c) => {
-              setValue('availability.days', c.target.value as FormData['availability']['days'], {
+              setValue('availability.days', c.target.value, {
                 shouldTouch: true,
                 shouldDirty: true,
                 shouldValidate: true,
@@ -179,11 +179,12 @@ export default function Step3() {
           {formState.errors.availability?.to && (
             <span className={styles['error']}>{formState.errors.availability?.to.message}</span>
           )}
-          <div className={styles['step3__weekRepeatSelect']}>
+          <div className={styles['step3__weekRepeatSelect']} >
             <select
+              
               {...register('availability.repeat')}
               onChange={(c) => {
-                setValue('availability.repeat', c.target.value as FormData['availability']['repeat'], {
+                setValue('availability.repeat', c.target.value as FormData['availability.repeat'], {
                   shouldTouch: true,
                   shouldDirty: true,
                   shouldValidate: true,
@@ -237,8 +238,9 @@ export default function Step3() {
           </div>
         </div>
         <h2 className="header-secondary">What are the rules?</h2>
+       
         <textarea
-          className={styles['step3__textArea'] + ' standard-form'}
+          className={styles['step3__textArea']+ ' standard-form'}
           {...register('rules')}
           onChange={(c) => {
             setValue('rules', c.target.value, {
@@ -248,8 +250,11 @@ export default function Step3() {
             });
           }}
         ></textarea>
+        
         {formState.errors.rules && <span className={styles['error']}>{formState.errors.rules.message}</span>}
       </div>
+      <button onClick={() => wizardContext.previousStep(3)}>previous</button>
+      <button onClick={() => wizardContext.nextStep(3)}>next</button>
     </div>
   );
 }
