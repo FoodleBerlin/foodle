@@ -6,10 +6,9 @@ export default function Step3() {
   const wizardContext = useWizardContext();
 
   return (
-    <div>
-      <h1>Landlord component flow 3</h1>
-      <div className={styles['step3']}>
-        <h2 className="header-secondary">How much is rent?</h2>
+    <div className={styles['step3']}>
+      <div className={styles['formItem']}>
+        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>How much is rent?</h2>
         <div className={styles['step3__flexWrapper']}>
           <input
             className={styles['step3__shortInput'] + ' standard-form'}
@@ -23,11 +22,13 @@ export default function Step3() {
               })
             }
           ></input>
-          <label className={styles['step3__label']}>€ per hour</label>
         </div>
+        <label className="body-text-secondary">€ per hour</label>
         {formState.errors.rent && <span className={styles['error']}>{formState.errors.rent.message}</span>}
-        <h2 className="header-secondary">Is there a deposit?</h2>
-        <p className="body-text">
+      </div>
+      <div className={styles['formItem']}>
+        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Is there a deposit?</h2>
+        <p className="body-text-secondary">
           This one time payment will be refunded at the end of the lease. If there is no deposit just type in 0.
         </p>
         <div className={styles['step3__flexWrapper']}>
@@ -43,11 +44,13 @@ export default function Step3() {
               })
             }
           ></input>
-          <label className={styles['step3__label']}>€</label>
+          <label className="body-text-secondary">€</label>
         </div>
         {formState.errors.deposit && <span className={styles['error']}>{formState.errors.deposit.message}</span>}
-        <h2 className="header-secondary">When is it available?</h2>
-        <label className={styles['step3__label']}>Starting</label> <br />
+      </div>
+      <div className={styles['formItem']}>
+        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>When is it available?</h2>
+        <label className="label-text">Starting</label> <br />
         <input
           className="standard-form"
           type="date"
@@ -66,121 +69,86 @@ export default function Step3() {
         )}
         <div className={styles['step3__weekDaysSelector']}>
           <div className={styles['step3__daysOfWeek']}>
-            <label className={styles['step3__label']}>Days of week</label>
-            <div>
-              <input type="checkbox" id="weekday-mon" className={'weekday'} />
+            <label className="label-text">Days of week</label>
+            <div className={styles['step3__weekDayCheckboxWrapper']}>
+              <input type="checkbox" id="weekday-mon" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
               <label htmlFor="weekday-mon">M</label>
-              <input type="checkbox" id="weekday-tue" className="weekday" />
+              <input type="checkbox" id="weekday-tue" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
               <label htmlFor="weekday-tue">T</label>
-              <input type="checkbox" id="weekday-wed" className="weekday" />
+              <input type="checkbox" id="weekday-wed" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
               <label htmlFor="weekday-wed">W</label>
-              <input type="checkbox" id="weekday-thu" className="weekday" />
+              <input type="checkbox" id="weekday-thu" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
               <label htmlFor="weekday-thu">T</label>
-              <input type="checkbox" id="weekday-fri" className="weekday" />
+              <input type="checkbox" id="weekday-fri" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
               <label htmlFor="weekday-fri">F</label>
-              <input type="checkbox" id="weekday-sat" className="weekday" />
+              <input type="checkbox" id="weekday-sat" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
               <label htmlFor="weekday-sat">S</label>
-              <input type="checkbox" id="weekday-sun" className="weekday" />
+              <input type="checkbox" id="weekday-sun" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
               <label htmlFor="weekday-sun">S</label>
             </div>
           </div>
           <div className={styles['step3__timeInput']}>
-            <span className={styles['step3__flexWrapper']}>
+            <span className={styles['step3__timeInputWrapper']}>
               <input type="checkbox" checked id="time-mon" className="weekday" />
               <label htmlFor="time-mon">M</label>
-              <input className="standard-form" type="time" />
-              <label className={styles['step3__label']}>to</label>
-              <input className="standard-form" type="time" />
+              <input className="standard-form__inputTime" type="time" />
+              <label className="body-text"> to</label>
+              <input className="standard-form__inputTime" type="time" />
             </span>
-            <span className={styles['step3__flexWrapper']}>
+            <span className={styles['step3__timeInputWrapper']}>
               <input type="checkbox" checked id="time-tue" className="weekday" />
               <label htmlFor="time-tue">T</label>
-              <input className="standard-form" type="time" />
-              <label className={styles['step3__label']}>to</label>
-              <input className="standard-form" type="time" />
+              <input className="standard-form__inputTime" type="time" />
+              <label className="body-text"> to</label>
+              <input className="standard-form__inputTime" type="time" />
             </span>
-            <span className={styles['step3__flexWrapper']}>
+            <span className={styles['step3__timeInputWrapper']}>
               <input type="checkbox" checked id="time-wed" className="weekday" />
               <label htmlFor="time-wed">W</label>
-              <input className="standard-form" type="time" />
-              <label className={styles['step3__label']}>to</label>
-              <input className="standard-form" type="time" />
+              <input className="standard-form__inputTime" type="time" />
+              <label className="body-text"> to</label>
+              <input className="standard-form__inputTime" type="time" />
             </span>
-            <span className={styles['step3__flexWrapper']}>
+            <span className={styles['step3__timeInputWrapper']}>
               <input type="checkbox" checked id="time-thu" className="weekday" />
               <label htmlFor="time-thu">T</label>
-              <input className="standard-form" type="time" />
-              <label className={styles['step3__label']}>to</label>
-              <input className="standard-form" type="time" />
+              <input className="standard-form__inputTime" type="time" />
+              <label className="body-text"> to</label>
+              <input className="standard-form__inputTime" type="time" />
             </span>
-            <span className={styles['step3__flexWrapper']}>
+            <span className={styles['step3__timeInputWrapper']}>
               <input type="checkbox" checked id="time-fri" className="weekday" />
               <label htmlFor="time-fri">F</label>
-              <input className="standard-form" type="time" />
-              <label className={styles['step3__label']}>to</label>
-              <input className="standard-form" type="time" />
+              <input className="standard-form__inputTime" type="time" />
+              <label className="body-text"> to</label>
+              <input className="standard-form__inputTime" type="time" />
             </span>
-            <span className={styles['step3__flexWrapper']}>
+            <span className={styles['step3__timeInputWrapper']}>
               <input type="checkbox" checked id="time-sat" className="weekday" />
               <label htmlFor="time-sat">S</label>
-              <input className="standard-form" type="time" />
-              <label className={styles['step3__label']}>to</label>
-              <input className="standard-form" type="time" />
+              <input className="standard-form__inputTime" type="time" />
+              <label className="body-text"> to</label>
+              <input className="standard-form__inputTime" type="time" />
             </span>
-            <span className={styles['step3__flexWrapper']}>
+            <span className={styles['step3__timeInputWrapper']}>
               <input type="checkbox" checked id="time-sun" className="weekday" />
               <label htmlFor="time-sun">S</label>
-              <input className="standard-form" type="time" />
-              <label className={styles['step3__label']}>to</label>
-              <input className="standard-form" type="time" />
+              <input className="standard-form__inputTime" type="time" />
+              <label className="body-text"> to</label>
+              <input className="standard-form__inputTime" type="time" />
             </span>
           </div>
 
-          <input
-            type="button"
-            {...register('availability.days')}
-            onChange={(c) => {
-              setValue('availability.days', c.target.value as FormData['availability']['days'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              });
-            }}
-          ></input>
-          {formState.errors.availability?.days && (
-            <span className={styles['error']}>{formState.errors.availability?.days.message}</span>
-          )}
-          <input
-            type="number"
-            {...register('availability.from')}
-            onChange={(c) => {
-              setValue('availability.from', parseInt(c.target.value), {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              });
-            }}
-          ></input>
           {formState.errors.availability?.from && (
             <span className={styles['error']}>{formState.errors.availability?.from.message}</span>
           )}
 
-          <input
-            type="number"
-            {...register('availability.to')}
-            onChange={(c) => {
-              setValue('availability.to', parseInt(c.target.value), {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              });
-            }}
-          ></input>
           {formState.errors.availability?.to && (
             <span className={styles['error']}>{formState.errors.availability?.to.message}</span>
           )}
           <div className={styles['step3__weekRepeatSelect']}>
             <select
+              className="standard-form__selectMedium"
               {...register('availability.repeat')}
               onChange={(c) => {
                 setValue('availability.repeat', c.target.value as FormData['availability']['repeat'], {
@@ -200,7 +168,7 @@ export default function Step3() {
             <span className={styles['error']}>{formState.errors.availability?.repeat.message}</span>
           )}
           <div className={styles['step3__untilDatePicker']}>
-            <label className={styles['step3__label']}>Until</label> <br />
+            <label className="label-text">Until</label> <br />
             <input
               className="standard-form"
               type="date"
@@ -219,7 +187,7 @@ export default function Step3() {
             )}
           </div>
           <div className={styles['step3__minimumStay']}>
-            <label className={styles['step3__label']}>Minimum stay</label> <br />
+            <label className="label-text">Minimum stay</label> <br />
             <input
               className="standard-form"
               {...register('availability.stay')}
@@ -236,7 +204,9 @@ export default function Step3() {
             )}
           </div>
         </div>
-        <h2 className="header-secondary">What are the rules?</h2>
+      </div>
+      <div className={styles['formItem']}>
+        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>What are the rules?</h2>
         <textarea
           className={styles['step3__textArea'] + ' standard-form'}
           {...register('rules')}

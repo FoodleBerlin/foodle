@@ -70,7 +70,7 @@ export default function Step1() {
       </div>
       <div className={styles['formItem']}>
         <h2 className={styles['step1__addressHeader'] + ' header-tertiary'}>Where is it located?</h2>
-        <label className={styles['step1__label'] + ' body-text-secondary'}>Address</label>
+        <label className="label-text">Address</label>
         <div className={styles['step1__addressGridWrapper']}>
           <input
             className={styles['step1__input--street'] + ' standard-form'}
