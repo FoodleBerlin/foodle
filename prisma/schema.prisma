@@ -67,7 +67,7 @@ enum BookingStatus {
 
 model User {
   kind             ModelKind  @default(user)
-  handle            String    @unique
+  handle           String     @unique
   fullName         String
   stripeId         String?    @unique
   email            String     @unique
@@ -117,31 +117,6 @@ model GenericDaySlot {
   bookingSlot    BookingSlot?  @relation("bookingToGenericSlot", fields: [bookingSlotId], references: [id])
 }
 
-<<<<<<< Updated upstream
-model Property {
-  kind             ModelKind        @default(property)
-  id               String           @id @default(cuid())
-  size             Int // will be sq.ft
-  ownerId          String           
-  owner            User             @relation(name: "owner", fields: [ownerId], references: [id])
-  bookings         Booking[]        @relation("property")
-  street           String
-  streetNumber     Int
-  zip              Int
-  city             String
-  description      String
-  pickup           Boolean          @default(false)
-  facilities       Facility[]
-  isVerified       Boolean          @default(false)
-  dailyPrice       Int           @default(0)
-  serviceFee       Int           @default(0)
-  cancellationType CancellationType
-  thingsToKnow     String
-  rules            String[]
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  availabilities   PropertySlot?    @relation("propertySlotToProperty")
-=======
 //title: string, unique handle => lowercase title unique
 model Property {
   kind           ModelKind     @default(property)
@@ -164,7 +139,6 @@ model Property {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   availabilities PropertySlot? @relation("propertySlotToProperty")
->>>>>>> Stashed changes
 }
 
 model BookingSlot {
@@ -197,20 +171,3 @@ model Booking {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
-<<<<<<< Updated upstream
-
-
-
-model Facility {
-  kind        ModelKind @default(facility)
-  id          String    @id @default(cuid())
-  propertyId  String    
-  property    Property  @relation(fields: [propertyId], references: [id])
-  name        String
-  description String?
-  amount      Int       @default(0)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-=======
->>>>>>> Stashed changes
