@@ -5,6 +5,10 @@ type Booking {
   id: String!
 }
 
+type BookingSlot {
+  id: String!
+}
+
 type ClientErrorInvalidHandle {
   message: String!
 }
@@ -39,6 +43,13 @@ type CustomerCharge {
   status: String
 }
 
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
+`date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
+8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
 type findAllPropertiesReturn {
   Properties: [Property!]
   UnknownError: UnknownError
@@ -56,8 +67,35 @@ type findUserResult {
   User: User
 }
 
+enum Frequency {
+  biweekly
+  none
+  triweekly
+  weekly
+}
+
+type GenericDaySlot {
+  bookingSlot: [BookingSlot!]
+  endTime: DateTime!
+  id: String!
+  propertySlot: PropertySlot
+  propertySlotId: String!
+  startTime: DateTime!
+  weekday: String!
+}
+
+"""
+GenericDaySlot input
+"""
+input GenericDaySlotInput {
+  endTime: DateTime!
+  startTime: DateTime!
+  weekday: String!
+}
+
 type Mutation {
   createListing(
+    availabilities: PropertySlotInput!
     city: String!
     deposit: Int!
     description: String!
@@ -101,7 +139,7 @@ type Property {
   minStayWeeks: Int!
   owner: User
   partialSpace: Boolean!
-  pickup: Boolean!
+  pickup: Boolean
   rules: [String!]!
   serviceFee: Int!
   size: Int!
@@ -111,7 +149,26 @@ type Property {
 }
 
 type PropertySlot {
-  id: String!
+  availableDays: [GenericDaySlot!]
+  endDate: DateTime!
+  frequency: Frequency!
+  minimumMonth: Int!
+  property: Property
+  propertyId: String!
+  repeats: String!
+  startDate: DateTime!
+}
+
+"""
+PropertySlot input
+"""
+input PropertySlotInput {
+  endDate: DateTime!
+  frequency: Frequency!
+  genericDaySlots: [GenericDaySlotInput]
+  minimumMonth: Int!
+  repeats: String!
+  startDate: DateTime!
 }
 
 type Query {

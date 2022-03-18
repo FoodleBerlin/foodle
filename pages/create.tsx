@@ -29,7 +29,7 @@ const Create: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
     <>
       <Navbar user={props.session}></Navbar>
       <WizardProvider>
-        <Wizard></Wizard>
+        <Wizard session={props.session} jwt={props.jwt}></Wizard>
       </WizardProvider>
     </>
   );
