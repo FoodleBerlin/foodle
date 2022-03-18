@@ -116,7 +116,7 @@ export const formData = z.object({
       .min(1, { message: 'At least one day is required' }),
     from: z.number({ required_error: 'This field is required', invalid_type_error: 'This field can not be empty' }),
     to: z.number({ required_error: 'This field is required', invalid_type_error: 'This field can not be empty' }),
-    repeat: z.enum(['none', 'Every week']),
+    repeat: z.enum(['none', 'weekly']),
     until: z.date(),
     stay: z
       .string({ required_error: 'Minimum stay is required, e.g. 1 month' })
@@ -171,7 +171,7 @@ const WizardContext = React.createContext<WizardContext>({
       days: ['Monday'],
       from: 10,
       to: 1.5,
-      repeat: 'Every week',
+      repeat: 'weekly',
       until: new Date(),
       stay: '1 month',
     },
@@ -215,7 +215,7 @@ export const WizardProvider = ({ children }: any) => {
       days: ['Monday'],
       from: 10,
       to: 1.5,
-      repeat: 'Every week',
+      repeat: 'weekly',
       until: new Date(),
       stay: '1 month',
     },

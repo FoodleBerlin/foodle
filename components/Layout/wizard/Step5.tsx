@@ -10,23 +10,42 @@ export default function Step5(props: AuthenticatedProps) {
 
   const handleSubmit = async () => {
     const wiz = getValues();
+    console.log('get' + wiz.availability.starting);
+
     const res = await client.mutate({
       mutation: CreateListing,
       variables: {
         size: Number(wiz.size), // store as int instead
         ownerId: props.session.id,
         street: wiz.location.street,
-        streetNumber: wiz.location.number,
-        zip: wiz.location.zip,
+        streetNumber: Number(wiz.location.number),
+        zip: Number(wiz.location.zip),
         city: wiz.location.city,
         description: wiz.description,
         rules: wiz.rules.split('.'),
-        hourlyPrice: wiz.rent,
+        hourlyPrice: Number(wiz.rent),
         facilities: wiz.features,
-        deposit: wiz.deposit,
+        deposit: Number(wiz.deposit),
         images: wiz.images,
-        minStayHours: wiz.stay.hours,
-        minStayWeeks: wiz.stay.weeks,
+        minStayHours: Number(wiz.stay.hours),
+        minStayWeeks: Number(wiz.stay.weeks),
+        pickup: false,
+        serviceFee: Number(0),
+        partialSpace: wiz.property === 'partial' ? true : false,
+        availabilities: {
+          startDate: new Date(wiz.availability.starting).toISOString(),
+          endDate: new Date(wiz.availability.until).toISOString(),
+          repeats: wiz.availability.repeat,
+          genericDaySlots: [
+            {
+              startTime: '2022-03-18T13:10:30Z',
+              endTime: '2022-03-18T13:10:30Z',
+              weekday: wiz.availability.days[0],
+            },
+          ],
+          minimumMonth: Number(wiz.stay.weeks),
+          frequency: wiz.availability.repeat,
+        },
       },
     });
 

@@ -1,3 +1,4 @@
+import { AnyAaaaRecord } from 'dns';
 import { FormData, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 
@@ -83,7 +84,7 @@ export default function Step3() {
           {...register('availability.starting')}
           onChange={(c) => {
             console.log(c.target.value);
-            setValue('availability.starting', new Date(c.target.value), {
+            setValue('availability.starting', c.target.value as any, {
               shouldTouch: true,
               shouldDirty: true,
               shouldValidate: true,
@@ -237,8 +238,8 @@ export default function Step3() {
               }}
             >
               {' '}
-              <option value="Every week">Every week</option>
-              <option value="none">None</option>
+              <option value="weekly">weekly</option>
+              <option value="none">none</option>
             </select>
           </div>
 
@@ -253,7 +254,7 @@ export default function Step3() {
               {...register('availability.until')}
               onChange={(c) => {
                 console.log(c.target.value);
-                setValue('availability.until', new Date(c.target.value), {
+                setValue('availability.until', c.target.value as any, {
                   shouldTouch: true,
                   shouldDirty: true,
                   shouldValidate: true,

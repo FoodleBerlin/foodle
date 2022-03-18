@@ -91,17 +91,6 @@ export const User = objectType({
   },
 });
 
-export const Mutation = extendType({
-  type: 'Mutation',
-  definition(t) {
-    t.field('createUser', {
-      type: 'Boolean',
-      resolve() {
-        return true;
-      },
-    });
-  },
-});
 
 /**
  * Example apollo studio query
