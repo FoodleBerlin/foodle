@@ -2,7 +2,26 @@
 ### Do not make changes to this file directly
 
 type Booking {
+  bookingSlot: [BookingSlot!]!
+  bookingStatus: BookingStatus!
+  endDate: String!
+  frequency: Frequency!
   id: String!
+  kind: String!
+  property: Property!
+  startDate: String!
+  tenant: User!
+  totalPrice: Int!
+}
+
+type BookingSlot {
+  id: String!
+}
+
+enum BookingStatus {
+  ACCEPTED
+  PENDING
+  REJECTED
 }
 
 type ClientErrorInvalidHandle {
@@ -19,6 +38,13 @@ type ClientErrorPropertyNotExists {
 
 type ClientErrorUserNotExists {
   message: String!
+}
+
+type createBookingReturn {
+  Booking: Booking
+  ClientErrorPropertyNotExists: ClientErrorPropertyNotExists
+  ClientErrorUserNotExists: ClientErrorUserNotExists
+  UnknownError: UnknownError
 }
 
 type createPropertyReturn {
@@ -60,7 +86,23 @@ type findUserResult {
   User: User
 }
 
+enum Frequency {
+  BIWEEKLY
+  NONE
+  TRIWEEKLY
+  WEEKLY
+}
+
 type Mutation {
+  createBooking(
+    bookingstatus: BookingStatus!
+    endDate: String!
+    frequency: Frequency!
+    propertyId: String!
+    startDate: String!
+    tenantHandle: String!
+    totalPrice: Int
+  ): createBookingReturn!
   createListing(
     cancellationType: String!
     city: String!

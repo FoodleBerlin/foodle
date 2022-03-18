@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`with invalid propertyId returns ClientErrorPropertyNotExists 1`] = `
+Object {
+  "data": Object {
+    "createBooking": Object {
+      "Booking": null,
+      "ClientErrorPropertyNotExists": Object {
+        "message": "property for propertyId 10000000000 does not exist",
+      },
+      "ClientErrorUserNotExists": null,
+      "UnknownError": null,
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`with invalid userHandle returns ClientErrorUserNotExists 1`] = `
+Object {
+  "data": Object {
+    "createBooking": Object {
+      "Booking": null,
+      "ClientErrorPropertyNotExists": null,
+      "ClientErrorUserNotExists": Object {
+        "message": "tenant for tenantHandle non-existing-user does not exist",
+      },
+      "UnknownError": null,
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`with valid propertyId and userHandle returns created booking 1`] = `
+Object {
+  "data": Object {
+    "createBooking": Object {
+      "Booking": Object {
+        "bookingSlot": Array [],
+        "bookingStatus": "ACCEPTED",
+        "endDate": "1647446571063",
+        "frequency": "BIWEEKLY",
+        "kind": "booking",
+        "property": Object {
+          "kind": "property",
+          "size": 123,
+        },
+        "startDate": "1647446571063",
+        "tenant": Object {
+          "email": "user1@gmail.com",
+          "fullName": "User 1",
+        },
+        "totalPrice": 1,
+      },
+      "ClientErrorPropertyNotExists": null,
+      "ClientErrorUserNotExists": null,
+      "UnknownError": null,
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;

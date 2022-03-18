@@ -1,4 +1,4 @@
-import { apollo as server, app, router } from '../tests/server';
+ import { apollo as server, app, router } from '../tests/server';
 import { seed } from '../utils/seed';
 import { clean } from '../utils/clean';
 import forgeJWT from '../utils/forgeJWT';
@@ -100,4 +100,4 @@ describe('Find user by handle', () => {
       expect(res).toMatchSnapshot();
     });
   });
-});
+}); 

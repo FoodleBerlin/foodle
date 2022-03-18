@@ -2,11 +2,8 @@ import { enumType, extendType, intArg, nonNull, nullable, objectType, stringArg 
 import { BookingSlot } from '../../BookingSlot';
 import { Property } from '../Property';
 import { User } from '../User';
-import { Context } from '../../../context';
-import { ApolloError } from 'apollo-server';
-import { UnknownError } from '../Error';
-import { resolve } from 'path';
-import { BookingStatus, Frequency, User as PrismaUser } from '@prisma/client';
+import { ClientErrorPropertyNotExists, ClientErrorUserNotExists, UnknownError } from '../Error';
+import { BookingStatus, Frequency } from '@prisma/client';
 
 export const Booking = objectType({
   name: 'Booking',
@@ -16,40 +13,37 @@ export const Booking = objectType({
     b.field('tenant', {
       type: User,
       async resolve(parent, args, ctx) {
-        let user;
-        try {
-          user = await ctx.prisma.user.findUnique({
-            where: {
-              id: parent.tenantId,
-            },
-          });
-        } catch (e) {
-          throw new ApolloError('No tenant found');
-        }
-        if (user != null) {
-          return user;
+        const user = await ctx.prisma.user.findUnique({
+          where: {
+            id: parent.tenantId,
+          },
+        });
+        if (user === null) {
+          throw Error(
+            `Error fetching fetching user with id ${parent.tenantId} when creating booking with id ${parent.id} `
+          );
         } else {
-          throw new ApolloError('No tenant found');
+          return user;
         }
       },
     });
     b.field('property', {
       type: Property,
       async resolve(parent, args, ctx) {
-        let property;
-        property = await ctx.prisma.property.findUnique({
+        let prop = await ctx.prisma.property.findUnique({
           where: {
             id: parent.propertyId,
           },
         });
-        if (property != null) {
-          return property;
+        if (prop === null) {
+          throw Error(
+            `Error fetching fetching property with id ${parent.propertyId} for when creating booking with id ${parent.id} `
+          );
         } else {
-          throw new ApolloError('No tenant found');
+          return prop;
         }
       },
     });
-    b.string('bookingStatus');
     b.int('totalPrice');
     b.string('startDate');
     b.string('endDate');
@@ -64,8 +58,11 @@ export const Booking = objectType({
       },
     });
     b.field('frequency', {
-      type: FrequencyApi
-    })
+      type: FrequencyEnum,
+    });
+    b.field('bookingStatus', {
+      type: BookingStatusEnum,
+    });
   },
 });
 
@@ -75,6 +72,12 @@ export const CreateBookingReturn = objectType({
     t.nullable.field('Booking', { type: Booking });
     t.nullable.field('UnknownError', {
       type: UnknownError,
+    });
+    t.nullable.field('ClientErrorUserNotExists', {
+      type: ClientErrorUserNotExists,
+    });
+    t.nullable.field('ClientErrorPropertyNotExists', {
+      type: ClientErrorPropertyNotExists,
     });
   },
 });
@@ -87,16 +90,13 @@ export const CreateBookingForProperty = extendType({
       args: {
         propertyId: nonNull(stringArg()),
         totalPrice: nullable(intArg()),
-        //bookingstatus
+        bookingstatus: nonNull(BookingStatusEnum),
         startDate: nonNull(stringArg()),
         endDate: nonNull(stringArg()),
         tenantHandle: nonNull(stringArg()),
-        //bookingSlot
-        frequency: nonNull(FrequencyApi)
+        frequency: nonNull(FrequencyEnum),
       },
       async resolve(_, args, ctx) {
-        // TODO: validate input
-
         const tenant = await ctx.prisma.user.findUnique({
           where: {
             handle: args.tenantHandle,
@@ -126,8 +126,8 @@ export const CreateBookingForProperty = extendType({
             data: {
               tenantId: tenant.id,
               propertyId: args.propertyId,
-              bookingStatus: BookingStatus.accepted,
-              totalPrice: 0, // args.totalPrice,
+              bookingStatus: args.bookingstatus,
+              totalPrice: args.totalPrice ?? 0,
               startDate: args.startDate,
               endDate: args.endDate,
               frequency: args.frequency,
@@ -135,6 +135,7 @@ export const CreateBookingForProperty = extendType({
           });
           return { Booking: savedBooking };
         } catch (error) {
+          // better way?
           let errorMessage = 'Unknown error when saving a new booking: ';
           if (error instanceof Error) {
             errorMessage += error.message;
@@ -150,12 +151,21 @@ export const CreateBookingForProperty = extendType({
   },
 });
 
-const FrequencyApi = enumType({
+const FrequencyEnum = enumType({
   name: 'Frequency',
   members: {
     NONE: Frequency.none,
     WEEKLY: Frequency.weekly,
     BIWEEKLY: Frequency.biweekly,
     TRIWEEKLY: Frequency.none,
+  },
+});
+
+const BookingStatusEnum = enumType({
+  name: 'BookingStatus',
+  members: {
+    ACCEPTED: BookingStatus.accepted,
+    PENDING: BookingStatus.pending,
+    REJECTED: BookingStatus.rejected,
   },
 });
