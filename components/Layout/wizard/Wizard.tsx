@@ -83,28 +83,9 @@ export const formData = z.object({
     .min(20, { message: 'Must be 20 or more characters long' })
     .max(7000, { message: 'You reached the maximum amount of characters' })
     .nonempty({ message: 'Description can not be empty' }),
-  features: z.enum([
-    'Unfurnished',
-    'A/C',
-    'Elevator',
-    'Storefront',
-    'Parking',
-    'Dishwasher',
-    'Heating',
-    'Water',
-    'Oven',
-  ]),
-  /*   features: z.object({
-    unfurnished: z.boolean().optional(),
-    ac: z.boolean().optional(),
-    elevator: z.boolean().optional(),
-    storefront: z.boolean().optional(),
-    parking: z.boolean().optional(),
-    dishwasher: z.boolean().optional(),
-    heating: z.boolean().optional(),
-    water: z.boolean().optional(),
-    oven: z.boolean().optional(),
-  }), */
+  features: z
+    .array(z.string(), { required_error: 'Features are required' })
+    .min(1, { message: 'At least one feature must be selected' }),
   stay: z.object({
     hours: z
       .number({
@@ -175,7 +156,7 @@ const WizardContext = React.createContext<WizardContext>({
     },
     /* STEP 2 */
     description: '',
-    features: 'Unfurnished' as FormData['features'],
+    features: ['Unfurnished'],
     stay: {
       hours: 0,
       weeks: 0,
@@ -219,7 +200,7 @@ export const WizardProvider = ({ children }: any) => {
     },
     /* STEP 2 */
     description: '',
-    features: 'Unfurnished',
+    features: ['Unfurnished'],
     stay: {
       hours: 0,
       weeks: 0,

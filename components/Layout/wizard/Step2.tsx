@@ -5,6 +5,71 @@ export default function Step2() {
   const { formState, nextStep, register, setValue } = useWizardContext();
   const wizardContext = useWizardContext();
 
+  /* 
+  toggle handler function that allows user to select and deselect a feature
+  */
+  const toggleFeature = (feature: string) => {
+    /*
+    when feature is already in the wizardContext, it will be deleted
+    */
+    if ([...wizardContext.getValues().features].includes(feature)) {
+      setValue(
+        'features',
+        [...wizardContext.getValues().features].filter((x) => x !== feature) as FormData['features'],
+        {
+          shouldTouch: true,
+          shouldDirty: true,
+          shouldValidate: true,
+        }
+      );
+      /*
+      when 'Unfurnished' is already clicked, unclick and delete it from
+      wizardContext as soon as one of the other feature is clicked
+      */
+    } else if ([...wizardContext.getValues().features].includes('Unfurnished')) {
+      setValue(
+        'features',
+        [...wizardContext.getValues().features].filter((x) => x !== 'Unfurnished') as FormData['features'],
+        {
+          shouldTouch: true,
+          shouldDirty: true,
+          shouldValidate: true,
+        }
+      );
+      setValue('features', [...wizardContext.getValues().features, feature] as FormData['features'], {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+      /* 
+      when 'Unfurnished' is clicked again, unclick and delete all the other features so that
+      just 'Unfurnished' is back in the wizardContext
+      */
+    } else if (feature === 'Unfurnished') {
+      setValue(
+        'features',
+        [...wizardContext.getValues().features].filter((x) => x === 'Unfurnished') as FormData['features'],
+        {
+          shouldTouch: true,
+          shouldDirty: true,
+          shouldValidate: true,
+        }
+      );
+      setValue('features', [...wizardContext.getValues().features, 'Unfurnished'] as FormData['features'], {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+      // in any other case the clicked feature will be added to the wizardContext
+    } else {
+      setValue('features', [...wizardContext.getValues().features, feature] as FormData['features'], {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    }
+  };
+
   return (
     <div className={styles['step2']}>
       <div className={styles['formItem']}>
@@ -39,18 +104,11 @@ export default function Step2() {
             id="features1"
             className="checkbox"
             name="features1"
-            onChange={(c) =>
-              setValue('features', c.target.value as FormData['features'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => toggleFeature(c.target.value)}
           ></input>
           <label className={styles['labelButton']} htmlFor="features1">
-            Unfurnished
+            <p className="body-text__small">Unfurnished</p>
           </label>
-
           <input
             {...register('features')}
             type="checkbox"
@@ -58,16 +116,10 @@ export default function Step2() {
             id="features2"
             className="checkbox"
             name="features2"
-            onChange={(c) =>
-              setValue('features', c.target.value as FormData['features'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => toggleFeature(c.target.value)}
           ></input>
           <label className={styles['labelButton']} htmlFor="features2">
-            A/C
+            <p className="body-text__small">A/C</p>
           </label>
 
           <input
@@ -77,16 +129,10 @@ export default function Step2() {
             id="features3"
             className="checkbox"
             name="features3"
-            onChange={(c) =>
-              setValue('features', c.target.value as FormData['features'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => toggleFeature(c.target.value)}
           ></input>
           <label className={styles['labelButton']} htmlFor="features3">
-            Elevator
+            <p className="body-text__small">Elevator</p>
           </label>
 
           <input
@@ -96,16 +142,10 @@ export default function Step2() {
             id="features4"
             className="checkbox"
             name="features4"
-            onChange={(c) =>
-              setValue('features', c.target.value as FormData['features'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => toggleFeature(c.target.value)}
           ></input>
           <label className={styles['labelButton']} htmlFor="features4">
-            Storefront
+            <p className="body-text__small">Storefront</p>
           </label>
 
           <input
@@ -115,16 +155,10 @@ export default function Step2() {
             id="features5"
             className="checkbox"
             name="features5"
-            onChange={(c) =>
-              setValue('features', c.target.value as FormData['features'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => toggleFeature(c.target.value)}
           ></input>
           <label className={styles['labelButton']} htmlFor="features5">
-            Parking
+            <p className="body-text__small">Parking</p>
           </label>
 
           <input
@@ -134,16 +168,10 @@ export default function Step2() {
             id="features6"
             className="checkbox"
             name="features6"
-            onChange={(c) =>
-              setValue('features', c.target.value as FormData['features'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => toggleFeature(c.target.value)}
           ></input>
           <label className={styles['labelButton']} htmlFor="features6">
-            Dishwasher
+            <p className="body-text__small">Dishwasher</p>
           </label>
 
           <input
@@ -153,16 +181,10 @@ export default function Step2() {
             id="features7"
             className="checkbox"
             name="features7"
-            onChange={(c) =>
-              setValue('features', c.target.value as FormData['features'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => toggleFeature(c.target.value)}
           ></input>
           <label className={styles['labelButton']} htmlFor="features7">
-            Heating
+            <p className="body-text__small">Heating</p>
           </label>
 
           <input
@@ -172,16 +194,10 @@ export default function Step2() {
             id="features8"
             className="checkbox"
             name="features8"
-            onChange={(c) =>
-              setValue('features', c.target.value as FormData['features'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => toggleFeature(c.target.value)}
           ></input>
           <label className={styles['labelButton']} htmlFor="features8">
-            Water
+            <p className="body-text__small">Water</p>
           </label>
 
           <input
@@ -191,16 +207,10 @@ export default function Step2() {
             id="features9"
             className="checkbox"
             name="features9"
-            onChange={(c) =>
-              setValue('features', c.target.value as FormData['features'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => toggleFeature(c.target.value)}
           ></input>
           <label className={styles['labelButton']} htmlFor="features9">
-            Oven
+            <p className="body-text__small">Oven</p>
           </label>
 
           {formState.errors.features && <span className={styles['error']}>{formState.errors.features.message}</span>}
@@ -227,10 +237,10 @@ export default function Step2() {
           <label htmlFor="hours" className={styles['step2__label'] + ' body-text-secondary'}>
             Hours per week
           </label>
-          {formState.errors.stay?.hours && (
-            <span className={styles['error']}>{formState.errors.stay?.hours.message}</span>
-          )}
         </div>
+        {formState.errors.stay?.hours && (
+          <span className={styles['error']}>{formState.errors.stay?.hours.message}</span>
+        )}
         <div className={styles['step2__flexWrapper']}>
           <input
             className="standard-form__inputSmall"
@@ -249,10 +259,10 @@ export default function Step2() {
           <label htmlFor="weeks" className={styles['step2__label'] + ' body-text-secondary'}>
             Recurring weeks
           </label>
-          {formState.errors.stay?.weeks && (
-            <span className={styles['error']}>{formState.errors.stay?.weeks.message}</span>
-          )}
         </div>
+        {formState.errors.stay?.weeks && (
+          <span className={styles['error']}>{formState.errors.stay?.weeks.message}</span>
+        )}
       </div>
     </div>
   );
