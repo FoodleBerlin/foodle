@@ -85,7 +85,8 @@ export const formData = z.object({
     .max(7000, { message: 'You reached the maximum amount of characters' })
     .nonempty({ message: 'Description can not be empty' }),
   features: z
-    .array(z.string(), { required_error: 'Features are required' })
+    .string({ required_error: 'Features are required' })
+    .array()
     .min(1, { message: 'At least one feature must be selected' }),
   stay: z.object({
     hours: z
@@ -109,7 +110,10 @@ export const formData = z.object({
     starting: z.preprocess((arg) => {
       if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
     }, z.date()),
-    days: z.enum(['M', 'T', 'W', 'T', 'F', 'SA', 'SU']),
+    days: z
+      .string({ required_error: 'At least one day is required' })
+      .array()
+      .min(1, { message: 'At least one day is required' }),
     from: z.number({ required_error: 'This field is required', invalid_type_error: 'This field can not be empty' }),
     to: z.number({ required_error: 'This field is required', invalid_type_error: 'This field can not be empty' }),
     repeat: z.enum(['none', 'Every week']),
@@ -123,10 +127,7 @@ export const formData = z.object({
     .min(10, { message: 'Must be 10 or more characters long' })
     .max(7000, { message: 'You reached the maximum amount of characters' })
     .nonempty({ message: 'Rules can not be empty' }),
-  images: z
-    .array(z.string({ required_error: 'Images are required' }))
-    .min(1)
-    .max(5),
+  images: z.string({ required_error: 'Images are required' }).array().min(1).max(5),
 });
 
 export type FormData = z.infer<typeof formData>;
@@ -167,7 +168,7 @@ const WizardContext = React.createContext<WizardContext>({
     deposit: 0,
     availability: {
       starting: new Date('2015-03-25'),
-      days: 'M',
+      days: ['Monday'],
       from: 10,
       to: 1.5,
       repeat: 'Every week',
@@ -211,7 +212,7 @@ export const WizardProvider = ({ children }: any) => {
     deposit: 0,
     availability: {
       starting: new Date(),
-      days: 'M',
+      days: ['Monday'],
       from: 10,
       to: 1.5,
       repeat: 'Every week',

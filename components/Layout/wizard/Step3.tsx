@@ -5,6 +5,32 @@ export default function Step3() {
   const { formState, nextStep, register, setValue } = useWizardContext();
   const wizardContext = useWizardContext();
 
+  console.log(JSON.stringify(wizardContext.getValues()));
+
+  const toggleDays = (day: string) => {
+    if ([...wizardContext.getValues().availability.days].includes(day)) {
+      setValue(
+        'availability.days',
+        [...wizardContext.getValues().availability.days].filter((x) => x !== day) as FormData['availability']['days'],
+        {
+          shouldTouch: true,
+          shouldDirty: true,
+          shouldValidate: true,
+        }
+      );
+    } else {
+      setValue(
+        'availability.days',
+        [...wizardContext.getValues().availability.days, day] as FormData['availability']['days'],
+        {
+          shouldTouch: true,
+          shouldDirty: true,
+          shouldValidate: true,
+        }
+      );
+    }
+  };
+
   return (
     <div className={styles['step3']}>
       <div className={styles['formItem']}>
@@ -71,21 +97,73 @@ export default function Step3() {
           <div className={styles['step3__daysOfWeek']}>
             <label className="label-text">Days of week</label>
             <div className={styles['step3__weekDayCheckboxWrapper']}>
-              <input type="checkbox" id="weekday-mon" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
+              <input
+                {...register('availability.days')}
+                type="checkbox"
+                id="weekday-mon"
+                value="Monday"
+                className={styles['step3__weekDayCheckbox'] + ' weekday'}
+                onChange={(c) => toggleDays(c.target.value)}
+              />
               <label htmlFor="weekday-mon">M</label>
-              <input type="checkbox" id="weekday-tue" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
+              <input
+                {...register('availability.days')}
+                type="checkbox"
+                id="weekday-tue"
+                value="Tuesday"
+                className={styles['step3__weekDayCheckbox'] + ' weekday'}
+                onChange={(c) => toggleDays(c.target.value)}
+              />
               <label htmlFor="weekday-tue">T</label>
-              <input type="checkbox" id="weekday-wed" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
+              <input
+                {...register('availability.days')}
+                type="checkbox"
+                id="weekday-wed"
+                value="Wednesday"
+                className={styles['step3__weekDayCheckbox'] + ' weekday'}
+                onChange={(c) => toggleDays(c.target.value)}
+              />
               <label htmlFor="weekday-wed">W</label>
-              <input type="checkbox" id="weekday-thu" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
+              <input
+                {...register('availability.days')}
+                type="checkbox"
+                id="weekday-thu"
+                value="Thirsday"
+                className={styles['step3__weekDayCheckbox'] + ' weekday'}
+                onChange={(c) => toggleDays(c.target.value)}
+              />
               <label htmlFor="weekday-thu">T</label>
-              <input type="checkbox" id="weekday-fri" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
+              <input
+                {...register('availability.days')}
+                type="checkbox"
+                id="weekday-fri"
+                value="Friday"
+                className={styles['step3__weekDayCheckbox'] + ' weekday'}
+                onChange={(c) => toggleDays(c.target.value)}
+              />
               <label htmlFor="weekday-fri">F</label>
-              <input type="checkbox" id="weekday-sat" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
+              <input
+                {...register('availability.days')}
+                type="checkbox"
+                id="weekday-sat"
+                value="Saturday"
+                className={styles['step3__weekDayCheckbox'] + ' weekday'}
+                onChange={(c) => toggleDays(c.target.value)}
+              />
               <label htmlFor="weekday-sat">S</label>
-              <input type="checkbox" id="weekday-sun" className={styles['step3__weekDayCheckbox'] + ' weekday'} />
+              <input
+                {...register('availability.days')}
+                type="checkbox"
+                id="weekday-sun"
+                value="Sunday"
+                className={styles['step3__weekDayCheckbox'] + ' weekday'}
+                onChange={(c) => toggleDays(c.target.value)}
+              />
               <label htmlFor="weekday-sun">S</label>
             </div>
+            {formState.errors.availability?.days && (
+              <span className={styles['error']}>{formState.errors.availability.days.message}</span>
+            )}
           </div>
           <div className={styles['step3__timeInput']}>
             <span className={styles['step3__timeInputWrapper']}>
