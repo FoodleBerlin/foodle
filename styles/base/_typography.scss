@@ -41,6 +41,10 @@ body {
 .body-text {
   font-size: 2.4rem;
   font-weight: 300;
+  &__small {
+    font-size: 1.8rem;
+    font-weight: 300;
+  }
 }
 
 .body-text-secondary {
