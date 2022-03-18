@@ -44,8 +44,13 @@ export const Property = objectType({
     p.string('description');
     p.boolean('pickup');
     p.list.string('facilities');
+    p.int('deposit');
+    p.list.string('images');
+    p.boolean('partialSpace');
+    p.int('minStayHours');
+    p.int('minStayWeeks');
     p.boolean('isVerified');
-    p.nullable.int('dailyPrice');
+    p.int('hourlyPrice');
     p.int('serviceFee');
     p.list.string('rules');
     p.nullable.field('availabilities', {
@@ -156,10 +161,15 @@ export const CreateListing = extendType({
         city: nonNull(stringArg()),
         description: nonNull(stringArg()),
         pickup: nullable(booleanArg()),
-        dailyPrice: nonNull(intArg()),
+        hourlyPrice: nonNull(intArg()),
         serviceFee: nonNull(intArg()),
         facilities: nonNull(list(nonNull(stringArg()))),
         rules: nonNull(list(nonNull(stringArg()))),
+        deposit: nonNull(intArg()),
+        images: nonNull(list(nonNull(stringArg()))),
+        partialSpace: nonNull(booleanArg()),
+        minStayHours: nonNull(intArg()),
+        minStayWeeks: nonNull(intArg()),
       },
 
       //check user exists, street length not empty, not longer than 200, zip code lengt, city, enumsn nullable in db? rules
@@ -210,8 +220,13 @@ export const CreateListing = extendType({
           description: args.description,
           rules: args.rules,
           serviceFee: args.serviceFee,
-          dailyPrice: args.dailyPrice,
+          hourlyPrice: args.hourlyPrice,
           facilities: args.facilities,
+          deposit: args.deposit,
+          images: args.images,
+          partialSpace:args.partialSpace,
+          minStayHours: args.minStayHours,
+          minStayWeeks: args.minStayWeeks
         };
         try {
           const prop = ctx.prisma.property.create({ data: newProperty });

@@ -38,7 +38,7 @@ export type Query = {
   findAllProperties: FindAllPropertiesReturn;
   /** Takes a propertyId and returns the property */
   findProperty: FindPropertyResult;
-  /** Takes a handle and returns the user */
+  /** Takes a handle and returns the user.  */
   findUser: FindUserResult;
 };
 
@@ -63,12 +63,17 @@ export type Property = {
   availabilities?: Maybe<PropertySlot>;
   bookings: Array<Booking>;
   city: Scalars['String'];
-  dailyPrice?: Maybe<Scalars['Int']>;
+  deposit: Scalars['Int'];
   description: Scalars['String'];
   facilities: Array<Scalars['String']>;
+  hourlyPrice: Scalars['Int'];
+  images: Array<Scalars['String']>;
   isVerified: Scalars['Boolean'];
   kind: Scalars['String'];
+  minStayHours: Scalars['Int'];
+  minStayWeeks: Scalars['Int'];
   owner?: Maybe<User>;
+  partialSpace: Scalars['Boolean'];
   pickup: Scalars['Boolean'];
   rules: Array<Scalars['String']>;
   serviceFee: Scalars['Int'];
@@ -156,15 +161,21 @@ export type ClientErrorUserNotExists = {
 export type Mutation = {
   __typename?: 'Mutation';
   createListing: CreatePropertyReturn;
+  createUser: Scalars['Boolean'];
 };
 
 
 export type MutationCreateListingArgs = {
   city: Scalars['String'];
-  dailyPrice: Scalars['Int'];
+  deposit: Scalars['Int'];
   description: Scalars['String'];
   facilities: Array<Scalars['String']>;
+  hourlyPrice: Scalars['Int'];
+  images: Array<Scalars['String']>;
+  minStayHours: Scalars['Int'];
+  minStayWeeks: Scalars['Int'];
   ownerId: Scalars['String'];
+  partialSpace: Scalars['Boolean'];
   pickup?: InputMaybe<Scalars['Boolean']>;
   rules: Array<Scalars['String']>;
   serviceFee: Scalars['Int'];
@@ -204,14 +215,19 @@ export type CreateListingMutationVariables = Exact<{
   city: Scalars['String'];
   description: Scalars['String'];
   pickup: Scalars['Boolean'];
-  dailyPrice: Scalars['Int'];
   facilities: Array<Scalars['String']> | Scalars['String'];
   rules: Array<Scalars['String']> | Scalars['String'];
   serviceFee: Scalars['Int'];
+  hourlyPrice: Scalars['Int'];
+  deposit: Scalars['Int'];
+  images: Array<Scalars['String']> | Scalars['String'];
+  partialSpace: Scalars['Boolean'];
+  minStayHours: Scalars['Int'];
+  minStayWeeks: Scalars['Int'];
 }>;
 
 
-export type CreateListingMutation = { __typename?: 'Mutation', createListing: { __typename?: 'createPropertyReturn', Property?: { __typename?: 'Property', size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup: boolean, facilities: Array<string>, isVerified: boolean, dailyPrice?: number | null, serviceFee: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', id: string } | null } | null } };
+export type CreateListingMutation = { __typename?: 'Mutation', createListing: { __typename?: 'createPropertyReturn', Property?: { __typename?: 'Property', size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup: boolean, facilities: Array<string>, isVerified: boolean, hourlyPrice: number, serviceFee: number, deposit: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', id: string } | null } | null } };
 
 
 export const FindUserDocument = `
@@ -271,8 +287,8 @@ export const useFindUserQuery = <
       options
     );
 export const CreateListingDocument = `
-    mutation CreateListing($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $dailyPrice: Int!, $facilities: [String!]!, $rules: [String!]!, $serviceFee: Int!) {
-  createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, pickup: $pickup, dailyPrice: $dailyPrice, facilities: $facilities, rules: $rules, serviceFee: $serviceFee) {
+    mutation CreateListing($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $facilities: [String!]!, $rules: [String!]!, $serviceFee: Int!, $hourlyPrice: Int!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $minStayHours: Int!, $minStayWeeks: Int!) {
+  createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, pickup: $pickup, facilities: $facilities, rules: $rules, serviceFee: $serviceFee, hourlyPrice: $hourlyPrice, deposit: $deposit, images: $images, partialSpace: $partialSpace, minStayHours: $minStayHours, minStayWeeks: $minStayWeeks) {
     Property {
       size
       owner {
@@ -292,8 +308,9 @@ export const CreateListingDocument = `
       pickup
       facilities
       isVerified
-      dailyPrice
+      hourlyPrice
       serviceFee
+      deposit
       rules
       availabilities {
         id

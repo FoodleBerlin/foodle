@@ -60,8 +60,13 @@ export async function seed() {
         city: 'berlin',
         description: 'testhbdbjkfsdbjf',
         rules: 'fffff',
-        dailyPrice: 100,
+        hourlyPrice: 100,
         serviceFee: 0,
+        deposit:500,
+        images:[],
+        partialSpace: false,
+        minStayHours:50,
+        minStayWeeks:60
       },
     ],
   });

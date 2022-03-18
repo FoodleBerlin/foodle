@@ -3,8 +3,9 @@ import { useEffect } from 'react';
 import { CreateListing } from '../../../codegen/createListing';
 import { useWizardContext } from './Wizard';
 import client from '../../../client';
+import { AuthenticatedProps } from '../../../pages/account';
 
-export default function Step5() {
+export default function Step5(props: AuthenticatedProps) {
   const { getValues } = useWizardContext();
 
   const handleSubmit = async () => {
@@ -13,17 +14,22 @@ export default function Step5() {
       mutation: CreateListing,
       variables: {
         size: Number(wiz.size), // store as int instead
-        ownerId: '1', // get User ID
+        ownerId: props.session.id,
         street: wiz.location.street,
         streetNumber: wiz.location.number,
         zip: wiz.location.zip,
         city: wiz.location.city,
         description: wiz.description,
         rules: wiz.rules.split('.'),
-        dailyPrice: wiz.rent,
+        hourlyPrice: wiz.rent,
         facilities: wiz.features,
+        deposit: wiz.deposit,
+        images: wiz.images,
+        minStayHours: wiz.stay.hours,
+        minStayWeeks: wiz.stay.weeks,
       },
     });
+
     console.log({ res });
   };
 

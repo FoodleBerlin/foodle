@@ -10,12 +10,13 @@ import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Sidebar from '../Sidebar';
 import Footer from './Footer';
+import { AuthenticatedProps } from '../../../pages/account';
 
-export default function Wizard() {
+export default function Wizard(props: AuthenticatedProps) {
   const wizardContext = useWizardContext();
   return (
     <div>
-      <Sidebar user={undefined}>
+      <Sidebar user={props.session}>
         <div className={styles['sidebar-container']}>
           <div className={'flex'}>
             <div className={wizardContext.step >= 1 ? styles['item__activeOrPassed'] : styles['item']}>
@@ -47,7 +48,7 @@ export default function Wizard() {
         {wizardContext.step == 2 && <Step2></Step2>}
         {wizardContext.step == 3 && <Step3></Step3>}
         {wizardContext.step == 4 && <Step4></Step4>}
-        {wizardContext.step == 5 && <Step5></Step5>}
+        {wizardContext.step == 5 && <Step5 session={props.session} jwt={props.jwt}></Step5>}
       </div>
       <Footer step={wizardContext.step} />
     </div>
