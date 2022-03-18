@@ -12,6 +12,7 @@ interface UploaderProps {
   imageAmount: number;
   images: UploaderImage[];
   setImages: (images: UploaderImage[]) => void;
+  setS3Ids: (idArray: string[]) => void;
 }
 
 const Uploader = (props: UploaderProps) => {
@@ -37,26 +38,17 @@ const Uploader = (props: UploaderProps) => {
     },
   });
 
-  const { formState, nextStep, register, setValue, getValues } = useWizardContext();
+  const { register } = useWizardContext();
 
-  const wizardContext = useWizardContext();
-  const [s3Ids, setS3Ids] = useState<string[]>([]);
-  useEffect(() => {
-    setValue('images', s3Ids as FormData['images'], {
-      shouldTouch: true,
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  }, [s3Ids]);
   const s3IdUpdate = (images: UploaderImage[]) => {
     const imageArray = Array.from(images);
     const idArray: string[] = [];
     imageArray.forEach((image) => {
-      if (s3Ids && image.s3Id) {
+      if (image.s3Id) {
         idArray.push(image.s3Id);
       }
     });
-    setS3Ids(idArray);
+    props.setS3Ids(idArray);
   };
   const user = {
     id: 'ID20',

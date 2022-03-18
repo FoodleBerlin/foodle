@@ -48,5 +48,27 @@ export async function seed() {
       }),
     ])
   );
+  await prisma.property.createMany({
+    data: [
+      {
+        id: '1',
+        size: 123,
+        ownerId: '1',
+        street: 'testhbdbjkfsdbjf',
+        streetNumber: 1233,
+        zip: 123445,
+        city: 'berlin',
+        description: 'testhbdbjkfsdbjf',
+        rules: 'fffff',
+        hourlyPrice: 100,
+        serviceFee: 0,
+        deposit:500,
+        images:[],
+        partialSpace: false,
+        minStayHours:50,
+        minStayWeeks:60
+      },
+    ],
+  });
 }
 export default seed;
