@@ -110,12 +110,43 @@ export const formData = z.object({
     starting: z.preprocess((arg) => {
       if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
     }, z.date()),
-    days: z
-      .string({ required_error: 'At least one day is required' })
-      .array()
-      .min(1, { message: 'At least one day is required' }),
-    from: z.number({ required_error: 'This field is required', invalid_type_error: 'This field can not be empty' }),
-    to: z.number({ required_error: 'This field is required', invalid_type_error: 'This field can not be empty' }),
+    daySlots: z.object({
+      monday: z.object({
+        selected: z.boolean(),
+        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      }),
+      tuesday: z.object({
+        selected: z.boolean(),
+        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      }),
+      wednesday: z.object({
+        selected: z.boolean(),
+        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      }),
+      thursday: z.object({
+        selected: z.boolean(),
+        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      }),
+      friday: z.object({
+        selected: z.boolean(),
+        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      }),
+      saturday: z.object({
+        selected: z.boolean(),
+        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      }),
+      sunday: z.object({
+        selected: z.boolean(),
+        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      }),
+    }),
     repeat: z.enum(['none', 'weekly']),
     until: z.date(),
     stay: z
@@ -127,7 +158,17 @@ export const formData = z.object({
     .min(10, { message: 'Must be 10 or more characters long' })
     .max(7000, { message: 'You reached the maximum amount of characters' })
     .nonempty({ message: 'Rules can not be empty' }),
-  images: z.string({ required_error: 'Images are required' }).array().min(1).max(5),
+  images: z
+    .object({
+      file: z.string(),
+      id: z.number(),
+      s3Id: z.string(),
+      name: z.string(),
+      size: z.number(),
+    })
+    .array()
+    .min(1)
+    .max(5),
 });
 
 export type FormData = z.infer<typeof formData>;
@@ -168,9 +209,43 @@ const WizardContext = React.createContext<WizardContext>({
     deposit: 0,
     availability: {
       starting: new Date('2015-03-25'),
-      days: ['Monday'],
-      from: 10,
-      to: 1.5,
+      daySlots: {
+        monday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        tuesday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        wednesday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        thursday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        friday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        saturday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        sunday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+      },
       repeat: 'weekly',
       until: new Date(),
       stay: '1 month',
@@ -192,6 +267,7 @@ export const WizardProvider = ({ children }: any) => {
   const [step, setStep] = useState<number>(1);
   const defaults = {
     /* STEP 1 */
+    size: 0,
     property: 'full',
     location: {
       city: 'Berlin',
@@ -212,16 +288,52 @@ export const WizardProvider = ({ children }: any) => {
     deposit: 0,
     availability: {
       starting: new Date(),
-      days: ['Monday'],
-      from: 10,
-      to: 1.5,
+      daySlots: {
+        monday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        tuesday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        wednesday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        thursday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        friday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        saturday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+        sunday: {
+          selected: false,
+          startingTime: '',
+          endingTime: '',
+        },
+      },
+      startingTimes: ['', '', '', '', '', '', ''],
+      endingTimes: ['', '', '', '', '', '', ''],
       repeat: 'weekly',
       until: new Date(),
       stay: '1 month',
     },
     rules: '',
     /* STEP 4 */
-    images: [''],
+    images: [],
   } as FormData;
   const { register, setValue, formState, getValues } = useForm<FormData>({
     resolver: zodResolver(formData),

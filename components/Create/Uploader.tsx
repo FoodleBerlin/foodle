@@ -6,13 +6,11 @@ import { FormData, useWizardContext } from '../Layout/wizard/Wizard';
 import { v4 as uuidv4 } from 'uuid';
 import { Storage } from 'aws-amplify';
 interface UploaderProps {
-  addToImages: (image: UploaderImage) => void;
   idCount: number;
   setIdCount: (idCount: number) => void;
   imageAmount: number;
   images: UploaderImage[];
   setImages: (images: UploaderImage[]) => void;
-  setS3Ids: (idArray: string[]) => void;
 }
 
 const Uploader = (props: UploaderProps) => {
@@ -30,26 +28,15 @@ const Uploader = (props: UploaderProps) => {
           });
           idNumber++;
         });
+
         const imageArray = [...props.images, ...acceptedFiles];
         props.setImages(imageArray);
-        s3IdUpdate(imageArray);
         props.setIdCount(idNumber);
       }
     },
   });
 
   const { register } = useWizardContext();
-
-  const s3IdUpdate = (images: UploaderImage[]) => {
-    const imageArray = Array.from(images);
-    const idArray: string[] = [];
-    imageArray.forEach((image) => {
-      if (image.s3Id) {
-        idArray.push(image.s3Id);
-      }
-    });
-    props.setS3Ids(idArray);
-  };
   const user = {
     id: 'ID20',
   };
