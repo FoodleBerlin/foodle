@@ -9,14 +9,14 @@ export default function Step1() {
         <h2 className="header-tertiary">What kind of property do you own?</h2>
         <div className={styles['step1__buttonWrapper']}>
           <input
-            {...register('property')}
+            {...register('partialSpace')}
             type="radio"
             id="full"
             className="radio"
             name="kitchen"
             value="full"
             onChange={(c) =>
-              setValue('property', c.target.value as FormData['property'], {
+              setValue('partialSpace', c.target.value as FormData['partialSpace'], {
                 shouldTouch: true,
                 shouldDirty: true,
                 shouldValidate: true,
@@ -28,14 +28,14 @@ export default function Step1() {
           </label>
 
           <input
-            {...register('property')}
+            {...register('partialSpace')}
             type="radio"
             id="partial"
             className="radio"
             name="kitchen"
             value="partial"
             onChange={(c) =>
-              setValue('property', c.target.value as FormData['property'], {
+              setValue('partialSpace', c.target.value as FormData['partialSpace'], {
                 shouldTouch: true,
                 shouldDirty: true,
                 shouldValidate: true,
@@ -45,7 +45,9 @@ export default function Step1() {
           <label className={styles['labelButton']} htmlFor="partial">
             <p className="body-text__small">Part of kitchen</p>
           </label>
-          {formState.errors.property && <span className={styles['error']}>{formState.errors.property.message}</span>}
+          {formState.errors.partialSpace && (
+            <span className={styles['error']}>{formState.errors.partialSpace.message}</span>
+          )}
         </div>
       </div>
       <div className={styles['formItem']}>

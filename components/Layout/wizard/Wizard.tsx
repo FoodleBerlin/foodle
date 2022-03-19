@@ -60,7 +60,7 @@ const onlyString = /^[a-zA-Z_ ]*$/;
 
 export const formData = z.object({
   /* STEP 1 */
-  property: z.enum(['partial', 'full']),
+  partialSpace: z.enum(['partial', 'full']),
   size: z.number({ required_error: 'Size is required', invalid_type_error: 'Size can not be empty' }).min(1).max(1000),
   location: z.object({
     street: z
@@ -88,26 +88,13 @@ export const formData = z.object({
     .string({ required_error: 'Features are required' })
     .array()
     .min(1, { message: 'At least one feature must be selected' }),
-  stay: z.object({
-    hours: z
-      .number({
-        required_error: 'Hours per week is required',
-        invalid_type_error: 'Hours per week can not be empty',
-      })
-      .min(1, { message: 'At least 1 hour per week is required.' })
-      .max(168, { message: 'You reached the maximum amount of hours per week' }),
-    weeks: z
-      .number({ required_error: 'Weeks is required', invalid_type_error: 'Weeks can not be empty' })
-      .min(0)
-      .max(52, { message: 'You reached the maximum amount of recurring weeks' }),
-  }),
   /* STEP 3 */
   rent: z
     .number({ required_error: 'Rent per hour is required', invalid_type_error: 'Rent per hour can not be empty' })
     .min(1, { message: 'Rent must be greater than or equal to 1' }),
   deposit: z.number().min(0, { message: 'Deposit must be greater than or equal to 1' }).optional(),
   availability: z.object({
-    starting: z.preprocess((arg) => {
+    startDate: z.preprocess((arg) => {
       if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
     }, z.date()),
     daySlots: z.object({
@@ -148,11 +135,10 @@ export const formData = z.object({
       }),
     }),
     repeat: z.enum(['none', 'weekly']),
-    until: z.date(),
-    stay: z
-      .string({ required_error: 'Minimum stay is required, e.g. 1 month' })
-      .nonempty({ message: 'Minimum stay can not be empty' }),
+    endDate: z.date(),
   }),
+
+  minMonths: z.number({ required_error: 'Minimum stay is required, e.g. 1 month' }),
   rules: z
     .string({ required_error: 'Rules are required' })
     .min(10, { message: 'Must be 10 or more characters long' })
@@ -188,7 +174,7 @@ const WizardContext = React.createContext<WizardContext>({
   step: 1,
   defaults: {
     /* STEP 1 */
-    property: 'full' as FormData['property'],
+    partialSpace: 'full' as FormData['partialSpace'],
     size: 0,
     location: {
       city: 'Berlin',
@@ -200,15 +186,11 @@ const WizardContext = React.createContext<WizardContext>({
     /* STEP 2 */
     description: '',
     features: ['Unfurnished'],
-    stay: {
-      hours: 0,
-      weeks: 0,
-    },
     /* STEP 3 */
     rent: 0,
     deposit: 0,
     availability: {
-      starting: new Date('2015-03-25'),
+      startDate: new Date('2015-03-25'),
       daySlots: {
         monday: {
           selected: false,
@@ -247,9 +229,10 @@ const WizardContext = React.createContext<WizardContext>({
         },
       },
       repeat: 'weekly',
-      until: new Date(),
-      stay: '1 month',
+      endDate: new Date(),
     },
+
+    minMonths: 1,
     rules: '',
     /* STEP 4 */
     images: [],
@@ -268,7 +251,7 @@ export const WizardProvider = ({ children }: any) => {
   const defaults = {
     /* STEP 1 */
     size: 0,
-    property: 'full',
+    partialSpace: 'full',
     location: {
       city: 'Berlin',
       country: 'Germany',
@@ -287,7 +270,7 @@ export const WizardProvider = ({ children }: any) => {
     rent: 0,
     deposit: 0,
     availability: {
-      starting: new Date(),
+      startDate: new Date(),
       daySlots: {
         monday: {
           selected: false,
@@ -325,12 +308,12 @@ export const WizardProvider = ({ children }: any) => {
           endingTime: '',
         },
       },
-      startingTimes: ['', '', '', '', '', '', ''],
-      endingTimes: ['', '', '', '', '', '', ''],
+      // startingTimes: ['', '', '', '', '', '', ''],
+      // endingTimes: ['', '', '', '', '', '', ''],
       repeat: 'weekly',
-      until: new Date(),
-      stay: '1 month',
+      endDate: new Date(),
     },
+    minMonths: 1,
     rules: '',
     /* STEP 4 */
     images: [],

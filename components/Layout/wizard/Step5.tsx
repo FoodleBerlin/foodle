@@ -4,13 +4,39 @@ import { CreateListing } from '../../../codegen/createListing';
 import { useWizardContext } from './Wizard';
 import client from '../../../client';
 import { AuthenticatedProps } from '../../../pages/account';
+import { DaySlot } from './Step3';
 
 export default function Step5(props: AuthenticatedProps) {
   const { getValues } = useWizardContext();
 
   const handleSubmit = async () => {
     const wiz = getValues();
-    console.log('get' + wiz.availability.starting);
+
+    const selectedDaySlots: DaySlot[] = [];
+    useEffect(() => {
+      const slots = wiz.availability.daySlots;
+      if (slots.monday.selected) {
+        selectedDaySlots.push(slots.monday);
+      }
+      if (slots.tuesday.selected) {
+        selectedDaySlots.push(slots.tuesday);
+      }
+      if (slots.wednesday.selected) {
+        selectedDaySlots.push(slots.wednesday);
+      }
+      if (slots.thursday.selected) {
+        selectedDaySlots.push(slots.thursday);
+      }
+      if (slots.friday.selected) {
+        selectedDaySlots.push(slots.friday);
+      }
+      if (slots.saturday.selected) {
+        selectedDaySlots.push(slots.saturday);
+      }
+      if (slots.sunday.selected) {
+        selectedDaySlots.push(slots.sunday);
+      }
+    });
 
     const res = await client.mutate({
       mutation: CreateListing,
@@ -27,23 +53,17 @@ export default function Step5(props: AuthenticatedProps) {
         facilities: wiz.features,
         deposit: Number(wiz.deposit),
         images: wiz.images,
-        minStayHours: Number(wiz.stay.hours),
-        minStayWeeks: Number(wiz.stay.weeks),
+        minStayHours: 0,
+        minStayWeeks: 0,
         pickup: false,
         serviceFee: Number(0),
-        partialSpace: wiz.property === 'partial' ? true : false,
+        partialSpace: wiz.partialSpace === 'partial' ? true : false,
         availabilities: {
-          startDate: new Date(wiz.availability.starting).toISOString(),
-          endDate: new Date(wiz.availability.until).toISOString(),
+          startDate: new Date(wiz.availability.startDate).toISOString(),
+          endDate: new Date(wiz.availability.endDate).toISOString(),
           repeats: wiz.availability.repeat,
-          genericDaySlots: [
-            {
-              startTime: '2022-03-18T13:10:30Z',
-              endTime: '2022-03-18T13:10:30Z',
-              weekday: wiz.availability.days[0],
-            },
-          ],
-          minimumMonth: Number(wiz.stay.weeks),
+          genericDaySlots: selectedDaySlots,
+          minimumMonth: Number(wiz.minMonths),
           frequency: wiz.availability.repeat,
         },
       },

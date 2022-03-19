@@ -3,7 +3,6 @@ import styles from './Create.module.scss';
 import { UploaderImage } from '../Layout/wizard/Step4';
 import Image from 'next/image';
 interface PreviewProps {
-  addToImages: (image: UploaderImage) => void;
   deleteImage: (id: number) => void;
   setImages: (files: any) => void;
   images: UploaderImage[];
