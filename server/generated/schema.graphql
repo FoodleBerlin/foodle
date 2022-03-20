@@ -15,7 +15,14 @@ type Booking {
 }
 
 type BookingSlot {
+  booking: Booking!
+  bookingId: String!
+  endDate: String!
+  frequency: Frequency!
+  genericDaySlot: [GenericDaySlot!]!
   id: String!
+  repeats: String!
+  startDate: String!
 }
 
 enum BookingStatus {
@@ -91,6 +98,15 @@ enum Frequency {
   NONE
   TRIWEEKLY
   WEEKLY
+}
+
+type GenericDaySlot {
+  bookingSlot: BookingSlot!
+  endTime: String!
+  id: String!
+  propertySlot: PropertySlot!
+  startTime: String!
+  weekday: String!
 }
 
 type Mutation {

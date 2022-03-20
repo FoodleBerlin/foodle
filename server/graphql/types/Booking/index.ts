@@ -1,9 +1,11 @@
-import { enumType, extendType, intArg, nonNull, nullable, objectType, stringArg } from 'nexus';
-import { BookingSlot } from '../../BookingSlot';
+import { extendType, intArg, nonNull, nullable, objectType, stringArg } from 'nexus';
+import { BookingSlot } from '../BookingSlot';
 import { Property } from '../Property';
 import { User } from '../User';
 import { ClientErrorPropertyNotExists, ClientErrorUserNotExists, UnknownError } from '../Error';
-import { BookingStatus, Frequency } from '@prisma/client';
+import { FrequencyEnum } from '../EnumTypes/FrequencyEnum';
+import { BookingStatusEnum } from '../EnumTypes/BookingStatusEnum';
+import { Context } from '~/server/context';
 
 export const Booking = objectType({
   name: 'Booking',
@@ -12,7 +14,7 @@ export const Booking = objectType({
     b.string('kind');
     b.field('tenant', {
       type: User,
-      async resolve(parent, args, ctx) {
+      async resolve(parent, args, ctx: Context) {
         const user = await ctx.prisma.user.findUnique({
           where: {
             id: parent.tenantId,
@@ -29,7 +31,7 @@ export const Booking = objectType({
     });
     b.field('property', {
       type: Property,
-      async resolve(parent, args, ctx) {
+      async resolve(parent, args, ctx: Context) {
         let prop = await ctx.prisma.property.findUnique({
           where: {
             id: parent.propertyId,
@@ -39,9 +41,8 @@ export const Booking = objectType({
           throw Error(
             `Error fetching fetching property with id ${parent.propertyId} for when creating booking with id ${parent.id} `
           );
-        } else {
-          return prop;
         }
+        return prop;
       },
     });
     b.int('totalPrice');
@@ -49,8 +50,8 @@ export const Booking = objectType({
     b.string('endDate');
     b.list.field('bookingSlot', {
       type: BookingSlot,
-      async resolve(parent, args, ctx) {
-        return ctx.prisma.bookingSlot.findMany({
+      async resolve(parent, args, ctx: Context) {
+        return await ctx.prisma.bookingSlot.findMany({
           where: {
             bookingId: parent.id,
           },
@@ -96,7 +97,7 @@ export const CreateBookingForProperty = extendType({
         tenantHandle: nonNull(stringArg()),
         frequency: nonNull(FrequencyEnum),
       },
-      async resolve(_, args, ctx) {
+      async resolve(_, args, ctx: Context) {
         const tenant = await ctx.prisma.user.findUnique({
           where: {
             handle: args.tenantHandle,
@@ -135,7 +136,6 @@ export const CreateBookingForProperty = extendType({
           });
           return { Booking: savedBooking };
         } catch (error) {
-          // better way?
           let errorMessage = 'Unknown error when saving a new booking: ';
           if (error instanceof Error) {
             errorMessage += error.message;
@@ -148,24 +148,5 @@ export const CreateBookingForProperty = extendType({
         }
       },
     });
-  },
-});
-
-const FrequencyEnum = enumType({
-  name: 'Frequency',
-  members: {
-    NONE: Frequency.none,
-    WEEKLY: Frequency.weekly,
-    BIWEEKLY: Frequency.biweekly,
-    TRIWEEKLY: Frequency.none,
-  },
-});
-
-const BookingStatusEnum = enumType({
-  name: 'BookingStatus',
-  members: {
-    ACCEPTED: BookingStatus.accepted,
-    PENDING: BookingStatus.pending,
-    REJECTED: BookingStatus.rejected,
   },
 });

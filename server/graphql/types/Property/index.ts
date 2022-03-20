@@ -13,6 +13,7 @@ import { User } from '../User';
 import { Booking } from '../Booking';
 import { Facility } from '../Facility';
 import { PropertySlot } from '../PropertySlot';
+import { Context } from '~/server/context';
 
 export const Property = objectType({
   name: 'Property',
@@ -20,7 +21,7 @@ export const Property = objectType({
     p.int('size');
     p.nullable.field('owner', {
       type: User,
-      async resolve(parent, args, ctx) {
+      async resolve(parent, args, ctx: Context) {
         return await ctx.prisma.user.findUnique({
           where: {
             id: parent.ownerId,
@@ -63,7 +64,7 @@ export const Property = objectType({
     p.list.string('rules');
     p.nullable.field('availabilities', {
       type: PropertySlot,
-      async resolve(parent, args, ctx) {
+      async resolve(parent, args, ctx: Context) {
         const slot = await ctx.prisma.propertySlot.findUnique({
           where: {
             propertyId: parent.id,
@@ -99,7 +100,7 @@ export const FindPropertyById = extendType({
       type: FindPropertyResult,
       description: 'Takes a propertyId and returns the property',
       args: { id: stringArg() },
-      resolve: async (_, args, ctx) => {
+      resolve: async (_, args, ctx: Context) => {
         console.log(!args.id);
         if (!args.id) {
           return {
@@ -292,7 +293,7 @@ export const findAllProperties = extendType({
   definition(t) {
     t.field('findAllProperties', {
       type: findAllPropertiesReturn,
-      resolve: async (_, args, ctx) => {
+      resolve: async (_, args, ctx: Context) => {
         try {
           let properties = await ctx.prisma.property.findMany();
           return { Properties: properties };
