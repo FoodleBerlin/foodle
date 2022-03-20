@@ -135,7 +135,9 @@ export const formData = z.object({
       }),
     }),
     repeat: z.enum(['none', 'weekly']),
-    endDate: z.date(),
+    endDate: z.preprocess((arg) => {
+      if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
+    }, z.date()),
   }),
 
   minMonths: z.number({ required_error: 'Minimum stay is required, e.g. 1 month' }),
