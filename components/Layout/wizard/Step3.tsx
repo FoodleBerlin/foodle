@@ -575,6 +575,10 @@ export default function Step3() {
       </div>
       <div className={styles['formItem']}>
         <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>What are the rules?</h2>
+        <p>
+          Please let the prospective booker know about cleanliness standards, key pick up and drop off processes, and
+          anything else they should know.
+        </p>
         <textarea
           className={styles['step3__textArea'] + ' standard-form'}
           {...register('rules')}
