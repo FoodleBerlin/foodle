@@ -26,7 +26,7 @@ export default function Step5() {
           <div className={styles['step5__titleWrapper'] + ' ' + styles['step2__marginHeadline']}>
             <h3 className="header-tertiary">Industrial Grade Kitchen in Mitte</h3>
             <div className={styles['step5__flexWrapper']}>
-              <p className="body-text">{wiz.rent}</p>
+              <p className="body-text">{wiz.hourlyPrice}</p>
               <p className="body-text">€/h</p>
             </div>
           </div>
@@ -40,7 +40,7 @@ export default function Step5() {
           </div>
           <br />
           <div className={styles['step5__featureTagWrapper']}>
-            {wiz.features.map((feature: string) => (
+            {wiz.facilities.map((feature: string) => (
               <span className="feature-tag">
                 <p>{feature.toUpperCase()}</p>
               </span>
@@ -60,8 +60,8 @@ export default function Step5() {
         </div>
         <div className={styles['formItem']}>
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Pricing</h2>
-          <PriceLine label="Rental Fee" text={wiz.rent + '€ / hr'} />
-          <PriceLine label="Booking Fee" text={wiz.rent + '€ / hr'} />
+          <PriceLine label="Rental Fee" text={wiz.hourlyPrice + '€ / hr'} />
+          <PriceLine label="Booking Fee" text={wiz.hourlyPrice + '€ / hr'} />
           <PriceLine label="Service Fee" text="0€" />
           <PriceLine label="Deposit" text={wiz.deposit + '€'} />
           <PriceLine label="Cancellation Type" text="Full Refund 2 weeks before, partial after." />

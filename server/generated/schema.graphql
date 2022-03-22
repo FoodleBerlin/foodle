@@ -101,8 +101,6 @@ type Mutation {
     facilities: [String!]!
     hourlyPrice: Int!
     images: [String!]!
-    minStayHours: Int!
-    minStayWeeks: Int!
     ownerId: String!
     partialSpace: Boolean!
     pickup: Boolean
@@ -134,8 +132,6 @@ type Property {
   images: [String!]!
   isVerified: Boolean!
   kind: String!
-  minStayHours: Int!
-  minStayWeeks: Int!
   owner: User
   partialSpace: Boolean!
   pickup: Boolean
@@ -151,10 +147,9 @@ type PropertySlot {
   availableDays: [GenericDaySlot!]!
   endDate: DateTime!
   frequency: Frequency!
-  minimumMonth: Int!
+  minMonths: Int!
   property: Property
   propertyId: String!
-  repeats: String!
   startDate: DateTime!
 }
 
@@ -165,8 +160,7 @@ input PropertySlotInput {
   endDate: DateTime!
   frequency: Frequency!
   genericDaySlots: [GenericDaySlotInput]!
-  minimumMonth: Int!
-  repeats: String!
+  minMonths: Int!
   startDate: DateTime!
 }
 

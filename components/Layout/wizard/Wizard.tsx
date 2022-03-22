@@ -76,12 +76,12 @@ export const formData = z.object({
     .min(20, { message: 'Must be 20 or more characters long' })
     .max(7000, { message: 'You reached the maximum amount of characters' })
     .nonempty({ message: 'Description can not be empty' }),
-  features: z
+  facilities: z
     .string({ required_error: 'Features are required' })
     .array()
     .min(1, { message: 'At least one feature must be selected' }),
   /* STEP 3 */
-  rent: z
+  hourlyPrice: z
     .number({ required_error: 'Rent per hour is required', invalid_type_error: 'Rent per hour can not be empty' })
     .min(1, { message: 'Rent must be greater than or equal to 1' }),
   deposit: z.number().min(0, { message: 'Deposit must be greater than or equal to 1' }).optional(),
@@ -179,9 +179,9 @@ const WizardContext = React.createContext<WizardContext>({
     },
     /* STEP 2 */
     description: '',
-    features: ['Unfurnished'],
+    facilities: ['Unfurnished'],
     /* STEP 3 */
-    rent: 0,
+    hourlyPrice: 0,
     deposit: 0,
     availability: {
       startDate: new Date('2015-03-25'),
@@ -255,13 +255,13 @@ export const WizardProvider = ({ children }: any) => {
     },
     /* STEP 2 */
     description: '',
-    features: ['Unfurnished'],
+    facilities: ['Unfurnished'],
     stay: {
       hours: 0,
       weeks: 0,
     },
     /* STEP 3 */
-    rent: 0,
+    hourlyPrice: 0,
     deposit: 0,
     availability: {
       startDate: new Date(),

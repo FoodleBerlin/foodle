@@ -22,15 +22,17 @@ export default function Step3() {
           <input
             className={styles['step3__shortInput'] + ' standard-form'}
             type="number"
-            id="rent"
-            {...register('rent')}
-            onChange={(c) => setValue('rent', parseInt(c.target.value), touchDirtyValidate)}
+            id="hourlyPrice"
+            {...register('hourlyPrice')}
+            onChange={(c) => setValue('hourlyPrice', parseInt(c.target.value), touchDirtyValidate)}
           ></input>
-          <label htmlFor={'rent'} className="body-text-secondary">
+          <label htmlFor={'hourlyPrice'} className="body-text-secondary">
             € per hour
           </label>
         </div>
-        {formState.errors.rent && <span className={styles['error']}>{formState.errors.rent.message}</span>}
+        {formState.errors.hourlyPrice && (
+          <span className={styles['error']}>{formState.errors.hourlyPrice.message}</span>
+        )}
       </div>
       <div className={styles['formItem']}>
         <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Is there a deposit?</h2>
@@ -81,9 +83,6 @@ export default function Step3() {
               <span className={styles['error']}>{formState.errors.availability.days.map((e) => e.message)}</span>
             )} */}
           </div>
-
-          {/* <--------- TIME INPUTS ---------> */}
-
           <div className={styles['step3__timeInput']}>
             {monday.selected && <TimeInput shortest={'M'} short={'mon'} />}
             {tuesday.selected && <TimeInput shortest={'T'} short={'tue'} />}

@@ -11,8 +11,7 @@ export const PropertySlot = objectType({
     t.field('endDate', {
       type: 'DateTime',
     });
-    t.int('minimumMonth');
-    t.string('repeats');
+    t.int('minMonths');
     t.string('propertyId')
     t.nullable.field('property', {
       type: Property,
@@ -53,8 +52,7 @@ export const PropertySlotInput = inputObjectType({
   definition(t) {
     t.nonNull.field('startDate', {type: 'DateTime'});
     t.nonNull.field('endDate', {type: 'DateTime'});
-    t.nonNull.int('minimumMonth');
-    t.nonNull.string('repeats');
+    t.nonNull.int('minMonths');
     t.nonNull.list.field('genericDaySlots', {type: GenericDaySlotInput});
     t.nonNull.field('frequency', {type: Frequency});
   },

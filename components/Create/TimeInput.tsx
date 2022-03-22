@@ -149,16 +149,18 @@ const TimeInput = (props: TimeInputProps) => {
   };
 
   return (
-    <span className={styles['step3__timeInputWrapper']}>
+    <span className={styles['step3__timeInputWrapper'] + ' mb-one'}>
       <input type="checkbox" checked id={'time-' + short} className="weekday" />
-      <label htmlFor={'time-' + short}>{shortest}</label>
+      <label className="bold" htmlFor={'time-' + short}>
+        {shortest}
+      </label>
       <input
         {...registered().startRegister}
         onChange={(e) => setDayStartingTime(registered.normalWeekString, e.target.value)}
         className="standard-form__inputTime"
         type="time"
       />
-      <label className="body-text"> to</label>
+      <label className="small-text bold"> to</label>
       <input
         {...registered().endRegister}
         onChange={(e) => setDayEndingTime(registered.normalWeekString, e.target.value)}

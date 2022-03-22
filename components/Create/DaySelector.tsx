@@ -94,7 +94,9 @@ const DaySelector = (props: DaySelectorProps) => {
         className={styles['step3__weekDayCheckbox'] + ' weekday'}
         onChange={(c) => toggleDay(c.target.value)}
       />
-      <label htmlFor={'weekday-' + props.short}>{props.shortest}</label>
+      <label className="bold" htmlFor={'weekday-' + props.short}>
+        {props.shortest}
+      </label>
     </>
   );
 };

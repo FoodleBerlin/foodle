@@ -5,6 +5,7 @@ import { FieldError } from 'react-hook-form';
 export default function Step2() {
   const { formState, nextStep, register, setValue } = useWizardContext();
   const wizardContext = useWizardContext();
+  console.log('tuh:' + JSON.stringify(wizardContext.getValues().facilities));
 
   /* 
   toggle handler function that allows user to select and deselect a feature
@@ -13,25 +14,25 @@ export default function Step2() {
     /*
     when feature is already in the wizardContext, it will be deleted
     */
-    if ([...wizardContext.getValues().features].includes(feature)) {
+    if ([...wizardContext.getValues().facilities].includes(feature)) {
       setValue(
-        'features',
-        [...wizardContext.getValues().features].filter((x) => x !== feature) as FormData['features'],
+        'facilities',
+        [...wizardContext.getValues().facilities].filter((x) => x !== feature) as FormData['facilities'],
         touchDirtyValidate
       );
       /*
       when 'Unfurnished' is already clicked, unclick and delete it from
       wizardContext as soon as one of the other feature is clicked
       */
-    } else if ([...wizardContext.getValues().features].includes('Unfurnished')) {
+    } else if ([...wizardContext.getValues().facilities].includes('Unfurnished')) {
       setValue(
-        'features',
-        [...wizardContext.getValues().features].filter((x) => x !== 'Unfurnished') as FormData['features'],
+        'facilities',
+        [...wizardContext.getValues().facilities].filter((x) => x !== 'Unfurnished') as FormData['facilities'],
         touchDirtyValidate
       );
       setValue(
-        'features',
-        [...wizardContext.getValues().features, feature] as FormData['features'],
+        'facilities',
+        [...wizardContext.getValues().facilities, feature] as FormData['facilities'],
         touchDirtyValidate
       );
       /* 
@@ -40,20 +41,20 @@ export default function Step2() {
       */
     } else if (feature === 'Unfurnished') {
       setValue(
-        'features',
-        [...wizardContext.getValues().features].filter((x) => x === 'Unfurnished') as FormData['features'],
+        'facilities',
+        [...wizardContext.getValues().facilities].filter((x) => x === 'Unfurnished') as FormData['facilities'],
         touchDirtyValidate
       );
       setValue(
-        'features',
-        [...wizardContext.getValues().features, 'Unfurnished'] as FormData['features'],
+        'facilities',
+        [...wizardContext.getValues().facilities, 'Unfurnished'] as FormData['facilities'],
         touchDirtyValidate
       );
       // in any other case the clicked feature will be added to the wizardContext
     } else {
       setValue(
-        'features',
-        [...wizardContext.getValues().features, feature] as FormData['features'],
+        'facilities',
+        [...wizardContext.getValues().facilities, feature] as FormData['facilities'],
         touchDirtyValidate
       );
     }
@@ -62,7 +63,7 @@ export default function Step2() {
     return (
       <>
         <input
-          {...register('features')}
+          {...register('facilities')}
           type="checkbox"
           value={facility}
           id={'features' + id}
@@ -107,8 +108,8 @@ export default function Step2() {
                 return facility(facilityString, index + 1);
               }
             )}
-            {formState?.errors?.features && (
-              <span className={styles['error']}>{(formState?.errors?.features as any).message}</span>
+            {formState?.errors?.facilities && (
+              <span className={styles['error']}>{(formState?.errors?.facilities as any).message}</span>
             )}
           </div>
         </div>

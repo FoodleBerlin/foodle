@@ -47,8 +47,6 @@ export const Property = objectType({
     p.int('deposit');
     p.list.string('images');
     p.boolean('partialSpace');
-    p.int('minStayHours');
-    p.int('minStayWeeks');
     p.boolean('isVerified');
     p.int('hourlyPrice');
     p.int('serviceFee');

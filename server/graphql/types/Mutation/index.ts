@@ -62,8 +62,6 @@ export const CreateListing = extendType({
         deposit: nonNull(intArg()),
         images: nonNull(list(nonNull(stringArg()))),
         partialSpace: nonNull(booleanArg()),
-        minStayHours: nonNull(intArg()),
-        minStayWeeks: nonNull(intArg()),
         availabilities: nonNull(PropertySlotInput)
       },
 
@@ -126,15 +124,12 @@ export const CreateListing = extendType({
           deposit: args.deposit,
           images: args.images,
           partialSpace:args.partialSpace,
-          minStayHours: args.minStayHours,
-          minStayWeeks: args.minStayWeeks,
           pickup:args.pickup ?? false,
           availabilities: {create: 
             {endDate: args.availabilities.endDate,
             startDate: args.availabilities.startDate,
             frequency: args.availabilities.frequency,
-            minimumMonth: args.availabilities.minimumMonth,
-            repeats: args.availabilities.repeats,
+            minMonths: args.availabilities.minMonths,
             availableDays:{ createMany:{
             data: slots
             }}

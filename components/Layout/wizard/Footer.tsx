@@ -79,7 +79,7 @@ const Footer = (props: FooterProps) => {
     const res = await client.mutate({
       mutation: CreateListing,
       variables: {
-        size: Number(wiz.size), // store as int instead
+        size: Number(wiz.size),
         ownerId: props.session.id,
         street: wiz.location.street,
         streetNumber: Number(wiz.location.number),
@@ -87,21 +87,18 @@ const Footer = (props: FooterProps) => {
         city: wiz.location.city,
         description: wiz.description,
         rules: wiz.rules.split('.'),
-        hourlyPrice: Number(wiz.rent),
-        facilities: wiz.features,
+        hourlyPrice: Number(wiz.hourlyPrice),
+        facilities: wiz.facilities,
         deposit: Number(wiz.deposit),
         images: images,
-        minStayHours: 0,
-        minStayWeeks: 0,
         pickup: false,
         serviceFee: Number(0),
         partialSpace: wiz.partialSpace === 'partial' ? true : false,
         availabilities: {
           startDate: new Date(wiz.availability.startDate).toISOString(),
           endDate: new Date(wiz.availability.endDate).toISOString(),
-          repeats: wiz.availability.repeat,
           genericDaySlots: selectedDaySlots,
-          minimumMonth: Number(wiz.minMonths),
+          minMonths: Number(wiz.minMonths),
           frequency: wiz.availability.repeat,
         },
       },
@@ -116,9 +113,9 @@ const Footer = (props: FooterProps) => {
       formState.errors.size ||
       formState.errors.location ||
       formState.errors.description ||
-      formState.errors.features ||
+      formState.errors.facilities ||
       formState.errors.minMonths ||
-      formState.errors.rent ||
+      formState.errors.hourlyPrice ||
       formState.errors.deposit ||
       formState.errors.availability ||
       formState.errors.rules ||
