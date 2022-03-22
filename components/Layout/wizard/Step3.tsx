@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import DaySelector from '../../../components/Create/DaySelector';
+import TimeInput from '../../../components/Create/TimeInput';
 import { FormData, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 
@@ -14,171 +15,8 @@ export const shouldValidate = {
 };
 export default function Step3() {
   const { formState, nextStep, register, setValue } = useWizardContext();
-  const wizardContext = useWizardContext();
   const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } =
-    wizardContext.getValues().availability.daySlots;
-
-  console.log(JSON.stringify(wizardContext.getValues()));
-
-  const toggleDay = (day: string) => {
-    switch (day) {
-      case 'Monday':
-        setValue(
-          'availability.daySlots.monday.selected',
-          !monday.selected as FormData['availability']['daySlots']['monday']['selected'],
-          shouldValidate
-        );
-        break;
-      case 'Tuesday':
-        setValue(
-          'availability.daySlots.tuesday.selected',
-          !tuesday.selected as FormData['availability']['daySlots']['tuesday']['selected'],
-          shouldValidate
-        );
-        break;
-      case 'Wednesday':
-        setValue(
-          'availability.daySlots.wednesday.selected',
-          !wednesday.selected as FormData['availability']['daySlots']['wednesday']['selected'],
-          shouldValidate
-        );
-        break;
-      case 'Thursday':
-        setValue(
-          'availability.daySlots.thursday.selected',
-          !thursday.selected as FormData['availability']['daySlots']['thursday']['selected'],
-          shouldValidate
-        );
-        break;
-      case 'Friday':
-        setValue(
-          'availability.daySlots.friday.selected',
-          !friday.selected as FormData['availability']['daySlots']['friday']['selected'],
-          shouldValidate
-        );
-        break;
-      case 'Saturday':
-        setValue(
-          'availability.daySlots.saturday.selected',
-          !saturday.selected as FormData['availability']['daySlots']['saturday']['selected'],
-          shouldValidate
-        );
-        break;
-      case 'Sunday':
-        setValue(
-          'availability.daySlots.sunday.selected',
-          !sunday.selected as FormData['availability']['daySlots']['sunday']['selected'],
-          shouldValidate
-        );
-        break;
-    }
-  };
-  const setDayStartingTime = (day: string, startingTime: string) => {
-    switch (day) {
-      case 'Monday':
-        setValue(
-          'availability.daySlots.monday.startingTime',
-          startingTime as FormData['availability']['daySlots']['monday']['startingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Tuesday':
-        setValue(
-          'availability.daySlots.tuesday.startingTime',
-          startingTime as FormData['availability']['daySlots']['tuesday']['startingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Wednesday':
-        setValue(
-          'availability.daySlots.wednesday.startingTime',
-          startingTime as FormData['availability']['daySlots']['wednesday']['startingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Thursday':
-        setValue(
-          'availability.daySlots.thursday.startingTime',
-          startingTime as FormData['availability']['daySlots']['thursday']['startingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Friday':
-        setValue(
-          'availability.daySlots.friday.startingTime',
-          startingTime as FormData['availability']['daySlots']['friday']['startingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Saturday':
-        setValue(
-          'availability.daySlots.saturday.startingTime',
-          startingTime as FormData['availability']['daySlots']['saturday']['startingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Sunday':
-        setValue(
-          'availability.daySlots.sunday.startingTime',
-          startingTime as FormData['availability']['daySlots']['sunday']['startingTime'],
-          shouldValidate
-        );
-        break;
-    }
-  };
-  const setDayEndingTime = (day: string, endingTime: string) => {
-    switch (day) {
-      case 'Monday':
-        setValue(
-          'availability.daySlots.monday.endingTime',
-          endingTime as FormData['availability']['daySlots']['monday']['endingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Tuesday':
-        setValue(
-          'availability.daySlots.tuesday.endingTime',
-          endingTime as FormData['availability']['daySlots']['tuesday']['endingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Wednesday':
-        setValue(
-          'availability.daySlots.wednesday.endingTime',
-          endingTime as FormData['availability']['daySlots']['wednesday']['endingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Thursday':
-        setValue(
-          'availability.daySlots.thursday.endingTime',
-          endingTime as FormData['availability']['daySlots']['thursday']['endingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Friday':
-        setValue(
-          'availability.daySlots.friday.endingTime',
-          endingTime as FormData['availability']['daySlots']['friday']['endingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Saturday':
-        setValue(
-          'availability.daySlots.saturday.endingTime',
-          endingTime as FormData['availability']['daySlots']['saturday']['endingTime'],
-          shouldValidate
-        );
-        break;
-      case 'Sunday':
-        setValue(
-          'availability.daySlots.sunday.endingTime',
-          endingTime as FormData['availability']['daySlots']['sunday']['endingTime'],
-          shouldValidate
-        );
-        break;
-    }
-  };
+    useWizardContext().getValues().availability.daySlots;
 
   return (
     <div className={styles['step3']}>
@@ -250,70 +88,15 @@ export default function Step3() {
           <div className={styles['step3__daysOfWeek']}>
             <label className="label-text">Days of week</label>
             <div className={styles['step3__weekDayCheckboxWrapper']}>
-              <input
-                {...register('availability.daySlots.monday.selected')}
-                type="checkbox"
-                id="weekday-mon"
-                value="Monday"
-                className={styles['step3__weekDayCheckbox'] + ' weekday'}
-                onChange={(c) => toggleDay(c.target.value)}
-              />
-              <label htmlFor="weekday-mon">M</label>
-              <input
-                {...register('availability.daySlots.tuesday.selected')}
-                type="checkbox"
-                id="weekday-tue"
-                value="Tuesday"
-                className={styles['step3__weekDayCheckbox'] + ' weekday'}
-                onChange={(c) => toggleDay(c.target.value)}
-              />
-              <label htmlFor="weekday-tue">T</label>
-              <input
-                {...register('availability.daySlots.wednesday.selected')}
-                type="checkbox"
-                id="weekday-wed"
-                value="Wednesday"
-                className={styles['step3__weekDayCheckbox'] + ' weekday'}
-                onChange={(c) => toggleDay(c.target.value)}
-              />
-              <label htmlFor="weekday-wed">W</label>
-              <input
-                {...register('availability.daySlots.thursday.selected')}
-                type="checkbox"
-                id="weekday-thu"
-                value="Thursday"
-                className={styles['step3__weekDayCheckbox'] + ' weekday'}
-                onChange={(c) => toggleDay(c.target.value)}
-              />
-              <label htmlFor="weekday-thu">T</label>
-              <input
-                {...register('availability.daySlots.friday.selected')}
-                type="checkbox"
-                id="weekday-fri"
-                value="Friday"
-                className={styles['step3__weekDayCheckbox'] + ' weekday'}
-                onChange={(c) => toggleDay(c.target.value)}
-              />
-              <label htmlFor="weekday-fri">F</label>
-              <input
-                {...register('availability.daySlots.saturday.selected')}
-                type="checkbox"
-                id="weekday-sat"
-                value="Saturday"
-                className={styles['step3__weekDayCheckbox'] + ' weekday'}
-                onChange={(c) => toggleDay(c.target.value)}
-              />
-              <label htmlFor="weekday-sat">S</label>
-              <input
-                {...register('availability.daySlots.sunday.selected')}
-                type="checkbox"
-                id="weekday-sun"
-                value="Sunday"
-                className={styles['step3__weekDayCheckbox'] + ' weekday'}
-                onChange={(c) => toggleDay(c.target.value)}
-              />
-              <label htmlFor="weekday-sun">S</label>
+              <DaySelector weekday={'Monday'} short={'mon'} shortest={'M'} />
+              <DaySelector weekday={'Tuesday'} short={'tue'} shortest={'T'} />
+              <DaySelector weekday={'Wednesday'} short={'wed'} shortest={'W'} />
+              <DaySelector weekday={'Thursday'} short={'thu'} shortest={'T'} />
+              <DaySelector weekday={'Friday'} short={'fri'} shortest={'F'} />
+              <DaySelector weekday={'Saturday'} short={'sat'} shortest={'S'} />
+              <DaySelector weekday={'Sunday'} short={'sun'} shortest={'S'} />
             </div>
+            {/* TODO: Add validation and error messages for all day inputs  */}
             {/* {formState.errors.availability?.days && (
               <span className={styles['error']}>{formState.errors.availability.days.map((e) => e.message)}</span>
             )} */}
@@ -322,145 +105,13 @@ export default function Step3() {
           {/* <--------- TIME INPUTS ---------> */}
 
           <div className={styles['step3__timeInput']}>
-            {monday.selected && (
-              <span className={styles['step3__timeInputWrapper']}>
-                <input type="checkbox" checked id="time-mon" className="weekday" />
-                <label htmlFor="time-mon">M</label>
-                <input
-                  {...register('availability.daySlots.monday.startingTime')}
-                  onChange={(e) => setDayStartingTime('Monday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-                <label className="body-text"> to</label>
-                <input
-                  {...register('availability.daySlots.monday.endingTime')}
-                  onChange={(e) => setDayEndingTime('Monday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-              </span>
-            )}
-
-            {tuesday.selected && (
-              <span className={styles['step3__timeInputWrapper']}>
-                <input type="checkbox" checked id="time-tue" className="weekday" />
-                <label htmlFor="time-tue">T</label>
-                <input
-                  {...register('availability.daySlots.tuesday.startingTime')}
-                  onChange={(e) => setDayStartingTime('Tuesday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-                <label className="body-text"> to</label>
-                <input
-                  {...register('availability.daySlots.tuesday.endingTime')}
-                  onChange={(e) => setDayEndingTime('Tuesday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-              </span>
-            )}
-
-            {wednesday.selected && (
-              <span className={styles['step3__timeInputWrapper']}>
-                <input type="checkbox" checked id="time-wed" className="weekday" />
-                <label htmlFor="time-wed">W</label>
-                <input
-                  {...register('availability.daySlots.wednesday.startingTime')}
-                  onChange={(e) => setDayStartingTime('Wednesday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-                <label className="body-text"> to</label>
-                <input
-                  {...register('availability.daySlots.wednesday.endingTime')}
-                  onChange={(e) => setDayEndingTime('Wednesday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-              </span>
-            )}
-
-            {thursday.selected && (
-              <span className={styles['step3__timeInputWrapper']}>
-                <input type="checkbox" checked id="time-thu" className="weekday" />
-                <label htmlFor="time-thu">T</label>
-                <input
-                  {...register('availability.daySlots.thursday.startingTime')}
-                  onChange={(e) => setDayStartingTime('Thursday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-                <label className="body-text"> to</label>
-                <input
-                  {...register('availability.daySlots.thursday.endingTime')}
-                  onChange={(e) => setDayEndingTime('Thursday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-              </span>
-            )}
-
-            {friday.selected && (
-              <span className={styles['step3__timeInputWrapper']}>
-                <input type="checkbox" checked id="time-fri" className="weekday" />
-                <label htmlFor="time-fri">F</label>
-                <input
-                  {...register('availability.daySlots.friday.startingTime')}
-                  onChange={(e) => setDayStartingTime('Friday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-                <label className="body-text"> to</label>
-                <input
-                  {...register('availability.daySlots.friday.endingTime')}
-                  onChange={(e) => setDayEndingTime('Friday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-              </span>
-            )}
-
-            {saturday.selected && (
-              <span className={styles['step3__timeInputWrapper']}>
-                <input type="checkbox" checked id="time-sat" className="weekday" />
-                <label htmlFor="time-sat">S</label>
-                <input
-                  {...register('availability.daySlots.saturday.startingTime')}
-                  onChange={(e) => setDayStartingTime('Saturday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-                <label className="body-text"> to</label>
-                <input
-                  {...register('availability.daySlots.saturday.endingTime')}
-                  onChange={(e) => setDayEndingTime('Saturday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-              </span>
-            )}
-
-            {sunday.selected && (
-              <span className={styles['step3__timeInputWrapper']}>
-                <input type="checkbox" checked id="time-sun" className="weekday" />
-                <label htmlFor="time-sun">S</label>
-                <input
-                  {...register('availability.daySlots.sunday.startingTime')}
-                  onChange={(e) => setDayStartingTime('Sunday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-                <label className="body-text"> to</label>
-                <input
-                  {...register('availability.daySlots.sunday.endingTime')}
-                  onChange={(e) => setDayEndingTime('Sunday', e.target.value)}
-                  className="standard-form__inputTime"
-                  type="time"
-                />
-              </span>
-            )}
+            {monday.selected && <TimeInput shortest={'M'} short={'mon'} />}
+            {tuesday.selected && <TimeInput shortest={'T'} short={'tue'} />}
+            {wednesday.selected && <TimeInput shortest={'W'} short={'wed'} />}
+            {thursday.selected && <TimeInput shortest={'T'} short={'thu'} />}
+            {friday.selected && <TimeInput shortest={'F'} short={'fri'} />}
+            {saturday.selected && <TimeInput shortest={'S'} short={'sat'} />}
+            {sunday.selected && <TimeInput shortest={'S'} short={'sun'} />}
           </div>
 
           <div className={styles['step3__weekRepeatSelect']}>

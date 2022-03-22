@@ -11,7 +11,6 @@ interface UploaderProps {
   imageAmount: number;
   images: UploaderImage[];
   setImages: (images: UploaderImage[]) => void;
-  setNewImages: (images: UploaderImage[]) => void;
 }
 
 const Uploader = (props: UploaderProps) => {
@@ -32,7 +31,6 @@ const Uploader = (props: UploaderProps) => {
 
         const imageArray = [...props.images, ...acceptedFiles];
         props.setImages(imageArray);
-        props.setNewImages([...acceptedFiles]);
         props.setIdCount(idNumber);
       }
     },

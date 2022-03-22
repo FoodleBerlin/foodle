@@ -41,7 +41,6 @@ export default function Step4() {
     }
     setIdCount(idCount - 1);
   };
-  const [newImages, setNewImages] = useState<UploaderImage[]>();
 
   return (
     <div className={styles['main']}>
@@ -55,7 +54,6 @@ export default function Step4() {
       }
       <div className={styles['drag-drop']}>
         <Uploader
-          setNewImages={(images: UploaderImage[]) => setNewImages(images)}
           idCount={idCount}
           setImages={(images: UploaderImage[]) => setImages(images)}
           imageAmount={images.length}

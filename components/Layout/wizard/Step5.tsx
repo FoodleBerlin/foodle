@@ -1,17 +1,11 @@
-import { prisma } from '@prisma/client';
-import React, { useEffect, useState } from 'react';
-import { CreateListing } from '../../../codegen/createListing';
+import React from 'react';
 import Image from 'next/image';
 import { useWizardContext } from './Wizard';
-import client from '../../../client';
-import { AuthenticatedProps } from '../../../pages/account';
-import { DaySlot } from './Step3';
 import styles from './Wizard.module.scss';
 import { UploaderImage } from './Step4';
 import PriceLine from '../../../components/Create/PriceLine';
 
 export default function Step5() {
-  const [galleryItems, setGalleryItems] = useState<React.ReactFragment[]>();
   const wiz = useWizardContext().getValues();
 
   return (

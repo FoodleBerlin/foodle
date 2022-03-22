@@ -51,6 +51,24 @@ export default function Step2() {
       setValue('features', [...wizardContext.getValues().features, feature] as FormData['features'], shouldValidate);
     }
   };
+  const facility = (facility: string, id: number) => {
+    return (
+      <>
+        <input
+          {...register('features')}
+          type="checkbox"
+          value={facility}
+          id={'features' + id}
+          className="checkbox"
+          name={'features' + id}
+          onChange={(c) => toggleFeature(c.target.value)}
+        ></input>
+        <label className={styles['labelButton'] + ' small-text'} htmlFor={'features' + id}>
+          {facility}
+        </label>
+      </>
+    );
+  };
 
   return (
     <div className={styles['step2']}>
@@ -72,131 +90,19 @@ export default function Step2() {
           )}
         </div>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>
+          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary mb-two'}>
             What features does your kitchen offer?
           </h2>
 
           <div className={styles['step2__buttonsGridWrapper']}>
-            <input
-              {...register('features')}
-              type="checkbox"
-              value="Unfurnished"
-              id="features1"
-              className="checkbox"
-              name="features1"
-              onChange={(c) => toggleFeature(c.target.value)}
-            ></input>
-            <label className={styles['labelButton']} htmlFor="features1">
-              <p className="body-text__small">Unfurnished</p>
-            </label>
-            <input
-              {...register('features')}
-              type="checkbox"
-              value="A/C"
-              id="features2"
-              className="checkbox"
-              name="features2"
-              onChange={(c) => toggleFeature(c.target.value)}
-            ></input>
-            <label className={styles['labelButton']} htmlFor="features2">
-              <p className="body-text__small">A/C</p>
-            </label>
-
-            <input
-              {...register('features')}
-              type="checkbox"
-              value="Elevator"
-              id="features3"
-              className="checkbox"
-              name="features3"
-              onChange={(c) => toggleFeature(c.target.value)}
-            ></input>
-            <label className={styles['labelButton']} htmlFor="features3">
-              <p className="body-text__small">Elevator</p>
-            </label>
-
-            <input
-              {...register('features')}
-              type="checkbox"
-              value="Storefront"
-              id="features4"
-              className="checkbox"
-              name="features4"
-              onChange={(c) => toggleFeature(c.target.value)}
-            ></input>
-            <label className={styles['labelButton']} htmlFor="features4">
-              <p className="body-text__small">Storefront</p>
-            </label>
-
-            <input
-              {...register('features')}
-              type="checkbox"
-              value="Parking"
-              id="features5"
-              className="checkbox"
-              name="features5"
-              onChange={(c) => toggleFeature(c.target.value)}
-            ></input>
-            <label className={styles['labelButton']} htmlFor="features5">
-              <p className="body-text__small">Parking</p>
-            </label>
-
-            <input
-              {...register('features')}
-              type="checkbox"
-              value="Dishwasher"
-              id="features6"
-              className="checkbox"
-              name="features6"
-              onChange={(c) => toggleFeature(c.target.value)}
-            ></input>
-            <label className={styles['labelButton']} htmlFor="features6">
-              <p className="body-text__small">Dishwasher</p>
-            </label>
-
-            <input
-              {...register('features')}
-              type="checkbox"
-              value="Heating"
-              id="features7"
-              className="checkbox"
-              name="features7"
-              onChange={(c) => toggleFeature(c.target.value)}
-            ></input>
-            <label className={styles['labelButton']} htmlFor="features7">
-              <p className="body-text__small">Heating</p>
-            </label>
-
-            <input
-              {...register('features')}
-              type="checkbox"
-              value="Water"
-              id="features8"
-              className="checkbox"
-              name="features8"
-              onChange={(c) => toggleFeature(c.target.value)}
-            ></input>
-            <label className={styles['labelButton']} htmlFor="features8">
-              <p className="body-text__small">Water</p>
-            </label>
-
-            <input
-              {...register('features')}
-              type="checkbox"
-              value="Oven"
-              id="features9"
-              className="checkbox"
-              name="features9"
-              onChange={(c) => toggleFeature(c.target.value)}
-            ></input>
-            <label className={styles['labelButton']} htmlFor="features9">
-              <p className="body-text__small">Oven</p>
-            </label>
-
-            {formState.errors.features &&
-              formState.errors.features.map((featureError: FieldError) => {
-                <span className={styles['error']}>{featureError.message}</span>;
-              })}
+            {['Unfurnished', 'A/C', 'Elevator', 'Storefront', 'Parking', 'Dishwasher', 'Heating', 'Water', 'Oven'].map(
+              (facilityString: string, index) => {
+                return facility(facilityString, index + 1);
+              }
+            )}
+            {formState?.errors?.features && (
+              <span className={styles['error']}>{(formState?.errors?.features as any).message}</span>
+            )}
           </div>
         </div>
       </div>
