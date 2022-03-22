@@ -1,5 +1,5 @@
 import Footer from './Footer';
-import { FormData, useWizardContext } from './Wizard';
+import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 export default function Step1() {
   const { formState, nextStep, register, setValue } = useWizardContext();
@@ -15,13 +15,7 @@ export default function Step1() {
             className="radio"
             name="kitchen"
             value="full"
-            onChange={(c) =>
-              setValue('partialSpace', c.target.value as FormData['partialSpace'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => setValue('partialSpace', c.target.value as FormData['partialSpace'], touchDirtyValidate)}
           />
           <label className={styles['labelButton']} htmlFor="full">
             <p className="body-text__small">Entire Kitchen</p>
@@ -34,13 +28,7 @@ export default function Step1() {
             className="radio"
             name="kitchen"
             value="partial"
-            onChange={(c) =>
-              setValue('partialSpace', c.target.value as FormData['partialSpace'], {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => setValue('partialSpace', c.target.value as FormData['partialSpace'], touchDirtyValidate)}
           />
           <label className={styles['labelButton']} htmlFor="partial">
             <p className="body-text__small">Part of kitchen</p>
@@ -58,13 +46,7 @@ export default function Step1() {
             placeholder="200"
             type="number"
             {...register('size')}
-            onChange={(c) =>
-              setValue('size', parseInt(c.target.value), {
-                shouldDirty: true,
-                shouldTouch: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => setValue('size', parseInt(c.target.value), touchDirtyValidate)}
           ></input>
           <label className={styles['step1__label'] + ' body-text-secondary'}>Size in square meters</label>
         </div>
@@ -78,13 +60,7 @@ export default function Step1() {
             className={styles['step1__input--street'] + ' standard-form'}
             placeholder="Foodlestraße"
             {...register('location.street')}
-            onChange={(c) =>
-              setValue('location.street', c.target.value, {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => setValue('location.street', c.target.value, touchDirtyValidate)}
           ></input>
           {formState.errors.location?.street && (
             <span className={styles['error'] + ' ' + styles['step1__validationSpan--street']}>
@@ -96,13 +72,7 @@ export default function Step1() {
             placeholder="12"
             type="number"
             {...register('location.number')}
-            onChange={(c) =>
-              setValue('location.number', parseInt(c.target.value), {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => setValue('location.number', parseInt(c.target.value), touchDirtyValidate)}
           ></input>
           {formState.errors.location?.number && (
             <span className={styles['error'] + ' ' + styles['step1__validationSpan--number']}>
@@ -115,13 +85,7 @@ export default function Step1() {
             placeholder="12435"
             type="number"
             {...register('location.zip')}
-            onChange={(c) =>
-              setValue('location.zip', parseInt(c.target.value), {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => setValue('location.zip', parseInt(c.target.value), touchDirtyValidate)}
           ></input>
           {formState.errors.location?.zip && (
             <span className={styles['error'] + ' ' + styles['step1__validationSpan--zip']}>
@@ -133,13 +97,7 @@ export default function Step1() {
             className={styles['step1__input--city'] + ' standard-form'}
             placeholder="Berlin"
             {...register('location.city')}
-            onChange={(c) =>
-              setValue('location.city', c.target.value, {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => setValue('location.city', c.target.value, touchDirtyValidate)}
           ></input>
           {formState.errors.location?.city && (
             <span className={styles['error'] + ' ' + styles['step1__validationSpan--city']}>
@@ -151,13 +109,7 @@ export default function Step1() {
             className={styles['step1__input--country'] + ' standard-form'}
             placeholder="Germany"
             {...register('location.country')}
-            onChange={(c) =>
-              setValue('location.country', c.target.value, {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => setValue('location.country', c.target.value, touchDirtyValidate)}
           ></input>
           {formState.errors.location?.country && (
             <span className={styles['error'] + ' ' + styles['step1__validationSpan--country']}>

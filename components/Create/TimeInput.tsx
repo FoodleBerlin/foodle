@@ -1,6 +1,5 @@
 import { useWizardContext } from '../Layout/wizard/Wizard';
-import { FormData } from '../Layout/wizard/Wizard';
-import { shouldValidate } from '../Layout/wizard/Step3';
+import { FormData, touchDirtyValidate } from '../Layout/wizard/Wizard';
 import styles from '../../components/Layout/wizard/Wizard.module.scss';
 interface TimeInputProps {
   shortest: string;
@@ -16,43 +15,43 @@ const TimeInput = (props: TimeInputProps) => {
         return setValue(
           'availability.daySlots.monday.startingTime',
           startingTime as FormData['availability']['daySlots']['monday']['startingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Tuesday':
         return setValue(
           'availability.daySlots.tuesday.startingTime',
           startingTime as FormData['availability']['daySlots']['tuesday']['startingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Wednesday':
         return setValue(
           'availability.daySlots.wednesday.startingTime',
           startingTime as FormData['availability']['daySlots']['wednesday']['startingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Thursday':
         return setValue(
           'availability.daySlots.thursday.startingTime',
           startingTime as FormData['availability']['daySlots']['thursday']['startingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Friday':
         return setValue(
           'availability.daySlots.friday.startingTime',
           startingTime as FormData['availability']['daySlots']['friday']['startingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Saturday':
         return setValue(
           'availability.daySlots.saturday.startingTime',
           startingTime as FormData['availability']['daySlots']['saturday']['startingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Sunday':
         return setValue(
           'availability.daySlots.sunday.startingTime',
           startingTime as FormData['availability']['daySlots']['sunday']['startingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
     }
   };
@@ -62,43 +61,43 @@ const TimeInput = (props: TimeInputProps) => {
         return setValue(
           'availability.daySlots.monday.endingTime',
           endingTime as FormData['availability']['daySlots']['monday']['endingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Tuesday':
         return setValue(
           'availability.daySlots.tuesday.endingTime',
           endingTime as FormData['availability']['daySlots']['tuesday']['endingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Wednesday':
         return setValue(
           'availability.daySlots.wednesday.endingTime',
           endingTime as FormData['availability']['daySlots']['wednesday']['endingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Thursday':
         return setValue(
           'availability.daySlots.thursday.endingTime',
           endingTime as FormData['availability']['daySlots']['thursday']['endingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Friday':
         return setValue(
           'availability.daySlots.friday.endingTime',
           endingTime as FormData['availability']['daySlots']['friday']['endingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Saturday':
         return setValue(
           'availability.daySlots.saturday.endingTime',
           endingTime as FormData['availability']['daySlots']['saturday']['endingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
       case 'Sunday':
         return setValue(
           'availability.daySlots.sunday.endingTime',
           endingTime as FormData['availability']['daySlots']['sunday']['endingTime'],
-          shouldValidate
+          touchDirtyValidate
         );
     }
   };

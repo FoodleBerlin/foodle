@@ -1,6 +1,5 @@
-import { FormData, useWizardContext } from './Wizard';
+import { FormData, useWizardContext, touchDirtyValidate } from './Wizard';
 import styles from './Wizard.module.scss';
-import { shouldValidate } from './Step3';
 import { FieldError } from 'react-hook-form';
 
 export default function Step2() {
@@ -18,7 +17,7 @@ export default function Step2() {
       setValue(
         'features',
         [...wizardContext.getValues().features].filter((x) => x !== feature) as FormData['features'],
-        shouldValidate
+        touchDirtyValidate
       );
       /*
       when 'Unfurnished' is already clicked, unclick and delete it from
@@ -28,9 +27,13 @@ export default function Step2() {
       setValue(
         'features',
         [...wizardContext.getValues().features].filter((x) => x !== 'Unfurnished') as FormData['features'],
-        shouldValidate
+        touchDirtyValidate
       );
-      setValue('features', [...wizardContext.getValues().features, feature] as FormData['features'], shouldValidate);
+      setValue(
+        'features',
+        [...wizardContext.getValues().features, feature] as FormData['features'],
+        touchDirtyValidate
+      );
       /* 
       when 'Unfurnished' is clicked again, unclick and delete all the other features so that
       just 'Unfurnished' is back in the wizardContext
@@ -39,16 +42,20 @@ export default function Step2() {
       setValue(
         'features',
         [...wizardContext.getValues().features].filter((x) => x === 'Unfurnished') as FormData['features'],
-        shouldValidate
+        touchDirtyValidate
       );
       setValue(
         'features',
         [...wizardContext.getValues().features, 'Unfurnished'] as FormData['features'],
-        shouldValidate
+        touchDirtyValidate
       );
       // in any other case the clicked feature will be added to the wizardContext
     } else {
-      setValue('features', [...wizardContext.getValues().features, feature] as FormData['features'], shouldValidate);
+      setValue(
+        'features',
+        [...wizardContext.getValues().features, feature] as FormData['features'],
+        touchDirtyValidate
+      );
     }
   };
   const facility = (facility: string, id: number) => {
@@ -82,7 +89,7 @@ export default function Step2() {
             <textarea
               className="textArea standard-form"
               {...register('description')}
-              onChange={(c) => setValue('description', c.target.value, shouldValidate)}
+              onChange={(c) => setValue('description', c.target.value, touchDirtyValidate)}
             ></textarea>
           </div>
           {formState.errors.description && (
@@ -116,7 +123,7 @@ export default function Step2() {
             type="number"
             id="months"
             {...register('minMonths')}
-            onChange={(c) => setValue('minMonths', parseInt(c.target.value), shouldValidate)}
+            onChange={(c) => setValue('minMonths', parseInt(c.target.value), touchDirtyValidate)}
           ></input>
           <label htmlFor="months" className={styles['step2__label'] + ' body-text-secondary'}>
             Recurring months

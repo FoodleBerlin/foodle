@@ -1,4 +1,4 @@
-import { FormData, useWizardContext } from './Wizard';
+import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import React, { useEffect, useState } from 'react';
 import Uploader from '../../Create/Uploader';
 import Preview from '../../Create/Preview';
@@ -18,11 +18,7 @@ export default function Step4() {
   const [images, setImages] = useState<UploaderImage[]>(wizardContext.getValues().images);
 
   useEffect(() => {
-    wizardContext.setValue('images', images as FormData['images'], {
-      shouldTouch: true,
-      shouldDirty: true,
-      shouldValidate: true,
-    });
+    wizardContext.setValue('images', images as FormData['images'], touchDirtyValidate);
   }, [images]);
 
   const deleteImage = (id: number) => {

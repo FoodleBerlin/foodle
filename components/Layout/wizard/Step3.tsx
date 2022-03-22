@@ -1,6 +1,6 @@
 import DaySelector from '../../../components/Create/DaySelector';
 import TimeInput from '../../../components/Create/TimeInput';
-import { FormData, useWizardContext } from './Wizard';
+import { FormData, useWizardContext, touchDirtyValidate } from './Wizard';
 import styles from './Wizard.module.scss';
 
 export type DaySlot = {
@@ -8,11 +8,7 @@ export type DaySlot = {
   startingTime: string;
   endingTime: string;
 };
-export const shouldValidate = {
-  shouldTouch: true,
-  shouldDirty: true,
-  shouldValidate: true,
-};
+
 export default function Step3() {
   const { formState, nextStep, register, setValue } = useWizardContext();
   const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } =
@@ -28,13 +24,7 @@ export default function Step3() {
             type="number"
             id="rent"
             {...register('rent')}
-            onChange={(c) =>
-              setValue('rent', parseInt(c.target.value), {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => setValue('rent', parseInt(c.target.value), touchDirtyValidate)}
           ></input>
           <label htmlFor={'rent'} className="body-text-secondary">
             € per hour
@@ -52,13 +42,7 @@ export default function Step3() {
             className={styles['step3__shortInput'] + ' standard-form'}
             type="number"
             {...register('deposit')}
-            onChange={(c) =>
-              setValue('deposit', parseInt(c.target.value), {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            onChange={(c) => setValue('deposit', parseInt(c.target.value), touchDirtyValidate)}
           ></input>
           <label className="body-text-secondary">€</label>
         </div>
@@ -73,11 +57,7 @@ export default function Step3() {
           {...register('availability.startDate')}
           onChange={(c) => {
             console.log(c.target.value);
-            setValue('availability.startDate', c.target.value as any, {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            });
+            setValue('availability.startDate', c.target.value as any, touchDirtyValidate);
           }}
         ></input>
         {formState.errors.availability?.startDate && (
@@ -119,11 +99,11 @@ export default function Step3() {
               className="standard-form__selectMedium"
               {...register('availability.repeat')}
               onChange={(c) => {
-                setValue('availability.repeat', c.target.value as FormData['availability']['repeat'], {
-                  shouldTouch: true,
-                  shouldDirty: true,
-                  shouldValidate: true,
-                });
+                setValue(
+                  'availability.repeat',
+                  c.target.value as FormData['availability']['repeat'],
+                  touchDirtyValidate
+                );
               }}
             >
               {' '}
@@ -137,11 +117,7 @@ export default function Step3() {
                 type="date"
                 {...register('availability.endDate')}
                 onChange={(c) => {
-                  setValue('availability.endDate', c.target.value as any, {
-                    shouldTouch: true,
-                    shouldDirty: true,
-                    shouldValidate: true,
-                  });
+                  setValue('availability.endDate', c.target.value as any, touchDirtyValidate);
                 }}
               ></input>
               {formState.errors.availability?.endDate && (
@@ -165,11 +141,7 @@ export default function Step3() {
           className={'textArea standard-form'}
           {...register('rules')}
           onChange={(c) => {
-            setValue('rules', c.target.value, {
-              shouldTouch: true,
-              shouldDirty: true,
-              shouldValidate: true,
-            });
+            setValue('rules', c.target.value, touchDirtyValidate);
           }}
         ></textarea>
         {formState.errors.rules && <span className={styles['error']}>{formState.errors.rules.message}</span>}
@@ -183,7 +155,7 @@ export default function Step3() {
             type="number"
             id="months"
             {...register('minMonths')}
-            onChange={(c) => setValue('minMonths', parseInt(c.target.value), shouldValidate)}
+            onChange={(c) => setValue('minMonths', parseInt(c.target.value), touchDirtyValidate)}
           ></input>
           <label htmlFor="months" className={styles['step2__label'] + ' body-text-secondary'}>
             Recurring months

@@ -54,6 +54,11 @@ export default function Wizard(props: AuthenticatedProps) {
     </div>
   );
 }
+export const touchDirtyValidate = {
+  shouldTouch: true,
+  shouldDirty: true,
+  shouldValidate: true,
+};
 
 // regex to match only alphabetic characters
 const onlyString = /^[a-zA-Z_ ]*$/;

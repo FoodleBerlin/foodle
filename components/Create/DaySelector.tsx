@@ -1,7 +1,6 @@
 import { useWizardContext } from '../Layout/wizard/Wizard';
 import styles from '../Layout/wizard/Wizard.module.scss';
-import { FormData } from '../Layout/wizard/Wizard';
-import { shouldValidate } from '../Layout/wizard/Step3';
+import { FormData, touchDirtyValidate } from '../Layout/wizard/Wizard';
 
 interface DaySelectorProps {
   weekday: string;
@@ -19,49 +18,49 @@ const DaySelector = (props: DaySelectorProps) => {
         setValue(
           'availability.daySlots.monday.selected',
           !monday.selected as FormData['availability']['daySlots']['monday']['selected'],
-          shouldValidate
+          touchDirtyValidate
         );
         break;
       case 'Tuesday':
         setValue(
           'availability.daySlots.tuesday.selected',
           !tuesday.selected as FormData['availability']['daySlots']['tuesday']['selected'],
-          shouldValidate
+          touchDirtyValidate
         );
         break;
       case 'Wednesday':
         setValue(
           'availability.daySlots.wednesday.selected',
           !wednesday.selected as FormData['availability']['daySlots']['wednesday']['selected'],
-          shouldValidate
+          touchDirtyValidate
         );
         break;
       case 'Thursday':
         setValue(
           'availability.daySlots.thursday.selected',
           !thursday.selected as FormData['availability']['daySlots']['thursday']['selected'],
-          shouldValidate
+          touchDirtyValidate
         );
         break;
       case 'Friday':
         setValue(
           'availability.daySlots.friday.selected',
           !friday.selected as FormData['availability']['daySlots']['friday']['selected'],
-          shouldValidate
+          touchDirtyValidate
         );
         break;
       case 'Saturday':
         setValue(
           'availability.daySlots.saturday.selected',
           !saturday.selected as FormData['availability']['daySlots']['saturday']['selected'],
-          shouldValidate
+          touchDirtyValidate
         );
         break;
       case 'Sunday':
         setValue(
           'availability.daySlots.sunday.selected',
           !sunday.selected as FormData['availability']['daySlots']['sunday']['selected'],
-          shouldValidate
+          touchDirtyValidate
         );
         break;
     }
