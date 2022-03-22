@@ -19,27 +19,14 @@ export default function Wizard(props: AuthenticatedProps) {
       <Sidebar user={props.session}>
         <div className={styles['sidebar-container']}>
           <div className={'flex'}>
-            <div className={wizardContext.step >= 1 ? styles['item__activeOrPassed'] : styles['item']}>
-              <div className={styles['dots']}></div>
-              <span className={'small-text'}>Property</span>
-            </div>
-
-            <div className={wizardContext.step >= 2 ? styles['item__activeOrPassed'] : styles['item']}>
-              <div className={styles['dots']}></div>
-              <span className={'small-text'}>Features</span>
-            </div>
-            <div className={wizardContext.step >= 3 ? styles['item__activeOrPassed'] : styles['item']}>
-              <div className={styles['dots']}></div>
-              <span className={'small-text'}>Logistics</span>
-            </div>
-            <div className={wizardContext.step >= 4 ? styles['item__activeOrPassed'] : styles['item']}>
-              <div className={styles['dots']}></div>
-              <span className={'small-text'}>Photos</span>
-            </div>
-            <div className={wizardContext.step >= 5 ? styles['item__activeOrPassed'] : styles['item']}>
-              <div className={styles['dots']}></div>
-              <span className={'small-text'}>Summary</span>
-            </div>
+            {['Property', 'Features', 'Logistics', 'Photos', 'Summary'].map((stage: string, index) => {
+              return (
+                <div className={wizardContext.step >= index + 1 ? styles['item__activeOrPassed'] : styles['item']}>
+                  <div className={styles['dots']}></div>
+                  <span className={'small-text'}>{stage}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </Sidebar>
