@@ -5,7 +5,6 @@ import { FieldError } from 'react-hook-form';
 export default function Step2() {
   const { formState, nextStep, register, setValue } = useWizardContext();
   const wizardContext = useWizardContext();
-  console.log('tuh:' + JSON.stringify(wizardContext.getValues().facilities));
 
   /* 
   toggle handler function that allows user to select and deselect a feature
