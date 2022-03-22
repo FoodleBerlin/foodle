@@ -23,16 +23,16 @@ export const GenericDaySlot = objectType({
         });
       },
     })
-    t.nullable.list.field('bookingSlot', {
-      type: BookingSlot, 
-      async resolve(parent, args, ctx) {
-        return await ctx.prisma.bookingSlot.findMany({
-          where: {
-            id: parent.bookingSlotId,
-          },
-        });
-      },
-    })
+    // t.nullable.list.field('bookingSlot', {
+    //   type: BookingSlot || null, 
+    //   async resolve(parent, args, ctx) {
+    //     return await ctx.prisma.bookingSlot.findMany({
+    //       where: {
+    //         id: parent.bookingSlotId ?? null,
+    //       },
+    //     });
+    //   },
+    // })
   },
 });
 

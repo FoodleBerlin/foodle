@@ -34,9 +34,6 @@ mutation CreateListing($size: Int!, $ownerId: String!, $street: String!, $street
         frequency
         availableDays {
           weekday
-          bookingSlot {
-            id
-          }
           startTime
           endTime
         }

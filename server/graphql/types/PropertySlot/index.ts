@@ -29,7 +29,7 @@ export const PropertySlot = objectType({
         });
       },
     });
-    t.nullable.list.field('availableDays', {
+    t.nonNull.list.field('availableDays', {
       type: GenericDaySlot,
       async resolve(parent, args, ctx) {
         return await ctx.prisma.genericDaySlot.findMany({
@@ -55,7 +55,7 @@ export const PropertySlotInput = inputObjectType({
     t.nonNull.field('endDate', {type: 'DateTime'});
     t.nonNull.int('minimumMonth');
     t.nonNull.string('repeats');
-    t.list.field('genericDaySlots', {type: GenericDaySlotInput});
+    t.nonNull.list.field('genericDaySlots', {type: GenericDaySlotInput});
     t.nonNull.field('frequency', {type: Frequency});
   },
 });

@@ -87,7 +87,7 @@ export type Property = {
 
 export type PropertySlot = {
   __typename?: 'PropertySlot';
-  availableDays?: Maybe<Array<GenericDaySlot>>;
+  availableDays: Array<GenericDaySlot>;
   endDate: Scalars['DateTime'];
   frequency: Frequency;
   minimumMonth: Scalars['Int'];
@@ -99,18 +99,12 @@ export type PropertySlot = {
 
 export type GenericDaySlot = {
   __typename?: 'GenericDaySlot';
-  bookingSlot?: Maybe<Array<BookingSlot>>;
   endTime: Scalars['DateTime'];
   id: Scalars['String'];
   propertySlot?: Maybe<PropertySlot>;
   propertySlotId: Scalars['String'];
   startTime: Scalars['DateTime'];
   weekday: Scalars['String'];
-};
-
-export type BookingSlot = {
-  __typename?: 'BookingSlot';
-  id: Scalars['String'];
 };
 
 export enum Frequency {
@@ -222,7 +216,7 @@ export type MutationCreateListingArgs = {
 export type PropertySlotInput = {
   endDate: Scalars['DateTime'];
   frequency: Frequency;
-  genericDaySlots?: InputMaybe<Array<InputMaybe<GenericDaySlotInput>>>;
+  genericDaySlots: Array<InputMaybe<GenericDaySlotInput>>;
   minimumMonth: Scalars['Int'];
   repeats: Scalars['String'];
   startDate: Scalars['DateTime'];
@@ -247,6 +241,11 @@ export type CreatePropertyReturn = {
 export type ClientErrorInvalidPropertyInput = {
   __typename?: 'ClientErrorInvalidPropertyInput';
   message: Scalars['String'];
+};
+
+export type BookingSlot = {
+  __typename?: 'BookingSlot';
+  id: Scalars['String'];
 };
 
 export type FindUserQueryVariables = Exact<{
@@ -278,7 +277,7 @@ export type CreateListingMutationVariables = Exact<{
 }>;
 
 
-export type CreateListingMutation = { __typename?: 'Mutation', createListing: { __typename?: 'createPropertyReturn', Property?: { __typename?: 'Property', size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, isVerified: boolean, hourlyPrice: number, serviceFee: number, deposit: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, repeats: string, minimumMonth: number, frequency: Frequency, availableDays?: Array<{ __typename?: 'GenericDaySlot', weekday: string, startTime: any, endTime: any, bookingSlot?: Array<{ __typename?: 'BookingSlot', id: string }> | null }> | null } | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename?: 'ClientErrorInvalidHandle', message: string } | null, ClientErrorInvalidPropertyInput?: { __typename?: 'ClientErrorInvalidPropertyInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
+export type CreateListingMutation = { __typename?: 'Mutation', createListing: { __typename?: 'createPropertyReturn', Property?: { __typename?: 'Property', size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, isVerified: boolean, hourlyPrice: number, serviceFee: number, deposit: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, repeats: string, minimumMonth: number, frequency: Frequency, availableDays: Array<{ __typename?: 'GenericDaySlot', weekday: string, startTime: any, endTime: any }> } | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename?: 'ClientErrorInvalidHandle', message: string } | null, ClientErrorInvalidPropertyInput?: { __typename?: 'ClientErrorInvalidPropertyInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
 
 
 export const FindUserDocument = `
@@ -371,9 +370,6 @@ export const CreateListingDocument = `
         frequency
         availableDays {
           weekday
-          bookingSlot {
-            id
-          }
           startTime
           endTime
         }

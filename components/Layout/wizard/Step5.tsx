@@ -1,5 +1,5 @@
 import { prisma } from '@prisma/client';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CreateListing } from '../../../codegen/createListing';
 import Image from 'next/image';
 import { useWizardContext } from './Wizard';
@@ -7,72 +7,12 @@ import client from '../../../client';
 import { AuthenticatedProps } from '../../../pages/account';
 import { DaySlot } from './Step3';
 import styles from './Wizard.module.scss';
+import { UploaderImage } from './Step4';
+import PriceLine from '../../../components/Create/PriceLine';
 
-export default function Step5(props: AuthenticatedProps) {
-  const { getValues } = useWizardContext();
-
-  const handleSubmit = async () => {
-    const wiz = getValues();
-
-    const selectedDaySlots: DaySlot[] = [];
-    useEffect(() => {
-      const slots = wiz.availability.daySlots;
-      if (slots.monday.selected) {
-        selectedDaySlots.push(slots.monday);
-      }
-      if (slots.tuesday.selected) {
-        selectedDaySlots.push(slots.tuesday);
-      }
-      if (slots.wednesday.selected) {
-        selectedDaySlots.push(slots.wednesday);
-      }
-      if (slots.thursday.selected) {
-        selectedDaySlots.push(slots.thursday);
-      }
-      if (slots.friday.selected) {
-        selectedDaySlots.push(slots.friday);
-      }
-      if (slots.saturday.selected) {
-        selectedDaySlots.push(slots.saturday);
-      }
-      if (slots.sunday.selected) {
-        selectedDaySlots.push(slots.sunday);
-      }
-    });
-
-    const res = await client.mutate({
-      mutation: CreateListing,
-      variables: {
-        size: Number(wiz.size), // store as int instead
-        ownerId: props.session.id,
-        street: wiz.location.street,
-        streetNumber: Number(wiz.location.number),
-        zip: Number(wiz.location.zip),
-        city: wiz.location.city,
-        description: wiz.description,
-        rules: wiz.rules.split('.'),
-        hourlyPrice: Number(wiz.rent),
-        facilities: wiz.features,
-        deposit: Number(wiz.deposit),
-        images: wiz.images,
-        minStayHours: 0,
-        minStayWeeks: 0,
-        pickup: false,
-        serviceFee: Number(0),
-        partialSpace: wiz.partialSpace === 'partial' ? true : false,
-        availabilities: {
-          startDate: new Date(wiz.availability.startDate).toISOString(),
-          endDate: new Date(wiz.availability.endDate).toISOString(),
-          repeats: wiz.availability.repeat,
-          genericDaySlots: selectedDaySlots,
-          minimumMonth: Number(wiz.minMonths),
-          frequency: wiz.availability.repeat,
-        },
-      },
-    });
-
-    console.log({ res });
-  };
+export default function Step5() {
+  const [galleryItems, setGalleryItems] = useState<React.ReactFragment[]>();
+  const wiz = useWizardContext().getValues();
 
   return (
     <div>
@@ -81,25 +21,18 @@ export default function Step5(props: AuthenticatedProps) {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
           <div className="gallery__container">
             <div className="gallery">
-              <div className="gallery__item gallery__item--1">
-                <Image src="/carousel-image-2.png" width={460} height={516} className="gallery__img" alt="Image 1" />
-              </div>
-              <div className="gallery__item gallery__item--2">
-                <Image src="/carousel-image-2.png" width={460} height={516} className="gallery__img" alt="Image 2" />
-              </div>
-              <div className="gallery__item gallery__item--3">
-                <Image src="/carousel-image-2.png" width={460} height={516} className="gallery__img" alt="Image 3" />
-              </div>
-              <div className="gallery__item gallery__item--4">
-                <Image src="/carousel-image-2.png" width={460} height={516} className="gallery__img" alt="Image 4" />
-              </div>
+              {wiz.images.map((image: UploaderImage, index) => (
+                <div className={'gallery__item gallery__item--' + index}>
+                  <Image src={image.file} width={460} height={516} className="gallery__img" alt={'Image ' + index} />
+                </div>
+              ))}
             </div>
           </div>
 
           <div className={styles['step5__titleWrapper'] + ' ' + styles['step2__marginHeadline']}>
             <h3 className="header-tertiary">Industrial Grade Kitchen in Mitte</h3>
             <div className={styles['step5__flexWrapper']}>
-              <p className="body-text">100</p>
+              <p className="body-text">{wiz.rent}</p>
               <p className="body-text">€/h</p>
             </div>
           </div>
@@ -108,32 +41,19 @@ export default function Step5(props: AuthenticatedProps) {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Overview</h2>
           <div className={styles['step5__flexWrapper']}>
             <p className="body-text-secondary">Size -&nbsp; </p>
-            <p className="body-text-secondary"> 90</p>
+            <p className="body-text-secondary">{wiz.size}</p>
             <p className="body-text-secondary">&nbsp;square meters</p>
           </div>
           <br />
           <div className={styles['step5__featureTagWrapper']}>
-            <span className="feature-tag">
-              <p>WASHER</p>
-            </span>
-            <span className="feature-tag">
-              <p>STOREFRONT</p>
-            </span>
-            <span className="feature-tag">
-              <p>ELEVATOR</p>{' '}
-            </span>
-            <span className="feature-tag">
-              <p>OVEN</p>
-            </span>
+            {wiz.features.map((feature: string) => (
+              <span className="feature-tag">
+                <p>{feature.toUpperCase()}</p>
+              </span>
+            ))}
           </div>
           <br />
-          <p className="small-text">
-            This property is really perfect for one or two chefs. It belongs to an ice cream shop owner and they close
-            during the winter. This place is perfect for chefs or bakers that also want to use the property as a store
-            front pick up spot. This property is really perfect for one or two chefs. It belongs to an ice cream shop
-            owner and they close during the winter. This place is perfect for chefs or bakers that also want to use the
-            property as a store front pick up spot.
-          </p>
+          <p className="small-text">{wiz.description}</p>
           <div className={styles['step5__overview--container']}>
             <Image
               src="/landing-2.jpg"
@@ -146,54 +66,11 @@ export default function Step5(props: AuthenticatedProps) {
         </div>
         <div className={styles['formItem']}>
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Pricing</h2>
-          <div className={styles['step5__priceLinesContainer']}>
-            <div className={styles['step5__priceLineLeft']}>
-              <p className="small-text">Rental Fee</p>
-            </div>
-            <div className={styles['step5__priceLineRight']}>
-              <p className="small-text">90€ / hr</p>
-            </div>
-          </div>
-          <div className={styles['step5__priceLinesContainer']}>
-            <div className={styles['step5__priceLineLeft']}>
-              <p className="small-text">Booking Fee</p>
-            </div>
-            <div className={styles['step5__priceLineRight']}>
-              <p className="small-text">100€</p>
-            </div>
-          </div>
-          <div className={styles['step5__priceLinesContainer']}>
-            <div className={styles['step5__priceLineLeft']}>
-              <p className="small-text">Service Fee</p>
-            </div>
-            <div className={styles['step5__priceLineRight']}>
-              <p className="small-text">0€</p>
-            </div>
-          </div>
-          <div className={styles['step5__priceLinesContainer']}>
-            <div className={styles['step5__priceLineLeft']}>
-              <p className="small-text">Deposit</p>
-            </div>
-            <div className={styles['step5__priceLineRight']}>
-              <p className="small-text">400€</p>
-            </div>
-          </div>
-          <div className={styles['step5__priceLinesContainer']}>
-            <div className={styles['step5__priceLineLeft']}>
-              <p className="small-text">Cancellation Type</p>
-            </div>
-            <div className={styles['step5__priceLineRight']}>
-              <p className="small-text">90€ / hr</p>
-            </div>
-          </div>
-          <div className={styles['step5__priceLinesContainer']}>
-            <div className={styles['step5__priceLineLeft']}>
-              <p className="small-text">Deposit</p>
-            </div>
-            <div className={styles['step5__priceLineRight']}>
-              <p className="small-text">Full refund before 1 week</p>
-            </div>
-          </div>
+          <PriceLine label="Rental Fee" text={wiz.rent + '€ / hr'} />
+          <PriceLine label="Booking Fee" text={wiz.rent + '€ / hr'} />
+          <PriceLine label="Service Fee" text="0€" />
+          <PriceLine label="Deposit" text={wiz.deposit + '€'} />
+          <PriceLine label="Cancellation Type" text="Full Refund 2 weeks before, partial after." />
         </div>
         <div className={styles['formItem']}>
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Rules</h2>

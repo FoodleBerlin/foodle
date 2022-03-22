@@ -75,7 +75,6 @@ enum Frequency {
 }
 
 type GenericDaySlot {
-  bookingSlot: [BookingSlot!]
   endTime: DateTime!
   id: String!
   propertySlot: PropertySlot
@@ -149,7 +148,7 @@ type Property {
 }
 
 type PropertySlot {
-  availableDays: [GenericDaySlot!]
+  availableDays: [GenericDaySlot!]!
   endDate: DateTime!
   frequency: Frequency!
   minimumMonth: Int!
@@ -165,7 +164,7 @@ PropertySlot input
 input PropertySlotInput {
   endDate: DateTime!
   frequency: Frequency!
-  genericDaySlots: [GenericDaySlotInput]
+  genericDaySlots: [GenericDaySlotInput]!
   minimumMonth: Int!
   repeats: String!
   startDate: DateTime!

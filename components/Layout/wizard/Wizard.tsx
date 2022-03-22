@@ -48,9 +48,9 @@ export default function Wizard(props: AuthenticatedProps) {
         {wizardContext.step == 2 && <Step2></Step2>}
         {wizardContext.step == 3 && <Step3></Step3>}
         {wizardContext.step == 4 && <Step4></Step4>}
-        {wizardContext.step == 5 && <Step5 session={props.session} jwt={props.jwt}></Step5>}
+        {wizardContext.step == 5 && <Step5></Step5>}
       </div>
-      <Footer step={wizardContext.step} />
+      <Footer session={props.session} step={wizardContext.step} />
     </div>
   );
 }

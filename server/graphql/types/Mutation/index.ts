@@ -105,7 +105,13 @@ export const CreateListing = extendType({
         if (isOverMaxLength(args.description, 1000)) {
           return invalidInputLengthError("Description", args.description);
         }
+        function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
+    return value !== null && value !== undefined;
+}
         try {
+        const slots :{startTime:string, endTime:string, weekday: string   }[]= args.availabilities.genericDaySlots.filter(notEmpty);
+        
+
           const prop = await ctx.prisma.property.create({ data: {size: args.size,
           ownerId: args.ownerId,
           street: args.street,
@@ -128,7 +134,10 @@ export const CreateListing = extendType({
             startDate: args.availabilities.startDate,
             frequency: args.availabilities.frequency,
             minimumMonth: args.availabilities.minimumMonth,
-            repeats: args.availabilities.repeats
+            repeats: args.availabilities.repeats,
+            availableDays:{ createMany:{
+            data: slots
+            }}
           }},
 
         } });
