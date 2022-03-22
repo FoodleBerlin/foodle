@@ -1,5 +1,7 @@
 import { FormData, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
+import { shouldValidate } from './Step3';
+import { FieldError } from 'react-hook-form';
 
 export default function Step2() {
   const { formState, nextStep, register, setValue } = useWizardContext();
@@ -16,11 +18,7 @@ export default function Step2() {
       setValue(
         'features',
         [...wizardContext.getValues().features].filter((x) => x !== feature) as FormData['features'],
-        {
-          shouldTouch: true,
-          shouldDirty: true,
-          shouldValidate: true,
-        }
+        shouldValidate
       );
       /*
       when 'Unfurnished' is already clicked, unclick and delete it from
@@ -30,17 +28,9 @@ export default function Step2() {
       setValue(
         'features',
         [...wizardContext.getValues().features].filter((x) => x !== 'Unfurnished') as FormData['features'],
-        {
-          shouldTouch: true,
-          shouldDirty: true,
-          shouldValidate: true,
-        }
+        shouldValidate
       );
-      setValue('features', [...wizardContext.getValues().features, feature] as FormData['features'], {
-        shouldTouch: true,
-        shouldDirty: true,
-        shouldValidate: true,
-      });
+      setValue('features', [...wizardContext.getValues().features, feature] as FormData['features'], shouldValidate);
       /* 
       when 'Unfurnished' is clicked again, unclick and delete all the other features so that
       just 'Unfurnished' is back in the wizardContext
@@ -49,24 +39,16 @@ export default function Step2() {
       setValue(
         'features',
         [...wizardContext.getValues().features].filter((x) => x === 'Unfurnished') as FormData['features'],
-        {
-          shouldTouch: true,
-          shouldDirty: true,
-          shouldValidate: true,
-        }
+        shouldValidate
       );
-      setValue('features', [...wizardContext.getValues().features, 'Unfurnished'] as FormData['features'], {
-        shouldTouch: true,
-        shouldDirty: true,
-        shouldValidate: true,
-      });
+      setValue(
+        'features',
+        [...wizardContext.getValues().features, 'Unfurnished'] as FormData['features'],
+        shouldValidate
+      );
       // in any other case the clicked feature will be added to the wizardContext
     } else {
-      setValue('features', [...wizardContext.getValues().features, feature] as FormData['features'], {
-        shouldTouch: true,
-        shouldDirty: true,
-        shouldValidate: true,
-      });
+      setValue('features', [...wizardContext.getValues().features, feature] as FormData['features'], shouldValidate);
     }
   };
 
@@ -80,15 +62,9 @@ export default function Step2() {
           </p>
           <div className={styles['step1__flexWrapper']}>
             <textarea
-              className={'standard-form__textarea'}
+              className="textArea standard-form"
               {...register('description')}
-              onChange={(c) =>
-                setValue('description', c.target.value, {
-                  shouldTouch: true,
-                  shouldDirty: true,
-                  shouldValidate: true,
-                })
-              }
+              onChange={(c) => setValue('description', c.target.value, shouldValidate)}
             ></textarea>
           </div>
           {formState.errors.description && (
@@ -217,7 +193,10 @@ export default function Step2() {
               <p className="body-text__small">Oven</p>
             </label>
 
-            {formState.errors.features && <span className={styles['error']}>{formState.errors.features.message}</span>}
+            {formState.errors.features &&
+              formState.errors.features.map((featureError: FieldError) => {
+                <span className={styles['error']}>{featureError.message}</span>;
+              })}
           </div>
         </div>
       </div>
@@ -229,45 +208,15 @@ export default function Step2() {
             className="standard-form__inputSmall"
             placeholder="0"
             type="number"
-            id="hours"
-            {...register('stay.hours')}
-            onChange={(c) =>
-              setValue('stay.hours', parseInt(c.target.value), {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
+            id="months"
+            {...register('minMonths')}
+            onChange={(c) => setValue('minMonths', parseInt(c.target.value), shouldValidate)}
           ></input>
-          <label htmlFor="hours" className={styles['step2__label'] + ' body-text-secondary'}>
-            Hours per week
+          <label htmlFor="months" className={styles['step2__label'] + ' body-text-secondary'}>
+            Recurring months
           </label>
         </div>
-        {formState.errors.stay?.hours && (
-          <span className={styles['error']}>{formState.errors.stay?.hours.message}</span>
-        )}
-        <div className={styles['step2__flexWrapper']}>
-          <input
-            className="standard-form__inputSmall"
-            placeholder="0"
-            type="number"
-            id="weeks"
-            {...register('stay.weeks')}
-            onChange={(c) =>
-              setValue('stay.weeks', parseInt(c.target.value), {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true,
-              })
-            }
-          ></input>
-          <label htmlFor="weeks" className={styles['step2__label'] + ' body-text-secondary'}>
-            Recurring weeks
-          </label>
-        </div>
-        {formState.errors.stay?.weeks && (
-          <span className={styles['error']}>{formState.errors.stay?.weeks.message}</span>
-        )}
+        {formState.errors.minMonths && <span className={styles['error']}>{formState.errors.minMonths.message}</span>}
       </div>
     </div>
   );

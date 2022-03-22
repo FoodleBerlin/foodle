@@ -11,6 +11,7 @@ interface UploaderProps {
   imageAmount: number;
   images: UploaderImage[];
   setImages: (images: UploaderImage[]) => void;
+  setNewImages: (images: UploaderImage[]) => void;
 }
 
 const Uploader = (props: UploaderProps) => {
@@ -31,6 +32,7 @@ const Uploader = (props: UploaderProps) => {
 
         const imageArray = [...props.images, ...acceptedFiles];
         props.setImages(imageArray);
+        props.setNewImages([...acceptedFiles]);
         props.setIdCount(idNumber);
       }
     },
@@ -52,8 +54,8 @@ const Uploader = (props: UploaderProps) => {
         {...getInputProps()}
       />
       <p className="body-text">Drag to Upload</p>
-      <p className="body-text">{props.idCount - 1 + '/5 photos uploaded'}</p>
-      <p className="body-text">Upload from device</p>
+      <p className="body-text grey-text">{props.idCount - 1 + '/5 photos uploaded'}</p>
+      <p className="body-text bold underlined">Upload from device</p>
     </div>
   );
 };

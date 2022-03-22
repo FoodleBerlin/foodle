@@ -1,23 +1,32 @@
 //TODO: Extract styles from here into 7-1 SCSS
 //TODO: Move Wizard folder from /Layout into components/Create directory
+.main {
+  width: 100%;
+  padding: 0 10rem;
+}
 .preview-img {
   margin: 2rem;
-  border: 1px solid #ccc;
-  float: left;
-  width: auto;
-  &__first {
-    height: 10vh;
+  height: auto;
+  &__wrapper {
+    width: 100%;
+    height: 50rem;
+    > div {
+      position: unset !important;
+    }
   }
   img {
-    width: auto;
-    height: auto;
-    max-height: 25rem;
-    max-width: 25rem;
+    object-fit: contain;
+    width: 100% !important;
+    position: relative !important;
+    height: unset !important;
   }
-  &__delete {
-    border: 1px solid #777;
-    padding: 15px;
-    text-align: center;
+  &__x-line {
+    height: 0.5rem;
+    position: fixed;
+    top: 20px;
+
+    width: 1rem;
+    background-color: black;
   }
 }
 
@@ -29,17 +38,23 @@
     color: salmon;
   }
   &__uploader {
-    width: 50vw;
-    height: 25vh;
-    border: 4px dashed black;
+    width: 100%;
+    height: 37rem;
+
+    border: 1px dashed #c4c4c4;
+    border-radius: 2rem;
     color: black;
+    margin-bottom: 4rem;
     p {
       width: 100%;
-      height: 100%;
+      margin-top: 2rem;
       text-align: center;
-      line-height: 170px;
       color: black;
       font-family: Arial;
+      &:first-of-type {
+        margin-top: 13rem;
+        margin-bottom: -2rem;
+      }
     }
     input {
       position: absolute;

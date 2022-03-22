@@ -3,10 +3,10 @@
 
 .wizard {
   color: #2b2b2b;
-  margin-top: 100px;
+  margin-top: 15vh;
   margin-bottom: 100px;
-  margin-left: 300px;
-  max-width: 811px;
+  margin-left: calc(23rem + 5vw);
+  max-width: calc(65rem + 20vw);
   .formItem {
     margin-bottom: 50px;
   }
@@ -188,7 +188,7 @@
   }
   &__marginHeadline {
     margin-top: 5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0rem;
   }
   &__buttonsGridWrapper {
     display: flex;
@@ -215,8 +215,9 @@
 
   width: 100%;
 
-  &__textArea {
+  textArea {
     width: 100%;
+    height: 20rem;
   }
   &__shortInput {
     width: 8rem;
@@ -263,6 +264,7 @@
 
   &__weekDayCheckboxWrapper {
     white-space: nowrap;
+    margin-bottom: 1rem;
   }
   &__weekDayCheckbox {
     display: inline-block;
@@ -273,6 +275,7 @@
     margin-top: 3rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    height: 30rem;
   }
 
   &__daysOfWeek {
@@ -302,6 +305,10 @@
     grid-column: 2/3;
     grid-row: 3/4;
   }
+}
+.step4 {
+  width: 100%;
+  padding: 0 10rem;
 }
 
 .step5 {
@@ -344,6 +351,9 @@
     border-bottom: 1px solid colors.$color-grey;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    &:last-of-type {
+      border: none;
+    }
   }
   &__priceLineLeft {
     grid-column: 1/2;

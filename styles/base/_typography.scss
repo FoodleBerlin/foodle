@@ -1,9 +1,11 @@
+@use './colors';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap'); /*@font-face {
   font-family: ""Archia Regular"";
   font-style: normal;
   font-weight: normal;
   src: local("Archia Regular"), url("Archia-Regular.woff") format("woff");
 }*/
+
 * {
   font-family: 'Inter', sans-serif !important;
   font-weight: 300;
@@ -12,6 +14,22 @@ body {
   font-family: 'Inter', sans-serif !important;
   font-weight: 300;
   color: $color-white;
+}
+.subtle-text {
+  color: colors.$color-subtle;
+}
+.grey-text {
+  color: colors.$color-grey !important;
+}
+.bold {
+  font-weight: 540 !important;
+}
+.underlined {
+  text-decoration: underline !important;
+}
+.textArea {
+  width: 100%;
+  height: 20rem;
 }
 
 .header-primary {

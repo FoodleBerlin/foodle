@@ -7,6 +7,11 @@ export type DaySlot = {
   startingTime: string;
   endingTime: string;
 };
+export const shouldValidate = {
+  shouldTouch: true,
+  shouldDirty: true,
+  shouldValidate: true,
+};
 export default function Step3() {
   const { formState, nextStep, register, setValue } = useWizardContext();
   const wizardContext = useWizardContext();
@@ -14,65 +19,6 @@ export default function Step3() {
     wizardContext.getValues().availability.daySlots;
 
   console.log(JSON.stringify(wizardContext.getValues()));
-
-  const shouldValidate = {
-    shouldTouch: true,
-    shouldDirty: true,
-    shouldValidate: true,
-  };
-
-  // const [daySlots, setDaySlots] = useState<DaySlot[]>([
-  //   { name: 'monday', selected: false, startingTime: '', endingTime: '' },
-  //   { name: 'thursday', selected: false, startingTime: '', endingTime: '' },
-  //   { name: 'wednesday', selected: false, startingTime: '', endingTime: '' },
-  //   { name: 'thursday', selected: false, startingTime: '', endingTime: '' },
-  //   { name: 'friday', selected: false, startingTime: '', endingTime: '' },
-  //   { name: 'saturday', selected: false, startingTime: '', endingTime: '' },
-  //   { name: 'sunday', selected: false, startingTime: '', endingTime: '' },
-  // ]);
-
-  // const toggleDay = (day: string) =>  {
-  //   const temp = [...daySlots];
-  //   temp.forEach((slot:DaySlot)=>{
-  //     if (slot.name===day){
-  //       const isSelectedSlot = slot.selected;
-  //       slot.selected = !isSelectedSlot;
-  //     }
-  //   })
-  //   setDaySlots(temp);
-  // }
-  // useEffect(()=>{
-  //   setValue(
-  //     'availability.daySlots',
-  //     daySlots as FormData['availability']['daySlots'],
-  //     shouldValidate
-  //   );
-  // }, [daySlots])
-  // useEffect(()=> {
-
-  // })
-
-  // const addStartTime = (value: string, pos: number) => {
-  //   console.log('starting Value: ' + value);
-  //   console.log('starting Times Pre:' + wizardContext.getValues().availability.startingTimes);
-  //   const temp = Array.from(wizardContext.getValues().availability.startingTimes);
-  //   temp[pos] = value;
-  //   setValue('availability.startingTimes', temp as FormData['availability']['startingTimes'], {
-  //     shouldTouch: true,
-  //     shouldDirty: true,
-  //     shouldValidate: true,
-  //   });
-  // };
-  // const addEndTime = (value: string, pos: number) => {
-  //   console.log('Ending Value: ' + value);
-  //   const temp = Array.from(wizardContext.getValues().availability.endingTimes);
-  //   temp[pos] = value;
-  //   setValue('availability.endingTimes', temp as FormData['availability']['endingTimes'], {
-  //     shouldTouch: true,
-  //     shouldDirty: true,
-  //     shouldValidate: true,
-  //   });
-  // };
 
   const toggleDay = (day: string) => {
     switch (day) {
@@ -242,6 +188,7 @@ export default function Step3() {
           <input
             className={styles['step3__shortInput'] + ' standard-form'}
             type="number"
+            id="rent"
             {...register('rent')}
             onChange={(c) =>
               setValue('rent', parseInt(c.target.value), {
@@ -251,8 +198,10 @@ export default function Step3() {
               })
             }
           ></input>
+          <label htmlFor={'rent'} className="body-text-secondary">
+            € per hour
+          </label>
         </div>
-        <label className="body-text-secondary">€ per hour</label>
         {formState.errors.rent && <span className={styles['error']}>{formState.errors.rent.message}</span>}
       </div>
       <div className={styles['formItem']}>
@@ -277,7 +226,7 @@ export default function Step3() {
         </div>
         {formState.errors.deposit && <span className={styles['error']}>{formState.errors.deposit.message}</span>}
       </div>
-      <div className={styles['formItem']}>
+      <div className={styles['formItem time-container']}>
         <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>When is it available?</h2>
         <label className="label-text">Starting</label> <br />
         <input
@@ -530,57 +479,39 @@ export default function Step3() {
               <option value="weekly">weekly</option>
               <option value="none">none</option>
             </select>
+            <div className={styles['step3__untilDatePicker']}>
+              <label className="label-text">Until</label> <br />
+              <input
+                className="standard-form"
+                type="date"
+                {...register('availability.endDate')}
+                onChange={(c) => {
+                  setValue('availability.endDate', c.target.value as any, {
+                    shouldTouch: true,
+                    shouldDirty: true,
+                    shouldValidate: true,
+                  });
+                }}
+              ></input>
+              {formState.errors.availability?.endDate && (
+                <span className={styles['error']}>{formState.errors.availability?.endDate.message}</span>
+              )}
+            </div>
           </div>
 
           {formState.errors.availability?.repeat && (
             <span className={styles['error']}>{formState.errors.availability?.repeat.message}</span>
           )}
-          <div className={styles['step3__untilDatePicker']}>
-            <label className="label-text">Until</label> <br />
-            <input
-              className="standard-form"
-              type="date"
-              {...register('availability.endDate')}
-              onChange={(c) => {
-                setValue('availability.endDate', c.target.value as any, {
-                  shouldTouch: true,
-                  shouldDirty: true,
-                  shouldValidate: true,
-                });
-              }}
-            ></input>
-            {formState.errors.availability?.endDate && (
-              <span className={styles['error']}>{formState.errors.availability?.endDate.message}</span>
-            )}
-          </div>
-          <div className={styles['step3__minimumStay']}>
-            <label className="label-text">Minimum stay</label> <br />
-            <input
-              className="standard-form"
-              {...register('minMonths')}
-              type="number"
-              onChange={(c) => {
-                setValue('minMonths', Number(c.target.value), {
-                  shouldTouch: true,
-                  shouldDirty: true,
-                  shouldValidate: true,
-                });
-              }}
-            ></input>
-            {formState.errors.minMonths && (
-              <span className={styles['error']}>{formState.errors.minMonths.message}</span>
-            )}
-          </div>
         </div>
       </div>
       <div className={styles['formItem']}>
         <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>What are the rules?</h2>
-        <p>
+        <p className="body-text-secondary mb-two">
           Please let the prospective booker know about cleanliness standards, key pick up and drop off processes, and
           anything else they should know.
         </p>
         <textarea
-          className={styles['step3__textArea'] + ' standard-form'}
+          className={'textArea standard-form'}
           {...register('rules')}
           onChange={(c) => {
             setValue('rules', c.target.value, {
@@ -591,6 +522,23 @@ export default function Step3() {
           }}
         ></textarea>
         {formState.errors.rules && <span className={styles['error']}>{formState.errors.rules.message}</span>}
+      </div>
+      <div className={styles['step2__formWrapper']}>
+        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>What’s the minimum stay?</h2>
+        <div className={styles['step2__flexWrapper']}>
+          <input
+            className="standard-form__inputSmall"
+            placeholder="0"
+            type="number"
+            id="months"
+            {...register('minMonths')}
+            onChange={(c) => setValue('minMonths', parseInt(c.target.value), shouldValidate)}
+          ></input>
+          <label htmlFor="months" className={styles['step2__label'] + ' body-text-secondary'}>
+            Recurring months
+          </label>
+        </div>
+        {formState.errors.minMonths && <span className={styles['error']}>{formState.errors.minMonths.message}</span>}
       </div>
     </div>
   );
