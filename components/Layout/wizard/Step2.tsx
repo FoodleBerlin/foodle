@@ -1,81 +1,10 @@
 import { FormData, useWizardContext, touchDirtyValidate } from './Wizard';
 import styles from './Wizard.module.scss';
+import Facility from '../../Create/Facility';
 import { FieldError } from 'react-hook-form';
 
 export default function Step2() {
   const { formState, nextStep, register, setValue } = useWizardContext();
-  const wizardContext = useWizardContext();
-
-  /* 
-  toggle handler function that allows user to select and deselect a feature
-  */
-  const toggleFeature = (feature: string) => {
-    /*
-    when feature is already in the wizardContext, it will be deleted
-    */
-    if ([...wizardContext.getValues().facilities].includes(feature)) {
-      setValue(
-        'facilities',
-        [...wizardContext.getValues().facilities].filter((x) => x !== feature) as FormData['facilities'],
-        touchDirtyValidate
-      );
-      /*
-      when 'Unfurnished' is already clicked, unclick and delete it from
-      wizardContext as soon as one of the other feature is clicked
-      */
-    } else if ([...wizardContext.getValues().facilities].includes('Unfurnished')) {
-      setValue(
-        'facilities',
-        [...wizardContext.getValues().facilities].filter((x) => x !== 'Unfurnished') as FormData['facilities'],
-        touchDirtyValidate
-      );
-      setValue(
-        'facilities',
-        [...wizardContext.getValues().facilities, feature] as FormData['facilities'],
-        touchDirtyValidate
-      );
-      /* 
-      when 'Unfurnished' is clicked again, unclick and delete all the other features so that
-      just 'Unfurnished' is back in the wizardContext
-      */
-    } else if (feature === 'Unfurnished') {
-      setValue(
-        'facilities',
-        [...wizardContext.getValues().facilities].filter((x) => x === 'Unfurnished') as FormData['facilities'],
-        touchDirtyValidate
-      );
-      setValue(
-        'facilities',
-        [...wizardContext.getValues().facilities, 'Unfurnished'] as FormData['facilities'],
-        touchDirtyValidate
-      );
-      // in any other case the clicked feature will be added to the wizardContext
-    } else {
-      setValue(
-        'facilities',
-        [...wizardContext.getValues().facilities, feature] as FormData['facilities'],
-        touchDirtyValidate
-      );
-    }
-  };
-  const facility = (facility: string, id: number) => {
-    return (
-      <>
-        <input
-          {...register('facilities')}
-          type="checkbox"
-          value={facility}
-          id={'features' + id}
-          className="checkbox"
-          name={'features' + id}
-          onChange={(c) => toggleFeature(c.target.value)}
-        ></input>
-        <label className={styles['labelButton'] + ' small-text'} htmlFor={'features' + id}>
-          {facility}
-        </label>
-      </>
-    );
-  };
 
   return (
     <div className={styles['step2']}>
@@ -104,7 +33,7 @@ export default function Step2() {
           <div className={styles['step2__buttonsGridWrapper']}>
             {['Unfurnished', 'A/C', 'Elevator', 'Storefront', 'Parking', 'Dishwasher', 'Heating', 'Water', 'Oven'].map(
               (facilityString: string, index) => {
-                return facility(facilityString, index + 1);
+                return <Facility key={index + 1} facility={facilityString} id={index + 1} />;
               }
             )}
             {formState?.errors?.facilities && (
