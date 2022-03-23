@@ -59,9 +59,14 @@ export async function seed() {
         zip: 123445,
         city: 'berlin',
         description: 'testhbdbjkfsdbjf',
-        thingsToKnow: 'testhbdbjkfsdbjf',
         rules: 'fffff',
-        cancellationType: 'fullRefundBefore1Week',
+        hourlyPrice: 100,
+        serviceFee: 0,
+        deposit:500,
+        images:[],
+        partialSpace: false,
+        minStayHours:50,
+        minStayWeeks:60
       },
     ],
   });

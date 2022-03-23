@@ -1,7 +1,6 @@
-import { CancellationType } from '@prisma/client';
 
 import { Context } from '../../../context';
-import { extendType, objectType, nonNull, intArg, stringArg, booleanArg, nullable } from 'nexus';
+import { extendType, objectType, nonNull, intArg, stringArg, booleanArg, nullable, list } from 'nexus';
 import {
   ClientErrorUserNotExists,
   ClientErrorInvalidHandle,
@@ -11,8 +10,7 @@ import {
 } from '../Error';
 import { User } from '../User';
 import { Booking } from '../Booking';
-import { Facility } from '../Facility';
-import { PropertySlot } from '../PropertySlot';
+import { PropertySlot, PropertySlotInput } from '../PropertySlot';
 
 export const Property = objectType({
   name: 'Property',
@@ -44,22 +42,14 @@ export const Property = objectType({
     p.int('zip');
     p.string('city');
     p.string('description');
-    p.boolean('pickup');
-    p.list.field('facilities', {
-      type: Facility,
-      async resolve(parent, args, ctx) {
-        return await ctx.prisma.facility.findMany({
-          where: {
-            propertyId: parent.id,
-          },
-        });
-      },
-    });
+    p.nullable.boolean('pickup');
+    p.list.string('facilities');
+    p.int('deposit');
+    p.list.string('images');
+    p.boolean('partialSpace');
     p.boolean('isVerified');
-    p.int('dailyPrice');
+    p.int('hourlyPrice');
     p.int('serviceFee');
-    p.string('cancellationType');
-    p.string('thingsToKnow');
     p.list.string('rules');
     p.nullable.field('availabilities', {
       type: PropertySlot,
@@ -136,144 +126,8 @@ export const FindPropertyById = extendType({
   },
 });
 
-export const CreatePropertyReturn = objectType({
-  name: 'createPropertyReturn',
-  definition(t) {
-    t.nullable.field('Property', { type: 'Property' });
-    t.nullable.field('ClientErrorUserNotExists', {
-      type: ClientErrorUserNotExists,
-    });
-    t.nullable.field('ClientErrorInvalidHandle', {
-      type: ClientErrorInvalidHandle,
-    });
-    t.nullable.field('ClientErrorInvalidPropertyInput', {
-      type: ClientErrorInvalidPropertyInput,
-    });
-    t.nullable.field('UnknownError', {
-      type: UnknownError,
-    });
-  },
-});
 
-export const CreateListing = extendType({
-  type: 'Mutation',
-  definition(p) {
-    p.field('createListing', {
-      type: 'createPropertyReturn', // needs to be changed
-      args: {
-        size: nonNull(intArg()),
-        ownerId: nonNull(stringArg()),
-        //kind: nullable(stringArg()),
-        street: nonNull(stringArg()),
-        streetNumber: nonNull(intArg()),
-        zip: nonNull(intArg()),
-        city: nonNull(stringArg()),
-        description: nonNull(stringArg()),
-        pickup: nonNull(booleanArg()),
-        //isVerified: nullable(booleanArg()),
-        //dailyPrice: nullable(intArg()),
-        //serviceFee: nullable(intArg()),
-        thingsToKnow: nonNull(stringArg()),
-        rules: nonNull(stringArg()),
-        cancellationType: nonNull(stringArg()),
-      },
 
-      //check user exists, street length not empty, not longer than 200, zip code lengt, city, enumsn nullable in db? rules
-      resolve(_root, args, ctx) {
-        function findUser() {
-          return ctx.prisma.user.findUnique({
-            where: {
-              id: args.ownerId,
-            },
-          });
-        }
-        function validateCityStreet(): Boolean {
-          if (args.street.length > 200 || args.city.length > 200) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-        function validateZipCode(): Boolean {
-          if (args.zip.toString().length > 5) {
-            return false;
-          } else {
-            return true;
-          }
-        }
-        function validateTextLength(): Boolean {
-          if (args.description.length > 1000) {
-            return false;
-          } else {
-            return true;
-          }
-        }
-        if (!findUser()) {
-          return {
-            ClientErrorUserNotExists: {
-              message: `owner for ownerId ${args.ownerId} does not exist`,
-            },
-          };
-        }
-        if (!validateZipCode) {
-          return {
-            ClientErrorInvalidPropertyInput: {
-              message: `zip code ${args.zip} is invalid, must have a max length of 5`,
-            },
-          };
-        }
-        if (validateCityStreet()) {
-          return {
-            ClientErrorInvalidPropertyInput: {
-              message: `city name ${args.city} must not contain numbers and should have a max. length of 200 characters`,
-            },
-          };
-        }
-        if (!validateTextLength) {
-          return {
-            ClientErrorInvalidPropertyInput: {
-              message: `description ${args.description} should have a max. length of 1000 characters`,
-            },
-          };
-        }
-        if (!validateTextLength) {
-          return {
-            ClientErrorInvalidPropertyInput: {
-              message: `description ${args.description} should have a max. length of 1000 characters`,
-            },
-          };
-        }
-        const newProperty = {
-          size: args.size,
-          ownerId: args.ownerId,
-          street: args.street,
-          streetNumber: args.streetNumber,
-          zip: args.zip,
-          city: args.city,
-          description: args.description,
-          thingsToKnow: args.thingsToKnow,
-          rules: [args.rules],
-          cancellationType: CancellationType.fullRefundBefore1Week,
-          //pickup: true,
-        };
-        try {
-          const prop = ctx.prisma.property.create({ data: newProperty });
-          return { Property: prop };
-        } catch (error) {
-          let errorMessage = 'Unknown error';
-          if (error instanceof Error) {
-            errorMessage = error.message;
-          }
-          return {
-            UnknownError: {
-              message: errorMessage,
-            },
-          };
-        }
-      },
-    });
-  },
-});
 
 export const findAllPropertiesReturn = objectType({
   name: 'findAllPropertiesReturn',

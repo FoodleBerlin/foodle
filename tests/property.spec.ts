@@ -10,8 +10,8 @@ beforeAll(async () => {
 describe(' Property', () => {
   it('can create a listing', async () => {
     const query = `
-    mutation Mutation($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $thingsToKnow: String!, $rules: String!, $cancellationType: String!) {
-      createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, pickup: $pickup, thingsToKnow: $thingsToKnow, rules: $rules, cancellationType: $cancellationType) {
+    mutation Mutation($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $rules: String!, ) {
+      createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, pickup: $pickup, rules: $rules) {
         ClientErrorInvalidHandle {
           message
         }
@@ -32,9 +32,7 @@ describe(' Property', () => {
         city: 'asf',
         description: 'asf',
         pickup: true,
-        thingsToKnow: 'asf',
         rules: 'adf',
-        cancellationType: 'fullRefundBefore1Week',
       },
     });
     expect(res).toMatchSnapshot();
