@@ -7,7 +7,7 @@ import {
   UnknownError,
 } from '../Error';
 import { PropertySlotInput } from '../PropertySlot';
-import { Property } from '@prisma/client';
+import uniqid from 'uuid';
 
 export const Mutation = extendType({
   type: 'Mutation',
@@ -110,12 +110,13 @@ export const CreateListing = extendType({
           const slots: { startTime: string; endTime: string; weekday: string }[] =
             args.availabilities.genericDaySlots.filter(notEmpty);
 
-          let prop = await ctx.prisma.property.create({
+          const prop = await ctx.prisma.property.create({
             data: {
               size: args.size,
               ownerId: args.ownerId,
               street: args.street,
               title: args.title.toLowerCase(),
+              handle: createHandle(args.title),
               streetNumber: args.streetNumber,
               zip: args.zip,
               city: args.city,
@@ -143,16 +144,6 @@ export const CreateListing = extendType({
               },
             },
           });
-          //add handle 
-          prop.handle = createHandle(prop);
-          prop = await ctx.prisma.property.update({
-            where: {
-              id: prop.id,
-            },
-            data: {
-              handle: prop.handle,
-            },
-          });
           return { Property: prop };
         } catch (error) {
           let errorMessage = 'Unknown error';
@@ -170,6 +161,7 @@ export const CreateListing = extendType({
   },
 });
 
-function createHandle(prop: Property): string {
-  return `${prop.title}-${prop.id.substring(0,8)}`;
+function createHandle(title: String): string {
+  const id = uniqid.stringify.toString().substring(0, 6);
+  return `${title.toLowerCase}-${id}`;
 }

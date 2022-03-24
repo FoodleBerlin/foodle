@@ -124,7 +124,7 @@ model GenericDaySlot {
 model Property {
   kind           ModelKind     @default(property)
   id             String        @id @default(cuid())
-  handle         String?        @unique
+  handle         String        @unique
   title          String
   size           Int // will be sq.ft
   ownerId        String
