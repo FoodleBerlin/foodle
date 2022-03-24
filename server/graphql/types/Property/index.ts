@@ -1,20 +1,15 @@
-
 import { Context } from '../../../context';
-import { extendType, objectType, nonNull, intArg, stringArg, booleanArg, nullable, list } from 'nexus';
-import {
-  ClientErrorUserNotExists,
-  ClientErrorInvalidHandle,
-  ClientErrorInvalidPropertyInput,
-  UnknownError,
-  ClientErrorPropertyNotExists,
-} from '../Error';
+import { extendType, objectType, stringArg } from 'nexus';
+import { ClientErrorInvalidHandle, UnknownError, ClientErrorPropertyNotExists } from '../Error';
 import { User } from '../User';
 import { Booking } from '../Booking';
-import { PropertySlot, PropertySlotInput } from '../PropertySlot';
+import { PropertySlot } from '../PropertySlot';
 
 export const Property = objectType({
   name: 'Property',
   definition(p) {
+    p.string('handle');
+    p.string('title');
     p.int('size');
     p.nullable.field('owner', {
       type: User,
@@ -88,20 +83,19 @@ export const FindPropertyById = extendType({
     t.field('findProperty', {
       type: FindPropertyResult,
       description: 'Takes a propertyId and returns the property',
-      args: { id: stringArg() },
+      args: { handle: stringArg() },
       resolve: async (_, args, ctx: Context) => {
-        console.log(!args.id);
-        if (!args.id) {
+        if (!args.handle) {
           return {
             ClientErrorInvalidHandle: {
-              message: 'id can not be null',
+              message: 'handle can not be null',
             },
           };
         } else {
           try {
             const property = await ctx.prisma.property.findUnique({
               where: {
-                id: args.id,
+                id: args.handle,
               },
             });
             if (property) {
@@ -109,14 +103,14 @@ export const FindPropertyById = extendType({
             } else {
               return {
                 ClientErrorPropertyNotExists: {
-                  message: `no property exists with id ${args.id}`,
+                  message: `no property exists with handle ${args.handle}`,
                 },
               };
             }
           } catch (e) {
             return {
               ClientErrorPropertyNotExists: {
-                message: `no property exists with id ${args.id}`,
+                message: `no property exists with handle ${args.handle}`,
               },
             };
           }
@@ -125,9 +119,6 @@ export const FindPropertyById = extendType({
     });
   },
 });
-
-
-
 
 export const findAllPropertiesReturn = objectType({
   name: 'findAllPropertiesReturn',

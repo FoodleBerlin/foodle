@@ -62,11 +62,11 @@ export async function seed() {
         rules: 'fffff',
         hourlyPrice: 100,
         serviceFee: 0,
-        deposit:500,
-        images:[],
+        deposit: 500,
+        images: [],
         partialSpace: false,
-        minStayHours:50,
-        minStayWeeks:60
+        handle: '1',
+        title: '1',
       },
     ],
   });

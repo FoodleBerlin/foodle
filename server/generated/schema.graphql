@@ -109,6 +109,7 @@ type Mutation {
     size: Int!
     street: String!
     streetNumber: Int!
+    title: String!
     zip: Int!
   ): createPropertyReturn!
   createUser: Boolean!
@@ -128,6 +129,7 @@ type Property {
   deposit: Int!
   description: String!
   facilities: [String!]!
+  handle: String!
   hourlyPrice: Int!
   images: [String!]!
   isVerified: Boolean!
@@ -140,6 +142,7 @@ type Property {
   size: Int!
   street: String!
   streetNumber: Int!
+  title: String!
   zip: Int!
 }
 
@@ -170,7 +173,7 @@ type Query {
   """
   Takes a propertyId and returns the property
   """
-  findProperty(id: String): findPropertyResult!
+  findProperty(handle: String): findPropertyResult!
 
   """
   Takes a handle and returns the user.
