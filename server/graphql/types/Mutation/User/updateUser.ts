@@ -44,7 +44,7 @@ export const updateUser = extendType({
           },
           data: {
             fullName: args.fullName,
-            dob: args.dob,
+            //dob: args.dob,
             zip: args.zip,
             email: args.email,
             description: args.bio,

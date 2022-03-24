@@ -124,6 +124,8 @@ model GenericDaySlot {
 model Property {
   kind           ModelKind     @default(property)
   id             String        @id @default(cuid())
+  handle         String?        @unique
+  title          String
   size           Int // will be sq.ft
   ownerId        String
   owner          User          @relation(name: "owner", fields: [ownerId], references: [id])
