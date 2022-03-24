@@ -1,21 +1,15 @@
-
 import { Context } from '../../../context';
-import { extendType, objectType, nonNull, intArg, stringArg, booleanArg, nullable, list } from 'nexus';
-import {
-  ClientErrorUserNotExists,
-  ClientErrorInvalidHandle,
-  ClientErrorInvalidPropertyInput,
-  UnknownError,
-  ClientErrorPropertyNotExists,
-} from '../Error';
+import { extendType, objectType, stringArg } from 'nexus';
+import { ClientErrorInvalidHandle, UnknownError, ClientErrorPropertyNotExists } from '../Error';
 import { User } from '../User';
 import { Booking } from '../Booking';
-import { PropertySlot, PropertySlotInput } from '../PropertySlot';
+import { PropertySlot } from '../PropertySlot';
 
 export const Property = objectType({
   name: 'Property',
   definition(p) {
-    p.nullable.string('handle');
+    p.string('handle');
+    p.string('title');
     p.int('size');
     p.nullable.field('owner', {
       type: User,
@@ -125,9 +119,6 @@ export const FindPropertyById = extendType({
     });
   },
 });
-
-
-
 
 export const findAllPropertiesReturn = objectType({
   name: 'findAllPropertiesReturn',

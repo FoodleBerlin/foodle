@@ -129,7 +129,7 @@ type Property {
   deposit: Int!
   description: String!
   facilities: [String!]!
-  handle: String
+  handle: String!
   hourlyPrice: Int!
   images: [String!]!
   isVerified: Boolean!
@@ -142,6 +142,7 @@ type Property {
   size: Int!
   street: String!
   streetNumber: Int!
+  title: String!
   zip: Int!
 }
 

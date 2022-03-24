@@ -1,4 +1,3 @@
-import { Context } from '../../../context';
 import { extendType, objectType, nonNull, intArg, stringArg, booleanArg, nullable, list } from 'nexus';
 import {
   ClientErrorUserNotExists,
@@ -7,7 +6,7 @@ import {
   UnknownError,
 } from '../Error';
 import { PropertySlotInput } from '../PropertySlot';
-import uniqid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 export const Mutation = extendType({
   type: 'Mutation',
@@ -146,6 +145,7 @@ export const CreateListing = extendType({
           });
           return { Property: prop };
         } catch (error) {
+          console.log({ error });
           let errorMessage = 'Unknown error';
           if (error instanceof Error) {
             errorMessage = error.message;
@@ -162,6 +162,8 @@ export const CreateListing = extendType({
 });
 
 function createHandle(title: String): string {
-  const id = uniqid.stringify.toString().substring(0, 6);
-  return `${title.toLowerCase}-${id}`;
+  const id = uuidv4().substring(0, 6);
+  // TODO remove multiple spaces
+  const titleFormatted = title.toLowerCase().trim().split(' ').join('_');
+  return `${titleFormatted}_${id}`;
 }
