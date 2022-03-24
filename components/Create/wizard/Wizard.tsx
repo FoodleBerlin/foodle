@@ -8,7 +8,7 @@ import styles from './Wizard.module.scss';
 import { z } from 'zod';
 import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Sidebar from '../Sidebar';
+import Sidebar from '../../Layout/Sidebar';
 import Footer from './Footer';
 import { AuthenticatedProps } from '../../../pages/account';
 
@@ -21,7 +21,10 @@ export default function Wizard(props: AuthenticatedProps) {
           <div className={'flex'}>
             {['Property', 'Features', 'Logistics', 'Photos', 'Summary'].map((stage: string, index) => {
               return (
-                <div className={wizardContext.step >= index + 1 ? styles['item__activeOrPassed'] : styles['item']}>
+                <div
+                  key={index + 1}
+                  className={wizardContext.step >= index + 1 ? styles['item__activeOrPassed'] : styles['item']}
+                >
                   <div className={styles['dots']}></div>
                   <span className={'small-text'}>{stage}</span>
                 </div>

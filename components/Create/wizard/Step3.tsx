@@ -1,5 +1,5 @@
-import DaySelector from '../../../components/Create/DaySelector';
-import TimeInput from '../../../components/Create/TimeInput';
+import DaySelector from '../DaySelector';
+import TimeInput from '../TimeInput';
 import { FormData, useWizardContext, touchDirtyValidate } from './Wizard';
 import styles from './Wizard.module.scss';
 

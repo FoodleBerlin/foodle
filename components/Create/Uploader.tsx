@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styles from './Create.module.scss';
-import { UploaderImage } from '../Layout/wizard/Step4';
+import { UploaderImage } from './wizard/Step4';
 import { useDropzone } from 'react-dropzone';
-import { FormData, useWizardContext } from '../Layout/wizard/Wizard';
+import { FormData, useWizardContext } from './wizard/Wizard';
 import { v4 as uuidv4 } from 'uuid';
 import { Storage } from 'aws-amplify';
 interface UploaderProps {

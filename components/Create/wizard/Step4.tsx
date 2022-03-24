@@ -1,7 +1,7 @@
 import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import React, { useEffect, useState } from 'react';
-import Uploader from '../../Create/Uploader';
-import Preview from '../../Create/Preview';
+import Uploader from '../Uploader';
+import Preview from '../Preview';
 import styles from '../../Create/Create.module.scss';
 
 export interface UploaderImage {

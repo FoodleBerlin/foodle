@@ -1,4 +1,4 @@
-import styles from '../Layout/wizard/Wizard.module.scss';
+import styles from '../Create/wizard/Wizard.module.scss';
 interface PriceLineProps {
   label: string;
   text: string;
