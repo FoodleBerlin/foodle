@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 import { UploaderImage } from './Step4';
-import PriceLine from '../../../components/Create/PriceLine';
+import PriceLine from '../PriceLine';
 
 export default function Step5() {
   const wiz = useWizardContext().getValues();
@@ -16,7 +16,7 @@ export default function Step5() {
           <div className="gallery__container">
             <div className="gallery">
               {wiz.images.map((image: UploaderImage, index) => (
-                <div className={'gallery__item gallery__item--' + index}>
+                <div key={index} className={'gallery__item gallery__item--' + index}>
                   <Image src={image.file} width={460} height={516} className="gallery__img" alt={'Image ' + index} />
                 </div>
               ))}
@@ -41,7 +41,7 @@ export default function Step5() {
           <br />
           <div className={styles['step5__featureTagWrapper']}>
             {wiz.facilities.map((feature: string) => (
-              <span className="feature-tag">
+              <span key={feature} className="feature-tag">
                 <p>{feature.toUpperCase()}</p>
               </span>
             ))}
