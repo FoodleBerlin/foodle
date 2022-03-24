@@ -1,6 +1,6 @@
 
 import { extendType,objectType, inputObjectType, stringArg } from 'nexus';
-import { Context } from '../../../../context';
+import { Context } from '../../../context';
 
 // const InputType = objectType({
 //   name: 'findUserResult',
