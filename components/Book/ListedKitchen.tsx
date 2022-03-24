@@ -2,10 +2,12 @@ import React from 'react';
 import Image from 'next/image';
 import styles from '../Create/wizard/Wizard.module.scss';
 import PriceLine from '../Create/PriceLine';
+import { UploaderImage } from './../Create/wizard/Step4';
 
 /*
 TO-DO:
 - What datatype are the images? Where and how do I get them? From the server?
+    --> get the Images from UploaderImage and the id (as a String) from the backend!
 - Make rules and availability dynamic with props 
 
 */
@@ -85,12 +87,10 @@ const ListedKitchen = (props: ListedKitchenProps) => {
         </div>
         <div className={styles['formItem']}>
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Rules</h2>
-          {props.rules.map((rule: string) => (
-            <p key={rule} className="small-text">
-              {rule}
-              <br /> <br />
-            </p>
-          ))}
+          <p className="small-text">
+            {props.rules}
+            <br /> <br />
+          </p>
         </div>
         <div className={styles['formItem']}>
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Availability</h2>
