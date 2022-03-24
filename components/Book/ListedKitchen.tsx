@@ -96,8 +96,7 @@ const ListedKitchen = (props: ListedKitchenProps) => {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Availability</h2>
           <div className={styles['step5__availabilityGrid']}>
             <div className={styles['step5__availabilityDate']}>
-              <p className="small-text">March</p>
-              <p className="small-text">2022</p>
+              <p className="small-text">{props.availability.startDate}</p>
             </div>
 
             <div className={styles['step5__nextMonthButton']}>
