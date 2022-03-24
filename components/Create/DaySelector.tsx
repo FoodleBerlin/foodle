@@ -1,6 +1,6 @@
-import { useWizardContext } from '../Layout/wizard/Wizard';
-import styles from '../Layout/wizard/Wizard.module.scss';
-import { FormData, touchDirtyValidate } from '../Layout/wizard/Wizard';
+import { useWizardContext } from './wizard/Wizard';
+import styles from '../Create/wizard/Wizard.module.scss';
+import { FormData, touchDirtyValidate } from './wizard/Wizard';
 
 interface DaySelectorProps {
   weekday: string;

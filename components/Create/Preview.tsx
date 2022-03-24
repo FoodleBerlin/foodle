@@ -1,6 +1,6 @@
 import { Fragment, MouseEventHandler, RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Create.module.scss';
-import { UploaderImage } from '../Layout/wizard/Step4';
+import { UploaderImage } from './wizard/Step4';
 import Image from 'next/image';
 import { BsXLg } from 'react-icons/bs';
 import React from 'react';

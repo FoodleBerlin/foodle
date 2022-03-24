@@ -1,5 +1,5 @@
 import React from 'react';
-import Wizard, { WizardProvider } from '../components/Layout/wizard/Wizard';
+import Wizard, { WizardProvider } from '../components/Create/wizard/Wizard';
 import Navbar from '../components/Layout/Navbar';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { extractUserFromToken } from '../server/context';
