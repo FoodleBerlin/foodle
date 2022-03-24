@@ -1,6 +1,6 @@
 import { makeSchema } from "nexus";
 import * as path from "path";
-import * as types from "./graphql/types";
+import * as types from "../../server/graphql/types";
 
 const schema = makeSchema({
   prettierConfig: path.join(process.cwd(), ".prettierrc"),

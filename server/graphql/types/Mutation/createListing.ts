@@ -7,6 +7,7 @@ import {
   ClientErrorInvalidPropertyInput,
   UnknownError,
 } from '../Error';
+import {notEmpty, checkUserExists, checkinvalidInputLength} from "../../../validation/index";
 import {PropertySlotInput } from '../PropertySlot';
 
 export const Mutation = extendType({
@@ -67,49 +68,16 @@ export const CreateListing = extendType({
 
       //check user exists, street length not empty, not longer than 200, zip code lengt, city, enumsn nullable in db? rules
       async resolve(_root, args, ctx) {
-        function findUser() {
-          return ctx.prisma.user.findUnique({
-            where: {
-              id: args.ownerId,
-            },
-          });
-        }
-        if (!findUser()) {
-          return {
-            ClientErrorUserNotExists: {
-              message: `owner for ownerId ${args.ownerId} does not exist`,
-            },
-          };
-        }
-        const invalidInputLengthError = (inputType:string, arg: string) =>{
-          return {
-            ClientErrorInvalidPropertyInput: {
-              message: `${inputType} ${arg} is invalid, must have a max length of 5`,
-            },
-          };
-        }
-        const isOverMaxLength = (str: string, maxLength: number)=>{
-          return str.length > maxLength;
-        }
-        if (isOverMaxLength(args.zip.toString(), 5)) {
-          return invalidInputLengthError("Zip code", args.zip.toString())
-        }
-        if (isOverMaxLength(args.city, 200)) {
-          return invalidInputLengthError("City name", args.city);
-        }
-        if (isOverMaxLength(args.street, 200)) {
-          return invalidInputLengthError("Street name", args.street);
-        }
-        if (isOverMaxLength(args.description, 1000)) {
-          return invalidInputLengthError("Description", args.description);
-        }
-        function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
-    return value !== null && value !== undefined;
-}
-        try {
-        const slots :{startTime:string, endTime:string, weekday: string   }[]= args.availabilities.genericDaySlots.filter(notEmpty);
-        
+        const isInvalidZipLength = checkinvalidInputLength("Zip code",args.zip.toString(), 5);
+        if(isInvalidZipLength) return isInvalidZipLength;
+        const isInvalidCityLength = checkinvalidInputLength("City name",args.city, 200);
+        if(isInvalidCityLength) return isInvalidCityLength;
+        const isInvalidStreetLength = checkinvalidInputLength("Street name", args.street, 200);
+        if(isInvalidStreetLength) return isInvalidStreetLength;
+        const isInvalidDescriptionLength = checkinvalidInputLength("Description", args.description, 1000);
+        if(isInvalidDescriptionLength) return isInvalidDescriptionLength;
 
+        try {
           const prop = await ctx.prisma.property.create({ data: {size: args.size,
           ownerId: args.ownerId,
           street: args.street,
@@ -131,7 +99,7 @@ export const CreateListing = extendType({
             frequency: args.availabilities.frequency,
             minMonths: args.availabilities.minMonths,
             availableDays:{ createMany:{
-            data: slots
+            data: args.availabilities.availableDays.filter(notEmpty)
             }}
           }},
 

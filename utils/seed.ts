@@ -1,4 +1,5 @@
 import prisma from '../server/singletons/prisma';
+import {DateTime} from '../server/graphql/types';
 export async function seed() {
   const [users] = await Promise.all(
     await prisma.$transaction([
@@ -48,10 +49,8 @@ export async function seed() {
       }),
     ])
   );
-  await prisma.property.createMany({
-    data: [
-      {
-        id: '1',
+  await prisma.property.create({
+    data : {
         size: 123,
         ownerId: '1',
         street: 'testhbdbjkfsdbjf',
@@ -59,16 +58,38 @@ export async function seed() {
         zip: 123445,
         city: 'berlin',
         description: 'testhbdbjkfsdbjf',
-        rules: 'fffff',
+        rules: ['fffff'],
         hourlyPrice: 100,
         serviceFee: 0,
         deposit:500,
-        images:[],
+        images:["heyy"],
+        pickup:false,
+        facilities: ["heeyy"],
         partialSpace: false,
-        minStayHours:50,
-        minStayWeeks:60
-      },
-    ],
+        availabilities:  {
+          create: {
+            startDate: new Date("1999-01-01T00:00:00").toISOString(),
+            endDate: new Date("1999-01-01T00:00:00").toISOString(),
+            minMonths: 0,
+            availableDays:
+            {createMany:
+              {data:
+                [
+                  {
+                  startTime:new Date("1999-01-01T00:00:00").toISOString(),
+                  endTime: new Date("1999-01-01T00:00:00").toISOString(),
+                  weekday:"Monday"
+                  }
+                ],
+              },
+            },
+            frequency: "weekly"
+          
+        }
+      }
+      
+          
+    }
   });
 }
 export default seed;

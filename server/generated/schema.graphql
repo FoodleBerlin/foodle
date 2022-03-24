@@ -9,11 +9,19 @@ type BookingSlot {
   id: String!
 }
 
+type ClientErrorInvalidGenericDaySlotInput {
+  message: String!
+}
+
 type ClientErrorInvalidHandle {
   message: String!
 }
 
 type ClientErrorInvalidPropertyInput {
+  message: String!
+}
+
+type ClientErrorInvalidPropertySlotInput {
   message: String!
 }
 
@@ -157,9 +165,9 @@ type PropertySlot {
 PropertySlot input
 """
 input PropertySlotInput {
+  availableDays: [GenericDaySlotInput]!
   endDate: DateTime!
   frequency: Frequency!
-  genericDaySlots: [GenericDaySlotInput]!
   minMonths: Int!
   startDate: DateTime!
 }
@@ -173,7 +181,7 @@ type Query {
   findProperty(id: String): findPropertyResult!
 
   """
-  Takes a handle and returns the user.
+  Takes a handle and returns the user
   """
   findUser(handle: String): findUserResult!
 }

@@ -91,6 +91,17 @@ export const User = objectType({
   },
 });
 
+/* export const Mutation = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.field('createUser', {
+      type: 'Boolean',
+      resolve() {
+        return true;
+      },
+    });
+  },
+});
 
 /**
  * Example apollo studio query
@@ -130,8 +141,8 @@ export const Query = extendType({
   type: 'Query',
   definition(t) {
     t.field('findUser', {
-      type: 'findUserResult',
-      description: 'Takes a handle and returns the user. ',
+      type: findUserResult,
+      description: 'Takes a handle and returns the user',
       args: { handle: stringArg() },
       resolve: async (_, args, ctx: Context) => {
         if (!args.handle) {
@@ -169,3 +180,5 @@ export const Query = extendType({
     });
   },
 });
+
+
