@@ -2,33 +2,39 @@ import { z } from 'zod';
 
 export function isValidStrings(args: string, maxLength: number){
     if (args == "") {
-        return false
+        return true
     }
     if (args.length < maxLength) {
         if (!/[^a-zA-Z0-9]/.test(args)) {
-            return true
+            return false
         }
     }
-    else {return false}
+    else {return true}
 }
 
 export function isValidNumbers(args: number, maxLength: number){
     if (args == null){
-        return false
-    }
-    if (args.toString().length < maxLength){
         return true
     }
-    else {return false}
+    if (args.toString().length < maxLength){
+        return false
+    }
+    else {return true}
 }
 
 export function isValidListStrings(args: string[], maxLength: number){
     for (let i = 0; i < args.length; i++) {
         if (args[i].length < maxLength) {
             if (!/[^a-zA-Z0-9]/.test(args[i])){
-                return true
+                return false
             }
         }
-        else {return false}
+        else {return true}
     }
 }
+
+export function isVaildObject(object: Object){
+    console.log(object)
+    console.log(object.constructor.arguments)
+}
+

@@ -4,7 +4,7 @@ import { ClientErrorInvalidHandle, UnknownError, ClientErrorPropertyNotExists } 
 import { User } from '../User';
 import { Booking } from '../Booking';
 import { PropertySlot } from '../PropertySlot';
-import { isValid } from '../../validation';
+import { isValidStrings } from '../../validation';
 
 export const Property = objectType({
   name: 'Property',
@@ -86,7 +86,7 @@ export const FindPropertyById = extendType({
       description: 'Takes a propertyId and returns the property',
       args: { handle: nonNull(stringArg()) },
       resolve: async (_, args, ctx: Context) => {
-        if (!isValid(args.handle, 60)) {
+        if (!isValidStrings(args.handle, 60)) {
           return {
             ClientErrorInvalidHandle: {
               message: "Property length max 60 char and no special characters"

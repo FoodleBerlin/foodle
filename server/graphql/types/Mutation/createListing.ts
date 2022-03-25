@@ -9,6 +9,7 @@ import { PropertySlotInput } from '../PropertySlot';
 import { v4 as uuidv4 } from 'uuid';
 import { isValidListStrings, isValidStrings } from '../../validation';
 import { isValidNumbers } from '../../validation';
+import { isVaildObject } from '../../validation';
 
 export const Mutation = extendType({
   type: 'Mutation',
@@ -70,56 +71,63 @@ export const CreateListing = extendType({
       async resolve(_root, args, ctx) {
         if (isValidListStrings(args.rules, 60)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "You have used special Characters or reach the max length of 60 characters"
+            message: "rules You have used special Characters or reach the max length of 60 characters"
           }}}
         if (isValidListStrings(args.facilities, 60)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "You have used special Characters or reach the max length of 60 characters"
+            message: "facilities You have used special Characters or reach the max length of 60 characters"
           }}}
         if (isValidStrings(args.title, 60)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "You have used special Characters or reach the max length of 60 characters"
+            message: "title You have used special Characters or reach the max length of 60 characters"
           }}}
         if (isValidStrings(args.street, 60)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "You have used special Characters or reach the max length of 60 characters"
+            message: "street You have used special Characters or reach the max length of 60 characters"
           }}}
         if (isValidStrings(args.city, 60)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "You have used special Characters or reach the max length of 60 characters"
+            message: "city You have used special Characters or reach the max length of 60 characters"
           }}}
         if (isValidStrings(args.description, 100)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "You have used special Characters or reach the max length of 60 characters"
+            message: "description You have used special Characters or reach the max length of 60 characters"
           }}}
         if (isValidNumbers(args.zip, 6)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "Reach the max length of 6 characters or not filled anything in"
+            message: "zip Reach the max length of 6 characters or not filled anything in"
           }}}
         if (isValidNumbers(args.hourlyPrice, 5)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "Reach the max length of 5 characters or not filled anything in"
+            message: "hourlyPrice Reach the max length of 5 characters or not filled anything in"
         }}}
         if (isValidNumbers(args.serviceFee, 3)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "Reach the max length of 3 characters or not filled anything in"
+            message: "serviceFee Reach the max length of 3 characters or not filled anything in"
         }}}
         if (isValidNumbers(args.deposit, 3)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "Reach the max length of 3 characters or not filled anything in"
+            message: "deposit Reach the max length of 3 characters or not filled anything in"
         }}}
         if (isValidNumbers(args.streetNumber, 5)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "Reach the max length of 5 characters or not filled anything in"
+            message: "streetNumber Reach the max length of 5 characters or not filled anything in"
         }}}
         if (isValidNumbers(args.size, 10)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "Reach the max length of 10 characters or not filled anything in"
+            message: "size Reach the max length of 10 characters or not filled anything in"
         }}}
         if (isValidStrings(args.ownerId, 600)) {
           return { ClientErrorInvalidPropertyInput: {
-            message: "Reach the max length of 600 characters or not filled anything in"
+            message: "ownerId Reach the max length of 600 characters or not filled anything in"
         }}}
+        /*Images are just string IDs*/
+        if (isValidListStrings(args.images, 200)) {
+          return { ClientErrorInvalidPropertyInput: {
+            message: "images Reach the max length of 600 characters or not filled anything in"
+        }}}
+        isVaildObject(args.availabilities)
+        console.log("test this")
 
         function findUser() {
           return ctx.prisma.user.findUnique({
