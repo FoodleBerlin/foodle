@@ -173,7 +173,7 @@ type Query {
   """
   Takes a propertyId and returns the property
   """
-  findProperty(handle: String): findPropertyResult!
+  findProperty(handle: String!): findPropertyResult!
 
   """
   Takes a handle and returns the user.

@@ -2,6 +2,8 @@ import { extendType, objectType, stringArg } from 'nexus';
 import { Context } from '../../../context';
 import { ClientErrorUserNotExists, ClientErrorInvalidHandle } from '../Error';
 import Stripe from 'stripe';
+import { validateFullName } from '../../validation';
+import { getMaxListeners } from 'process';
 
 export const PaymentInformation = objectType({
   name: 'PaymentInformation',
@@ -141,7 +143,6 @@ export const Query = extendType({
             },
           };
         } else {
-          // TODO validate handle
           try {
             const user = await ctx.prisma.user.findUnique({
               where: {

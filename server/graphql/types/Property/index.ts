@@ -1,9 +1,10 @@
 import { Context } from '../../../context';
-import { extendType, objectType, stringArg } from 'nexus';
+import { extendType, nonNull, objectType, stringArg } from 'nexus';
 import { ClientErrorInvalidHandle, UnknownError, ClientErrorPropertyNotExists } from '../Error';
 import { User } from '../User';
 import { Booking } from '../Booking';
 import { PropertySlot } from '../PropertySlot';
+import { isValid } from '../../validation';
 
 export const Property = objectType({
   name: 'Property',
@@ -83,15 +84,15 @@ export const FindPropertyById = extendType({
     t.field('findProperty', {
       type: FindPropertyResult,
       description: 'Takes a propertyId and returns the property',
-      args: { handle: stringArg() },
+      args: { handle: nonNull(stringArg()) },
       resolve: async (_, args, ctx: Context) => {
-        if (!args.handle) {
+        if (!isValid(args.handle, 60)) {
           return {
             ClientErrorInvalidHandle: {
-              message: 'handle can not be null',
-            },
-          };
-        } else {
+              message: "Property length max 60 char and no special characters"
+            }
+          }
+        }
           try {
             const property = await ctx.prisma.property.findUnique({
               where: {
@@ -114,7 +115,6 @@ export const FindPropertyById = extendType({
               },
             };
           }
-        }
       },
     });
   },
