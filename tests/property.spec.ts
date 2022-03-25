@@ -1,6 +1,8 @@
 import { apollo as server } from '../server/index';
 import { seed } from '../utils/seed';
 import { clean } from '../utils/clean';
+import { isVaildObject, isValidListStrings, isValidNumbers, isValidStrings } from '~/server/graphql/validation';
+
 
 beforeAll(async () => {
   await clean();
@@ -90,4 +92,40 @@ describe(' Property', () => {
     });
     expect(res).toMatchSnapshot();
   });
+
+  // it('test validations', async() => {
+  //     const zip = 123
+  //     const size = 123
+  //     const ownerId = '1'
+  //     const street = 'asf'
+  //     const streetNumber = 23
+  //     const city = 'asf'
+  //     const description = 'asf'
+  //     const pickup = true
+  //     const rules = ['adf']
+  //     const title = 'amazing title'
+  //     const hourlyPrice = 10
+  //     const serviceFee = 10
+  //     const facilities = []
+  //     const deposit = 13
+  //     const images = []
+  //     const partialSpace = true
+  //     // isValidNumbers
+  //     // isValidListStrings
+  //     // isValidStrings
+  //     // isVaildObject
+  //     const foo = (): void =>
+  //     test('this is a test', () => {
+  //       expect(isValidNumbers(zip, 6)).toBeTruthy();
+  //     });
+  //     foo();
+  //     // const availabilities = [
+  //     //   const startDate = '2022-03-24T13:31:22.356Z',
+  //     //   endDate = '2022-03-24T13:31:22.356Z',
+  //     //   minMonths = 0, 
+  //     //   genericDaySlots = [], 
+  //     //   frequency = 'none',
+  //     // ]
+  // })
+
 });

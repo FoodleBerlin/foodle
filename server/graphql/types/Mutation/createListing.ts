@@ -127,7 +127,7 @@ export const CreateListing = extendType({
             message: "images Reach the max length of 600 characters or not filled anything in"
         }}}
         isVaildObject(args.availabilities)
-        console.log("test this")
+        // console.log(args.availabilities)
 
         function findUser() {
           return ctx.prisma.user.findUnique({
