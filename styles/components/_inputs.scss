@@ -1,6 +1,10 @@
-@mixin input($font-size, $padding) {
-  outline: #b3b3b3;
-  border: 1px solid rgb(170, 170, 170);
+input[type='checkbox']::before {
+}
+
+.standard-form {
+  font-size: 1.8rem;
+  outline: $color-grey;
+  border: 1px solid $color-grey;
   border-radius: 1rem;
   padding: $padding;
   font-size: $font-size;
@@ -9,6 +13,55 @@
 .standard-form {
   @include input(1.8rem, 1rem 1rem);
   margin-right: -2rem;
+  &__inputSmall {
+    font-size: 1.8rem;
+    outline: $color-grey;
+    border: 1px solid $color-grey;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+    margin-right: -2rem;
+    width: 6rem;
+  }
+  &__inputMedium {
+    font-size: 1.8rem;
+    outline: $color-grey;
+    border: 1px solid $color-grey;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+    margin-right: -2rem;
+    width: 8rem;
+  }
+  &__textarea {
+    font-size: 1.8rem;
+    outline: $color-grey;
+    border: 1px solid $color-grey;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+    margin-right: -2rem;
+    resize: none;
+    max-width: 100%;
+    width: 750px;
+    height: 180px;
+  }
+  &__inputTime{
+    font-size: 1.4rem;
+    outline: $color-grey;
+    border: 1px solid $color-grey;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+    margin-right: -2rem;
+    width: 12rem;
+  }
+  &__selectMedium {
+    background-color: white;
+    font-size: 1.8rem;
+    outline: $color-grey;
+    border: 1px solid $color-grey;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+    margin-right: -2rem;
+    width: 16rem;
+  }
 }
 
 .profile-form {

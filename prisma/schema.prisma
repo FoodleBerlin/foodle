@@ -1,5 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -52,13 +53,6 @@ enum PaymentStatus {
   rejected
 }
 
-enum CancellationType {
-  fullRefundBefore1Week
-  fullRefundBefore1WeekPartialRefundAfter
-  fullRefundBefore2Weeks
-  fullRefundBefore2WeeksPartialRefundAfter
-}
-
 enum Role {
   tenant
   landlord
@@ -102,8 +96,7 @@ model PropertySlot {
   id            String           @id @default(cuid())
   startDate     DateTime
   endDate       DateTime
-  minimumMonth  Int
-  repeats       String
+  minMonths     Int              @default(0)
   availableDays GenericDaySlot[] @relation("propertyToGenericSlot")
   frequency     Frequency
   createdAt     DateTime         @default(now())
@@ -120,36 +113,37 @@ model GenericDaySlot {
   weekday        String
   propertySlotId String
   propertSlot    PropertySlot? @relation("propertyToGenericSlot", fields: [propertySlotId], references: [id])
-  bookingSlotId  String
+  bookingSlotId  String?
   bookingSlot    BookingSlot?  @relation("bookingToGenericSlot", fields: [bookingSlotId], references: [id])
 }
 
-
-
 //title: string, unique handle => lowercase title unique
 model Property {
-  kind             ModelKind        @default(property)
-  id               String           @id @default(cuid())
-  size             Int // will be sq.ft
-  ownerId          String
-  owner            User             @relation(name: "owner", fields: [ownerId], references: [id])
-  bookings         Booking[]        @relation("property")
-  street           String
-  streetNumber     Int              
-  zip              Int
-  city             String
-  description      String
-  pickup           Boolean          @default(false)
-  facilities       Facility[]
-  isVerified       Boolean          @default(false)
-  dailyPrice       Int              @default(0)
-  serviceFee       Int              @default(0)
-  cancellationType CancellationType
-  thingsToKnow     String
-  rules            String[]
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  availabilities   PropertySlot?    @relation("propertySlotToProperty")
+  kind           ModelKind     @default(property)
+  id             String        @id @default(cuid())
+  handle         String        @unique
+  title          String
+  size           Int // will be sq.ft
+  ownerId        String
+  owner          User          @relation(name: "owner", fields: [ownerId], references: [id])
+  bookings       Booking[]     @relation("property")
+  street         String
+  streetNumber   Int
+  zip            Int
+  city           String
+  description    String
+  pickup         Boolean       @default(false)
+  facilities     String[]
+  isVerified     Boolean       @default(false)
+  hourlyPrice    Int
+  serviceFee     Int
+  rules          String[]
+  deposit        Int
+  images         String[]
+  partialSpace   Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  availabilities PropertySlot? @relation("propertySlotToProperty")
 }
 
 model BookingSlot {
@@ -157,7 +151,6 @@ model BookingSlot {
   id         String           @id @default(cuid())
   startDate  DateTime
   endDate    DateTime
-  repeats    String
   bookedDays GenericDaySlot[] @relation("bookingToGenericSlot")
   frequency  Frequency
   createdAt  DateTime         @default(now())
@@ -181,20 +174,4 @@ model Booking {
   frequency     Frequency
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-}
-
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-model Facility {
-  kind        ModelKind @default(facility)
-  id          String    @id @default(cuid())
-  propertyId  String
-  property    Property  @relation(fields: [propertyId], references: [id])
-  name        String
-  description String?
-  amount      Int       @default(0)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
 }

@@ -4,17 +4,17 @@ import React, { useState } from 'react';
 import styles from './Navbar.module.scss';
 import Tab from './Tab';
 import Modal from './Modal';
-import { AccountProps } from '~/pages/account';
+import { AuthenticatedProps } from '~/pages/account';
 
 type NavbarProps = {
-  user?: AccountProps['session'];
+  user?: AuthenticatedProps['session'];
 };
 const Navbar = (props: NavbarProps) => {
   // state to open/close the Modal
   const [openModal, setOpenModal] = useState<boolean>(false);
   return (
     <nav className={styles['navbar'] + ' flex-center'}>
-      <div className={styles['navbar__logo'] + ' flex-center'}>
+      <div className={styles['navbar__logo']}>
         <Link href="/">
           <a>
             <Image src="/foodle_logo.svg" width={50} height={35} alt="Foodle Logo" />
@@ -24,7 +24,7 @@ const Navbar = (props: NavbarProps) => {
       <div className={styles['navbar__menu']}>
         <Tab href="/" title="EN/DE" />
         <Tab href="/" title="How It Works" />
-        <Tab href="/" title="List Your Kitchen" />
+        <Tab href="/create" title="List Your Kitchen" />
         <Tab href="/" title="Contact" />
       </div>
       {!props.user && (
@@ -37,6 +37,11 @@ const Navbar = (props: NavbarProps) => {
           </button>
           <Modal onClose={() => setOpenModal(false)} show={openModal} />
         </div>
+      )}
+      {props.user && (
+        <Link href="/account">
+          <div className={styles['avatar']}></div>
+        </Link>
       )}
     </nav>
   );

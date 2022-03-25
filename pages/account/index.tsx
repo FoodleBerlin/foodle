@@ -24,11 +24,11 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
     },
   };
 }
-export type AccountProps = {
+export type AuthenticatedProps = {
   session: Token['user'];
   jwt: string;
 };
-const Account: NextPage<AccountProps> = (props: AccountProps) => {
+const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   console.log({ props });
   const { status, data, error, isFetching } = useFindUserQuery(
     {

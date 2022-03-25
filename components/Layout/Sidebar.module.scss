@@ -2,6 +2,15 @@
   flex: 1 1 25%;
   padding: 3vh 0 0 3vw;
   background-color: white;
+  // HERE CURRENT ^
+  width: 300px;
+  height: 100%;
+  top: 65px;
+  position: fixed;
+  background-color: white;
+  border-right: 1px solid grey;
+  z-index: 999;
+  // HERE INCOMING^
   .menu {
     top: 10rem;
     color: green;

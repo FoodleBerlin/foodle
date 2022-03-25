@@ -5,6 +5,10 @@ type Booking {
   id: String!
 }
 
+type BookingSlot {
+  id: String!
+}
+
 type ClientErrorInvalidHandle {
   message: String!
 }
@@ -39,9 +43,12 @@ type CustomerCharge {
   status: String
 }
 
-type Facility {
-  id: String!
-}
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
+`date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
+8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
 
 type findAllPropertiesReturn {
   Properties: [Property!]
@@ -60,20 +67,52 @@ type findUserResult {
   User: User
 }
 
+enum Frequency {
+  biweekly
+  none
+  triweekly
+  weekly
+}
+
+type GenericDaySlot {
+  endTime: DateTime!
+  id: String!
+  propertySlot: PropertySlot
+  propertySlotId: String!
+  startTime: DateTime!
+  weekday: String!
+}
+
+"""
+GenericDaySlot input
+"""
+input GenericDaySlotInput {
+  endTime: DateTime!
+  startTime: DateTime!
+  weekday: String!
+}
+
 type Mutation {
   createListing(
-    cancellationType: String!
+    availabilities: PropertySlotInput!
     city: String!
+    deposit: Int!
     description: String!
+    facilities: [String!]!
+    hourlyPrice: Int!
+    images: [String!]!
     ownerId: String!
-    pickup: Boolean!
-    rules: String!
+    partialSpace: Boolean!
+    pickup: Boolean
+    rules: [String!]!
+    serviceFee: Int!
     size: Int!
     street: String!
     streetNumber: Int!
-    thingsToKnow: String!
+    title: String!
     zip: Int!
   ): createPropertyReturn!
+  createUser: Boolean!
 }
 
 type PaymentInformation {
@@ -86,26 +125,46 @@ type PaymentInformation {
 type Property {
   availabilities: PropertySlot
   bookings: [Booking!]!
-  cancellationType: String!
   city: String!
-  dailyPrice: Int!
+  deposit: Int!
   description: String!
-  facilities: [Facility!]!
+  facilities: [String!]!
+  handle: String!
+  hourlyPrice: Int!
+  images: [String!]!
   isVerified: Boolean!
   kind: String!
   owner: User
-  pickup: Boolean!
+  partialSpace: Boolean!
+  pickup: Boolean
   rules: [String!]!
   serviceFee: Int!
   size: Int!
   street: String!
   streetNumber: Int!
-  thingsToKnow: String!
+  title: String!
   zip: Int!
 }
 
 type PropertySlot {
-  id: String!
+  availableDays: [GenericDaySlot!]!
+  endDate: DateTime!
+  frequency: Frequency!
+  minMonths: Int!
+  property: Property
+  propertyId: String!
+  startDate: DateTime!
+}
+
+"""
+PropertySlot input
+"""
+input PropertySlotInput {
+  endDate: DateTime!
+  frequency: Frequency!
+  genericDaySlots: [GenericDaySlotInput]!
+  minMonths: Int!
+  startDate: DateTime!
 }
 
 type Query {
@@ -114,10 +173,10 @@ type Query {
   """
   Takes a propertyId and returns the property
   """
-  findProperty(id: String): findPropertyResult!
+  findProperty(handle: String): findPropertyResult!
 
   """
-  Takes a handle and returns the user
+  Takes a handle and returns the user.
   """
   findUser(handle: String): findUserResult!
 }

@@ -1,114 +1,59 @@
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styles from './Create.module.scss';
-import { UploaderImage } from '../Layout/wizard/Step4';
+import { UploaderImage } from './wizard/Step4';
 import { useDropzone } from 'react-dropzone';
-import { useWizardContext } from '../Layout/wizard/Wizard';
+import { FormData, useWizardContext } from './wizard/Wizard';
 import { v4 as uuidv4 } from 'uuid';
+import { Storage } from 'aws-amplify';
 interface UploaderProps {
-  addToImages: (image: UploaderImage) => void;
   idCount: number;
   setIdCount: (idCount: number) => void;
   imageAmount: number;
   images: UploaderImage[];
+  setImages: (images: UploaderImage[]) => void;
 }
 
 const Uploader = (props: UploaderProps) => {
-  const [imageValidationError, setImageValidationError] = useState('');
-
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
+    maxFiles: 5,
     onDrop: (acceptedFiles) => {
-      // @ts-ignore
-      readAndAddImages(acceptedFiles);
-      s3IdUpdate(props.images);
+      if (props.images.length + acceptedFiles.length < 6) {
+        let idNumber: number = props.idCount;
+        acceptedFiles.map((file) => {
+          Object.assign(file, {
+            file: URL.createObjectURL(file),
+            id: idNumber,
+            s3Id: uuidv4(),
+          });
+          idNumber++;
+        });
+
+        const imageArray = [...props.images, ...acceptedFiles];
+        props.setImages(imageArray);
+        props.setIdCount(idNumber);
+      }
     },
   });
 
-  const imagesSelectedHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (checkMimeType(e)) {
-      if (e.target.files === null || e.target.files === undefined) {
-      } else {
-        readAndAddImages(e.target.files);
-      }
-    }
-  };
-  const readAndAddImages = (files: FileList) => {
-    const fileArray = Array.from(files);
-    if (props.imageAmount > 4) {
-      return;
-    } else {
-      fileArray.forEach((file: any, index) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const result = {
-            file: reader.result,
-            size: file.size,
-            name: file.name,
-            id: props.idCount,
-            s3Id: uuidv4(),
-          };
-          props.setIdCount(props.idCount + 1);
-          setImageValidationError('null');
-          props.addToImages(result);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
+  const { register } = useWizardContext();
+  const user = {
+    id: 'ID20',
   };
 
-  const checkMimeType = (event: any) => {
-    const { files } = event.target;
-    let err = '';
-    const types = ['image/png', 'image/jpeg', 'image/jpg'];
-    for (let x = 0; x < files.length; x += 1) {
-      if (types.every((type) => files[x].type !== type)) {
-        err += `${files[x].type} is not a supported format\n`;
-      }
-    }
-    if (err !== '') {
-      event.target.value = null;
-      setImageValidationError(err);
-      return false;
-    }
-    return true;
-  };
-  const { formState, nextStep, register, setValue, getValues } = useWizardContext();
-
-  const [s3Ids, setS3Ids] = useState<string[]>([]);
-  const s3IdUpdate = (images: UploaderImage[]) => {
-    const imageArray = Array.from(images);
-    imageArray.forEach((image) => {
-      setS3Ids([...s3Ids, image.s3Id]);
-    });
-    setValue('images', s3Ids, {
-      shouldTouch: true,
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  };
   return (
-    //TODO:Use another utility class instead of flex column or modify flex column
-    <div className={styles['drag-drop__uploader'] + ' flex-column'} {...getRootProps()}>
+    <div className={styles['drag-drop__uploader']} {...getRootProps()}>
       <input
         type="file"
         id="file"
-        max={5}
-        maxLength={5}
         accept="image/png, image/jpeg"
         multiple={true}
         {...register('images')}
-        onChange={(c) => {
-          imagesSelectedHandler;
-          s3IdUpdate(props.images);
-        }}
         {...getInputProps()}
       />
       <p className="body-text">Drag to Upload</p>
-      <p className="body-text">{props.idCount - 1 + '/5 photos uploaded'}</p>
-      <p className="body-text">Upload from device</p>
-      {imageValidationError !== 'null' ? (
-        <span className={styles['drag-drop__error-msg']}>{imageValidationError}</span>
-      ) : null}
+      <p className="body-text grey-text">{props.idCount - 1 + '/5 photos uploaded'}</p>
+      <p className="body-text bold underlined">Upload from device</p>
     </div>
   );
 };

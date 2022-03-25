@@ -45,7 +45,7 @@ Object {
 }
 `;
 
-exports[` Property can query a single property by the id 1`] = `
+exports[` Property can query a single property by the handle 1`] = `
 Object {
   "data": Object {
     "findProperty": Object {
