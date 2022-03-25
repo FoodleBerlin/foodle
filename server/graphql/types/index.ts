@@ -14,3 +14,4 @@ export * from './PropertySlot';
 export * from './GenericDaySlot';
 export * from './BookingSlot';
 export * from './Mutation';
+export * from './DateTime';

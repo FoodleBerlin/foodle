@@ -3,10 +3,11 @@
 
 .wizard {
   color: #2b2b2b;
-  margin-top: 15vh;
-  margin-bottom: 100px;
-  margin-left: calc(23rem + 5vw);
-  max-width: calc(65rem + 20vw);
+  flex: 1 1 75%;
+  padding: 15rem calc(30rem + 20vw) 100px 2vw;
+  // max-width: calc(65rem + 20vw);
+
+  border-left: 0.3rem solid rgb(214, 214, 214);
   .formItem {
     margin-bottom: 50px;
   }
@@ -185,10 +186,6 @@
   &__label {
     margin-top: 1rem;
     align-items: center;
-  }
-  &__marginHeadline {
-    margin-top: 5rem;
-    margin-bottom: 0rem;
   }
   &__buttonsGridWrapper {
     display: flex;
@@ -431,11 +428,11 @@
 .item {
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 3.5rem;
   &__activeOrPassed {
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 3.5rem;
     .dots {
       width: 40px;
       height: 40px;
@@ -459,6 +456,5 @@
   }
 }
 .sidebar-container {
-  margin: 110px auto;
   width: 50%;
 }

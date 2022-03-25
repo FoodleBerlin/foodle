@@ -1,5 +1,4 @@
 .account {
-  margin-top: 65px;
   color: black;
   display: flex;
   .container {
@@ -15,8 +14,7 @@
   main {
     border-left: 0.3rem solid rgb(214, 214, 214);
     flex: 1 1 75%;
-    margin: 0 30vw 0vh 5vw;
-    padding: 5vh 0 0 5vw;
+    padding: 15rem calc(30rem + 20vw) 100px 5vw;
     h2 {
       font-size: 2.5rem;
     }

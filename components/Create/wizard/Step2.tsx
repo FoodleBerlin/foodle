@@ -10,7 +10,7 @@ export default function Step2() {
     <div className={styles['step2']}>
       <div className={styles['step2__formWrapper']}>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>How would you describe the space?</h2>
+          <h2 className={' header-tertiary'}>How would you describe the space?</h2>
           <p className="body-text-secondary">
             This is what users will see as the description under the overview tab on the listing page.
           </p>

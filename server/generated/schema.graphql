@@ -188,7 +188,7 @@ type UnknownError {
 type User {
   charges: [CustomerCharge!]!
   defaultPayment: PaymentInformation
-  dob: String!
+  dob: DateTime!
   email: String!
   fullName: String!
   handle: String!

@@ -1,10 +1,15 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Navbar from '../../components/Layout/Navbar';
-import { AccountProps } from '.';
+import { AuthenticatedProps } from './index';
+
 import { useFindUserQuery } from '../../codegen';
 import Sidebar from '../../components/Layout/Sidebar';
 import styles from './Account.module.scss';
 import { extractUserFromToken } from '../../server/context';
+import { useState } from 'react';
+import { UploaderImage } from '../../components/Create/wizard/Step4';
+
+import { v4 as uuidv4 } from 'uuid';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   if (!req.cookies['jwt']) {
@@ -24,7 +29,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   };
 }
 
-const Profile: NextPage<AccountProps> = (props: AccountProps) => {
+const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   console.log({ props });
   const { status, data, error, isFetching } = useFindUserQuery(
     {
@@ -54,11 +59,30 @@ const Profile: NextPage<AccountProps> = (props: AccountProps) => {
     console.log('Check account for license');
     return true;
   };
-  const buttons = (alreadyUploaded: boolean) => {
+  const [passport, setPassport] = useState<UploaderImage | null>();
+  const [solvency, setSolvency] = useState<UploaderImage | null>();
+  const [license, setLicense] = useState<UploaderImage | null>();
+
+  const convertFiletoUploaderImg = (file: File | null) => {
+    if (file === null) return null;
+    else {
+      return { name: file.name, size: file.size, file: file, s3Id: uuidv4() };
+    }
+  };
+
+  const buttons = (imageSetter: (image: UploaderImage | null) => void, alreadyUploaded: boolean) => {
     return alreadyUploaded ? (
       <aside className="mt-two-half">
-        <label className={'primary-btn bold'}>Upload</label>
-        <input id="upload" type="file" />
+        <label htmlFor="upload" className={'primary-btn bold'}>
+          Upload
+        </label>
+        <input
+          id="upload"
+          type="file"
+          onChange={(e) =>
+            imageSetter(convertFiletoUploaderImg(e?.currentTarget.files ? e?.currentTarget?.files[0] : null))
+          }
+        />
       </aside>
     ) : (
       <aside className="mt-two-half">
@@ -112,9 +136,9 @@ const Profile: NextPage<AccountProps> = (props: AccountProps) => {
               <h2 className="mt-two body-text">Solvency</h2>
             </div>
             <div className="mb-three">
-              {buttons(checkPassportExists())}
-              {buttons(checkLicenseExists())}
-              {buttons(checkSolvencyExists())}
+              {buttons((image: UploaderImage | null) => setPassport(image), checkPassportExists())}
+              {buttons((image: UploaderImage | null) => setLicense(image), checkLicenseExists())}
+              {buttons((image: UploaderImage | null) => setSolvency(image), checkSolvencyExists())}
             </div>
           </footer>
         </form>

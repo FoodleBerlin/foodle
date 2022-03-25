@@ -140,7 +140,7 @@ const Footer = (props: FooterProps) => {
           disabled={error() ? true : false}
           onClick={() => {
             nextStep(props.step);
-            handleSubmit();
+            props.step === 5 ? handleSubmit() : console.log(getValues());
           }}
         >
           {props.step === 5 ? 'submit' : 'next'}

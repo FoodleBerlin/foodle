@@ -2,6 +2,7 @@ import { extendType, objectType, stringArg } from 'nexus';
 import { Context } from '../../../context';
 import { ClientErrorUserNotExists, ClientErrorInvalidHandle } from '../Error';
 import Stripe from 'stripe';
+import {DateTime} from "../index";
 
 export const PaymentInformation = objectType({
   name: 'PaymentInformation',
@@ -32,7 +33,9 @@ export const User = objectType({
     t.string('email');
     t.string('handle');
     t.int('zip');
-    t.string('dob');
+    t.field('dob', {
+      type: 'DateTime',
+    });
     t.list.field('charges', {
       type: 'CustomerCharge',
       resolve: async (_, args, ctx: Context) => {

@@ -44,9 +44,6 @@
     @media screen and (max-width: 768px) {
       display: none;
     }
-<<<<<<< HEAD
-
-=======
     &--underline {
       display: inline-block;
       &:hover::after {
@@ -61,7 +58,6 @@
         transition: 300ms;
       }
     }
->>>>>>> 915a4ff7f1d7bf98939aa687d572ca0cd02b9d69
     &--link {
       color: black;
       cursor: pointer;

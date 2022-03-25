@@ -33,6 +33,7 @@ passport.use(
               fullName: profile.displayName,
               email: profile.emails[0].value,
               image: profile.picture,
+              dob: "1900-01-01T00:00:00Z",
               zip: -1,
               description: 'I am from ...',
               isVerified: false,
@@ -54,7 +55,6 @@ passport.use(
           console.log('cb');
           return cb(null, user);
         }
-        console.log('here');
       } catch (e) {
         console.log('ERROR', e);
         return cb(e);

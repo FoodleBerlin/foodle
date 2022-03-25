@@ -15,22 +15,22 @@ import { AuthenticatedProps } from '../../../pages/account';
 export default function Wizard(props: AuthenticatedProps) {
   const wizardContext = useWizardContext();
   return (
-    <div>
+    <div className="flex">
       <Sidebar user={props.session}>
         <div className={styles['sidebar-container']}>
-          <div className={'flex'}>
-            {['Property', 'Features', 'Logistics', 'Photos', 'Summary'].map((stage: string, index) => {
-              return (
-                <div
-                  key={index + 1}
-                  className={wizardContext.step >= index + 1 ? styles['item__activeOrPassed'] : styles['item']}
-                >
-                  <div className={styles['dots']}></div>
-                  <span className={'small-text'}>{stage}</span>
-                </div>
-              );
-            })}
-          </div>
+          {/* <div> */}
+          {['Property', 'Features', 'Logistics', 'Photos', 'Summary'].map((stage: string, index) => {
+            return (
+              <div
+                key={index + 1}
+                className={wizardContext.step >= index + 1 ? styles['item__activeOrPassed'] : styles['item']}
+              >
+                <div className={styles['dots']}></div>
+                <span className={'small-text'}>{stage}</span>
+              </div>
+            );
+          })}
+          {/* </div> */}
         </div>
       </Sidebar>
       <div className={styles['wizard']}>
