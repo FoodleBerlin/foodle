@@ -126,13 +126,10 @@ export const CreateListing = extendType({
           return { ClientErrorInvalidPropertyInput: {
             message: "images Reach the max length of 600 characters or not filled anything in"
         }}}
-        // if () {
-        //   return { ClientErrorInvalidPropertyInput: {
-        //     message: "availabilities object has reached the max length of characters"
-        // }}}
-        console.log(isVaildObjectAvailabilitiesObject(args.availabilities))
-        //console.log(isVaildObject(args.availabilities))
-        //console.log(args.availabilities)
+        if (isVaildObjectAvailabilitiesObject(args.availabilities)) {
+          return { ClientErrorInvalidPropertyInput: {
+            message: "availabilities object has reached the max length of characters"
+        }}}
 
         function findUser() {
           return ctx.prisma.user.findUnique({

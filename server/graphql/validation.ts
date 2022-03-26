@@ -1,9 +1,4 @@
-import { Console } from 'console';
-import { TRUE } from 'sass';
 import { string, z } from 'zod';
-import { Frequency } from '~/codegen';
-import { PropertySlotInput } from '~/codegen';
-import { GenericDaySlotInput } from '~/codegen';
 
 export function isValidStrings(args: string, maxLength: number){
     if (args == "") {
