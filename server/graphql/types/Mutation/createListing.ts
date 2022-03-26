@@ -9,7 +9,7 @@ import { PropertySlotInput } from '../PropertySlot';
 import { v4 as uuidv4 } from 'uuid';
 import { isValidListStrings, isValidStrings } from '../../validation';
 import { isValidNumbers } from '../../validation';
-import { isVaildObject } from '../../validation';
+import { isVaildObjectAvailabilitiesObject } from '../../validation';
 
 export const Mutation = extendType({
   type: 'Mutation',
@@ -126,8 +126,13 @@ export const CreateListing = extendType({
           return { ClientErrorInvalidPropertyInput: {
             message: "images Reach the max length of 600 characters or not filled anything in"
         }}}
-        isVaildObject(args.availabilities)
-        // console.log(args.availabilities)
+        // if () {
+        //   return { ClientErrorInvalidPropertyInput: {
+        //     message: "availabilities object has reached the max length of characters"
+        // }}}
+        console.log(isVaildObjectAvailabilitiesObject(args.availabilities))
+        //console.log(isVaildObject(args.availabilities))
+        //console.log(args.availabilities)
 
         function findUser() {
           return ctx.prisma.user.findUnique({

@@ -1,7 +1,7 @@
 import { apollo as server } from '../server/index';
 import { seed } from '../utils/seed';
 import { clean } from '../utils/clean';
-import { isVaildObject, isValidListStrings, isValidNumbers, isValidStrings } from '~/server/graphql/validation';
+import { isVaildObjectAvailabilitiesObject, isValidListStrings, isValidNumbers, isValidStrings } from '~/server/graphql/validation';
 
 
 beforeAll(async () => {
