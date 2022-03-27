@@ -1,5 +1,5 @@
 import React, { ReactChildren, useEffect, useState } from 'react';
-import { AuthenticatedProps } from '../../../pages/account';
+import { AuthenticatedProps } from '../../../pages/account/payments';
 import client from '../../../client';
 import { CreateListing } from '../../../codegen/createListing';
 import { UploaderImage } from './Step4';

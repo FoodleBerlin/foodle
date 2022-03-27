@@ -10,7 +10,7 @@ import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Sidebar from '../../Layout/Sidebar';
 import Footer from './Footer';
-import { AuthenticatedProps } from '../../../pages/account';
+import { AuthenticatedProps } from '../../../pages/account/payments';
 
 export default function Wizard(props: AuthenticatedProps) {
   const wizardContext = useWizardContext();

@@ -113,6 +113,20 @@ type Mutation {
     zip: Int!
   ): createPropertyReturn!
   createUser: Boolean!
+
+  """
+  Edit user profile data
+  """
+  updateUser(
+    description: String
+    dob: String
+    fullName: String
+    id: String
+    licenseS3Id: String
+    passportS3Id: String
+    solvencyS3Id: String
+    zip: Int
+  ): findUserResult!
 }
 
 type PaymentInformation {
@@ -188,11 +202,15 @@ type UnknownError {
 type User {
   charges: [CustomerCharge!]!
   defaultPayment: PaymentInformation
+  description: String!
   dob: DateTime!
   email: String!
   fullName: String!
   handle: String!
   id: String!
+  licenseS3Id: String!
+  passportS3Id: String!
   paymentMethods: [PaymentInformation!]!
+  solvencyS3Id: String!
   zip: Int!
 }
