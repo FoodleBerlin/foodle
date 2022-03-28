@@ -19,7 +19,6 @@ enum ModelKind {
   facility
   payment
   paymentMethod
-  genericDaySlot
   bookingSlot
   propertySlot
 }
@@ -38,7 +37,7 @@ enum Frequency {
   none
   weekly
   biweekly
-  triweekly
+  monthly
 }
 
 enum PaymentType {
@@ -90,30 +89,21 @@ model User {
   updatedAt        DateTime   @updatedAt
 }
 
-model PropertySlot {
-  kind          ModelKind        @default(propertySlot)
-  id            String           @id @default(cuid())
-  startDate     DateTime
-  endDate       DateTime
-  minMonths     Int              @default(0)
-  availableDays GenericDaySlot[] @relation("propertyToGenericSlot")
-  frequency     Frequency
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  propertyId    String           @unique
-  property      Property         @relation("propertySlotToProperty", fields: [propertyId], references: [id])
-}
 
-model GenericDaySlot {
-  kind           ModelKind     @default(genericDaySlot)
+model PropertySlot {
+  kind           ModelKind     @default(propertySlot)
   id             String        @id @default(cuid())
+  // Must be the same day
   startTime      DateTime
   endTime        DateTime
   weekday        String
-  propertySlotId String
-  propertSlot    PropertySlot? @relation("propertyToGenericSlot", fields: [propertySlotId], references: [id])
+  // Parent property
+  propertyId String
+  property    Property @relation("propertyToPropertySlot", fields: [propertyId], references: [id], onDelete: Cascade)
+  // Property slots might have a corresponding booking
+  // Will be null if it is available
   bookingSlotId  String?
-  bookingSlot    BookingSlot?  @relation("bookingToGenericSlot", fields: [bookingSlotId], references: [id])
+  bookingSlot    BookingSlot?  @relation("propertySlotToBookingSlot")
 }
 
 //title: string, unique handle => lowercase title unique
@@ -142,35 +132,39 @@ model Property {
   partialSpace   Boolean       @default(false)
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
-  availabilities PropertySlot? @relation("propertySlotToProperty")
+  minimumBookings  Int              @default(0)
+  frequency      Frequency
+  availableDays  PropertySlot[] @relation("propertyToPropertySlot")
 }
 
 model BookingSlot {
-  kind       ModelKind        @default(bookingSlot)
-  id         String           @id @default(cuid())
-  startDate  DateTime
-  endDate    DateTime
-  bookedDays GenericDaySlot[] @relation("bookingToGenericSlot")
-  frequency  Frequency
-  createdAt  DateTime         @default(now())
-  updatedAt  DateTime         @updatedAt
-  bookingId  String
-  booking    Booking          @relation("bookingSlotToBooking", fields: [bookingId], references: [id])
+  kind           ModelKind     @default(bookingSlot)
+  id             String        @id @default(cuid())
+  startTime      DateTime
+  endTime        DateTime
+  weekday        String
+  // Parent booking
+  bookingId String
+  booking    Booking @relation("bookingSlotToBooking", fields: [bookingId], references: [id], onDelete: Cascade)
+  // Booking slots must be linked to individual property slots
+  propertySlotInstanceId String
+  propertySlotInstance    PropertySlot @relation("propertySlotToBookingSlot", fields: [propertySlotInstanceId], references: [id], onDelete: Cascade)
 }
 
 model Booking {
   kind          ModelKind     @default(booking)
   id            String        @id @default(cuid())
   tenantId      String
-  tenant        User          @relation(name: "tenant", fields: [tenantId], references: [id])
+  tenant        User          @relation(name: "tenant", fields: [tenantId], references: [id], onDelete: Cascade)
   propertyId    String
-  property      Property      @relation(name: "property", fields: [propertyId], references: [id])
+  property      Property      @relation(name: "property", fields: [propertyId], references: [id], onDelete: Cascade)
   bookingStatus BookingStatus
   totalPrice    Int           @default(0)
   startDate     DateTime
   endDate       DateTime
-  bookingSlot   BookingSlot[] @relation("bookingSlotToBooking")
+  bookingSlots  BookingSlot[] @relation("bookingSlotToBooking")
   frequency     Frequency
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+  
 }

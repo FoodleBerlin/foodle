@@ -11,6 +11,5 @@ export * from './User';
 export * from './Error';
 export * from './Property';
 export * from './PropertySlot';
-export * from './GenericDaySlot';
 export * from './BookingSlot';
 export * from './Mutation';

@@ -40,12 +40,11 @@ describe(' Property', () => {
         deposit: 13,
         images: [],
         partialSpace: true,
-        availabilities: {
+        frequency: 'none',
+        availableDays: {
           startDate: '2022-03-24T13:31:22.356Z',
           endDate: '2022-03-24T13:31:22.356Z',
-          minMonths: 0,
-          genericDaySlots: [],
-          frequency: 'none',
+          weekday: 'M',
         },
       },
     });

@@ -106,9 +106,6 @@ export const CreateListing = extendType({
           return value !== null && value !== undefined;
         }
         try {
-          const slots: { startTime: string; endTime: string; weekday: string }[] =
-            args.availabilities.genericDaySlots.filter(notEmpty);
-
           const prop = await ctx.prisma.property.create({
             data: {
               size: args.size,
@@ -128,17 +125,13 @@ export const CreateListing = extendType({
               images: args.images,
               partialSpace: args.partialSpace,
               pickup: args.pickup ?? false,
-              availabilities: {
+              frequency: 'weekly',
+              // TODO create an array
+              availableDays: {
                 create: {
-                  endDate: args.availabilities.endDate,
-                  startDate: args.availabilities.startDate,
-                  frequency: args.availabilities.frequency,
-                  minMonths: args.availabilities.minMonths,
-                  availableDays: {
-                    createMany: {
-                      data: slots,
-                    },
-                  },
+                  endTime: args.availabilities.endDate,
+                  startTime: args.availabilities.startDate,
+                  weekday: args.availabilities.weekday,
                 },
               },
             },

@@ -1,11 +1,11 @@
 -- CreateEnum
-CREATE TYPE "ModelKind" AS ENUM ('user', 'property', 'booking', 'bookingDay', 'propertyAvailability', 'facility', 'payment', 'paymentMethod', 'genericDaySlot', 'bookingSlot', 'propertySlot');
+CREATE TYPE "ModelKind" AS ENUM ('user', 'property', 'booking', 'bookingDay', 'propertyAvailability', 'facility', 'payment', 'paymentMethod', 'bookingSlot', 'propertySlot');
 
 -- CreateEnum
 CREATE TYPE "DayOfWeek" AS ENUM ('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun');
 
 -- CreateEnum
-CREATE TYPE "Frequency" AS ENUM ('none', 'weekly', 'biweekly', 'triweekly');
+CREATE TYPE "Frequency" AS ENUM ('none', 'weekly', 'biweekly', 'monthly');
 
 -- CreateEnum
 CREATE TYPE "PaymentType" AS ENUM ('reservation', 'fee', 'refund');
@@ -49,28 +49,13 @@ CREATE TABLE "User" (
 CREATE TABLE "PropertySlot" (
     "kind" "ModelKind" NOT NULL DEFAULT E'propertySlot',
     "id" TEXT NOT NULL,
-    "startDate" TIMESTAMP(3) NOT NULL,
-    "endDate" TIMESTAMP(3) NOT NULL,
-    "minMonths" INTEGER NOT NULL DEFAULT 0,
-    "frequency" "Frequency" NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "propertyId" TEXT NOT NULL,
-
-    CONSTRAINT "PropertySlot_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "GenericDaySlot" (
-    "kind" "ModelKind" NOT NULL DEFAULT E'genericDaySlot',
-    "id" TEXT NOT NULL,
     "startTime" TIMESTAMP(3) NOT NULL,
     "endTime" TIMESTAMP(3) NOT NULL,
     "weekday" TEXT NOT NULL,
-    "propertySlotId" TEXT NOT NULL,
+    "propertyId" TEXT NOT NULL,
     "bookingSlotId" TEXT,
 
-    CONSTRAINT "GenericDaySlot_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "PropertySlot_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -97,6 +82,8 @@ CREATE TABLE "Property" (
     "partialSpace" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "minimumBookings" INTEGER NOT NULL DEFAULT 0,
+    "frequency" "Frequency" NOT NULL,
 
     CONSTRAINT "Property_pkey" PRIMARY KEY ("id")
 );
@@ -105,12 +92,11 @@ CREATE TABLE "Property" (
 CREATE TABLE "BookingSlot" (
     "kind" "ModelKind" NOT NULL DEFAULT E'bookingSlot',
     "id" TEXT NOT NULL,
-    "startDate" TIMESTAMP(3) NOT NULL,
-    "endDate" TIMESTAMP(3) NOT NULL,
-    "frequency" "Frequency" NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "startTime" TIMESTAMP(3) NOT NULL,
+    "endTime" TIMESTAMP(3) NOT NULL,
+    "weekday" TEXT NOT NULL,
     "bookingId" TEXT NOT NULL,
+    "propertySlotInstanceId" TEXT NOT NULL,
 
     CONSTRAINT "BookingSlot_pkey" PRIMARY KEY ("id")
 );
@@ -142,28 +128,25 @@ CREATE UNIQUE INDEX "User_stripeId_key" ON "User"("stripeId");
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "PropertySlot_propertyId_key" ON "PropertySlot"("propertyId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Property_handle_key" ON "Property"("handle");
 
--- AddForeignKey
-ALTER TABLE "PropertySlot" ADD CONSTRAINT "PropertySlot_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "Property"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "BookingSlot_propertySlotInstanceId_key" ON "BookingSlot"("propertySlotInstanceId");
 
 -- AddForeignKey
-ALTER TABLE "GenericDaySlot" ADD CONSTRAINT "GenericDaySlot_propertySlotId_fkey" FOREIGN KEY ("propertySlotId") REFERENCES "PropertySlot"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "GenericDaySlot" ADD CONSTRAINT "GenericDaySlot_bookingSlotId_fkey" FOREIGN KEY ("bookingSlotId") REFERENCES "BookingSlot"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "PropertySlot" ADD CONSTRAINT "PropertySlot_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "Property"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Property" ADD CONSTRAINT "Property_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "BookingSlot" ADD CONSTRAINT "BookingSlot_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "Booking"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "BookingSlot" ADD CONSTRAINT "BookingSlot_propertySlotInstanceId_fkey" FOREIGN KEY ("propertySlotInstanceId") REFERENCES "PropertySlot"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Booking" ADD CONSTRAINT "Booking_tenantId_fkey" FOREIGN KEY ("tenantId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "BookingSlot" ADD CONSTRAINT "BookingSlot_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "Booking"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Booking" ADD CONSTRAINT "Booking_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "Property"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Booking" ADD CONSTRAINT "Booking_tenantId_fkey" FOREIGN KEY ("tenantId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Booking" ADD CONSTRAINT "Booking_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "Property"("id") ON DELETE CASCADE ON UPDATE CASCADE;

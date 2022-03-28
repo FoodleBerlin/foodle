@@ -4,10 +4,12 @@ import { ClientErrorInvalidHandle, UnknownError, ClientErrorPropertyNotExists } 
 import { User } from '../User';
 import { Booking } from '../Booking';
 import { PropertySlot } from '../PropertySlot';
+import { Frequency } from '..';
 
 export const Property = objectType({
   name: 'Property',
   definition(p) {
+    p.string('kind');
     p.string('handle');
     p.string('title');
     p.int('size');
@@ -21,7 +23,6 @@ export const Property = objectType({
         });
       },
     });
-    p.string('kind');
     p.list.field('bookings', {
       type: Booking,
       async resolve(parent, args, ctx) {
@@ -46,21 +47,22 @@ export const Property = objectType({
     p.int('hourlyPrice');
     p.int('serviceFee');
     p.list.string('rules');
-    p.nullable.field('availabilities', {
+    p.int('minimumBookings');
+    p.nonNull.list.field('availableDays', {
       type: PropertySlot,
       async resolve(parent, args, ctx: Context) {
-        const slot = await ctx.prisma.propertySlot.findUnique({
+        return await ctx.prisma.propertySlot.findMany({
           where: {
             propertyId: parent.id,
           },
+          include: {
+            bookingSlot: true,
+            property: true,
+          },
         });
-        if (slot) {
-          return slot;
-        } else {
-          return null;
-        }
       },
     });
+    p.field('frequency', { type: Frequency });
   },
 });
 

@@ -67,6 +67,7 @@ export async function seed() {
         partialSpace: false,
         handle: '1',
         title: '1',
+        frequency: 'weekly',
       },
     ],
   });

@@ -69,27 +69,9 @@ type findUserResult {
 
 enum Frequency {
   biweekly
+  monthly
   none
-  triweekly
   weekly
-}
-
-type GenericDaySlot {
-  endTime: DateTime!
-  id: String!
-  propertySlot: PropertySlot
-  propertySlotId: String!
-  startTime: DateTime!
-  weekday: String!
-}
-
-"""
-GenericDaySlot input
-"""
-input GenericDaySlotInput {
-  endTime: DateTime!
-  startTime: DateTime!
-  weekday: String!
 }
 
 type Mutation {
@@ -123,17 +105,19 @@ type PaymentInformation {
 }
 
 type Property {
-  availabilities: PropertySlot
+  availableDays: [PropertySlot!]!
   bookings: [Booking!]!
   city: String!
   deposit: Int!
   description: String!
   facilities: [String!]!
+  frequency: Frequency!
   handle: String!
   hourlyPrice: Int!
   images: [String!]!
   isVerified: Boolean!
   kind: String!
+  minimumBookings: Int!
   owner: User
   partialSpace: Boolean!
   pickup: Boolean
@@ -147,11 +131,8 @@ type Property {
 }
 
 type PropertySlot {
-  availableDays: [GenericDaySlot!]!
+  bookingSlot: BookingSlot
   endDate: DateTime!
-  frequency: Frequency!
-  minMonths: Int!
-  property: Property
   propertyId: String!
   startDate: DateTime!
 }
@@ -161,10 +142,8 @@ PropertySlot input
 """
 input PropertySlotInput {
   endDate: DateTime!
-  frequency: Frequency!
-  genericDaySlots: [GenericDaySlotInput]!
-  minMonths: Int!
   startDate: DateTime!
+  weekday: String!
 }
 
 type Query {

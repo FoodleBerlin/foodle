@@ -1,6 +1,5 @@
 import { inputObjectType, objectType } from 'nexus';
-import { Frequency, GenericDaySlot, Property} from '../';
-import { GenericDaySlotInput } from '../GenericDaySlot';
+import { BookingSlot } from '../BookingSlot';
 
 export const PropertySlot = objectType({
   name: 'PropertySlot',
@@ -11,51 +10,26 @@ export const PropertySlot = objectType({
     t.field('endDate', {
       type: 'DateTime',
     });
-    t.int('minMonths');
-    t.string('propertyId')
-    t.nullable.field('property', {
-      type: Property,
+    t.string('propertyId');
+    t.nullable.field('bookingSlot', {
+      type: BookingSlot,
       async resolve(parent, args, ctx) {
-        return await ctx.prisma.property.findUnique({
+        return await ctx.prisma.bookingSlot.findUnique({
           where: {
-            id: parent.propertyId,
+            id: parent.id,
           },
-          include: {
-            owner:true,
-            bookings:true,
-            availabilities:true,
-          }
         });
       },
     });
-    t.nonNull.list.field('availableDays', {
-      type: GenericDaySlot,
-      async resolve(parent, args, ctx) {
-        return await ctx.prisma.genericDaySlot.findMany({
-          where: {
-            propertySlotId: parent.id,
-          },
-          include: {
-            bookingSlot:true,
-            propertSlot:true,
-          }
-        });
-      },
-    });
-    t.field('frequency', {type: Frequency});
-  }
-}); 
+  },
+});
 
 export const PropertySlotInput = inputObjectType({
   name: 'PropertySlotInput',
   description: 'PropertySlot input',
   definition(t) {
-    t.nonNull.field('startDate', {type: 'DateTime'});
-    t.nonNull.field('endDate', {type: 'DateTime'});
-    t.nonNull.int('minMonths');
-    t.nonNull.list.field('genericDaySlots', {type: GenericDaySlotInput});
-    t.nonNull.field('frequency', {type: Frequency});
+    t.nonNull.field('startDate', { type: 'DateTime' });
+    t.nonNull.field('endDate', { type: 'DateTime' });
+    t.nonNull.string('weekday');
   },
 });
-
-
