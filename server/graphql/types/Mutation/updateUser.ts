@@ -13,6 +13,7 @@ export const updateUser = extendType({
           licenseS3Id: stringArg() },
       resolve: async (_, args, ctx: Context) => {
         //TODO check that the user is authorized
+        
         let userData;
         try{
         if (args.id!==null){

@@ -135,7 +135,7 @@ model Property {
   pickup         Boolean       @default(false)
   facilities     String[]
   isVerified     Boolean       @default(false)
-  hourlyPrice    Int
+  hourlyPrice    Int           @default(0)
   serviceFee     Int
   rules          String[]
   deposit        Int

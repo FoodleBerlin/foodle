@@ -4,7 +4,9 @@
 .wizard {
   color: #2b2b2b;
   flex: 1 1 75%;
-  padding: 15rem calc(30rem + 20vw) 100px 2vw;
+  height: 100%;
+
+  padding: 20rem calc(30rem + 20vw) 100px 2vw;
   // max-width: calc(65rem + 20vw);
 
   border-left: 0.3rem solid rgb(214, 214, 214);
@@ -51,6 +53,7 @@
 
 .step1 {
   width: 100%;
+  height: 100%;
   padding: 0 10rem;
   &__buttonWrapper {
     display: inline-flex;
@@ -154,17 +157,6 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  /*   &--firstLabelButton {
-    height: 90px;
-    width: 200px;
-    border: 1px solid #00695c;
-    position: relative;
-    border-radius: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  } */
 }
 
 .step2 {
