@@ -29,10 +29,10 @@ const Navbar = (props: NavbarProps) => {
       </div>
       {!props.user && (
         <div className={styles['navbar__auth-btns']}>
-          <button className="secondary-btn" onClick={() => setOpenModal(true)}>
+          <button className="secondary-btn-small" onClick={() => setOpenModal(true)}>
             Login
           </button>
-          <button className=" secondary-btn" onClick={() => setOpenModal(true)}>
+          <button className=" secondary-btn-small" onClick={() => setOpenModal(true)}>
             Signup
           </button>
           <Modal onClose={() => setOpenModal(false)} show={openModal} />

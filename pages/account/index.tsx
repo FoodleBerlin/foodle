@@ -6,7 +6,7 @@ import { useFindUserQuery, User, useUpdateUserMutation } from '../../codegen';
 import Sidebar from '../../components/Layout/Sidebar';
 import styles from './Account.module.scss';
 import { extractUserFromToken } from '../../server/context';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { UploaderImage } from '../../components/Create/wizard/Step4';
 import ProfileButton from '../../components/Profile/ProfileButton';
 import client from '../../client';
@@ -32,7 +32,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
 
 const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   console.log({ props });
-  const { status, data, error, isFetching } = useFindUserQuery(
+  const { status, error, isFetching } = useFindUserQuery(
     {
       endpoint: 'http://localhost:5000/graphql',
       fetchParams: {
@@ -45,38 +45,44 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
     { handle: props.session.email },
     {}
   );
-  console.log({ data });
   console.log({ error });
-  const updateUserMutation = useUpdateUserMutation(
-    {
-      endpoint: 'http://localhost:5000/graphql',
-      fetchParams: {
-        headers: {
-          'Content-Type': 'application/json',
-          jwt: props.jwt,
-        },
+  const { mutate, data } = useUpdateUserMutation({
+    endpoint: 'http://localhost:5000/graphql',
+    fetchParams: {
+      headers: {
+        'Content-Type': 'application/json',
+        jwt: props.jwt,
       },
-    }
-    {
-      id: '1',
-      fullName: 'name',
-      zip: 9000,
-      description: 'desc',
-      dob: '1900-01-01T00:00:00Z',
-      passportS3Id: 'passport',
-      solvencyS3Id: 'solvency',
-      licenseS3Id: 'license',
-    }
-  );
+    },
+  });
 
   const checkExists = (image: UploaderImage | null | undefined) => {
     console.log('image' + JSON.stringify(image));
     return image ? true : false;
   };
+  const submit = () => {
+    mutate({
+      id: props.session.id,
+      fullName: fullName,
+      zip: zip,
+      description: description,
+      dob: dob + 'T00:00:00Z',
+      passportS3Id: passport?.s3Id,
+      solvencyS3Id: solvency?.s3Id,
+      licenseS3Id: license?.s3Id,
+    });
+    console.log('whatsthis:' + data);
+  };
   const [passport, setPassport] = useState<UploaderImage | null>();
   const [solvency, setSolvency] = useState<UploaderImage | null>();
   const [license, setLicense] = useState<UploaderImage | null>();
-
+  const [dob, setDob] = useState<string>();
+  const [fullName, setFullName] = useState<string>();
+  const [zip, setZip] = useState<number>();
+  const [description, setDescription] = useState<string>();
+  const text = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
+    return e?.target?.textContent ? e?.target?.textContent : '';
+  };
   return (
     <div className={styles['account']}>
       <Navbar user={props.session} />
@@ -90,23 +96,42 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
           <section>
             <label className="body-text bold-medium">First and last name</label>
             <br />
-            <input maxLength={50} className="profile-form mt-one" type="text" placeholder="Jane Doe" />
+            <input
+              onChange={(e) => setFullName(text(e))}
+              maxLength={50}
+              className="profile-form mt-one"
+              type="text"
+              placeholder="Jane Doe"
+            />
           </section>
 
           <section>
             <label className="body-text bold-medium">Date of Birth</label>
             <br />
-            <input maxLength={50} className="profile-form" type="text" placeholder="24.12.2000" />
+            <input
+              onChange={(e) => setDob(text(e))}
+              maxLength={50}
+              className="profile-form"
+              type="text"
+              placeholder="2000-12-24"
+            />
           </section>
           <section>
             <label className="body-text bold-medium">Zip Code</label>
             <br />
-            <input maxLength={50} className="profile-form mt-one" type="text" placeholder="13407" />
+            <input
+              onChange={(e) => setZip(e?.target?.textContent ? parseInt(e?.target?.textContent) : -1)}
+              maxLength={50}
+              className="profile-form mt-one"
+              type="text"
+              placeholder="13407"
+            />
           </section>
           <section>
             <label className="body-text  bold-medium">Please tell us about yourself</label>
             <br />
             <textarea
+              onChange={(e) => setDescription(text(e))}
               className={styles['description-input'] + ' profile-form mt-one'}
               placeholder="Please tell us about yourself"
               cols={60}
@@ -139,6 +164,9 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
             }
           </footer>
         </form>
+        <button onClick={() => submit()} className={'primary-btn save-btn'}>
+          Save
+        </button>
       </main>
     </div>
   );

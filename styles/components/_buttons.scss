@@ -26,6 +26,11 @@
 .secondary-btn {
   @include btn(colors.$color-primary-light, transparent, colors.$color-primary-light2);
 }
+.secondary-btn-small {
+  @include btn(colors.$color-primary-light, transparent, colors.$color-primary-light2);
+  padding: 0.5rem 2rem !important;
+  height:5rem !important;
+}
 .tertiary-btn {
   @include btn(colors.$color-primary-light, transparent, colors.$color-primary-light2, colors.$color-primary-light);
 }
@@ -34,6 +39,11 @@
   &:hover {
     color: white;
   }
+}
+.save-btn {
+  position: fixed !important;
+  bottom: 5% !important;
+  right: 5% !important;
 }
 .active-btn {
   border: 2px solid #009688;

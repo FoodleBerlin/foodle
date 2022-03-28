@@ -29,7 +29,6 @@ export const updateUser = extendType({
           };
     }
 
-
         if (!userData)
           return {
             ClientErrorUserNotFound: {

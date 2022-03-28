@@ -61,15 +61,8 @@ export async function seed() {
         rules: ['fffff'],
         hourlyPrice: 100,
         serviceFee: 0,
-<<<<<<< HEAD
-        deposit: 500,
-        images: [],
-        partialSpace: false,
-        handle: '1',
-        title: '1',
-      },
-    ],
-=======
+        handle:"hand;e",
+        title:"titlee",
         deposit:500,
         images:["heyy"],
         pickup:false,
@@ -99,7 +92,6 @@ export async function seed() {
       
           
     }
->>>>>>> d6af851b12f6f6407f986f8079482a7bc31d7735
   });
 }
 export default seed;
