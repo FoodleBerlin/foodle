@@ -29,6 +29,15 @@ Object {
           "city": "berlin",
         },
         Object {
+          "city": "Munich",
+        },
+        Object {
+          "city": "Krueger",
+        },
+        Object {
+          "city": "Hamburg",
+        },
+        Object {
           "city": "asf",
         },
       ],
