@@ -6,47 +6,110 @@ beforeAll(async () => {
   await clean();
   await seed();
 });
-
-describe(' Property', () => {
-  it('can create a listing', async () => {
-    const query = `
-    mutation Mutation($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $rules: [String!]!, $title: String!, $hourlyPrice: Int!, $serviceFee: Int!, $facilities: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $availabilities: PropertySlotInput!) {
-      createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, pickup: $pickup, rules: $rules, title: $title, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, facilities: $facilities, deposit: $deposit, images: $images, partialSpace: $partialSpace, availabilities: $availabilities) {
-        ClientErrorInvalidHandle {
-          message
-        }
-        Property {
-          city
+const query = `
+    mutation CreateListing($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $facilities: [String!]!, $rules: [String!]!, $serviceFee: Int!, $hourlyPrice: Int!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $availabilities: PropertySlotInput!) {
+  createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, pickup: $pickup,  facilities: $facilities, rules: $rules, serviceFee: $serviceFee, hourlyPrice: $hourlyPrice, deposit: $deposit, images: $images, partialSpace: $partialSpace, availabilities: $availabilities) {
+    Property {
+      size
+      owner {
+        id
+        fullName
+        email
+      }
+      kind
+      bookings {
+        id
+      }
+      street
+      streetNumber
+      zip
+      city
+      description
+      pickup
+      images
+      facilities
+      isVerified
+      hourlyPrice
+      serviceFee
+      deposit
+      rules
+      availabilities {
+        startDate
+        endDate
+        minMonths
+        frequency
+        availableDays {
+          weekday
+          startTime
+          endTime
         }
       }
     }
+    ClientErrorUserNotExists {
+      message
+    }
+    ClientErrorInvalidHandle {
+      message
+    }
+    ClientErrorInvalidPropertyInput {
+      message
+    }
+    UnknownError {
+      message
+    }
+  }
+}
     `;
+
+const stdVars = {size: 0,
+        ownerId: "1",
+        street: "FoodleStreet",
+        streetNumber: 0, //should throw error
+        zip: 0, //should throw error if < 5 digits
+        city: "Germany2", // Should throw error if city contains number
+        description: "",
+        rules: [],
+        hourlyPrice: 0,
+        facilities: [], //Should throw error if less than 1
+        deposit: 0,
+        images: [""], //Should throw error if less than one or first item is empty string
+        pickup: false,
+        serviceFee: 0,
+        partialSpace: false,
+        availabilities: {
+          startDate: new Date('1900-01-01T01:00:00').toISOString(), // Should notify that startDate wasnt inserted yet
+          endDate: new Date('1900-02-01T01:00:00').toISOString(), // new Date('2000-01-01T' + time + ':00').toISOString()
+          availableDays: [{
+            startTime: new Date('1900-01-01T01:00:00').toISOString(),
+            endTime: new Date('1900-01-01T01:00:00').toISOString(),
+            weekday: "Monday"
+          }], // Should throw error
+          minMonths: 0, // Negative values should throw errors
+          frequency: "weekly", // Should be one of enum values or error
+        }
+      }
+
+describe(' Property', () => {
+  it('can create a listing', async () => {
+    const vars = {...stdVars};
+    vars.city= "Germany2";
     const res = await server.executeOperation({
       query,
       variables: {
-        zip: 123,
-        size: 123,
-        ownerId: '1',
-        street: 'asf',
-        streetNumber: 23,
-        city: 'asf',
-        description: 'asf',
-        pickup: true,
-        rules: ['adf'],
-        title: 'amazing title',
-        hourlyPrice: 10,
-        serviceFee: 10,
-        facilities: [],
-        deposit: 13,
-        images: [],
-        partialSpace: true,
-        availabilities: {
-          startDate: '2022-03-24T13:31:22.356Z',
-          endDate: '2022-03-24T13:31:22.356Z',
-          minMonths: 0,
-          genericDaySlots: [],
-          frequency: 'none',
-        },
+        ...vars
+      },
+      },
+    );
+    expect(res).toMatchSnapshot();
+  });
+  it('it fails when a listing city string arg out of max range', async () => {
+    const vars = {...stdVars};
+    vars.city= ";ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey";
+    
+    const res = await server.executeOperation({
+      query,
+      variables: {
+        ...vars
       },
     });
     expect(res).toMatchSnapshot();
