@@ -14,6 +14,7 @@ export function isValidStrings(args: string, maxLength: number){
     else {return true}
 }
 
+//Comes in as Number so no neccessary Special Character check necessary
 export function isValidNumbers(args: number, maxLength: number){
     if (args == null){
         return true
@@ -36,7 +37,7 @@ export function isValidListStrings(args: string[], maxLength: number){
     }
 }
 
-type CustomerObject = {startDate:string, endDate: string, minMonths: number, frequency: string, genericDaySlots: ({startTime: string, endTime: string, weekday: string} | null)[]}
+type CustomerObject = {startDate:Date, endDate:Date, minMonths: number, frequency: string, genericDaySlots: ({startTime: Date, endTime: Date, weekday: string} | null)[]}
 function validationDict(object: CustomerObject){
     var dictionary = {
         startDate: false,
@@ -48,32 +49,43 @@ function validationDict(object: CustomerObject){
         frequency: false
     };
     
+    //Comes in as Date so no neccessary Special Character check necessary
     if (object.startDate.toString.length < 60) {dictionary.startDate=false
     console.log("startDate")} 
     else {dictionary.startDate=true}
 
+    //Comes in as Date so no neccessary Special Character check necessary
     if (object.endDate.toString.length < 60) {dictionary.endDate=false
     console.log("endDate")} 
     else {dictionary.endDate=true}
 
+    //Comes in as Date so no neccessary Special Character check necessary
     if (object.minMonths.toString.length < 60) {dictionary.minMonths=false
     console.log("minMonths")}
     else {dictionary.minMonths=true}
 
-    if (object.frequency.length < 60) {dictionary.frequency=false
-    console.log("frequency")}
+    if (object.frequency.length < 60) {
+        if (!/[^a-zA-Z0-9]/.test(object.frequency)) {
+            dictionary.frequency=false
+            console.log("frequency")
+    }}
     else {dictionary.frequency=true}
 
+    //Comes in as Date so no neccessary Special Character check necessary
     if (object.genericDaySlots[0]!.startTime.toString().length < 100){dictionary.startTime=false
     console.log("startTime")}
     else {dictionary.startTime=true}
     
+    //Comes in as Date so no neccessary Special Character check necessary
     if (object.genericDaySlots[0]!.endTime.toString().length < 100){dictionary.endTime=false
     console.log("endTime")}
     else {dictionary.endTime=true}
     
-    if (object.genericDaySlots[0]!.weekday.length < 60){dictionary.endTime=false
-    console.log("weekday")}
+    if (object.genericDaySlots[0]!.weekday.length < 60){
+        if (!/[^a-zA-Z0-9]/.test(object.genericDaySlots[0]!.weekday)) {
+            dictionary.endTime=false
+            console.log("weekday")
+    }}
     else {dictionary.endTime=true}
 
     return {
