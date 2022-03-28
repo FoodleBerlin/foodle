@@ -1,29 +1,17 @@
-import { extendType, objectType, nonNull, intArg, stringArg, booleanArg, nullable, list } from 'nexus';
+import { booleanArg, extendType, inputObjectType, intArg, list, nonNull, nullable, objectType, stringArg } from 'nexus';
+import { v4 as uuidv4 } from 'uuid';
 import {
-  ClientErrorUserNotExists,
   ClientErrorInvalidHandle,
   ClientErrorInvalidPropertyInput,
+  ClientErrorUserNotExists,
   UnknownError,
 } from '../Error';
-import { PropertySlotInput } from '../PropertySlot';
-import { v4 as uuidv4 } from 'uuid';
-
-export const Mutation = extendType({
-  type: 'Mutation',
-  definition(t) {
-    t.field('createUser', {
-      type: 'Boolean',
-      resolve() {
-        return true;
-      },
-    });
-  },
-});
+import { Property } from './Objects';
 
 export const CreatePropertyReturn = objectType({
-  name: 'createPropertyReturn',
+  name: 'CreatePropertyReturn',
   definition(t) {
-    t.nullable.field('Property', { type: 'Property' });
+    t.nullable.field('Property', { type: Property });
     t.nullable.field('ClientErrorUserNotExists', {
       type: ClientErrorUserNotExists,
     });
@@ -39,11 +27,21 @@ export const CreatePropertyReturn = objectType({
   },
 });
 
+export const PropertySlotInput = inputObjectType({
+  name: 'PropertySlotInput',
+  description: 'PropertySlot input',
+  definition(t) {
+    t.nonNull.field('startDate', { type: 'DateTime' });
+    t.nonNull.field('endDate', { type: 'DateTime' });
+    t.nonNull.string('weekday');
+  },
+});
+
 export const CreateListing = extendType({
   type: 'Mutation',
   definition(p) {
     p.field('createListing', {
-      type: 'createPropertyReturn', // needs to be changed
+      type: CreatePropertyReturn, // needs to be changed
       args: {
         size: nonNull(intArg()),
         title: nonNull(stringArg()),

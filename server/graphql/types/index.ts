@@ -12,4 +12,3 @@ export * from './Error';
 export * from './Property';
 export * from './PropertySlot';
 export * from './BookingSlot';
-export * from './Mutation';

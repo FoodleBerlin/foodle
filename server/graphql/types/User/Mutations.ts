@@ -1,6 +1,3 @@
-import { extendType, objectType, inputObjectType, stringArg } from 'nexus';
-import { Context } from '../../../context';
-
 // const InputType = objectType({
 //   name: 'findUserResult',
 //   description: 'User input',
@@ -66,3 +63,4 @@ import { Context } from '../../../context';
 //     });
 //   },
 // });
+export {};

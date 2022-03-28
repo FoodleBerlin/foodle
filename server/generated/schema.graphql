@@ -25,7 +25,7 @@ type ClientErrorUserNotExists {
   message: String!
 }
 
-type createPropertyReturn {
+type CreatePropertyReturn {
   ClientErrorInvalidHandle: ClientErrorInvalidHandle
   ClientErrorInvalidPropertyInput: ClientErrorInvalidPropertyInput
   ClientErrorUserNotExists: ClientErrorUserNotExists
@@ -93,8 +93,7 @@ type Mutation {
     streetNumber: Int!
     title: String!
     zip: Int!
-  ): createPropertyReturn!
-  createUser: Boolean!
+  ): CreatePropertyReturn!
 }
 
 type PaymentInformation {
