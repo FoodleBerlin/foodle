@@ -4,7 +4,7 @@ import ListedKitchen from '../../components/Book/ListedKitchen';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useListingsQuery } from '../../codegen/index';
-import styles from '../../styles/pages/Listings.module.scss';
+import styles from '../../styles/pages/All.module.scss';
 
 const Kitchen: NextPage = () => {
   const router = useRouter();
@@ -25,7 +25,7 @@ const Kitchen: NextPage = () => {
   return (
     <>
       <Navbar />
-      <div className={styles['main']}>
+      <div className={styles['all']}>
         {properties?.map((property: any, index) => {
           if (property.handle === handle) {
             return (

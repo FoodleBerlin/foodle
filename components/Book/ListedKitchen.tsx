@@ -7,7 +7,7 @@ import { UploaderImage } from '../Create/wizard/Step4';
 /*
 TO-DO:
 - What datatype are the images? Where and how do I get them? From the server?
-- Make rules and availability dynamic with props 
+- Make availability dynamic with props 
 
 */
 
@@ -17,10 +17,10 @@ interface ListedKitchenProps {
   isVerified: boolean;
   hourlyPrice: number;
   size: number;
-  facilities: string[]; // how to correctly define type string array
+  facilities: string[]; // how to correctly define type string array?
   description: string;
   deposit: number;
-  rules: string;
+  rules: string[];
   availability: object;
   partialSpace: boolean;
   street: string;

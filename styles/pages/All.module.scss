@@ -1,0 +1,34 @@
+.all {
+  color: #2b2b2b;
+  width: 100%;
+  padding: 0 10rem;
+  margin-top: 15vh;
+  margin-bottom: 15vh;
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 4rem;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: #2b2b2b;
+  }
+
+  &__textWrapper {
+    margin-left: 4rem;
+  }
+
+  &__facilityWrapper {
+    margin-top: 2rem;
+  }
+
+  &__verificationWrapper {
+    margin-top: 6rem;
+  }
+  &__price {
+    margin-left: 6rem;
+  }
+}
