@@ -66,10 +66,10 @@ export default function Step3() {
           <span className={styles['error']}>{formState.errors.availability?.startDate.message}</span>
         )}
         {/* <--------- DAYS OF WEEK INPUTS ---------> */}
-        <div className={styles['step3__weekDaysSelector']}>
+        <div className={styles['weekDays__container']}>
           <div className={styles['step3__daysOfWeek']}>
             <label className="label-text">Days of week</label>
-            <div className={styles['step3__weekDayCheckboxWrapper']}>
+            <div>
               <DaySelector weekday={'Monday'} short={'mon'} shortest={'M'} />
               <DaySelector weekday={'Tuesday'} short={'tue'} shortest={'T'} />
               <DaySelector weekday={'Wednesday'} short={'wed'} shortest={'W'} />
@@ -83,6 +83,7 @@ export default function Step3() {
               <span className={styles['error']}>{formState.errors.availability.days.map((e) => e.message)}</span>
             )} */}
           </div>
+
           <div className={styles['step3__timeInput']}>
             {monday.selected && <TimeInput shortest={'M'} short={'mon'} />}
             {tuesday.selected && <TimeInput shortest={'T'} short={'tue'} />}

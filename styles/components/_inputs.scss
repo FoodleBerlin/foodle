@@ -1,3 +1,4 @@
+@use '../base/colors';
 input[type='checkbox']::before {
 }
 
@@ -38,7 +39,7 @@ input[type='checkbox']::before {
     width: 750px;
     height: 180px;
   }
-  &__inputTime{
+  &__inputTime {
     font-size: 1.4rem;
     outline: $color-grey;
     border: 1px solid $color-grey;
@@ -56,5 +57,42 @@ input[type='checkbox']::before {
     padding: 1rem 1rem;
     margin-right: -2rem;
     width: 16rem;
+  }
+}
+
+.weekDays {
+  &__container {
+    white-space: nowrap;
+    input[type='checkbox'] {
+      display: none !important;
+    }
+
+    input[type='checkbox'] + label {
+      display: inline-block;
+      border-radius: 3px;
+      background: #ecf4f1;
+      font-weight: 500;
+      font-size: 1.5rem;
+      color: black;
+      height: 30px;
+      width: 30px;
+      margin-right: 6px;
+      line-height: 30px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    input[type='checkbox']:checked + label {
+      background: colors.$color-primary-light;
+      color: #ffffff;
+    }
+    &__timeInputWrapper {
+      display: flex;
+      gap: 2.8rem;
+      align-items: center;
+    }
+  }
+  &__checkbox {
+    display: inline-block;
   }
 }
