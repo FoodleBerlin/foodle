@@ -24,14 +24,14 @@ const All: NextPage = () => {
   return (
     <>
       <Navbar />
-      <div className={styles['all']}>
+      <div className={styles['all-container']}>
         {isLoading ? (
           <p className="body-text-secondary">Loading...</p>
         ) : (
           <ul className="body-text-secondary">
             {properties?.map((property: any, index) => {
               return (
-                <li className={styles['all__list']} key={index + 1}>
+                <li className={styles['list-wrapper']} key={index + 1}>
                   <div className="flex-center">
                     <div>
                       <Image
@@ -42,22 +42,24 @@ const All: NextPage = () => {
                         alt="Image 1"
                       />
                     </div>
-                    <div className={styles['all__textWrapper']}>
+                    <div className={styles['list-wrapper__text']}>
                       <Link href={`/all/${property.handle}`}>
-                        <a className={styles['all__link']}>{property.title}</a>
+                        <a className={styles['list-wrapper__link']}>{property.title}</a>
                       </Link>
-                      <div className={styles['all__facilityWrapper']}>
+                      <div className={styles['list-wrapper__facilities']}>
                         {property.facilities.map((feature: {} | null | undefined, index: number) => (
                           <span key={index + 1}>{feature} </span>
                         ))}
                       </div>
-                      <div className={styles['all__verificationWrapper'] + ' flex-column'}>
+                      <div className={styles['list-wrapper__verification'] + ' flex-column'}>
                         {property.isVerified ? (
                           <span className="feature-tag">VERIFIED</span>
                         ) : (
                           <span className="feature-tag__not-verified">NOT VERIFIED</span>
                         )}
-                        <p className={styles['all__price'] + ' body-text__small'}>€{property.hourlyPrice * 8}/Day</p>
+                        <p className={styles['list-wrapper__price'] + ' body-text__small'}>
+                          €{property.hourlyPrice * 8}/Day
+                        </p>
                       </div>
                     </div>
                   </div>

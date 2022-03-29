@@ -25,7 +25,7 @@ const Kitchen: NextPage = () => {
   return (
     <>
       <Navbar />
-      <div className={styles['all']}>
+      <div className={styles['all-container']}>
         {properties?.map((property: any, index) => {
           if (property.handle === handle) {
             return (
