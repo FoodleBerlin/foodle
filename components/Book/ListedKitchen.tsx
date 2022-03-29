@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import styles from '../Create/wizard/Wizard.module.scss';
 import PriceLine from '../Create/PriceLine';
+import { UploaderImage } from '../Create/wizard/Step4';
 
 /*
 TO-DO:
@@ -11,7 +12,9 @@ TO-DO:
 */
 
 interface ListedKitchenProps {
+  title: string;
   images: string[];
+  isVerified: boolean;
   hourlyPrice: number;
   size: number;
   facilities: string[]; // how to correctly define type string array
@@ -19,9 +22,11 @@ interface ListedKitchenProps {
   deposit: number;
   rules: string;
   availability: object;
-  partialSpace: string; //enum??
-  location: object;
-  minMonths: number;
+  partialSpace: boolean;
+  street: string;
+  streetNumber: number;
+  city: string;
+  zip: number;
 }
 
 const ListedKitchen = (props: ListedKitchenProps) => {
@@ -32,16 +37,16 @@ const ListedKitchen = (props: ListedKitchenProps) => {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
           <div className="gallery__container">
             <div className="gallery">
-              {props.images.map((image: UploaderImage, index) => (
+              {/*               {props.images.map((image: UploaderImage, index) => (
                 <div key={index} className={'gallery__item gallery__item--' + index}>
                   <Image src={image.file} width={460} height={516} className="gallery__img" alt={'Image ' + index} />
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
 
           <div className={styles['step5__titleWrapper'] + ' ' + styles['step2__marginHeadline']}>
-            <h3 className="header-tertiary">Industrial Grade Kitchen in Mitte</h3>
+            <h3 className="header-tertiary">{props.title}</h3>
             <div className={styles['step5__flexWrapper']}>
               <p className="body-text">{props.hourlyPrice}</p>
               <p className="body-text">€/h</p>
