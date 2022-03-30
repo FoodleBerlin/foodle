@@ -6,9 +6,9 @@ import Image from 'next';
 import { useWindowDimensions } from '../../utils/hooks';
 
 interface ProfileButtonProps {
-  imageSetter: (image: UploaderImage | null) => void;
+  imageSetter: (image: UploaderImage) => void;
   alreadyUploaded: boolean;
-  image: UploaderImage | null | undefined;
+  image?: UploaderImage;
 }
 const convertFiletoUploaderImg = (file: File | null) => {
   if (file === null) return null;
@@ -20,15 +20,14 @@ const convertFiletoUploaderImg = (file: File | null) => {
 const ProfileButton = (props: ProfileButtonProps) => {
   console.log('imagee' + props.image?.file);
   const [isOpen, setIsOpen] = useState(false);
-  console.log('uploaded?' + props.alreadyUploaded);
   const ref = useRef<HTMLImageElement>(null);
   const halfOfImageHeight = ref?.current?.offsetHeight ? ref.current?.offsetHeight / 2 : 0;
   const halfOfImageWidth = ref?.current?.offsetWidth ? ref.current?.offsetWidth / 2 : 0;
-  console.log('width' + halfOfImageHeight);
 
   const { height, width } = useWindowDimensions();
   const left = width ? width / 2 - halfOfImageWidth : 100;
   const top = height ? height / 2 - halfOfImageHeight : 100;
+  const [previous, setPreviousImage] = useState<UploaderImage>();
 
   return !props.alreadyUploaded ? (
     <aside className={styles['account__document-btns'] + ' mt-two'}>
@@ -38,18 +37,32 @@ const ProfileButton = (props: ProfileButtonProps) => {
       <input
         id="upload"
         type="file"
-        onChange={(e) =>
-          props.imageSetter(convertFiletoUploaderImg(e?.currentTarget.files ? e?.currentTarget?.files[0] : null))
-        }
+        value={props.image?.file}
+        onChange={(e) => {
+          const image = convertFiletoUploaderImg(e?.currentTarget.files ? e?.currentTarget?.files[0] : null);
+          if (image !== null) props.imageSetter(image);
+        }}
       />
     </aside>
   ) : (
     <aside className={styles['account__document-btns'] + ' mt-one'}>
-      {/* <a href={URL.createObjectURL(props.image?.file)} download> */}
-      <button className={'tertiary-btn bold'}>View</button>
-      {/* </a> */}
-
-      <button onClick={() => props.imageSetter(null)} className={'delete-btn bold'}>
+      <a href={URL.createObjectURL(props.image?.file)} download>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+          className={'tertiary-btn bold'}
+        >
+          View
+        </button>
+      </a>
+      <button
+        onClick={() => {
+          //@ts-ignore
+          props.imageSetter(null);
+        }}
+        className={'delete-btn bold'}
+      >
         Delete
       </button>
       {/* {isOpen && ( */}

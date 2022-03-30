@@ -12,12 +12,7 @@
     }
   }
   &__document-btns {
-    width: 100%;
-    // button {
-    //   &:nth-child(1) {
-    //     margin-top: 5 !important;
-    //   }
-    // }
+    width: 100% !important;
     button {
       &:nth-child(1) {
         width: 12rem !important;

@@ -57,7 +57,6 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   });
 
   const checkExists = (image: UploaderImage | null | undefined) => {
-    console.log('image' + JSON.stringify(image));
     return image ? true : false;
   };
   const submit = () => {
@@ -71,11 +70,11 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
       solvencyS3Id: solvency?.s3Id,
       licenseS3Id: license?.s3Id,
     });
-    console.log('whatsthis:' + data);
+    console.log({ data });
   };
-  const [passport, setPassport] = useState<UploaderImage | null>();
-  const [solvency, setSolvency] = useState<UploaderImage | null>();
-  const [license, setLicense] = useState<UploaderImage | null>();
+  const [passport, setPassport] = useState<UploaderImage>();
+  const [solvency, setSolvency] = useState<UploaderImage>();
+  const [license, setLicense] = useState<UploaderImage>();
   const [dob, setDob] = useState<string>();
   const [fullName, setFullName] = useState<string>();
   const [zip, setZip] = useState<number>();
@@ -143,25 +142,21 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
             <h2 className="mt-one-half body-text">Passport</h2>
             <h2 className="mt-one-half body-text">License</h2>
             <h2 className="mt-one-half body-text">Solvency</h2>
-            {
-              <>
-                <ProfileButton
-                  imageSetter={(image: UploaderImage | null) => setPassport(image)}
-                  alreadyUploaded={checkExists(passport)}
-                  image={passport}
-                />
-                <ProfileButton
-                  imageSetter={(image: UploaderImage | null) => setLicense(image)}
-                  alreadyUploaded={checkExists(license)}
-                  image={license}
-                />
-                <ProfileButton
-                  imageSetter={(image: UploaderImage | null) => setSolvency(image)}
-                  alreadyUploaded={checkExists(solvency)}
-                  image={solvency}
-                />
-              </>
-            }
+            <ProfileButton
+              imageSetter={(image: UploaderImage) => setPassport(image)}
+              alreadyUploaded={checkExists(passport)}
+              image={passport}
+            />
+            <ProfileButton
+              imageSetter={(image: UploaderImage) => setLicense(image)}
+              alreadyUploaded={checkExists(license)}
+              image={license}
+            />
+            <ProfileButton
+              imageSetter={(image: UploaderImage) => setSolvency(image)}
+              alreadyUploaded={checkExists(solvency)}
+              image={solvency}
+            />
           </footer>
         </form>
         <button onClick={() => submit()} className={'primary-btn save-btn'}>

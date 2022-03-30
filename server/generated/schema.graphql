@@ -210,15 +210,15 @@ type UnknownError {
 type User {
   charges: [CustomerCharge!]!
   defaultPayment: PaymentInformation
-  description: String!
+  description: String
   dob: DateTime!
   email: String!
   fullName: String!
   handle: String!
   id: String!
-  licenseS3Id: String!
-  passportS3Id: String!
+  licenseS3Id: String
+  passportS3Id: String
   paymentMethods: [PaymentInformation!]!
-  solvencyS3Id: String!
-  zip: Int!
+  solvencyS3Id: String
+  zip: Int
 }

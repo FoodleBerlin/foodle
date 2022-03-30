@@ -32,14 +32,14 @@ export const User = objectType({
     t.string('fullName');
     t.string('email');
     t.string('handle');
-    t.string('description');
-    t.int('zip');
+    t.nullable.string('description');
+    t.nullable.int('zip');
     t.field('dob', {
       type: 'DateTime',
     });
-    t.string('passportS3Id');
-    t.string('solvencyS3Id');
-    t.string('licenseS3Id');
+    t.nullable.string('passportS3Id');
+    t.nullable.string('solvencyS3Id');
+    t.nullable.string('licenseS3Id');
     t.list.field('charges', {
       type: 'CustomerCharge',
       resolve: async (_, args, ctx: Context) => {

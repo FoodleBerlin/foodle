@@ -74,18 +74,18 @@ model User {
   id               String     @id @default(cuid())
   image            String?
   dob              DateTime?
-  zip              Int?
-  description      String?
+  zip              Int
+  description      String
   isVerified       Boolean    @default(false)
   role             Role
   bookings         Booking[]  @relation("tenant")
   rentingOut       Property[] @relation("owner")
   superOwner       Boolean    @default(false)
-  passportS3Id     String?
+  passportS3Id     String
   passportVerified Boolean    @default(false)
-  licenseS3Id      String?
+  licenseS3Id      String
   licenseVerified  Boolean    @default(false)
-  solvencyS3Id     String?
+  solvencyS3Id     String
   solvencyVerified Boolean    @default(false)
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
