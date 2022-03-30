@@ -30,6 +30,7 @@ Table User {
 Table DaySlot {
   kind ModelKind [not null, default: 'propertySlot']
   id String [pk]
+  date DateTime [not null]
   startTime DateTime [not null]
   endTime DateTime [not null]
   weekday String [not null]

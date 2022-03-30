@@ -123,15 +123,14 @@ export const CreateListing = extendType({
               images: args.images,
               partialSpace: args.partialSpace,
               pickup: args.pickup ?? false,
-              frequency: Frequency.weekly,
               // TODO create an array
-              availableDays: {
+              /*     availableDays: {
                 create: {
                   endTime: args.availabilities.endDate,
                   startTime: args.availabilities.startDate,
                   weekday: args.availabilities.weekday,
                 },
-              },
+              }, */
             },
           });
           return { Property: prop };

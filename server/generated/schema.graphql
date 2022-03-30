@@ -69,8 +69,8 @@ type findUserResult {
 
 enum Frequency {
   biweekly
+  monthly
   none
-  triweekly
   weekly
 }
 
