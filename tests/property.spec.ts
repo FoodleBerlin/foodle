@@ -7,8 +7,8 @@ beforeAll(async () => {
   await seed();
 });
 const query = `
-    mutation CreateListing($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $facilities: [String!]!, $rules: [String!]!, $serviceFee: Int!, $hourlyPrice: Int!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $availabilities: PropertySlotInput!) {
-  createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, pickup: $pickup,  facilities: $facilities, rules: $rules, serviceFee: $serviceFee, hourlyPrice: $hourlyPrice, deposit: $deposit, images: $images, partialSpace: $partialSpace, availabilities: $availabilities) {
+    mutation CreateListing($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $title: String!, $handle:String!, $description: String!, $pickup: Boolean!, $facilities: [String!]!, $rules: [String!]!, $serviceFee: Int!, $hourlyPrice: Int!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $availabilities: PropertySlotInput!) {
+  createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description,handle: $handle, title: $title, pickup: $pickup,  facilities: $facilities, rules: $rules, serviceFee: $serviceFee, hourlyPrice: $hourlyPrice, deposit: $deposit, images: $images, partialSpace: $partialSpace, availabilities: $availabilities) {
     Property {
       size
       owner {
@@ -16,6 +16,8 @@ const query = `
         fullName
         email
       }
+      title
+      handle
       kind
       bookings {
         id
@@ -67,6 +69,8 @@ const stdVars = {size: 0,
         streetNumber: 0, //should throw error
         zip: 0, //should throw error if < 5 digits
         city: "Germany2", // Should throw error if city contains number
+        title: "titlee",
+        handle: "handlee",
         description: "",
         rules: [],
         hourlyPrice: 0,
@@ -102,6 +106,9 @@ describe(' Property', () => {
     );
     expect(res).toMatchSnapshot();
   });
+  // e.preventDefault();
+
+  //           e.stopPropagation();'
   it('it fails when a listing city string arg out of max range', async () => {
     const vars = {...stdVars};
     vars.city= ";ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey";

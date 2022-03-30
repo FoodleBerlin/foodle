@@ -3,6 +3,9 @@
   justify-content: center;
   align-items: center;
 }
+.display-none {
+  display: none !important;
+}
 .flex-column {
   display: flex;
   justify-content: column !important;

@@ -8,6 +8,7 @@ beforeAll(async () => {
   await seed();
 });
 
+
 describe('Find user by handle', () => {
   const query = `query Query($handle: String!) {
     findUser(handle: $handle) {

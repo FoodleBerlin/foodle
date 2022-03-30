@@ -2,59 +2,10 @@
 
 exports[` Property can create a listing 1`] = `
 Object {
-  "data": Object {
-    "createListing": Object {
-      "ClientErrorInvalidHandle": null,
-<<<<<<< HEAD
-      "Property": Object {
-        "city": "asf",
-      },
-=======
-      "ClientErrorInvalidPropertyInput": null,
-      "ClientErrorUserNotExists": null,
-      "Property": Object {
-        "availabilities": Object {
-          "availableDays": Array [
-            Object {
-              "endTime": 1900-01-01T00:40:28.000Z,
-              "startTime": 1900-01-01T00:40:28.000Z,
-              "weekday": "Monday",
-            },
-          ],
-          "endDate": 1900-02-01T00:40:28.000Z,
-          "frequency": "weekly",
-          "minMonths": 0,
-          "startDate": 1900-01-01T00:40:28.000Z,
-        },
-        "bookings": Array [],
-        "city": "Germany2",
-        "deposit": 0,
-        "description": "",
-        "facilities": Array [],
-        "hourlyPrice": 0,
-        "images": Array [
-          "",
-        ],
-        "isVerified": false,
-        "kind": "property",
-        "owner": Object {
-          "email": "user1@gmail.com",
-          "fullName": "User 1",
-          "id": "1",
-        },
-        "pickup": false,
-        "rules": Array [],
-        "serviceFee": 0,
-        "size": 0,
-        "street": "FoodleStreet",
-        "streetNumber": 0,
-        "zip": 0,
-      },
-      "UnknownError": null,
->>>>>>> d6af851b12f6f6407f986f8079482a7bc31d7735
-    },
-  },
-  "errors": undefined,
+  "data": undefined,
+  "errors": Array [
+    [ValidationError: Unknown argument "handle" on field "createListing" of type "Mutation".],
+  ],
   "extensions": undefined,
   "http": Object {
     "headers": Headers {
@@ -72,16 +23,6 @@ Object {
         Object {
           "city": "berlin",
         },
-        Object {
-<<<<<<< HEAD
-          "city": "asf",
-=======
-          "city": "Germany2",
-        },
-        Object {
-          "city": ";ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey",
->>>>>>> d6af851b12f6f6407f986f8079482a7bc31d7735
-        },
       ],
       "UnknownError": null,
     },
@@ -96,20 +37,11 @@ Object {
 }
 `;
 
-<<<<<<< HEAD
 exports[` Property can query a single property by the handle 1`] = `
-=======
-exports[` Property can query a single property by the id 1`] = `
->>>>>>> d6af851b12f6f6407f986f8079482a7bc31d7735
 Object {
   "data": Object {
     "findProperty": Object {
       "ClientErrorInvalidHandle": null,
-<<<<<<< HEAD
-      "Property": Object {
-        "city": "berlin",
-      },
-=======
       "Property": null,
     },
   },
@@ -125,54 +57,10 @@ Object {
 
 exports[` Property it fails when a listing city string arg out of max range 1`] = `
 Object {
-  "data": Object {
-    "createListing": Object {
-      "ClientErrorInvalidHandle": null,
-      "ClientErrorInvalidPropertyInput": null,
-      "ClientErrorUserNotExists": null,
-      "Property": Object {
-        "availabilities": Object {
-          "availableDays": Array [
-            Object {
-              "endTime": 1900-01-01T00:40:28.000Z,
-              "startTime": 1900-01-01T00:40:28.000Z,
-              "weekday": "Monday",
-            },
-          ],
-          "endDate": 1900-02-01T00:40:28.000Z,
-          "frequency": "weekly",
-          "minMonths": 0,
-          "startDate": 1900-01-01T00:40:28.000Z,
-        },
-        "bookings": Array [],
-        "city": ";ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey;ew;uivhwuhwruiothpiughoreuihtbgoiuherotoibueruihotuihobuiey",
-        "deposit": 0,
-        "description": "",
-        "facilities": Array [],
-        "hourlyPrice": 0,
-        "images": Array [
-          "",
-        ],
-        "isVerified": false,
-        "kind": "property",
-        "owner": Object {
-          "email": "user1@gmail.com",
-          "fullName": "User 1",
-          "id": "1",
-        },
-        "pickup": false,
-        "rules": Array [],
-        "serviceFee": 0,
-        "size": 0,
-        "street": "FoodleStreet",
-        "streetNumber": 0,
-        "zip": 0,
-      },
-      "UnknownError": null,
->>>>>>> d6af851b12f6f6407f986f8079482a7bc31d7735
-    },
-  },
-  "errors": undefined,
+  "data": undefined,
+  "errors": Array [
+    [ValidationError: Unknown argument "handle" on field "createListing" of type "Mutation".],
+  ],
   "extensions": undefined,
   "http": Object {
     "headers": Headers {
