@@ -123,7 +123,7 @@ export const CreateListing = extendType({
               images: args.images,
               partialSpace: args.partialSpace,
               pickup: args.pickup ?? false,
-              frequency: 'weekly',
+              frequency: Frequency.weekly,
               // TODO create an array
               availableDays: {
                 create: {

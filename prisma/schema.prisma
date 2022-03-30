@@ -5,6 +5,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// To visualize the db schema run 'npx prisma generate' => a schema.dbml file is generated, insert it into https://dbdiagram.io
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -21,6 +26,7 @@ enum ModelKind {
   paymentMethod
   bookingSlot
   propertySlot
+  daySlot
 }
 
 enum DayOfWeek {
@@ -89,66 +95,77 @@ model User {
   updatedAt        DateTime   @updatedAt
 }
 
-
-model PropertySlot {
-  kind           ModelKind     @default(propertySlot)
-  id             String        @id @default(cuid())
+model DaySlot {
+  kind           ModelKind    @default(propertySlot)
+  id             String       @id @default(cuid())
   // Must be the same day
   startTime      DateTime
   endTime        DateTime
   weekday        String
   // Parent property
-  propertyId String
-  property    Property @relation("propertyToPropertySlot", fields: [propertyId], references: [id], onDelete: Cascade)
+  propertySlotId String
+  propertySlot   PropertySlot @relation("propertySlotToDaySlot", fields: [propertySlotId], references: [id], onDelete: Cascade)
   // Property slots might have a corresponding booking
   // Will be null if it is available
   bookingSlotId  String?
-  bookingSlot    BookingSlot?  @relation("propertySlotToBookingSlot")
+  bookingSlot    BookingSlot? @relation("daySlotToBookingSlot", fields: [bookingSlotId], references: [id])
 }
 
 //title: string, unique handle => lowercase title unique
 model Property {
-  kind           ModelKind     @default(property)
-  id             String        @id @default(cuid())
-  handle         String        @unique
-  title          String
-  size           Int // will be sq.ft
-  ownerId        String
-  owner          User          @relation(name: "owner", fields: [ownerId], references: [id])
-  bookings       Booking[]     @relation("property")
-  street         String
-  streetNumber   Int
-  zip            Int
-  city           String
-  description    String
-  pickup         Boolean       @default(false)
-  facilities     String[]
-  isVerified     Boolean       @default(false)
-  hourlyPrice    Int
-  serviceFee     Int
-  rules          String[]
-  deposit        Int
-  images         String[]
-  partialSpace   Boolean       @default(false)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  minimumBookings  Int              @default(0)
-  frequency      Frequency
-  availableDays  PropertySlot[] @relation("propertyToPropertySlot")
+  kind          ModelKind      @default(property)
+  id            String         @id @default(cuid())
+  handle        String         @unique
+  title         String
+  size          Int // will be sq.ft
+  ownerId       String
+  owner         User           @relation(name: "owner", fields: [ownerId], references: [id])
+  bookings      Booking[]      @relation("property")
+  street        String
+  streetNumber  Int
+  zip           Int
+  city          String
+  description   String
+  pickup        Boolean        @default(false)
+  facilities    String[]
+  isVerified    Boolean        @default(false)
+  hourlyPrice   Int
+  serviceFee    Int
+  rules         String[]
+  deposit       Int
+  images        String[]
+  partialSpace  Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  availabilites PropertySlot[] @relation("propertySlotToProperty")
+}
+
+model PropertySlot {
+  kind            ModelKind @default(propertySlot)
+  id              String    @id @default(cuid())
+  minimumBookings Int       @default(0)
+  availableDays   DaySlot[] @relation("propertySlotToDaySlot")
+  frequency       Frequency
+  startDate       DateTime
+  endDate         DateTime
+  createdAt       DateTime
+  updatedAt       DateTime
+  propertyId      String    @unique
+  property        Property  @relation("propertySlotToProperty", fields: [propertyId], references: [id])
 }
 
 model BookingSlot {
-  kind           ModelKind     @default(bookingSlot)
-  id             String        @id @default(cuid())
-  startTime      DateTime
-  endTime        DateTime
-  weekday        String
+  kind                   ModelKind @default(bookingSlot)
+  id                     String    @id @default(cuid())
+  startTime              DateTime
+  endTime                DateTime
+  weekday                String
   // Parent booking
-  bookingId String
-  booking    Booking @relation("bookingSlotToBooking", fields: [bookingId], references: [id], onDelete: Cascade)
-  // Booking slots must be linked to individual property slots
+  bookingId              String
+  booking                Booking   @relation("bookingSlotToBooking", fields: [bookingId], references: [id], onDelete: Cascade)
+  // Booking slots must be linked to individual day slots
   propertySlotInstanceId String
-  propertySlotInstance    PropertySlot @relation("propertySlotToBookingSlot", fields: [propertySlotInstanceId], references: [id], onDelete: Cascade)
+  daySlots               DaySlot[] @relation("daySlotToBookingSlot")
 }
 
 model Booking {
@@ -166,5 +183,5 @@ model Booking {
   frequency     Frequency
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  
+
 }
