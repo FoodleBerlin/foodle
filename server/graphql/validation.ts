@@ -51,9 +51,9 @@ function validationDict(object: CustomerObject){
         weekday: false, 
         frequency: false
     };
-    console.log(" ")
-    console.log(PropertySlot['startDate'])
-    console.log(" ")
+    // console.log(" ")
+    // console.log(PropertySlot['startDate'])
+    // console.log(" ")
     //Comes in as Date so no neccessary Special Character check necessary
     if (object.startDate.toString.length < 60) {dictionary.startDate=false
     console.log("startDate")} 
