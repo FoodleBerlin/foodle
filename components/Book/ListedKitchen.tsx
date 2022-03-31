@@ -6,9 +6,9 @@ import { UploaderImage } from '../Create/wizard/Step4';
 
 /*
 TO-DO:
-- What datatype are the images? Where and how do I get them? From the server?
+- Show the images:
+  - I need to get the images from the server, but I don't know how to do that yet.
 - Make availability dynamic with props 
-
 */
 
 interface ListedKitchenProps {
@@ -17,7 +17,7 @@ interface ListedKitchenProps {
   isVerified: boolean;
   hourlyPrice: number;
   size: number;
-  facilities: string[]; // how to correctly define type string array?
+  facilities: string[];
   description: string;
   deposit: number;
   rules: string[];
@@ -30,6 +30,38 @@ interface ListedKitchenProps {
 }
 
 const ListedKitchen = (props: ListedKitchenProps) => {
+  const monthString = () => {
+    const month = new Date(props.availability.startDate).getMonth() + 1;
+    switch (month) {
+      case 1:
+        return 'January';
+      case 2:
+        return 'February';
+      case 3:
+        return 'March';
+      case 4:
+        return 'April';
+      case 5:
+        return 'May';
+      case 6:
+        return 'June';
+      case 7:
+        return 'July';
+      case 8:
+        return 'August';
+      case 9:
+        return 'September';
+      case 10:
+        return 'October';
+      case 11:
+        return 'November';
+      case 12:
+        return 'December';
+      default:
+        return 'Unknown';
+    }
+  };
+
   return (
     <div>
       <div className={styles['step5']}>
@@ -101,8 +133,8 @@ const ListedKitchen = (props: ListedKitchenProps) => {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Availability</h2>
           <div className={styles['step5__availabilityGrid']}>
             <div className={styles['step5__availabilityDate']}>
-              <p className="small-text">March</p>
-              <p className="small-text">2022</p>
+              <p className="small-text">{monthString()}</p>
+              <p className="small-text">{new Date(props.availability.startDate).getFullYear()}</p>
             </div>
 
             <div className={styles['step5__nextMonthButton']}>
@@ -110,7 +142,12 @@ const ListedKitchen = (props: ListedKitchenProps) => {
               <button className="flat-btn">NEXT MONTH &gt;</button>
             </div>
             <div className={styles['step5__weekDayCheckboxWrapper--week1'] + ' ' + styles['weekDays__container']}>
-              <input type="checkbox" id="1-weekday-mon" className={styles['weekDays__checkbox'] + ' weekday'} />
+              <input
+                type="checkbox"
+                checked={true}
+                id="1-weekday-mon"
+                className={styles['weekDays__checkbox'] + ' weekday'}
+              />
               <label htmlFor="1-weekday-mon">M</label>
               <input type="checkbox" id="1-weekday-tue" className={styles['weekDays__checkbox'] + ' weekday'} />
               <label htmlFor="1-weekday-tue">T</label>
@@ -172,22 +209,6 @@ const ListedKitchen = (props: ListedKitchenProps) => {
               <label htmlFor="4-weekday-sat">S</label>
               <input type="checkbox" id="4-weekday-sun" className={styles['weekDays__checkbox'] + ' weekday'} />
               <label htmlFor="4-weekday-sun">S</label>
-            </div>
-            <div className={styles['step5__weekDayCheckboxWrapper--week5'] + ' ' + styles['weekDays__container']}>
-              <input type="checkbox" id="5-weekday-mon" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-mon">M</label>
-              <input type="checkbox" id="5-weekday-tue" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-tue">T</label>
-              <input type="checkbox" id="5-weekday-wed" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-wed">W</label>
-              <input type="checkbox" id="5-weekday-thu" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-thu">T</label>
-              <input type="checkbox" id="5-weekday-fri" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-fri">F</label>
-              <input type="checkbox" id="5-weekday-sat" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-sat">S</label>
-              <input type="checkbox" id="5-weekday-sun" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-sun">S</label>
             </div>
           </div>
         </div>

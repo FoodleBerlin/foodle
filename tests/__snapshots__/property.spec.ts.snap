@@ -26,16 +26,7 @@ Object {
     "findAllProperties": Object {
       "Properties": Array [
         Object {
-          "city": "berlin",
-        },
-        Object {
-          "city": "Munich",
-        },
-        Object {
-          "city": "Krueger",
-        },
-        Object {
-          "city": "Hamburg",
+          "city": "Berlin",
         },
         Object {
           "city": "asf",
@@ -60,7 +51,7 @@ Object {
     "findProperty": Object {
       "ClientErrorInvalidHandle": null,
       "Property": Object {
-        "city": "berlin",
+        "city": "Berlin",
       },
     },
   },

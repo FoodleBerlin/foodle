@@ -17,7 +17,6 @@ const All: NextPage = () => {
   });
 
   const properties = [data?.findAllProperties.Properties][0];
-  console.log(properties);
 
   if (isLoading) console.log('is Loading...');
 
