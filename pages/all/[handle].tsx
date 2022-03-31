@@ -25,10 +25,9 @@ const Kitchen: NextPage = () => {
   return (
     <>
       <Navbar />
-      <div className={styles['all-container']}>
+      <div className={styles['properties-container']}>
         {properties?.map((property: any, index) => {
           if (property.handle === handle) {
-            console.log(property);
             return (
               <ListedKitchen
                 title={property.title}

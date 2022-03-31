@@ -69,8 +69,6 @@ const Footer = (props: FooterProps) => {
     }
   });
 
-  console.log('selectedDaySlots: ' + selectedDaySlots);
-
   const images: string[] = [];
   wiz.images.forEach((image: UploaderImage) => {
     if (image.s3Id) {
@@ -105,8 +103,6 @@ const Footer = (props: FooterProps) => {
         },
       },
     });
-
-    console.log({ res });
   };
 
   const error = () => {

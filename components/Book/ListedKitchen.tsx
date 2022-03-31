@@ -30,37 +30,8 @@ interface ListedKitchenProps {
 }
 
 const ListedKitchen = (props: ListedKitchenProps) => {
-  const monthString = () => {
-    const month = new Date(props.availability.startDate).getMonth() + 1;
-    switch (month) {
-      case 1:
-        return 'January';
-      case 2:
-        return 'February';
-      case 3:
-        return 'March';
-      case 4:
-        return 'April';
-      case 5:
-        return 'May';
-      case 6:
-        return 'June';
-      case 7:
-        return 'July';
-      case 8:
-        return 'August';
-      case 9:
-        return 'September';
-      case 10:
-        return 'October';
-      case 11:
-        return 'November';
-      case 12:
-        return 'December';
-      default:
-        return 'Unknown';
-    }
-  };
+  const month = new Date(props.availability.startDate).toLocaleString('default', { month: 'long' });
+  console.log(month);
 
   return (
     <div>
@@ -133,7 +104,7 @@ const ListedKitchen = (props: ListedKitchenProps) => {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Availability</h2>
           <div className={styles['step5__availabilityGrid']}>
             <div className={styles['step5__availabilityDate']}>
-              <p className="small-text">{monthString()}</p>
+              <p className="small-text">{month}</p>
               <p className="small-text">{new Date(props.availability.startDate).getFullYear()}</p>
             </div>
 

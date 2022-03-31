@@ -23,7 +23,7 @@ const All: NextPage = () => {
   return (
     <>
       <Navbar />
-      <div className={styles['all-container']}>
+      <div className={styles['properties-container']}>
         {isLoading ? (
           <p className="body-text-secondary">Loading...</p>
         ) : (
