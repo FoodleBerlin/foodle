@@ -1,6 +1,8 @@
 import { string, z } from 'zod';
 import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { NexusGenAllTypes } from 'nexus-typegen'
+import { PropertySlot } from './types';
 
 export function isValidStrings(args: string, maxLength: number){
     if (args == "") {
@@ -37,6 +39,7 @@ export function isValidListStrings(args: string[], maxLength: number){
     }
 }
 
+type PropertySlot = NexusGenAllTypes['PropertySlot']
 type CustomerObject = {startDate:Date, endDate:Date, minMonths: number, frequency: string, genericDaySlots: ({startTime: Date, endTime: Date, weekday: string} | null)[]}
 function validationDict(object: CustomerObject){
     var dictionary = {
@@ -48,7 +51,9 @@ function validationDict(object: CustomerObject){
         weekday: false, 
         frequency: false
     };
-    
+    console.log(" ")
+    console.log(PropertySlot['startDate'])
+    console.log(" ")
     //Comes in as Date so no neccessary Special Character check necessary
     if (object.startDate.toString.length < 60) {dictionary.startDate=false
     console.log("startDate")} 
