@@ -26,7 +26,7 @@ Object {
     "findAllProperties": Object {
       "Properties": Array [
         Object {
-          "city": "berlin",
+          "city": "Berlin",
         },
         Object {
           "city": "asf",
@@ -51,7 +51,7 @@ Object {
     "findProperty": Object {
       "ClientErrorInvalidHandle": null,
       "Property": Object {
-        "city": "berlin",
+        "city": "Berlin",
       },
     },
   },

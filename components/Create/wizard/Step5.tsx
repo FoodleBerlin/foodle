@@ -7,6 +7,7 @@ import PriceLine from '../PriceLine';
 
 export default function Step5() {
   const wiz = useWizardContext().getValues();
+  console.log(JSON.stringify(wiz));
 
   return (
     <div>
