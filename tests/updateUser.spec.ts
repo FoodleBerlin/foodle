@@ -47,4 +47,25 @@ describe('with valid data', () => {
     });
     
 })
+describe('with invalid data-', () => {
+    it('id does not return user', async () => {
+      const res = await server.executeOperation(
+        {
+          query: mutation,
+          variables: { 
+            id: "-1",
+            fullName: "jello",
+            zip: 9000,
+            description: "description",
+            dob: "1900-01-01T00:00:00Z",
+            passportS3Id: "passport?.s3Id",
+            solvencyS3Id: "solvency?.s3Id",
+            licenseS3Id: "license?.s3Id",
+            }, //TODO get this from globals
+        },
+      );
+      expect(res).toMatchSnapshot();
+    });
+    
+})
 })
