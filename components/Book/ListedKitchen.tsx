@@ -2,31 +2,37 @@ import React from 'react';
 import Image from 'next/image';
 import styles from '../Create/wizard/Wizard.module.scss';
 import PriceLine from '../Create/PriceLine';
-import { UploaderImage } from './../Create/wizard/Step4';
+import { UploaderImage } from '../Create/wizard/Step4';
 
 /*
 TO-DO:
-- What datatype are the images? Where and how do I get them? From the server?
-    --> get the Images from UploaderImage and the id (as a String) from the backend!
-- Make rules and availability dynamic with props 
-
+- Show the images:
+  - I need to get the images from the server, but I don't know how to do that yet.
+- Make availability dynamic with props 
 */
 
 interface ListedKitchenProps {
+  title: string;
   images: string[];
+  isVerified: boolean;
   hourlyPrice: number;
   size: number;
-  facilities: string[]; // how to correctly define type string array
+  facilities: string[];
   description: string;
   deposit: number;
-  rules: string;
+  rules: string[];
   availability: object;
-  partialSpace: string; //enum??
-  location: object;
-  minMonths: number;
+  partialSpace: boolean;
+  street: string;
+  streetNumber: number;
+  city: string;
+  zip: number;
 }
 
 const ListedKitchen = (props: ListedKitchenProps) => {
+  const month = new Date(props.availability.startDate).toLocaleString('default', { month: 'long' });
+  console.log(month);
+
   return (
     <div>
       <div className={styles['step5']}>
@@ -34,16 +40,16 @@ const ListedKitchen = (props: ListedKitchenProps) => {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
           <div className="gallery__container">
             <div className="gallery">
-              {props.images.map((image: UploaderImage, index) => (
+              {/*               {props.images.map((image: UploaderImage, index) => (
                 <div key={index} className={'gallery__item gallery__item--' + index}>
                   <Image src={image.file} width={460} height={516} className="gallery__img" alt={'Image ' + index} />
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
 
           <div className={styles['step5__titleWrapper'] + ' ' + styles['step2__marginHeadline']}>
-            <h3 className="header-tertiary">Industrial Grade Kitchen in Mitte</h3>
+            <h3 className="header-tertiary">{props.title}</h3>
             <div className={styles['step5__flexWrapper']}>
               <p className="body-text">{props.hourlyPrice}</p>
               <p className="body-text">€/h</p>
@@ -96,7 +102,8 @@ const ListedKitchen = (props: ListedKitchenProps) => {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Availability</h2>
           <div className={styles['step5__availabilityGrid']}>
             <div className={styles['step5__availabilityDate']}>
-              <p className="small-text">{props.availability.startDate}</p>
+              <p className="small-text">{month}</p>
+              <p className="small-text">{new Date(props.availability.startDate).getFullYear()}</p>
             </div>
 
             <div className={styles['step5__nextMonthButton']}>
@@ -104,7 +111,12 @@ const ListedKitchen = (props: ListedKitchenProps) => {
               <button className="flat-btn">NEXT MONTH &gt;</button>
             </div>
             <div className={styles['step5__weekDayCheckboxWrapper--week1'] + ' ' + styles['weekDays__container']}>
-              <input type="checkbox" id="1-weekday-mon" className={styles['weekDays__checkbox'] + ' weekday'} />
+              <input
+                type="checkbox"
+                checked={true}
+                id="1-weekday-mon"
+                className={styles['weekDays__checkbox'] + ' weekday'}
+              />
               <label htmlFor="1-weekday-mon">M</label>
               <input type="checkbox" id="1-weekday-tue" className={styles['weekDays__checkbox'] + ' weekday'} />
               <label htmlFor="1-weekday-tue">T</label>
@@ -166,22 +178,6 @@ const ListedKitchen = (props: ListedKitchenProps) => {
               <label htmlFor="4-weekday-sat">S</label>
               <input type="checkbox" id="4-weekday-sun" className={styles['weekDays__checkbox'] + ' weekday'} />
               <label htmlFor="4-weekday-sun">S</label>
-            </div>
-            <div className={styles['step5__weekDayCheckboxWrapper--week5'] + ' ' + styles['weekDays__container']}>
-              <input type="checkbox" id="5-weekday-mon" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-mon">M</label>
-              <input type="checkbox" id="5-weekday-tue" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-tue">T</label>
-              <input type="checkbox" id="5-weekday-wed" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-wed">W</label>
-              <input type="checkbox" id="5-weekday-thu" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-thu">T</label>
-              <input type="checkbox" id="5-weekday-fri" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-fri">F</label>
-              <input type="checkbox" id="5-weekday-sat" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-sat">S</label>
-              <input type="checkbox" id="5-weekday-sun" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-sun">S</label>
             </div>
           </div>
         </div>

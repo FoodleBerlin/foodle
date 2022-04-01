@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[` Property can create a listing 1`] = `
+Object {
+  "data": Object {
+    "createListing": Object {
+      "ClientErrorInvalidHandle": null,
+      "Property": Object {
+        "city": "asf",
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[` Property can query a list of multiple properties 1`] = `
+Object {
+  "data": Object {
+    "findAllProperties": Object {
+      "Properties": Array [
+        Object {
+          "city": "Berlin",
+        },
+        Object {
+          "city": "asf",
+        },
+      ],
+      "UnknownError": null,
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[` Property can query a single property by the handle 1`] = `
+Object {
+  "data": Object {
+    "findProperty": Object {
+      "ClientErrorInvalidHandle": null,
+      "Property": Object {
+        "city": "Berlin",
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
