@@ -17,6 +17,10 @@ type ClientErrorInvalidHandle {
   message: String!
 }
 
+type ClientErrorInvalidInputLength {
+  message: String!
+}
+
 type ClientErrorInvalidPropertyInput {
   message: String!
 }
@@ -35,6 +39,7 @@ type ClientErrorUserNotExists {
 
 type createPropertyReturn {
   ClientErrorInvalidHandle: ClientErrorInvalidHandle
+  ClientErrorInvalidInputLength: ClientErrorInvalidInputLength
   ClientErrorInvalidPropertyInput: ClientErrorInvalidPropertyInput
   ClientErrorUserNotExists: ClientErrorUserNotExists
   Property: Property
@@ -71,6 +76,7 @@ type findPropertyResult {
 
 type findUserResult {
   ClientErrorInvalidHandle: ClientErrorInvalidHandle
+  ClientErrorInvalidInputLength: ClientErrorInvalidInputLength
   ClientErrorUserNotExists: ClientErrorUserNotExists
   User: User
 }
@@ -211,7 +217,7 @@ type User {
   charges: [CustomerCharge!]!
   defaultPayment: PaymentInformation
   description: String
-  dob: DateTime!
+  dob: DateTime
   email: String!
   fullName: String!
   handle: String!

@@ -13,6 +13,15 @@ export const ClientErrorInvalidPropertyInput =  objectType({
     t.string("message");
   },
 });
+
+
+export const ClientErrorInvalidInputLength =  objectType({
+  name: "ClientErrorInvalidInputLength",
+  definition(t) {
+    t.string("message");
+  },
+});
+
 export const ClientErrorInvalidPropertySlotInput =  objectType({
   name: "ClientErrorInvalidPropertySlotInput",
   definition(t) {

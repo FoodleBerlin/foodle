@@ -4,9 +4,10 @@ import {
   ClientErrorInvalidHandle,
   ClientErrorInvalidPropertyInput,
   UnknownError,
+  ClientErrorInvalidInputLength,
 } from '../Error';
 import { v4 as uuidv4 } from 'uuid';
-import {notEmpty, checkUserExists, checkinvalidInputLength} from "../../../validation/index";
+import {notEmpty, checkUserExists, checkInvalidInputLength} from "../../../validation/index";
 import {PropertySlotInput } from '../PropertySlot';
 
 export const Mutation = extendType({
@@ -30,6 +31,9 @@ export const CreatePropertyReturn = objectType({
     });
     t.nullable.field('ClientErrorInvalidHandle', {
       type: ClientErrorInvalidHandle,
+    });
+    t.nullable.field('ClientErrorInvalidInputLength', {
+      type: ClientErrorInvalidInputLength,
     });
     t.nullable.field('ClientErrorInvalidPropertyInput', {
       type: ClientErrorInvalidPropertyInput,
@@ -67,13 +71,15 @@ export const CreateListing = extendType({
 
       //check user exists, street length not empty, not longer than 200, zip code lengt, city, enumsn nullable in db? rules
       async resolve(_root, args, ctx) {
-        const isInvalidZipLength = checkinvalidInputLength("Zip code",args.zip.toString(), 5);
+        const isInvalidUser = checkUserExists(args.ownerId);
+        if (isInvalidUser) return isInvalidUser;
+        const isInvalidZipLength = checkInvalidInputLength("Zip code",args.zip.toString(), 5);
         if(isInvalidZipLength) return isInvalidZipLength;
-        const isInvalidCityLength = checkinvalidInputLength("City name",args.city, 200);
+        const isInvalidCityLength = checkInvalidInputLength("City name",args.city, 200);
         if(isInvalidCityLength) return isInvalidCityLength;
-        const isInvalidStreetLength = checkinvalidInputLength("Street name", args.street, 200);
+        const isInvalidStreetLength = checkInvalidInputLength("Street name", args.street, 200);
         if(isInvalidStreetLength) return isInvalidStreetLength;
-        const isInvalidDescriptionLength = checkinvalidInputLength("Description", args.description, 1000);
+        const isInvalidDescriptionLength = checkInvalidInputLength("Description", args.description, 1000);
         if(isInvalidDescriptionLength) return isInvalidDescriptionLength;
 
         try {

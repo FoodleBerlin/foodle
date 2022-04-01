@@ -1,6 +1,6 @@
 import { extendType, objectType, stringArg } from 'nexus';
 import { Context } from '../../../context';
-import { ClientErrorUserNotExists, ClientErrorInvalidHandle } from '../Error';
+import { ClientErrorUserNotExists, ClientErrorInvalidHandle, ClientErrorInvalidInputLength } from '../Error';
 import Stripe from 'stripe';
 import {DateTime} from "../index";
 
@@ -34,7 +34,7 @@ export const User = objectType({
     t.string('handle');
     t.nullable.string('description');
     t.nullable.int('zip');
-    t.field('dob', {
+    t.nullable.field('dob', {
       type: 'DateTime',
     });
     t.nullable.string('passportS3Id');
@@ -99,39 +99,6 @@ export const User = objectType({
   },
 });
 
-/* export const Mutation = extendType({
-  type: 'Mutation',
-  definition(t) {
-    t.field('createUser', {
-      type: 'Boolean',
-      resolve() {
-        return true;
-      },
-    });
-  },
-});
-
-/**
- * Example apollo studio query
- * query Query($handle: String!) {
- *  findUser(handle: $handle) {
- *    User {
- *      id
- *      email
- *      handle
- *      fullName
- *      zip
- *    }
- *    ClientErrorUserNotExists {
- *      message
- *    }
- *    ClientErrorInvalidHandle {
- *      message
- *    }
- *  }
- *}
- **/
-
 export const findUserResult = objectType({
   name: 'findUserResult',
   definition(t) {
@@ -141,6 +108,9 @@ export const findUserResult = objectType({
     });
     t.nullable.field('ClientErrorInvalidHandle', {
       type: ClientErrorInvalidHandle,
+    });
+    t.nullable.field('ClientErrorInvalidInputLength', {
+      type: ClientErrorInvalidInputLength,
     });
   },
 });

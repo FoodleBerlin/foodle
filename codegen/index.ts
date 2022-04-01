@@ -40,7 +40,7 @@ export type Query = {
   findAllProperties: FindAllPropertiesReturn;
   /** Takes a propertyId and returns the property */
   findProperty: FindPropertyResult;
-  /** Takes a handle and returns the user.  */
+  /** Takes a handle and returns the user */
   findUser: FindUserResult;
 };
 
@@ -122,17 +122,17 @@ export type User = {
   __typename?: 'User';
   charges: Array<CustomerCharge>;
   defaultPayment?: Maybe<PaymentInformation>;
-  description: Scalars['String'];
-  dob: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  dob?: Maybe<Scalars['DateTime']>;
   email: Scalars['String'];
   fullName: Scalars['String'];
   handle: Scalars['String'];
   id: Scalars['String'];
-  licenseS3Id: Scalars['String'];
-  passportS3Id: Scalars['String'];
+  licenseS3Id?: Maybe<Scalars['String']>;
+  passportS3Id?: Maybe<Scalars['String']>;
   paymentMethods: Array<PaymentInformation>;
-  solvencyS3Id: Scalars['String'];
-  zip: Scalars['Int'];
+  solvencyS3Id?: Maybe<Scalars['String']>;
+  zip?: Maybe<Scalars['Int']>;
 };
 
 export type CustomerCharge = {
@@ -179,8 +179,14 @@ export type ClientErrorPropertyNotExists = {
 export type FindUserResult = {
   __typename?: 'findUserResult';
   ClientErrorInvalidHandle?: Maybe<ClientErrorInvalidHandle>;
+  ClientErrorInvalidInputLength?: Maybe<ClientErrorInvalidInputLength>;
   ClientErrorUserNotExists?: Maybe<ClientErrorUserNotExists>;
   User?: Maybe<User>;
+};
+
+export type ClientErrorInvalidInputLength = {
+  __typename?: 'ClientErrorInvalidInputLength';
+  message: Scalars['String'];
 };
 
 export type ClientErrorUserNotExists = {
@@ -231,9 +237,9 @@ export type MutationUpdateUserArgs = {
 
 /** PropertySlot input */
 export type PropertySlotInput = {
+  availableDays: Array<InputMaybe<GenericDaySlotInput>>;
   endDate: Scalars['DateTime'];
   frequency: Frequency;
-  genericDaySlots: Array<InputMaybe<GenericDaySlotInput>>;
   minMonths: Scalars['Int'];
   startDate: Scalars['DateTime'];
 };
@@ -248,6 +254,7 @@ export type GenericDaySlotInput = {
 export type CreatePropertyReturn = {
   __typename?: 'createPropertyReturn';
   ClientErrorInvalidHandle?: Maybe<ClientErrorInvalidHandle>;
+  ClientErrorInvalidInputLength?: Maybe<ClientErrorInvalidInputLength>;
   ClientErrorInvalidPropertyInput?: Maybe<ClientErrorInvalidPropertyInput>;
   ClientErrorUserNotExists?: Maybe<ClientErrorUserNotExists>;
   Property?: Maybe<Property>;
@@ -264,12 +271,22 @@ export type BookingSlot = {
   id: Scalars['String'];
 };
 
+export type ClientErrorInvalidGenericDaySlotInput = {
+  __typename?: 'ClientErrorInvalidGenericDaySlotInput';
+  message: Scalars['String'];
+};
+
+export type ClientErrorInvalidPropertySlotInput = {
+  __typename?: 'ClientErrorInvalidPropertySlotInput';
+  message: Scalars['String'];
+};
+
 export type FindUserQueryVariables = Exact<{
   handle: Scalars['String'];
 }>;
 
 
-export type FindUserQuery = { __typename?: 'Query', findUser: { __typename: 'findUserResult', User?: { __typename: 'User', email: string, handle: string, fullName: string, zip: number, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle', message: string } | null } };
+export type FindUserQuery = { __typename?: 'Query', findUser: { __typename: 'findUserResult', User?: { __typename: 'User', email: string, handle: string, fullName: string, description?: string | null, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle', message: string } | null } };
 
 export type UpdateUserMutationVariables = Exact<{
   id?: InputMaybe<Scalars['String']>;
@@ -283,7 +300,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'findUserResult', User?: { __typename?: 'User', fullName: string, email: string, handle: string, zip: number, id: string, dob: any, description: string, passportS3Id: string, solvencyS3Id: string, licenseS3Id: string } | null } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'findUserResult', User?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, description?: string | null, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidInputLength?: { __typename?: 'ClientErrorInvalidInputLength', message: string } | null, ClientErrorInvalidHandle?: { __typename?: 'ClientErrorInvalidHandle', message: string } | null } };
 
 export type CreateListingMutationVariables = Exact<{
   size: Scalars['Int'];
@@ -318,7 +335,12 @@ export const FindUserDocument = `
       email
       handle
       fullName
+      description
       zip
+      dob
+      passportS3Id
+      solvencyS3Id
+      licenseS3Id
       charges {
         amount
         date
@@ -369,16 +391,25 @@ export const UpdateUserDocument = `
     mutation UpdateUser($id: String, $fullName: String, $zip: Int, $description: String, $dob: String, $passportS3Id: String, $solvencyS3Id: String, $licenseS3Id: String) {
   updateUser(id: $id, fullName: $fullName, zip: $zip, description: $description, dob: $dob, passportS3Id: $passportS3Id, solvencyS3Id: $solvencyS3Id, licenseS3Id: $licenseS3Id) {
     User {
+      id
       fullName
       email
       handle
-      zip
-      id
-      dob
       description
+      zip
+      dob
       passportS3Id
       solvencyS3Id
       licenseS3Id
+    }
+    ClientErrorUserNotExists {
+      message
+    }
+    ClientErrorInvalidInputLength {
+      message
+    }
+    ClientErrorInvalidHandle {
+      message
     }
   }
 }

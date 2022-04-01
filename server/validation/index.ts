@@ -4,6 +4,7 @@ import {
   ClientErrorUserNotExists,
   ClientErrorInvalidHandle,
   ClientErrorInvalidPropertyInput,
+  ClientErrorInvalidInputLength,
   UnknownError,
 } from '../graphql/types/Error';
 function findUser(userId: string) {
@@ -22,13 +23,12 @@ export const checkUserExists= (userId: string)=> {
       };
     }
 }
-export const checkinvalidInputLength = (inputName:string, arg: string | [], maxLength: number, minLength?: number) =>{
+export const checkInvalidInputLength = ( inputName:string, arg: string | [], maxLength: number, minLength?: number) =>{
     if(arg.length> maxLength || arg.length< (minLength?? 0)){
         const minMaxLabel = arg.length> maxLength ? "max" : "min";
         const minMaxNumberLabel = arg.length> maxLength ? maxLength : minLength
-        // console.log(inputName+ ", arg:"+ arg+ ", max"+ maxLength);
         return {
-          ClientErrorInvalidPropertyInput: {
+          ClientErrorInvalidInputLength: {
             message: `${inputName} ${arg} is invalid, must have a ${minMaxLabel} length of ${minMaxNumberLabel}`,
           },
         };

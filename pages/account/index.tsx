@@ -32,7 +32,12 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
 
 const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   console.log({ props });
-  const { status, error, isFetching } = useFindUserQuery(
+  const {
+    data: findUserData,
+    status,
+    error,
+    isFetching,
+  } = useFindUserQuery(
     {
       endpoint: 'http://localhost:5000/graphql',
       fetchParams: {
@@ -46,6 +51,7 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
     {}
   );
   console.log({ error });
+  console.log({ findUserData });
   const { mutate, data } = useUpdateUserMutation({
     endpoint: 'http://localhost:5000/graphql',
     fetchParams: {
@@ -60,27 +66,30 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
     return image ? true : false;
   };
   const submit = () => {
+    const dobChecked = !isNaN(Date.parse(dob ? dob : '')) ? dob + 'T00:00:00Z' : null;
+    const zipChecked = zip && zip !== '' ? parseInt(zip) : null;
     mutate({
       id: props.session.id,
       fullName: fullName,
-      zip: zip,
+      zip: zipChecked,
       description: description,
-      dob: dob + 'T00:00:00Z',
-      passportS3Id: passport?.s3Id,
-      solvencyS3Id: solvency?.s3Id,
-      licenseS3Id: license?.s3Id,
+      dob: dobChecked,
+      passportS3Id: passport ? passport.s3Id : null,
+      solvencyS3Id: solvency ? solvency.s3Id : null,
+      licenseS3Id: license ? license.s3Id : null,
     });
     console.log({ data });
   };
+  const user = findUserData?.findUser.User;
   const [passport, setPassport] = useState<UploaderImage>();
   const [solvency, setSolvency] = useState<UploaderImage>();
   const [license, setLicense] = useState<UploaderImage>();
-  const [dob, setDob] = useState<string>();
-  const [fullName, setFullName] = useState<string>();
-  const [zip, setZip] = useState<number>();
-  const [description, setDescription] = useState<string>();
+  const [dob, setDob] = useState<string>(user?.dob ?? '');
+  const [fullName, setFullName] = useState<string>(user?.fullName ?? '');
+  const [zip, setZip] = useState<string>(user?.zip ? user?.zip.toString() : '');
+  const [description, setDescription] = useState<string>(user?.description ?? '');
   const text = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
-    return e?.target?.textContent ? e?.target?.textContent : '';
+    return e?.target?.value ? e?.target?.value : '';
   };
   return (
     <div className={styles['account']}>
@@ -98,6 +107,7 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
             <input
               onChange={(e) => setFullName(text(e))}
               maxLength={50}
+              value={fullName}
               className="profile-form mt-one"
               type="text"
               placeholder="Jane Doe"
@@ -108,7 +118,10 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
             <label className="body-text bold-medium">Date of Birth</label>
             <br />
             <input
-              onChange={(e) => setDob(text(e))}
+              onChange={(e) => {
+                setDob(text(e));
+              }}
+              value={dob}
               maxLength={50}
               className="profile-form"
               type="text"
@@ -119,8 +132,9 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
             <label className="body-text bold-medium">Zip Code</label>
             <br />
             <input
-              onChange={(e) => setZip(e?.target?.textContent ? parseInt(e?.target?.textContent) : -1)}
+              onChange={(e) => setZip(text(e))}
               maxLength={50}
+              value={zip}
               className="profile-form mt-one"
               type="text"
               placeholder="13407"
@@ -134,6 +148,7 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
               className={styles['description-input'] + ' profile-form mt-one'}
               placeholder="Please tell us about yourself"
               cols={60}
+              value={description}
               rows={5}
               maxLength={200}
             />
