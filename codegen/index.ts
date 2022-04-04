@@ -312,10 +312,10 @@ export type CreateListingMutationVariables = Exact<{
   city: Scalars['String'];
   description: Scalars['String'];
   pickup: Scalars['Boolean'];
-  facilities: Array<Scalars['String']> | Scalars['String'];
   rules: Array<Scalars['String']> | Scalars['String'];
-  serviceFee: Scalars['Int'];
   hourlyPrice: Scalars['Int'];
+  serviceFee: Scalars['Int'];
+  facilities: Array<Scalars['String']> | Scalars['String'];
   deposit: Scalars['Int'];
   images: Array<Scalars['String']> | Scalars['String'];
   partialSpace: Scalars['Boolean'];
@@ -324,6 +324,11 @@ export type CreateListingMutationVariables = Exact<{
 
 
 export type CreateListingMutation = { __typename?: 'Mutation', createListing: { __typename?: 'createPropertyReturn', Property?: { __typename?: 'Property', size: number, title: string, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, isVerified: boolean, hourlyPrice: number, serviceFee: number, deposit: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, minMonths: number, frequency: Frequency, availableDays: Array<{ __typename?: 'GenericDaySlot', weekday: string, startTime: any, endTime: any }> } | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename?: 'ClientErrorInvalidHandle', message: string } | null, ClientErrorInvalidPropertyInput?: { __typename?: 'ClientErrorInvalidPropertyInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
+
+export type ListingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ListingsQuery = { __typename?: 'Query', findAllProperties: { __typename?: 'findAllPropertiesReturn', Properties?: Array<{ __typename?: 'Property', handle: string, title: string, size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, deposit: number, images: Array<string>, partialSpace: boolean, isVerified: boolean, hourlyPrice: number, serviceFee: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, zip: number, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, minMonths: number, propertyId: string, property?: { __typename?: 'Property', handle: string, title: string, size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, deposit: number, images: Array<string>, partialSpace: boolean, isVerified: boolean, hourlyPrice: number, serviceFee: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, zip: number, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, minMonths: number, propertyId: string, property?: { __typename?: 'Property', handle: string, title: string, size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, deposit: number, images: Array<string>, partialSpace: boolean, isVerified: boolean, hourlyPrice: number, serviceFee: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, zip: number, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, minMonths: number, propertyId: string, frequency: Frequency, property?: { __typename?: 'Property', handle: string, title: string, size: number } | null, availableDays: Array<{ __typename?: 'GenericDaySlot', id: string, propertySlotId: string, startTime: any, endTime: any, weekday: string, propertySlot?: { __typename?: 'PropertySlot', startDate: any } | null }> } | null } | null } | null } | null } | null }> | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
 
 
 export const FindUserDocument = `
@@ -427,8 +432,8 @@ export const useUpdateUserMutation = <
       options
     );
 export const CreateListingDocument = `
-    mutation CreateListing($size: Int!, $title: String!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $facilities: [String!]!, $rules: [String!]!, $serviceFee: Int!, $hourlyPrice: Int!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $availabilities: PropertySlotInput!) {
-  createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, title: $title, city: $city, description: $description, pickup: $pickup, facilities: $facilities, rules: $rules, serviceFee: $serviceFee, hourlyPrice: $hourlyPrice, deposit: $deposit, images: $images, partialSpace: $partialSpace, availabilities: $availabilities) {
+    mutation CreateListing($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $rules: [String!]!, $title: String!, $hourlyPrice: Int!, $serviceFee: Int!, $facilities: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $availabilities: PropertySlotInput!) {
+  createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, pickup: $pickup, rules: $rules, title: $title, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, facilities: $facilities, deposit: $deposit, images: $images, partialSpace: $partialSpace, availabilities: $availabilities) {
     Property {
       size
       owner {
@@ -490,5 +495,214 @@ export const useCreateListingMutation = <
     useMutation<CreateListingMutation, TError, CreateListingMutationVariables, TContext>(
       ['CreateListing'],
       (variables?: CreateListingMutationVariables) => fetcher<CreateListingMutation, CreateListingMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateListingDocument, variables)(),
+      options
+    );
+export const ListingsDocument = `
+    query Listings {
+  findAllProperties {
+    Properties {
+      handle
+      title
+      size
+      owner {
+        id
+        fullName
+        email
+        handle
+        zip
+        charges {
+          amount
+          date
+          card
+          status
+          description
+          invoiceId
+          currency
+        }
+        paymentMethods {
+          cardNumber
+          expiryMonth
+          expiryYear
+          type
+        }
+        defaultPayment {
+          cardNumber
+          expiryMonth
+          expiryYear
+          type
+        }
+      }
+      kind
+      bookings {
+        id
+      }
+      street
+      streetNumber
+      zip
+      city
+      description
+      pickup
+      facilities
+      deposit
+      images
+      partialSpace
+      isVerified
+      hourlyPrice
+      serviceFee
+      rules
+      availabilities {
+        startDate
+        endDate
+        minMonths
+        propertyId
+        property {
+          handle
+          title
+          size
+          owner {
+            id
+            fullName
+            email
+            handle
+            zip
+            charges {
+              amount
+              date
+              card
+              status
+              description
+              invoiceId
+              currency
+            }
+            paymentMethods {
+              cardNumber
+              expiryMonth
+              expiryYear
+              type
+            }
+            defaultPayment {
+              cardNumber
+              expiryMonth
+              expiryYear
+              type
+            }
+          }
+          kind
+          bookings {
+            id
+          }
+          street
+          streetNumber
+          zip
+          city
+          description
+          pickup
+          facilities
+          deposit
+          images
+          partialSpace
+          isVerified
+          hourlyPrice
+          serviceFee
+          rules
+          availabilities {
+            startDate
+            endDate
+            minMonths
+            propertyId
+            property {
+              handle
+              title
+              size
+              owner {
+                id
+                fullName
+                email
+                handle
+                zip
+                charges {
+                  amount
+                  date
+                  card
+                  status
+                  description
+                  invoiceId
+                  currency
+                }
+                paymentMethods {
+                  cardNumber
+                  expiryMonth
+                  expiryYear
+                  type
+                }
+                defaultPayment {
+                  cardNumber
+                  expiryMonth
+                  expiryYear
+                  type
+                }
+              }
+              kind
+              bookings {
+                id
+              }
+              street
+              streetNumber
+              zip
+              city
+              description
+              pickup
+              facilities
+              deposit
+              images
+              partialSpace
+              isVerified
+              hourlyPrice
+              serviceFee
+              rules
+              availabilities {
+                startDate
+                endDate
+                minMonths
+                propertyId
+                property {
+                  handle
+                  title
+                  size
+                }
+                availableDays {
+                  id
+                  propertySlotId
+                  startTime
+                  endTime
+                  weekday
+                  propertySlot {
+                    startDate
+                  }
+                }
+                frequency
+              }
+            }
+          }
+        }
+      }
+    }
+    UnknownError {
+      message
+    }
+  }
+}
+    `;
+export const useListingsQuery = <
+      TData = ListingsQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: ListingsQueryVariables,
+      options?: UseQueryOptions<ListingsQuery, TError, TData>
+    ) =>
+    useQuery<ListingsQuery, TError, TData>(
+      variables === undefined ? ['Listings'] : ['Listings', variables],
+      fetcher<ListingsQuery, ListingsQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, ListingsDocument, variables),
       options
     );

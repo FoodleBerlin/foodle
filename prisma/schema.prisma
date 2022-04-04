@@ -111,7 +111,7 @@ model GenericDaySlot {
   startTime      DateTime
   endTime        DateTime
   weekday        String
-  propertySlotId String
+  propertySlotId String?
   propertSlot    PropertySlot? @relation("propertyToGenericSlot", fields: [propertySlotId], references: [id])
   bookingSlotId  String?
   bookingSlot    BookingSlot?  @relation("bookingToGenericSlot", fields: [bookingSlotId], references: [id])

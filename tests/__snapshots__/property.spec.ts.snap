@@ -21,7 +21,7 @@ Object {
     "findAllProperties": Object {
       "Properties": Array [
         Object {
-          "city": "berlin",
+          "city": "Berlin",
         },
       ],
       "UnknownError": null,
@@ -42,7 +42,13 @@ Object {
   "data": Object {
     "findProperty": Object {
       "ClientErrorInvalidHandle": null,
+<<<<<<< HEAD
       "Property": null,
+=======
+      "Property": Object {
+        "city": "Berlin",
+      },
+>>>>>>> a4671e885b26de6b50ac7ca12af132af8ab3984f
     },
   },
   "errors": undefined,

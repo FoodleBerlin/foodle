@@ -144,7 +144,7 @@ export const findAllProperties = extendType({
         } catch (e) {
           return {
             UnknownError: {
-              message: 'Erorr fetching properties from database',
+              message: `Erorr fetching properties from database ${e}`,
             },
           };
         }

@@ -103,8 +103,6 @@ const Footer = (props: FooterProps) => {
         },
       },
     });
-
-    console.log({ res });
   };
 
   const error = () => {
