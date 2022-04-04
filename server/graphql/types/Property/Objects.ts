@@ -1,6 +1,4 @@
 import { objectType } from 'nexus';
-import { Frequency, PropertySlot } from '..';
-import { Context } from '../../../context';
 import { Booking } from '../Booking';
 import { User } from '../User';
 
@@ -45,8 +43,11 @@ export const Property = objectType({
     p.int('hourlyPrice');
     p.int('serviceFee');
     p.list.string('rules');
-    p.int('minimumBookings');
-    p.nonNull.list.field('availableDays', {
+  },
+});
+
+/*
+p.nonNull.list.field('availableDays', {
       type: PropertySlot,
       async resolve(parent, args, ctx: Context) {
         return await ctx.prisma.propertySlot.findMany({
@@ -61,5 +62,4 @@ export const Property = objectType({
       },
     });
     p.field('frequency', { type: Frequency });
-  },
-});
+*/

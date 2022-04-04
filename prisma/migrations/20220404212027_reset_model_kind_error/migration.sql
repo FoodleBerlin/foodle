@@ -1,8 +1,5 @@
 -- CreateEnum
-CREATE TYPE "ModelKind" AS ENUM ('user', 'property', 'booking', 'bookingDay', 'propertyAvailability', 'facility', 'payment', 'paymentMethod', 'bookingSlot', 'propertySlot');
-
--- CreateEnum
-CREATE TYPE "DayOfWeek" AS ENUM ('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun');
+CREATE TYPE "ModelKind" AS ENUM ('user', 'property', 'booking', 'bookingDay', 'propertyAvailability', 'facility', 'payment', 'paymentMethod', 'bookingSlot', 'propertySlot', 'daySlot');
 
 -- CreateEnum
 CREATE TYPE "Frequency" AS ENUM ('none', 'weekly', 'biweekly', 'monthly');
@@ -46,16 +43,16 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "PropertySlot" (
-    "kind" "ModelKind" NOT NULL DEFAULT E'propertySlot',
+CREATE TABLE "DaySlot" (
+    "kind" "ModelKind" NOT NULL DEFAULT E'daySlot',
     "id" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
     "startTime" TIMESTAMP(3) NOT NULL,
     "endTime" TIMESTAMP(3) NOT NULL,
-    "weekday" TEXT NOT NULL,
-    "propertyId" TEXT NOT NULL,
+    "propertySlotId" TEXT NOT NULL,
     "bookingSlotId" TEXT,
 
-    CONSTRAINT "PropertySlot_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "DaySlot_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -82,10 +79,23 @@ CREATE TABLE "Property" (
     "partialSpace" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "minimumBookings" INTEGER NOT NULL DEFAULT 0,
-    "frequency" "Frequency" NOT NULL,
 
     CONSTRAINT "Property_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "PropertySlot" (
+    "kind" "ModelKind" NOT NULL DEFAULT E'propertySlot',
+    "id" TEXT NOT NULL,
+    "minimumBookings" INTEGER NOT NULL DEFAULT 0,
+    "frequency" "Frequency" NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "propertyId" TEXT NOT NULL,
+
+    CONSTRAINT "PropertySlot_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -131,16 +141,19 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "Property_handle_key" ON "Property"("handle");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "BookingSlot_propertySlotInstanceId_key" ON "BookingSlot"("propertySlotInstanceId");
+CREATE UNIQUE INDEX "PropertySlot_propertyId_key" ON "PropertySlot"("propertyId");
 
 -- AddForeignKey
-ALTER TABLE "PropertySlot" ADD CONSTRAINT "PropertySlot_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "Property"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "DaySlot" ADD CONSTRAINT "DaySlot_propertySlotId_fkey" FOREIGN KEY ("propertySlotId") REFERENCES "PropertySlot"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "DaySlot" ADD CONSTRAINT "DaySlot_bookingSlotId_fkey" FOREIGN KEY ("bookingSlotId") REFERENCES "BookingSlot"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Property" ADD CONSTRAINT "Property_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "BookingSlot" ADD CONSTRAINT "BookingSlot_propertySlotInstanceId_fkey" FOREIGN KEY ("propertySlotInstanceId") REFERENCES "PropertySlot"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "PropertySlot" ADD CONSTRAINT "PropertySlot_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "Property"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "BookingSlot" ADD CONSTRAINT "BookingSlot_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "Booking"("id") ON DELETE CASCADE ON UPDATE CASCADE;

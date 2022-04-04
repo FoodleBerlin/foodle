@@ -67,13 +67,6 @@ type findUserResult {
   User: User
 }
 
-enum Frequency {
-  biweekly
-  monthly
-  none
-  weekly
-}
-
 type Mutation {
   createListing(
     availabilities: PropertySlotInput!
@@ -104,19 +97,16 @@ type PaymentInformation {
 }
 
 type Property {
-  availableDays: [PropertySlot!]!
   bookings: [Booking!]!
   city: String!
   deposit: Int!
   description: String!
   facilities: [String!]!
-  frequency: Frequency!
   handle: String!
   hourlyPrice: Int!
   images: [String!]!
   isVerified: Boolean!
   kind: String!
-  minimumBookings: Int!
   owner: User
   partialSpace: Boolean!
   pickup: Boolean

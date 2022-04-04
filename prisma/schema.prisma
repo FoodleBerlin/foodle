@@ -29,16 +29,6 @@ enum ModelKind {
   daySlot
 }
 
-enum DayOfWeek {
-  mon
-  tue
-  wed
-  thu
-  fri
-  sat
-  sun
-}
-
 enum Frequency {
   none
   weekly
@@ -96,13 +86,12 @@ model User {
 }
 
 model DaySlot {
-  kind           ModelKind    @default(propertySlot)
+  kind           ModelKind    @default(daySlot)
   id             String       @id @default(cuid())
   date           DateTime
   // Must be the same day
   startTime      DateTime
   endTime        DateTime
-  weekday        String
   // Parent property
   propertySlotId String
   propertySlot   PropertySlot @relation("propertySlotToDaySlot", fields: [propertySlotId], references: [id], onDelete: Cascade)
@@ -149,8 +138,8 @@ model PropertySlot {
   frequency       Frequency
   startDate       DateTime
   endDate         DateTime
-  createdAt       DateTime
-  updatedAt       DateTime
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
   propertyId      String    @unique
   property        Property  @relation("propertySlotToProperty", fields: [propertyId], references: [id])
 }
