@@ -4,11 +4,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { useRef, useState } from 'react';
 import Image from 'next';
 import { useWindowDimensions } from '../../utils/hooks';
+import Link from 'next/link';
 
 interface ProfileButtonProps {
-  imageSetter: (image: UploaderImage) => void;
+  imageSetter: (image: UploaderImage | null) => void;
   alreadyUploaded: boolean;
-  image?: UploaderImage;
+  image?: UploaderImage | null;
 }
 const convertFiletoUploaderImg = (file: File | null) => {
   if (file === null) return null;
@@ -18,16 +19,12 @@ const convertFiletoUploaderImg = (file: File | null) => {
 };
 
 const ProfileButton = (props: ProfileButtonProps) => {
-  console.log('imagee' + props.image?.file);
-  const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLImageElement>(null);
-  const halfOfImageHeight = ref?.current?.offsetHeight ? ref.current?.offsetHeight / 2 : 0;
-  const halfOfImageWidth = ref?.current?.offsetWidth ? ref.current?.offsetWidth / 2 : 0;
-
-  const { height, width } = useWindowDimensions();
-  const left = width ? width / 2 - halfOfImageWidth : 100;
-  const top = height ? height / 2 - halfOfImageHeight : 100;
-  const [previous, setPreviousImage] = useState<UploaderImage>();
+  const getSignedUrl = (imageS3Id: string) => {
+    //TODO Create backend Endpoint for creating signed URLs from S3ID
+    console.log('Downloaded Link from S3');
+    return imageS3Id;
+  };
 
   return !props.alreadyUploaded ? (
     <aside className={styles['account__document-btns'] + ' mt-two'}>
@@ -39,14 +36,15 @@ const ProfileButton = (props: ProfileButtonProps) => {
         type="file"
         value={props.image?.file}
         onChange={(e) => {
-          const image = convertFiletoUploaderImg(e?.currentTarget.files ? e?.currentTarget?.files[0] : null);
+          const file = e?.currentTarget.files ? e?.currentTarget?.files[0] : null;
+          const image = convertFiletoUploaderImg(file);
           if (image !== null) props.imageSetter(image);
         }}
       />
     </aside>
   ) : (
     <aside className={styles['account__document-btns'] + ' mt-one'}>
-      <a href={URL.createObjectURL(props.image?.file)} download>
+      <a href={getSignedUrl(props?.image?.s3Id ? props.image?.s3Id : '')} download>
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -58,40 +56,12 @@ const ProfileButton = (props: ProfileButtonProps) => {
       </a>
       <button
         onClick={() => {
-          //@ts-ignore
           props.imageSetter(null);
         }}
         className={'delete-btn bold'}
       >
         Delete
       </button>
-      {/* {isOpen && ( */}
-      <dialog
-        className="dialog"
-        style={
-          props.image
-            ? {
-                position: 'fixed',
-                left: '70%',
-                width: '100%',
-                border: 'none',
-                top: '10%',
-              }
-            : { display: 'none' }
-        }
-        open
-      >
-        <img
-          className="image"
-          ref={ref}
-          src={URL.createObjectURL(props.image?.file)}
-          max-width={1600}
-          max-height={10000}
-          onClick={() => setIsOpen(!isOpen)}
-          alt="no image"
-        ></img>
-      </dialog>
-      {/* )} */}
     </aside>
   );
 };
