@@ -69,54 +69,6 @@ export async function seed() {
       }),
     ])
   );
-<<<<<<< HEAD
-  await prisma.property.create({
-    data : {
-        size: 123,
-        ownerId: '1',
-        street: 'testhbdbjkfsdbjf',
-        streetNumber: 1233,
-        zip: 123445,
-        city: 'berlin',
-        description: 'testhbdbjkfsdbjf',
-        rules: ['fffff'],
-        hourlyPrice: 100,
-        serviceFee: 0,
-        handle:"hand;e",
-        title:"titlee",
-        deposit:500,
-        images:["heyy"],
-        pickup:false,
-        facilities: ["heeyy"],
-        partialSpace: false,
-        availabilities:  {
-          create: {
-            startDate: new Date("1999-01-01T00:00:00").toISOString(),
-            endDate: new Date("1999-01-01T00:00:00").toISOString(),
-            minMonths: 0,
-            availableDays:
-            {createMany:
-              {data:
-                [
-                  {
-                  startTime:new Date("1999-01-01T00:00:00").toISOString(),
-                  endTime: new Date("1999-01-01T00:00:00").toISOString(),
-                  weekday:"Monday"
-                  }
-                ],
-              },
-            },
-            frequency: "weekly"
-          
-        }
-      }
-      
-          
-    }
-  });
-}
-export default seed;
-=======
 
   await prisma.property.create({
     data: {
@@ -163,4 +115,3 @@ export default seed;
 }
 
 export default seed;
->>>>>>> a4671e885b26de6b50ac7ca12af132af8ab3984f
