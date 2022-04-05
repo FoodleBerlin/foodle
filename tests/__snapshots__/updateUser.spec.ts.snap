@@ -4,6 +4,11 @@ exports[`Update User with invalid data- id does not return user 1`] = `
 Object {
   "data": Object {
     "updateUser": Object {
+      "ClientErrorInvalidHandle": null,
+      "ClientErrorInvalidInputLength": Object {
+        "message": "Zip 9000 is invalid, must have a min length of 5",
+      },
+      "ClientErrorUserNotExists": null,
       "User": null,
     },
   },
@@ -21,6 +26,9 @@ exports[`Update User with valid data returns user if succeeded 1`] = `
 Object {
   "data": Object {
     "updateUser": Object {
+      "ClientErrorInvalidHandle": null,
+      "ClientErrorInvalidInputLength": null,
+      "ClientErrorUserNotExists": null,
       "User": Object {
         "description": "description",
         "dob": 1900-01-01T00:00:00.000Z,
@@ -31,7 +39,7 @@ Object {
         "licenseS3Id": "license?.s3Id",
         "passportS3Id": "passport?.s3Id",
         "solvencyS3Id": "solvency?.s3Id",
-        "zip": 9000,
+        "zip": 90000,
       },
     },
   },

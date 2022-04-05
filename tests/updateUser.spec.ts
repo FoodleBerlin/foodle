@@ -23,6 +23,15 @@ describe('Update User', ()=>{
       solvencyS3Id
       licenseS3Id
     }
+    ClientErrorUserNotExists {
+      message
+    }
+    ClientErrorInvalidHandle {
+      message
+    }
+    ClientErrorInvalidInputLength {
+      message
+    }
   }
 }
 `;
@@ -34,7 +43,7 @@ describe('with valid data', () => {
           variables: { 
             id: "1",
             fullName: "jello",
-            zip: 9000,
+            zip: 90000,
             description: "description",
             dob: "1900-01-01T00:00:00Z",
             passportS3Id: "passport?.s3Id",
