@@ -58,8 +58,8 @@ const ProfileForm = (props: ProfileFormProps) => {
 
   return (
     <>
-      <h3 className="header-tertiary bold">My Profile</h3>
-      <p className="body-text grey-text">
+      <h3 className="header-secondary bold">My Profile</h3>
+      <p className="body-text grey-text mt-one">
         This is your personal information, autofilled during booking requests for you to customize.
       </p>
       <form className="mt-three" action="">
