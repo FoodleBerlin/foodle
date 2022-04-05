@@ -11,12 +11,6 @@ interface ProfileFormProps {
   user: FindUserQuery | undefined;
   isMountedRef: MutableRefObject<boolean>;
 }
-function useFirstRender() {
-  const ref = useRef(true);
-  const firstRender = ref.current;
-  ref.current = false;
-  return firstRender;
-}
 
 const ProfileForm = (props: ProfileFormProps) => {
   const { mutate, data } = useUpdateUserMutation({
@@ -49,11 +43,6 @@ const ProfileForm = (props: ProfileFormProps) => {
   };
 
   const user = props.user?.findUser.User;
-  useEffect(() => {
-    console.log('user:' + JSON.stringify(user));
-    console.log();
-  });
-  const isFirstRender: boolean = useFirstRender();
 
   const [passport, setPassport] = useState<UploaderImage | null>();
   const [solvency, setSolvency] = useState<UploaderImage | null>();
@@ -122,7 +111,8 @@ const ProfileForm = (props: ProfileFormProps) => {
             placeholder={user && user.description ? user.description : 'Please tell us about yourself'}
             cols={60}
             value={description}
-            rows={5}
+            rows={20}
+            style={{ height: 200 }}
             maxLength={200}
           />
         </section>

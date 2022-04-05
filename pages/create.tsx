@@ -24,7 +24,6 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
 }
 
 const Create: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
-  console.log(props);
   return (
     <>
       <Navbar user={props.session}></Navbar>

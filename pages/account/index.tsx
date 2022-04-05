@@ -32,39 +32,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
     },
   };
 }
-type AccountContext = {
-  dob: string | undefined;
-  // setDob: (dob: string | undefined) => void;
-  zip: string | undefined;
-  // setZip: (zip: string | undefined) => void;
-  fullName: string | undefined;
-  // setFullName: (fullName: string | undefined) => void;
-  description: string | undefined;
-  // setDob: (dob: string | undefined) => void;
-  passport: UploaderImage | undefined;
-  license: UploaderImage | undefined;
-  solvency: UploaderImage | undefined;
-};
-const AccountContext = React.createContext<AccountContext>({
-  fullName: undefined,
-  description: undefined,
-  dob: undefined,
-  license: undefined,
-  passport: undefined,
-  solvency: undefined,
-  zip: undefined,
-});
-export function useAccountContext() {
-  const context = useContext(AccountContext);
-  if (!context) {
-    throw new Error('Component not wrapped by provider');
-  }
-  return context;
-}
-// let firstLoad = false;
 const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
-  console.log({ props });
-
   const {
     data: findUserData,
     status,
@@ -83,8 +51,6 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
     { handle: props.session.email },
     {}
   );
-  console.log({ error });
-  console.log({ findUserData });
 
   const isMounted = useRef(false);
 
