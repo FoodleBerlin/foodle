@@ -1,6 +1,6 @@
 @use '../base/colors';
 @mixin btn($color, $bg-color, $hover-bg-color, $border-color: colors.$color-primary-light) {
-  padding: 1.5rem 3rem !important;
+  padding: 1.5rem 4rem;
   height: 6rem;
   border-radius: 1.8rem;
   cursor: pointer;
@@ -12,7 +12,7 @@
     background-color: $hover-bg-color;
   }
 }
-.primary-btn {
+@mixin primary-btn {
   @include btn(white, colors.$color-primary-light, white);
   &:hover {
     color: #009688;
@@ -23,13 +23,25 @@
     border: 2px solid #c4c4c4;
   }
 }
-.secondary-btn {
+.primary-btn {
+  @include primary-btn();
+}
+.primary-btn-small {
+  @include primary-btn();
+  padding: 1rem 2rem;
+  height: 5rem;
+}
+
+@mixin secondary-btn {
   @include btn(colors.$color-primary-light, transparent, colors.$color-primary-light2);
 }
+.secondary-btn {
+  @include secondary-btn();
+}
 .secondary-btn-small {
-  @include btn(colors.$color-primary-light, transparent, colors.$color-primary-light2);
+  @include secondary-btn();
   padding: 0.5rem 2rem !important;
-  height:5rem !important;
+  height: 5rem !important;
 }
 .tertiary-btn {
   @include btn(colors.$color-primary-light, transparent, colors.$color-primary-light2, colors.$color-primary-light);

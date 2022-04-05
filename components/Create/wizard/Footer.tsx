@@ -128,13 +128,13 @@ const Footer = (props: FooterProps) => {
       <div className={styles['footer-container']}>
         <button
           onClick={() => previousStep(props.step)}
-          className={props.step === 1 ? styles['hidden'] : styles['secondary-btn']}
+          className={props.step === 1 ? styles['hidden'] : styles['secondary-btn-small']}
         >
           back
         </button>
 
         <button
-          className={styles['primary-btn']}
+          className={styles['primary-btn-small']}
           disabled={error() ? true : false}
           onClick={() => {
             nextStep(props.step);

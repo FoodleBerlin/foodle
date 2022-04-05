@@ -1,6 +1,7 @@
 .sidebar {
   flex: 1 1 15%;
-  padding: 13rem 2vw 0 4vw;
+  padding: 13rem 1vw 0 calc(2rem + 2vw);
+  min-width: 29rem;
   height: 100%;
   background-color: white;
   .menu {
