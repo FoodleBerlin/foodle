@@ -19,6 +19,7 @@ export default function Step2() {
               className="textArea standard-form"
               {...register('description')}
               onChange={(c) => setValue('description', c.target.value, touchDirtyValidate)}
+              style={{ width: '100%' }}
             ></textarea>
           </div>
           {formState.errors.description && (
