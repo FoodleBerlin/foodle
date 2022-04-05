@@ -1,6 +1,6 @@
 @use '../base/colors';
 @mixin btn($color, $bg-color, $hover-bg-color, $border-color: colors.$color-primary-light) {
-  padding: 1.5rem 4rem;
+  padding: 1.4rem 3.5rem;
   height: 6rem;
   border-radius: 1.8rem;
   cursor: pointer;
@@ -33,7 +33,7 @@
 }
 
 @mixin secondary-btn {
-  @include btn(colors.$color-primary-light, transparent, colors.$color-primary-light2);
+  @include btn(colors.$color-primary, transparent, colors.$color-primary);
 }
 .secondary-btn {
   @include secondary-btn();
@@ -48,6 +48,7 @@
 }
 .delete-btn {
   @include btn(colors.$color-secondary, transparent, colors.$color-secondary, colors.$color-secondary);
+  height: 5rem;
   &:hover {
     color: white;
   }
