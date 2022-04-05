@@ -33,7 +33,10 @@
 }
 
 @mixin secondary-btn {
-  @include btn(colors.$color-primary, transparent, colors.$color-primary);
+  @include btn(colors.$color-primary, transparent, colors.$color-primary-light);
+  &:hover {
+    color: white;
+  }
 }
 .secondary-btn {
   @include secondary-btn();
