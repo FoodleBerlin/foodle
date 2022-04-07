@@ -31,7 +31,6 @@ interface ListedKitchenProps {
 
 const ListedKitchen = (props: ListedKitchenProps) => {
   const month = new Date(props.availability.startDate).toLocaleString('default', { month: 'long' });
-  console.log(month);
 
   return (
     <div>

@@ -3,10 +3,31 @@ import Navbar from '../../components/Layout/Navbar';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../../styles/pages/All.module.scss';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from 'next';
 import { useListingsQuery } from '../../codegen/index';
+import { extractUserFromToken } from '../../server/context';
+import { AuthenticatedProps } from '../account';
 
-const All: NextPage = () => {
+export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+  if (!req.cookies['jwt']) {
+    return {
+      props: {},
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    };
+  }
+  return {
+    props: {
+      session: extractUserFromToken(null, req.cookies['jwt']),
+      jwt: req.cookies['jwt'],
+    },
+  };
+}
+
+const All: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
+  console.log(props);
   const { status, data, error, isFetching, isLoading } = useListingsQuery({
     endpoint: 'http://localhost:5000/graphql',
     fetchParams: {
@@ -22,7 +43,7 @@ const All: NextPage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar user={props.session} />
       <div className={styles['properties-container']}>
         {isLoading ? (
           <p className="body-text-secondary">Loading...</p>

@@ -5,6 +5,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useListingsQuery } from '../../codegen/index';
 import styles from '../../styles/pages/All.module.scss';
+import BookingSidebar from '../../components/Book/BookingSidebar';
 
 const Kitchen: NextPage = () => {
   const router = useRouter();
@@ -26,6 +27,7 @@ const Kitchen: NextPage = () => {
     <>
       <Navbar />
       <div className={styles['properties-container']}>
+        <BookingSidebar />
         {properties?.map((property: any, index) => {
           if (property.handle === handle) {
             return (
