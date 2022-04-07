@@ -38,14 +38,15 @@ export default function BookingSidebar() {
       <div>
         <label className="label-text">Starting week of </label> <br />
         <input
-          className="standard-form"
+          className="standard-form mb-two-half"
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
-        ></input> <br />
+        ></input>{' '}
+        <br />
         <label className="label-text">Days of week</label>
         {/* prettier-ignore */}
-        <div> 
+        <div className="mb-one"> 
           <DaySelector hanleClick={handleDaySelectorChange} checked={bookingInformation['mon'].checked} weekday={'Monday'} short={'mon'} shortest={'M'} />
           <DaySelector hanleClick={handleDaySelectorChange} checked={bookingInformation['tue'].checked} weekday={'Tuesday'} short={'tue'} shortest={'T'} />
           <DaySelector hanleClick={handleDaySelectorChange} checked={bookingInformation['wed'].checked} weekday={'Wednesday'} short={'wed'} shortest={'W'} />
@@ -65,19 +66,21 @@ export default function BookingSidebar() {
         {bookingInformation['sat'].checked && <TimeInput timeValue={bookingInformation['sat'].time} handleChange={handleTimeInputChange} shortest={'S'} short={'sat'} />}
         {bookingInformation['sun'].checked && <TimeInput timeValue={bookingInformation['sun'].time} handleChange={handleTimeInputChange} shortest={'S'} short={'sun'} />}
       </div>
-      <div >
-        <select
-          className="standard-form__selectMedium"
-          
-          onChange={(e)=> setFreqency(e.target.value)}
-        >
+      <div>
+        <select className="standard-form__selectMedium mb-two-half" onChange={(e) => setFreqency(e.target.value)}>
           {' '}
           <option value="weekly">weekly</option>
           <option value="none">none</option>
         </select>
       </div>
       <label className="label-text">Until</label> <br />
-      <input className="standard-form" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}></input> <br />
+      <input
+        className="standard-form mb-two-half"
+        type="date"
+        value={endDate}
+        onChange={(e) => setEndDate(e.target.value)}
+      ></input>{' '}
+      <br />
       <button className="primary-btn">REQUEST TO BOOK</button>
     </div>
   );

@@ -8,8 +8,8 @@ interface TimeInputProps {
 
 const TimeInput = (props: TimeInputProps) => {
   return (
-    <>
-      <span className="weekdays__timeInputWrapper mb-one">
+
+      <div className="weekDays__timeInputWrapper mb-one">
         <input type="checkbox" checked id={'time-' + props.short} className="weekday" onChange={() => {}} />{' '}
         {/* empty "onChange" to suppress "missing onChange"-warning */}
         <label className="bold" htmlFor={'time-' + props.short}>
@@ -21,15 +21,16 @@ const TimeInput = (props: TimeInputProps) => {
           type="time"
           value={props.timeValue.from}
         />
-        <label className="small-text bold"> to</label>
+        <label className="small-text bold ml-one"> to</label>
         <input
           onChange={(e) => props.handleChange(props.short, 'to', e.target.value)}
           className="standard-form__inputTime"
           type="time"
           value={props.timeValue.from}
         />
-      </span>
-    </>
+      </div>
+      
+    
   );
 };
 export default TimeInput;

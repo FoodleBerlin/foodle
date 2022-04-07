@@ -26,32 +26,38 @@ const Kitchen: NextPage = () => {
   return (
     <>
       <Navbar />
-      <div className={styles['properties-container']}>
-        <BookingSidebar />
+      <div className={styles['properties-container'] + ' ' + styles['row']}>
         {properties?.map((property: any, index) => {
           if (property.handle === handle) {
             return (
-              <ListedKitchen
-                title={property.title}
-                images={property.images}
-                isVerified={property.isVerified}
-                hourlyPrice={property.hourlyPrice}
-                size={property.size}
-                facilities={property.facilities}
-                description={property.description}
-                deposit={property.deposit}
-                rules={property.rules}
-                availability={property.availabilities}
-                partialSpace={property.partialSpace}
-                street={property.street}
-                streetNumber={property.streetNumber}
-                city={property.city}
-                zip={property.zip}
-                key={index + 1}
-              />
+              <div className={styles['main-column']}>
+                <ListedKitchen
+                  title={property.title}
+                  images={property.images}
+                  isVerified={property.isVerified}
+                  hourlyPrice={property.hourlyPrice}
+                  size={property.size}
+                  facilities={property.facilities}
+                  description={property.description}
+                  deposit={property.deposit}
+                  rules={property.rules}
+                  availability={property.availabilities}
+                  partialSpace={property.partialSpace}
+                  street={property.street}
+                  streetNumber={property.streetNumber}
+                  city={property.city}
+                  zip={property.zip}
+                  key={index + 1}
+                />
+              </div>
             );
           }
         })}
+        <div className={styles['sidebar-column'] + ' mt-five ml-one'}>
+          <div className={styles['fixed']}>
+            <BookingSidebar />
+          </div>
+        </div>
       </div>
     </>
   );

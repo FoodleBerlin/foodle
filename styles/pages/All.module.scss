@@ -5,6 +5,21 @@
   margin-top: 15vh;
   margin-bottom: 15vh;
 }
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.main-column {
+  width: 75%;
+  border-right: solid #ddd 1px;
+}
+.sidebar-column {
+  width: 25%;
+}
+.sidebar-column .fixed {
+  position: fixed;
+}
 
 .list-wrapper {
   display: flex;
