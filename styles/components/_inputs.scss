@@ -61,6 +61,15 @@ input[type='checkbox']::before {
 }
 
 .weekDays {
+  &__timeInputWrapper {
+    display: flex;
+    gap: 1.7rem;
+    align-items: center;
+  }
+
+  &__checkbox {
+    display: inline-block;
+  }
   &__container {
     white-space: nowrap;
     input[type='checkbox'] {
@@ -86,13 +95,6 @@ input[type='checkbox']::before {
       background: colors.$color-primary-light;
       color: #ffffff;
     }
-    &__timeInputWrapper {
-      display: flex;
-      gap: 2.8rem;
-      align-items: center;
-    }
   }
-  &__checkbox {
-    display: inline-block;
-  }
+
 }
