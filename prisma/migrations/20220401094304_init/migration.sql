@@ -67,7 +67,7 @@ CREATE TABLE "GenericDaySlot" (
     "startTime" TIMESTAMP(3) NOT NULL,
     "endTime" TIMESTAMP(3) NOT NULL,
     "weekday" TEXT NOT NULL,
-    "propertySlotId" TEXT NOT NULL,
+    "propertySlotId" TEXT,
     "bookingSlotId" TEXT,
 
     CONSTRAINT "GenericDaySlot_pkey" PRIMARY KEY ("id")
@@ -151,7 +151,7 @@ CREATE UNIQUE INDEX "Property_handle_key" ON "Property"("handle");
 ALTER TABLE "PropertySlot" ADD CONSTRAINT "PropertySlot_propertyId_fkey" FOREIGN KEY ("propertyId") REFERENCES "Property"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GenericDaySlot" ADD CONSTRAINT "GenericDaySlot_propertySlotId_fkey" FOREIGN KEY ("propertySlotId") REFERENCES "PropertySlot"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GenericDaySlot" ADD CONSTRAINT "GenericDaySlot_propertySlotId_fkey" FOREIGN KEY ("propertySlotId") REFERENCES "PropertySlot"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "GenericDaySlot" ADD CONSTRAINT "GenericDaySlot_bookingSlotId_fkey" FOREIGN KEY ("bookingSlotId") REFERENCES "BookingSlot"("id") ON DELETE SET NULL ON UPDATE CASCADE;
