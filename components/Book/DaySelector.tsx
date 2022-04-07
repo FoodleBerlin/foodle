@@ -18,7 +18,6 @@ const DaySelector = (props:DaySelectorProps) => {
    
         type="checkbox"
         id={'weekday-' + props.short}
-        className=' weekday'
         onClick={()=>props.hanleClick(props.short)}
         defaultChecked={props.checked}
       />
