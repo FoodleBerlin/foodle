@@ -1,6 +1,6 @@
 import { extendType, objectType, stringArg } from 'nexus';
 import { Context } from '../../../context';
-import { ClientErrorInvalidHandle, ClientErrorPropertyNotExists, UnknownError } from '../Error';
+import { ClientErrorInvalidInput, ClientErrorPropertyNotExists, UnknownError } from '../Error';
 import { Property } from './Objects';
 
 export const findAllPropertiesReturn = objectType({
@@ -43,8 +43,8 @@ export const FindPropertyResult = objectType({
     t.nullable.field('ClientErrorPropertyNotExists', {
       type: ClientErrorPropertyNotExists,
     });
-    t.nullable.field('ClientErrorInvalidHandle', {
-      type: ClientErrorInvalidHandle,
+    t.nullable.field('ClientErrorInvalidInput', {
+      type: ClientErrorInvalidInput,
     });
   },
 });

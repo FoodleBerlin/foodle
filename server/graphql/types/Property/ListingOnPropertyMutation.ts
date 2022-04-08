@@ -1,9 +1,9 @@
-import { Frequency } from '@prisma/client';
+import { Frequency, WeekDay } from '@prisma/client';
 import moment from 'moment';
-import { extendType, intArg, list, nonNull, objectType, stringArg } from 'nexus';
+import { extendType, inputObjectType, intArg, list, nonNull, objectType, stringArg } from 'nexus';
 import { FrequencyEnum, WeekDayEnum } from '../EnumsScalars/Enums';
 import {
-  ClientErrorInvalidHandle,
+  ClientErrorInvalidInput,
   ClientErrorInvalidPropertyInput,
   ClientErrorUserNotExists,
   UnknownError,
@@ -17,8 +17,8 @@ export const CreatePropertySlotReturn = objectType({
     t.nullable.field('ClientErrorPropertyNotExists', {
       type: ClientErrorUserNotExists,
     });
-    t.nullable.field('ClientErrorInvalidHandle', {
-      type: ClientErrorInvalidHandle,
+    t.nullable.field('ClientErrorInvalidInput', {
+      type: ClientErrorInvalidInput,
     });
     t.nullable.field('ClientErrorInvalidListingInput', {
       type: ClientErrorInvalidPropertyInput,
@@ -32,6 +32,15 @@ function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
   return value !== null && value !== undefined;
 }
 
+export const AvailableDay = inputObjectType({
+  name: 'AvailableDay',
+  definition(t) {
+    t.nonNull.string('endTime');
+    t.nonNull.string('startTime');
+    t.nonNull.field('weekday', { type: WeekDayEnum });
+  },
+});
+
 export const CreatePropertySlot = extendType({
   type: 'Mutation',
   definition(l) {
@@ -42,12 +51,13 @@ export const CreatePropertySlot = extendType({
         endDate: nonNull(stringArg()),
         frequency: nonNull(FrequencyEnum),
         minimumBookings: nonNull(intArg()),
-        weekdays: list(WeekDayEnum), // Todo: fix adding nonNull
         propertyHandle: nonNull(stringArg()),
-        // time of dayslot
+        availableDays: list(AvailableDay), // Todo: fix adding nonNull => at least one entry
       },
 
       async resolve(_root, args, ctx) {
+        let a = args.availableDays!;
+
         async function findProperty() {
           return await ctx.prisma.property.findUnique({
             where: {
@@ -64,20 +74,28 @@ export const CreatePropertySlot = extendType({
             },
           };
         }
-        var propertyId = property.id;
+        // check startDate before Enddate
+        // startDate equals with weekday
+        // starttime not after endtime, at least 5 h
+        // weekdays not empty
+        // minimum bookings < 30
+        // as much availableDays as weekdays
+
         // Todo: validate Input
+        // Tdodo: fix nullability ! bad practice
         // Todo: check if slot overlaps with existing slot
-        // Todo: max. 52 day slots at once
-        // Todo: logging statements
+        // Todo: date input with scalar
+        // Todo: logging statements?
 
         try {
+          // create PropertySlot
           const propSlot = await ctx.prisma.propertySlot.create({
             data: {
               minimumBookings: args.minimumBookings,
               frequency: args.frequency,
               startDate: args.startDate,
               endDate: args.endDate,
-              propertyId: propertyId,
+              propertyId: property.id,
             },
           });
 
@@ -85,35 +103,44 @@ export const CreatePropertySlot = extendType({
           const endDate = moment(new Date(args.endDate));
           const frequency = frequencyToInt(args.frequency);
           // push all specific dates between startDate and endDate to daySlotDates[]
-          let daySlotDates: moment.Moment[] = [];
+          let daySlotDates: DaySlot[] = [];
 
-          // assumed that startdate matches with first weekday
+          // loop through availableDays and get all specific dates for each generic day
+          args.availableDays!.forEach((availabeDay) => {
+            var nextWeekday = startDate;
+            // find first date for weekday
+            while (checkForSameWeekday(nextWeekday, availabeDay!.weekday)) {
+              nextWeekday = moment(nextWeekday).add(1, 'days');
+            }
+            // get all dates for the weekday in the timeslot, according to the frequency
+            let datesForWeekday = getAllDatesForWeekday(
+              nextWeekday,
+              frequency,
+              endDate,
+              weekdayToInt(availabeDay!.weekday),
+              availabeDay!.startTime,
+              availabeDay!.endTime
+            );
+            datesForWeekday.forEach((date) => {
+              daySlotDates.push(date);
+            });
+          });
 
-          // get dates for first weekday
-          let weekday = startDate.isoWeekday();
-          let loopDay = moment(startDate);
-          let datesForWeekday = getAllDatesForWeekday(loopDay, frequency, endDate, weekday);
-          datesForWeekday.forEach((date) => {
-            daySlotDates.push(date);
-          });
-          // get dates for further weekdays
-          let datesForMultipleWeekdays = getDaysForMultipleWeekdays(
-            args.weekdays!.filter(notEmpty),
-            startDate,
-            endDate,
-            frequency
-          );
-          datesForMultipleWeekdays.forEach((date) => {
-            daySlotDates.push(date);
-          });
-          // for each date in daySlots[] create a daySlot entry and save it to the db
+          // throw error if more than 26 day slots would be created
+          if (daySlotDates.length > 26) {
+            return {
+              ClientErrorInvalidInput: {
+                message: `${daySlotDates.length} daySlots, max 26 day slots for 1 propertySlot allowed.`,
+              },
+            };
+          }
+          // for each entry in daySlotDates[] create a daySlot and save it to the db
           daySlotDates.forEach(async (day) => {
             const daySlot = await ctx.prisma.daySlot.create({
               data: {
-                date: day.toISOString(),
-                //Todo: get start and Endtime from user input
-                startTime: day.toISOString(),
-                endTime: day.toISOString(),
+                date: day.date.toISOString(),
+                startTime: day.startTime,
+                endTime: day.endTime,
                 propertySlotId: propSlot.id,
               },
             });
@@ -137,6 +164,14 @@ export const CreatePropertySlot = extendType({
   },
 });
 
+function checkForSameWeekday(date: moment.Moment, weekday: WeekDay): boolean {
+  if (date.isoWeekday() === weekdayToInt(weekday)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function frequencyToInt(frequency: Frequency): number {
   switch (frequency) {
     case Frequency.biweekly: {
@@ -154,15 +189,44 @@ function frequencyToInt(frequency: Frequency): number {
   }
 }
 
+function weekdayToInt(weekday: WeekDay): number {
+  switch (weekday) {
+    case WeekDay.mon: {
+      return 1;
+    }
+    case WeekDay.tue: {
+      return 2;
+    }
+    case WeekDay.wed: {
+      return 3;
+    }
+    case WeekDay.thu: {
+      return 4;
+    }
+    case WeekDay.fri: {
+      return 5;
+    }
+    case WeekDay.sat: {
+      return 6;
+    }
+    default: {
+      return 7;
+    }
+  }
+}
+
 // for a specific weekday push all the specific dates according to frequency between startDate and endDate to daySlotDates[]
 function getAllDatesForWeekday(
   loopDay: moment.Moment,
   frequency: number,
   endDate: moment.Moment,
-  weekday: number
-): moment.Moment[] {
-  let allDates: moment.Moment[] = [];
-  allDates.push(loopDay);
+  weekday: number,
+  startTime: string,
+  endTime: string
+): DaySlot[] {
+  let allDates: DaySlot[] = [];
+  const firstDay: DaySlot = { date: loopDay, startTime: startTime, endTime: endTime };
+  allDates.push(firstDay);
   while (moment(loopDay).isBefore(endDate)) {
     if (frequency < 15) {
       loopDay = moment(loopDay).add(frequency, 'days');
@@ -173,43 +237,15 @@ function getAllDatesForWeekday(
       }
     }
     if (moment(loopDay).isBefore(endDate)) {
-      allDates.push(loopDay);
+      const daySlot: DaySlot = { date: loopDay, startTime: startTime, endTime: endTime };
+      allDates.push(daySlot);
     }
   }
   return allDates;
 }
 
-// check for further weekdays and if yes get first date and call on first date getAllDatesForWeekday()
-function getDaysForMultipleWeekdays(
-  weekdays: number[],
-  startDate: moment.Moment,
-  endDate: moment.Moment,
-  frequency: number
-): moment.Moment[] {
-  let daySlotDates: moment.Moment[] = [];
-  if (weekdays.length > 1) {
-    let count = 1;
-    while (weekdays.length > count) {
-      var nextWeekday = startDate;
-      var nextWeekdayInt = weekdays[count];
-      while (nextWeekday.isoWeekday() != nextWeekdayInt) {
-        nextWeekday = moment(nextWeekday).add(1, 'days');
-      }
-      let datesForWeekday = getAllDatesForWeekday(nextWeekday, frequency, endDate, nextWeekdayInt);
-      datesForWeekday.forEach((date) => {
-        daySlotDates.push(date);
-      });
-      count++;
-    }
-  }
-  return daySlotDates;
+interface DaySlot {
+  date: moment.Moment;
+  startTime: string;
+  endTime: string;
 }
-
-// TODO create an array
-/*     availableDays: {
-                create: {
-                  endTime: args.availabilities.endDate,
-                  startTime: args.availabilities.startDate,
-                  weekday: args.availabilities.weekday,
-                },
-              }, */

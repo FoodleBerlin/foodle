@@ -36,6 +36,16 @@ enum Frequency {
   monthly
 }
 
+enum WeekDay {
+  mon
+  tue
+  wed
+  thu
+  fri
+  sat
+  sun
+}
+
 enum PaymentType {
   reservation
   fee
@@ -141,6 +151,7 @@ model PropertySlot {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   propertyId      String
+  weekdays        WeekDay[]
   property        Property  @relation("propertySlotToProperty", fields: [propertyId], references: [id])
 }
 
@@ -149,7 +160,7 @@ model BookingSlot {
   id                     String    @id @default(cuid())
   startTime              DateTime
   endTime                DateTime
-  weekday                String
+  weekdays               WeekDay[]
   // Parent booking
   bookingId              String
   booking                Booking   @relation("bookingSlotToBooking", fields: [bookingId], references: [id], onDelete: Cascade)

@@ -1,7 +1,7 @@
 import { booleanArg, extendType, inputObjectType, intArg, list, nonNull, nullable, objectType, stringArg } from 'nexus';
 import { v4 as uuidv4 } from 'uuid';
 import {
-  ClientErrorInvalidHandle,
+  ClientErrorInvalidInput,
   ClientErrorInvalidPropertyInput,
   ClientErrorUserNotExists,
   UnknownError,
@@ -15,8 +15,8 @@ export const CreatePropertyReturn = objectType({
     t.nullable.field('ClientErrorUserNotExists', {
       type: ClientErrorUserNotExists,
     });
-    t.nullable.field('ClientErrorInvalidHandle', {
-      type: ClientErrorInvalidHandle,
+    t.nullable.field('ClientErrorInvalidInput', {
+      type: ClientErrorInvalidInput,
     });
     t.nullable.field('ClientErrorInvalidPropertyInput', {
       type: ClientErrorInvalidPropertyInput,

@@ -1,18 +1,17 @@
-import { Frequency } from '@prisma/client';
+import { Frequency, WeekDay } from '@prisma/client';
 import { enumType } from 'nexus';
 
 export const WeekDayEnum = enumType({
   name: 'WeekDays',
-  /* ['MON', 'TUE'],
-   */
+
   members: {
-    MON: 1,
-    TUE: 2,
-    WED: 3,
-    THU: 4,
-    FRI: 5,
-    SAT: 6,
-    SUN: 7,
+    MON: WeekDay.mon,
+    TUE: WeekDay.thu,
+    WED: WeekDay.wed,
+    THU: WeekDay.thu,
+    FRI: WeekDay.fri,
+    SAT: WeekDay.sat,
+    SUN: WeekDay.sun,
   },
 });
 
