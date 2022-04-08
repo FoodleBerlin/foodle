@@ -140,7 +140,7 @@ model PropertySlot {
   endDate         DateTime
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  propertyId      String    @unique
+  propertyId      String
   property        Property  @relation("propertySlotToProperty", fields: [propertyId], references: [id])
 }
 

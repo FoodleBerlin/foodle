@@ -33,6 +33,14 @@ type CreatePropertyReturn {
   UnknownError: UnknownError
 }
 
+type CreatePropertySlotReturn {
+  ClientErrorInvalidHandle: ClientErrorInvalidHandle
+  ClientErrorInvalidListingInput: ClientErrorInvalidPropertyInput
+  ClientErrorPropertyNotExists: ClientErrorUserNotExists
+  PropertySlot: PropertySlot
+  UnknownError: UnknownError
+}
+
 type CustomerCharge {
   amount: Int
   card: String
@@ -67,9 +75,16 @@ type findUserResult {
   User: User
 }
 
+enum FrequencyEnum {
+  BIWEEKLY
+  MONTHLY
+  NONE
+  WEEKLY
+}
+
 type Mutation {
   createListing(
-    availabilities: PropertySlotInput!
+    availabilities: PropertySlotInput
     city: String!
     deposit: Int!
     description: String!
@@ -87,6 +102,14 @@ type Mutation {
     title: String!
     zip: Int!
   ): CreatePropertyReturn!
+  createPropertySlot(
+    endDate: String!
+    frequency: FrequencyEnum!
+    minimumBookings: Int!
+    propertyHandle: String!
+    startDate: String!
+    weekdays: [WeekDays]
+  ): CreatePropertySlotReturn!
 }
 
 type PaymentInformation {
@@ -162,4 +185,14 @@ type User {
   id: String!
   paymentMethods: [PaymentInformation!]!
   zip: Int!
+}
+
+enum WeekDays {
+  FRI
+  MON
+  SAT
+  SUN
+  THU
+  TUE
+  WED
 }

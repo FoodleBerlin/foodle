@@ -3,7 +3,17 @@ import { enumType } from 'nexus';
 
 export const WeekDayEnum = enumType({
   name: 'WeekDays',
-  members: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+  /* ['MON', 'TUE'],
+   */
+  members: {
+    MON: 1,
+    TUE: 2,
+    WED: 3,
+    THU: 4,
+    FRI: 5,
+    SAT: 6,
+    SUN: 7,
+  },
 });
 
 export const FrequencyEnum = enumType({

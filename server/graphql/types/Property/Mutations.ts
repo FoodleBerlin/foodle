@@ -59,7 +59,7 @@ export const CreateListing = extendType({
         deposit: nonNull(intArg()),
         images: nonNull(list(nonNull(stringArg()))),
         partialSpace: nonNull(booleanArg()),
-        availabilities: nonNull(PropertySlotInput),
+        availabilities: PropertySlotInput,
       },
 
       //check user exists, street length not empty, not longer than 200, zip code lengt, city, enumsn nullable in db? rules
