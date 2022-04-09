@@ -1,4 +1,4 @@
-export * from './ListingOnPropertyMutation';
+export * from '../PropertySlot/Mutations';
 export * from './Mutations';
 export * from './Objects';
 export * from './Queries';

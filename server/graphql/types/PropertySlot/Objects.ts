@@ -23,3 +23,7 @@ export const PropertySlot = objectType({
     });
   },
 });
+
+// Todo: date input with scalar => remove parsing to momentDate
+// Todo: extend PropertySlot object
+// Todo: logging statements?

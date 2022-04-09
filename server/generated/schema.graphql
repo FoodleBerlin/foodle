@@ -109,7 +109,7 @@ type Mutation {
     zip: Int!
   ): CreatePropertyReturn!
   createPropertySlot(
-    availableDays: [AvailableDay]
+    availableDays: [AvailableDay!]!
     endDate: String!
     frequency: FrequencyEnum!
     minimumBookings: Int!
