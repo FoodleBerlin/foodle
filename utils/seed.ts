@@ -1,4 +1,5 @@
 import prisma from '../server/singletons/prisma';
+import {DateTime} from '../server/graphql/types';
 export async function seed() {
   const [users] = await Promise.all(
     await prisma.$transaction([
@@ -11,6 +12,10 @@ export async function seed() {
             fullName: 'User 1',
             role: 'tenant',
             zip: 13000,
+            description: "desc",
+            passportS3Id: "passS3",
+            solvencyS3Id: "solvS3",
+            licenseS3Id: "liceS3",
           },
           {
             id: '2',
@@ -19,6 +24,10 @@ export async function seed() {
             fullName: 'User 2',
             role: 'tenant',
             zip: 14000,
+            description: "desc",
+            passportS3Id: "passS3",
+            solvencyS3Id: "solvS3",
+            licenseS3Id: "liceS3",
           },
           {
             id: '3',
@@ -27,6 +36,10 @@ export async function seed() {
             fullName: 'User 3',
             role: 'tenant',
             zip: 14000,
+            description: "desc",
+            passportS3Id: "passS3",
+            solvencyS3Id: "solvS3",
+            licenseS3Id: "liceS3",
           },
           {
             id: '4',
@@ -35,6 +48,10 @@ export async function seed() {
             fullName: 'User 4',
             role: 'landlord',
             zip: 15000,
+            description: "desc",
+            passportS3Id: "passS3",
+            solvencyS3Id: "solvS3",
+            licenseS3Id: "liceS3",
           },
           {
             id: '5',
@@ -43,6 +60,10 @@ export async function seed() {
             fullName: 'User 5',
             role: 'tenantLandlord',
             zip: 16000,
+            description: "desc",
+            passportS3Id: "passS3",
+            solvencyS3Id: "solvS3",
+            licenseS3Id: "liceS3",
           },
         ],
       }),

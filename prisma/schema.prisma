@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://foodle:foodle@localhost:5431"
 }
 
 enum ModelKind {
@@ -73,18 +73,19 @@ model User {
   email            String     @unique
   id               String     @id @default(cuid())
   image            String?
-  zip              Int
+  dob              DateTime?
+  zip              Int?
   description      String?
   isVerified       Boolean    @default(false)
   role             Role
   bookings         Booking[]  @relation("tenant")
   rentingOut       Property[] @relation("owner")
   superOwner       Boolean    @default(false)
-  passport         String?
+  passportS3Id     String?
   passportVerified Boolean    @default(false)
-  license          String?
+  licenseS3Id      String?
   licenseVerified  Boolean    @default(false)
-  solvency         String?
+  solvencyS3Id     String?
   solvencyVerified Boolean    @default(false)
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
@@ -134,7 +135,7 @@ model Property {
   pickup         Boolean       @default(false)
   facilities     String[]
   isVerified     Boolean       @default(false)
-  hourlyPrice    Int
+  hourlyPrice    Int           @default(0)
   serviceFee     Int
   rules          String[]
   deposit        Int

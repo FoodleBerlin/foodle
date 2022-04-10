@@ -10,7 +10,7 @@ export default function Step2() {
     <div className={styles['step2']}>
       <div className={styles['step2__formWrapper']}>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>How would you describe the space?</h2>
+          <h2 className={' header-tertiary'}>How would you describe the space?</h2>
           <p className="body-text-secondary">
             This is what users will see as the description under the overview tab on the listing page.
           </p>
@@ -19,6 +19,7 @@ export default function Step2() {
               className="textArea standard-form"
               {...register('description')}
               onChange={(c) => setValue('description', c.target.value, touchDirtyValidate)}
+              style={{ width: '100%' }}
             ></textarea>
           </div>
           {formState.errors.description && (

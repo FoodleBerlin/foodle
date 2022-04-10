@@ -1,7 +1,8 @@
 import { extendType, objectType, stringArg } from 'nexus';
 import { Context } from '../../../context';
-import { ClientErrorUserNotExists, ClientErrorInvalidHandle } from '../Error';
+import { ClientErrorUserNotExists, ClientErrorInvalidHandle, ClientErrorInvalidInputLength } from '../Error';
 import Stripe from 'stripe';
+import {DateTime} from "../index";
 
 export const PaymentInformation = objectType({
   name: 'PaymentInformation',
@@ -31,7 +32,14 @@ export const User = objectType({
     t.string('fullName');
     t.string('email');
     t.string('handle');
-    t.int('zip');
+    t.nullable.string('description');
+    t.nullable.int('zip');
+    t.nullable.field('dob', {
+      type: 'DateTime',
+    });
+    t.nullable.string('passportS3Id');
+    t.nullable.string('solvencyS3Id');
+    t.nullable.string('licenseS3Id');
     t.list.field('charges', {
       type: 'CustomerCharge',
       resolve: async (_, args, ctx: Context) => {
@@ -91,28 +99,6 @@ export const User = objectType({
   },
 });
 
-
-/**
- * Example apollo studio query
- * query Query($handle: String!) {
- *  findUser(handle: $handle) {
- *    User {
- *      id
- *      email
- *      handle
- *      fullName
- *      zip
- *    }
- *    ClientErrorUserNotExists {
- *      message
- *    }
- *    ClientErrorInvalidHandle {
- *      message
- *    }
- *  }
- *}
- **/
-
 export const findUserResult = objectType({
   name: 'findUserResult',
   definition(t) {
@@ -123,6 +109,9 @@ export const findUserResult = objectType({
     t.nullable.field('ClientErrorInvalidHandle', {
       type: ClientErrorInvalidHandle,
     });
+    t.nullable.field('ClientErrorInvalidInputLength', {
+      type: ClientErrorInvalidInputLength,
+    });
   },
 });
 
@@ -130,8 +119,8 @@ export const Query = extendType({
   type: 'Query',
   definition(t) {
     t.field('findUser', {
-      type: 'findUserResult',
-      description: 'Takes a handle and returns the user. ',
+      type: findUserResult,
+      description: 'Takes a handle and returns the user',
       args: { handle: stringArg() },
       resolve: async (_, args, ctx: Context) => {
         if (!args.handle) {
@@ -169,3 +158,5 @@ export const Query = extendType({
     });
   },
 });
+
+

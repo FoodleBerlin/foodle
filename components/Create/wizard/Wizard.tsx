@@ -10,27 +10,27 @@ import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Sidebar from '../../Layout/Sidebar';
 import Footer from './Footer';
-import { AuthenticatedProps } from '../../../pages/account';
+import { AuthenticatedProps } from '../../../pages/account/payments';
 
 export default function Wizard(props: AuthenticatedProps) {
   const wizardContext = useWizardContext();
   return (
-    <div>
+    <div className="flex">
       <Sidebar user={props.session}>
         <div className={styles['sidebar-container']}>
-          <div className={'flex'}>
-            {['Property', 'Features', 'Logistics', 'Photos', 'Summary'].map((stage: string, index) => {
-              return (
-                <div
-                  key={index + 1}
-                  className={wizardContext.step >= index + 1 ? styles['item__activeOrPassed'] : styles['item']}
-                >
-                  <div className={styles['dots']}></div>
-                  <span className={'small-text'}>{stage}</span>
-                </div>
-              );
-            })}
-          </div>
+          {/* <div> */}
+          {['Property', 'Features', 'Logistics', 'Photos', 'Summary'].map((stage: string, index) => {
+            return (
+              <div
+                key={index + 1}
+                className={wizardContext.step >= index + 1 ? styles['item__activeOrPassed'] : styles['item']}
+              >
+                <div className={styles['dots']}></div>
+                <span className={'small-text'}>{stage}</span>
+              </div>
+            );
+          })}
+          {/* </div> */}
         </div>
       </Sidebar>
       <div className={styles['wizard']}>

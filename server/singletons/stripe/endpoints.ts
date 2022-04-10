@@ -103,8 +103,8 @@ class StripeWrapper extends StripeWrapperAbstract {
     } catch (e) {
       res = {
         response: {
-          failure: {
-            ...createApiError(e),
+          failure: { 
+            ...createApiError(e)
           },
           success: null,
         },
@@ -321,11 +321,11 @@ class StripeWrapper extends StripeWrapperAbstract {
 
 const createApiError: (e: unknown) => {
   type: Stripe.StripeError['type'] | 'unknown';
-  message: Stripe.StripeError['message'] | 'unknown';
+  message:string;
 } = function (e) {
   return {
-    type: e instanceof Stripe.StripeError ? e.type : 'unknown',
-    message: e instanceof Stripe.StripeError ? e.message : 'unknown',
+    type:  'unknown',
+    message: e as string,
   };
 };
 

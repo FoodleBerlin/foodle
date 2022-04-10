@@ -3,7 +3,7 @@ import Wizard, { WizardProvider } from '../components/Create/wizard/Wizard';
 import Navbar from '../components/Layout/Navbar';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { extractUserFromToken } from '../server/context';
-import { AuthenticatedProps } from './account';
+import { AuthenticatedProps } from './account/payments';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   if (!req.cookies['jwt']) {
@@ -24,7 +24,6 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
 }
 
 const Create: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
-  console.log(props);
   return (
     <>
       <Navbar user={props.session}></Navbar>

@@ -1,9 +1,9 @@
-import { makeSchema } from 'nexus';
-import * as path from 'path';
-import * as types from './graphql/types';
+import { makeSchema } from "nexus";
+import * as path from "path";
+import * as types from "./graphql/types";
 
 const schema = makeSchema({
-  prettierConfig: path.join(process.cwd(), '.prettierrc'),
+  prettierConfig: path.join(process.cwd(), ".prettierrc"),
   types: [types],
   // TODO implement isTypeOf field in all objects
   // https://nexusjs.org/docs/guides/abstract-types
