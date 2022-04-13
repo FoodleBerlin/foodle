@@ -1,20 +1,9 @@
 import { GetServerSidePropsContext } from 'next'
-import {s3} from './upload-image'
-// export async function getServerSideProps({ req }: GetServerSidePropsContext) {
-//   if (!req.cookies['jwt']) {
-//     return {
-//       props: {},
-//       redirect: {
-//         permanent: false,
-//         destination: '/',
-//       },
-//     };
-//   }
-// }
-export const getResourceUrl = async( fileName: string)=>{
-  // console.log("HEEEEEEEEEEEEEYYYYYYYY")
-  // const filename = encodeURIComponent(file ? file.name : '');
-  const signedUrlRes = await fetch(`/api/getImage?file=${fileName}`);
+import {s3} from './uploadImage'
+
+// ExampleUsage: setImage(await getResourceUrl(file));
+export const getResourceUrl = async(file:File | null)=>{
+  const signedUrlRes = await fetch(`/api/getImage?file=${file ? file.name : ''}`);
   const signedUrlData = await signedUrlRes.json();
   return signedUrlData.imageUrl;
 }
