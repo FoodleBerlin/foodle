@@ -7,6 +7,7 @@ import { create } from 'domain';
 import { s3, uploadResource } from './api/upload-image';
 import Image from 'next/image';
 import aws from 'aws-sdk';
+import { getResourceUrl } from './api/getImage';
 
 const CreateLinkMutation = gql`
   mutation ($title: String!, $url: String!, $imageUrl: String!, $category: String!, $description: String!) {
@@ -34,31 +35,9 @@ const Admin = () => {
   const uploadPhoto = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e?.target?.files ? e?.target?.files[0] : null;
 
-    // uploadResource(file)
     const filename = encodeURIComponent(file ? file.name : '');
-    const res = await fetch(`/api/upload-image?file=${filename}`);
-    const data = await res.json();
-    const formData = new FormData();
-
-    const signedUrlRes = await fetch(`/api/getImage?file=${filename}`);
-    const signedUrlData = await signedUrlRes.json();
-    setImage(signedUrlData.imageUrl);
-
-    // Object.entries({ ...data.fields, file }).forEach(([key, value]: any) => {
-    //   formData.append(key, value);
-    // });
-
-    // toast.promise(
-    //   fetch(data.url, {
-    //     method: 'POST',
-    //     body: formData,
-    //   }),
-    //   {
-    //     loading: 'Uploading...',
-    //     success: 'Image successfully uploaded!🎉',
-    //     error: `Upload failed 😥 Please try again ${error}`,
-    //   }
-    // );
+    await uploadResource(file, filename);
+    setImage(await getResourceUrl(filename));
   };
   const ref = useRef<HTMLInputElement>(null);
 

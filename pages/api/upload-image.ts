@@ -17,10 +17,20 @@ export const s3 = new aws.S3({
   region: process.env.APP_AWS_REGION,
 })
 
-export const uploadResource= async (file:File | null)=>{
-  const filename = encodeURIComponent(file ? file.name : '');
+export const uploadResource= async (file:File | null, filename: string)=>{
+  // const filename = encodeURIComponent(file ? file.name : '');
   const res = await fetch(`/api/upload-image?file=${filename}`);
-  return await res.json();
+  const data = await res.json();
+  const formData = new FormData();
+
+  Object.entries({ ...data.fields, file }).forEach(([key, value]: any) => {
+    formData.append(key, value);
+  });
+  await fetch(data.url, {
+    method: 'POST',
+    body: formData,
+  });
+  return await data;
 }
 
 export default async function handler(req: any, res: any) {
@@ -35,6 +45,7 @@ export default async function handler(req: any, res: any) {
         ['content-length-range', 0, 5048576], // up to 1 MB
       ],
     })
+    
     return res.status(200).json(post)
   } catch (error) {
     console.log(error)
