@@ -1,4 +1,4 @@
-import { booleanArg, extendType, inputObjectType, intArg, list, nonNull, nullable, objectType, stringArg } from 'nexus';
+import { booleanArg, extendType, intArg, list, nonNull, nullable, objectType, stringArg } from 'nexus';
 import { v4 as uuidv4 } from 'uuid';
 import {
   ClientErrorInvalidInput,
@@ -6,6 +6,7 @@ import {
   ClientErrorUserNotExists,
   UnknownError,
 } from '../Error';
+import { SlotInput } from '../PropertySlot';
 import { Property } from './Objects';
 
 export const CreatePropertyReturn = objectType({
@@ -24,16 +25,6 @@ export const CreatePropertyReturn = objectType({
     t.nullable.field('UnknownError', {
       type: UnknownError,
     });
-  },
-});
-
-export const PropertySlotInput = inputObjectType({
-  name: 'PropertySlotInput',
-  description: 'PropertySlot input',
-  definition(t) {
-    t.nonNull.field('startDate', { type: 'DateTime' });
-    t.nonNull.field('endDate', { type: 'DateTime' });
-    t.nonNull.string('weekday');
   },
 });
 
@@ -59,7 +50,7 @@ export const CreateListing = extendType({
         deposit: nonNull(intArg()),
         images: nonNull(list(nonNull(stringArg()))),
         partialSpace: nonNull(booleanArg()),
-        availabilities: PropertySlotInput,
+        availabilities: SlotInput,
       },
 
       //check user exists, street length not empty, not longer than 200, zip code lengt, city, enumsn nullable in db? rules

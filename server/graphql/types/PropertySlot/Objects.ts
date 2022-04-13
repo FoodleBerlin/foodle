@@ -1,5 +1,4 @@
-import { objectType } from 'nexus';
-import { BookingSlot } from '../BookingSlot';
+import { inputObjectType, objectType } from 'nexus';
 
 export const PropertySlot = objectType({
   name: 'PropertySlot',
@@ -11,7 +10,7 @@ export const PropertySlot = objectType({
       type: 'DateTime',
     });
     t.string('propertyId');
-    t.nullable.field('bookingSlot', {
+    /* t.nullable.field('bookingSlot', {
       type: BookingSlot,
       async resolve(parent, args, ctx) {
         return await ctx.prisma.bookingSlot.findUnique({
@@ -20,7 +19,17 @@ export const PropertySlot = objectType({
           },
         });
       },
-    });
+    }); */
+  },
+});
+
+export const SlotInput = inputObjectType({
+  name: 'PropertySlotInput',
+  description: 'PropertySlot input',
+  definition(t) {
+    t.nonNull.field('startDate', { type: 'DateTime' });
+    t.nonNull.field('endDate', { type: 'DateTime' });
+    t.nonNull.string('weekday');
   },
 });
 

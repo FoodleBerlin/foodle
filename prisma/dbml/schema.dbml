@@ -33,10 +33,12 @@ Table DaySlot {
   date DateTime [not null]
   startTime DateTime [not null]
   endTime DateTime [not null]
+  bookedStartTime DateTime
+  bookedEndTime DateTime
   propertySlotId String [not null]
   propertySlot PropertySlot [not null]
-  bookingSlotId String
-  bookingSlot BookingSlot
+  bookingId String
+  booking Booking
 }
 
 Table Property {
@@ -82,18 +84,6 @@ Table PropertySlot {
   property Property [not null]
 }
 
-Table BookingSlot {
-  kind ModelKind [not null, default: 'bookingSlot']
-  id String [pk]
-  startTime DateTime [not null]
-  endTime DateTime [not null]
-  weekdays WeekDay [not null]
-  bookingId String [not null]
-  booking Booking [not null]
-  propertySlotInstanceId String [not null]
-  daySlots DaySlot [not null]
-}
-
 Table Booking {
   kind ModelKind [not null, default: 'booking']
   id String [pk]
@@ -102,13 +92,13 @@ Table Booking {
   propertyId String [not null]
   property Property [not null]
   bookingStatus BookingStatus [not null]
-  totalPrice Int [not null, default: 0]
+  totalPrice Decimal [not null, default: 0]
   startDate DateTime [not null]
   endDate DateTime [not null]
-  bookingSlots BookingSlot [not null]
-  frequency Frequency [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
+  daySlots DaySlot [not null]
+  frequency Frequency [not null]
 }
 
 Enum ModelKind {
@@ -168,13 +158,11 @@ Enum BookingStatus {
 
 Ref: DaySlot.propertySlotId > PropertySlot.id [delete: Cascade]
 
-Ref: DaySlot.bookingSlotId > BookingSlot.id
+Ref: DaySlot.bookingId > Booking.id
 
 Ref: Property.ownerId > User.id
 
 Ref: PropertySlot.propertyId > Property.id
-
-Ref: BookingSlot.bookingId > Booking.id [delete: Cascade]
 
 Ref: Booking.tenantId > User.id [delete: Cascade]
 

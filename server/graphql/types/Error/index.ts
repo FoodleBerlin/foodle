@@ -34,3 +34,10 @@ export const ClientErrorPropertyNotExists = objectType({
     t.string('message');
   },
 });
+
+export const NoAvailableSlots = objectType({
+  name: 'NoAvailableSlots',
+  definition(t) {
+    t.string('message');
+  },
+});

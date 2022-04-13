@@ -1,5 +1,6 @@
 import { objectType } from 'nexus';
 import { Booking } from '../Booking';
+
 import { User } from '../User';
 
 export const Property = objectType({

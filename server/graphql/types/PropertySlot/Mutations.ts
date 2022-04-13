@@ -1,4 +1,4 @@
-import { Frequency, PropertySlot, WeekDay } from '@prisma/client';
+import { PropertySlot } from '@prisma/client';
 import moment from 'moment';
 import { extendType, inputObjectType, intArg, list, nonNull, objectType, stringArg } from 'nexus';
 import { FrequencyEnum, WeekDayEnum } from '../EnumsScalars/Enums';
@@ -8,6 +8,8 @@ import {
   ClientErrorUserNotExists,
   UnknownError,
 } from '../Error';
+import { checkForSameWeekday, DaySlot, frequencyToInt, getAllDatesForWeekday, weekdayToInt } from './helperFunctions';
+import { checkForEmptyList, validateStartEndDate } from './validation';
 
 export const CreatePropertySlotReturn = objectType({
   name: 'CreatePropertySlotReturn',
@@ -27,6 +29,7 @@ export const CreatePropertySlotReturn = objectType({
     });
   },
 });
+function example(availableDay: typeof AvailableDay) {}
 
 export const CreatePropertySlot = extendType({
   type: 'Mutation',
@@ -56,7 +59,7 @@ export const CreatePropertySlot = extendType({
         if (property === null) {
           return {
             ClientErrorPropertyNotExists: {
-              message: `Property for propertyId ${args.propertyHandle} does not exist`,
+              message: `Property for propertyHandle ${args.propertyHandle} does not exist`,
             },
           };
         }
@@ -193,7 +196,7 @@ export const CreatePropertySlot = extendType({
   },
 });
 
-const AvailableDay = inputObjectType({
+export const AvailableDay = inputObjectType({
   name: 'AvailableDay',
   definition(t) {
     t.nonNull.string('endTime');
@@ -202,95 +205,17 @@ const AvailableDay = inputObjectType({
   },
 });
 
-interface DaySlot {
-  date: moment.Moment;
-  startTime: string;
-  endTime: string;
-}
-
-function checkForSameWeekday(date: moment.Moment, weekday: WeekDay): boolean {
-  if (date.isoWeekday() === weekdayToInt(weekday)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function frequencyToInt(frequency: Frequency): number {
-  switch (frequency) {
-    case Frequency.biweekly: {
-      return 14;
-    }
-    case Frequency.weekly: {
-      return 7;
-    }
-    case Frequency.monthly: {
-      return 30;
-    }
-    default: {
-      return 0;
-    }
-  }
-}
-
-function weekdayToInt(weekday: WeekDay): number {
-  switch (weekday) {
-    case WeekDay.mon: {
-      return 1;
-    }
-    case WeekDay.tue: {
-      return 2;
-    }
-    case WeekDay.wed: {
-      return 3;
-    }
-    case WeekDay.thu: {
-      return 4;
-    }
-    case WeekDay.fri: {
-      return 5;
-    }
-    case WeekDay.sat: {
-      return 6;
-    }
-    default: {
-      return 7;
-    }
-  }
-}
-
 /*
   for a specific weekday push all the specific dates according to frequency 
   between startDate and endDate to daySlotDates[]
 */
-function getAllDatesForWeekday(
-  loopDay: moment.Moment,
-  frequency: number,
-  endDate: moment.Moment,
-  weekday: number,
-  startTime: string,
-  endTime: string
-): DaySlot[] {
-  let allDates: DaySlot[] = [];
-  const firstDay: DaySlot = { date: loopDay, startTime: startTime, endTime: endTime };
-  allDates.push(firstDay);
-  while (moment(loopDay).isBefore(endDate)) {
-    if (frequency < 15) {
-      loopDay = moment(loopDay).add(frequency, 'days');
-    } else {
-      loopDay = moment(loopDay).add(1, 'month');
-      while (loopDay.isoWeekday() != weekday) {
-        loopDay = moment(loopDay).add(1, 'days');
-      }
-    }
-    if (moment(loopDay).isBefore(endDate)) {
-      const daySlot: DaySlot = { date: loopDay, startTime: startTime, endTime: endTime };
-      allDates.push(daySlot);
-    }
-  }
-  return allDates;
-}
 
 function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
   return value !== null && value !== undefined;
+}
+
+function test(
+  availableDays: { endTime: string; startTime: string; weekday: 'mon' | 'thu' | 'wed' | 'fri' | 'sat' | 'sun' }[]
+) {
+  // pretty sure that there is a better way to do this...
 }

@@ -8,11 +8,21 @@ input AvailableDay {
 }
 
 type Booking {
+  bookingStatus: BookingStatus!
+  daySlots: [DaySlot!]!
+  endDate: String!
+  frequency: FrequencyEnum!
   id: String!
+  property: Property
+  startDate: String!
+  tenant: User
+  totalPrice: Int!
 }
 
-type BookingSlot {
-  id: String!
+enum BookingStatus {
+  ACCEPTED
+  PENDING
+  REJECTED
 }
 
 type ClientErrorInvalidInput {
@@ -29,6 +39,15 @@ type ClientErrorPropertyNotExists {
 
 type ClientErrorUserNotExists {
   message: String!
+}
+
+type CreateBookingReturn {
+  Booking: Booking
+  ClientErrorInvalidInput: ClientErrorInvalidInput
+  ClientErrorInvalidPropertyInput: ClientErrorInvalidPropertyInput
+  ClientErrorUserNotExists: ClientErrorUserNotExists
+  NoAvailableSlots: NoAvailableSlots
+  UnknownError: UnknownError
 }
 
 type CreatePropertyReturn {
@@ -64,6 +83,13 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
 """
 scalar DateTime
 
+type DaySlot {
+  date: String!
+  endTime: String!
+  id: String!
+  startTime: String!
+}
+
 type findAllPropertiesReturn {
   Properties: [Property!]
   UnknownError: UnknownError
@@ -89,6 +115,14 @@ enum FrequencyEnum {
 }
 
 type Mutation {
+  createBooking(
+    daySlots: [AvailableDay!]!
+    endDate: String!
+    frequency: FrequencyEnum!
+    propertyHandle: String!
+    startDate: String!
+    userHandle: String!
+  ): CreateBookingReturn!
   createListing(
     availabilities: PropertySlotInput
     city: String!
@@ -116,6 +150,10 @@ type Mutation {
     propertyHandle: String!
     startDate: String!
   ): CreatePropertySlotReturn!
+}
+
+type NoAvailableSlots {
+  message: String!
 }
 
 type PaymentInformation {
@@ -149,7 +187,6 @@ type Property {
 }
 
 type PropertySlot {
-  bookingSlot: BookingSlot
   endDate: DateTime!
   propertyId: String!
   startDate: DateTime!
