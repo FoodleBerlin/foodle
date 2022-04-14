@@ -1,7 +1,5 @@
-import { GetServerSidePropsContext } from 'next'
 import {s3} from './uploadImage'
 
-// ExampleUsage: setImage(await getResourceUrl(file));
 export const getResourceUrl = async(file:File | null)=>{
   const signedUrlRes = await fetch(`/api/getImage?file=${file ? file.name : ''}`);
   const signedUrlData = await signedUrlRes.json();

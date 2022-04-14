@@ -1,11 +1,5 @@
 import aws from 'aws-sdk'
-import { GetServerSidePropsContext } from 'next';
 import { AuthenticatedProps } from '../account/payments';
-import { getServerSideProps } from '../create';
-// EXAMPLE USAGE
-// const file = e?.target?.files ? e?.target?.files[0] : null;
-// const filename = encodeURIComponent(file ? file.name : '');
-// await uploadResource(file, filename);
 export const s3 = new aws.S3({
   accessKeyId: process.env.APP_AWS_ACCESS_KEY,
   secretAccessKey: process.env.APP_AWS_SECRET_KEY,
@@ -28,9 +22,10 @@ export const uploadResource= async (file:File | null, filename: string)=>{
 }
 
 export default async function handler(req: any, res: any, props: AuthenticatedProps) {
-  s3.listObjectsV2({Bucket: 'foodle-bucket'}, (err, data)=> {
-    if (data.Contents!.length<100){
+  s3.listObjectsV2({Bucket: 'foodle-bucket'}, async (err, data)=> {
+    if (data.Contents!.length<100) {
       try { 
+        console.log("gettin 'ere")
         const post = s3.createPresignedPost({
           Bucket: process.env.AWS_S3_BUCKET_NAME,
           Fields: {
