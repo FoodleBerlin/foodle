@@ -1,13 +1,13 @@
 import { Fragment, MouseEventHandler, RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Create.module.scss';
-import { UploaderImage } from './wizard/Step4';
 import Image from 'next/image';
 import { BsXLg } from 'react-icons/bs';
 import React from 'react';
+import { UploaderImg } from './wizard/Step4';
 interface PreviewProps {
   deleteImage: (id: number) => void;
   setImages: (files: any) => void;
-  images: UploaderImage[];
+  images: UploaderImg[];
 }
 const Preview = (props: PreviewProps) => {
   const [dragId, setDragId] = useState<number>(-1);
@@ -24,8 +24,8 @@ const Preview = (props: PreviewProps) => {
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    const dragImage = props.images.find((image: UploaderImage) => image.id === dragId);
-    const dropImage = props.images.find((image: UploaderImage) => image.id == parseInt(event.currentTarget.id));
+    const dragImage = props.images.find((image: UploaderImg) => image.id === dragId);
+    const dropImage = props.images.find((image: UploaderImg) => image.id == parseInt(event.currentTarget.id));
     let arr;
     if (!dragImage || !dropImage) {
       return;
@@ -33,12 +33,12 @@ const Preview = (props: PreviewProps) => {
       arr = moveItem(findIndex(dragImage), findIndex(dropImage));
     }
   };
-  const findIndex = (item: UploaderImage) => {
+  const findIndex = (item: UploaderImg) => {
     return props.images.indexOf(item);
   };
 
   const moveItem = (from: number, to: number) => {
-    props.setImages((prev: UploaderImage[]) => {
+    props.setImages((prev: UploaderImg[]) => {
       const temp = [...prev];
       [temp[from], temp[to]] = [temp[to], temp[from]];
       return [...temp];
@@ -84,9 +84,8 @@ const Preview = (props: PreviewProps) => {
   const onMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
     updateIdHover(Number(event.currentTarget.id), false);
   };
-  const previewImage = (image: UploaderImage, ref: RefObject<HTMLDivElement>, index: number) => {
+  const previewImage = (image: UploaderImg, ref: RefObject<HTMLDivElement>, index: number) => {
     const id = image.id ? image.id : -1;
-
     return (
       <div
         ref={ref}
@@ -100,7 +99,7 @@ const Preview = (props: PreviewProps) => {
         onDragStart={(e) => handleDrag(e)}
         onDrop={(e) => handleDrop(e)}
       >
-        <Image src={image.file} width={460} height={516} className="gallery__img" alt={'Image ' + index} />
+        <Image src={image.url} width={460} height={516} className="gallery__img" alt={'Image ' + index} />
         <BsXLg
           style={
             isIdHovered(id)
@@ -127,7 +126,7 @@ const Preview = (props: PreviewProps) => {
       <div className="gallery__container">
         <div className="gallery">
           {props.images.length > 0 &&
-            props.images.map((image: UploaderImage, index: number) => {
+            props.images.map((image: UploaderImg, index: number) => {
               return previewImage(image, React.createRef<HTMLDivElement>(), index);
             })}
         </div>
