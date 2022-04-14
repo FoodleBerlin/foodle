@@ -3,19 +3,18 @@ import React, { useEffect, useState } from 'react';
 import Uploader from '../Uploader';
 import Preview from '../Preview';
 import styles from '../../Create/Create.module.scss';
+import { deleteResource } from '../../../pages/api/deleteImage';
 
-export interface UploaderImage {
-  file?: any;
-  id?: number;
-  s3Id?: string;
-  size: number;
-  name: string;
-}
+export type UploaderImg = {
+  fileName: string;
+  id: number;
+  url: string;
+};
 
 export default function Step4() {
   const wizardContext = useWizardContext();
   const [idCount, setIdCount] = useState(1);
-  const [images, setImages] = useState<UploaderImage[]>(wizardContext.getValues().images);
+  const [images, setImages] = useState<UploaderImg[]>(wizardContext.getValues().images);
 
   useEffect(() => {
     wizardContext.setValue('images', images as FormData['images'], touchDirtyValidate);
@@ -23,12 +22,14 @@ export default function Step4() {
 
   const deleteImage = (id: number) => {
     let idAmount = 1;
-    if (images.length > 0) {
+
+    if (images!.length > 0) {
       // Image to Delete
-      const image = images.find((image: UploaderImage) => image.id === id);
+      const image = images!.find((image: UploaderImg) => image.id === id);
       // Delete its Drag and Drop ID
-      const filterImages = images.filter((image: UploaderImage) => image.id != id);
+      const filterImages = images!.filter((image: UploaderImg) => image.id != id);
       //Reset Ids
+      deleteResource(image!.fileName);
       filterImages.forEach((image) => {
         image.id = idAmount;
         idAmount++;
@@ -51,14 +52,14 @@ export default function Step4() {
       <div className={styles['drag-drop']}>
         <Uploader
           idCount={idCount}
-          setImages={(images: UploaderImage[]) => setImages(images)}
-          imageAmount={images.length}
+          setImages={(images: UploaderImg[]) => setImages(images)}
+          imageAmount={images ? images.length : 0}
           setIdCount={(id) => setIdCount(id)}
-          images={images}
+          images={images ? images : []}
         />
-        {images.length > 0 ? (
+        {images && images.length > 0 ? (
           <Preview
-            setImages={(images: UploaderImage[]) => setImages(images)}
+            setImages={(images: UploaderImg[]) => setImages(images)}
             deleteImage={(id: number) => deleteImage(id)}
             images={images}
           />
