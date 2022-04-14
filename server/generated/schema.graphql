@@ -9,11 +9,23 @@ type BookingSlot {
   id: String!
 }
 
+type ClientErrorInvalidGenericDaySlotInput {
+  message: String!
+}
+
 type ClientErrorInvalidHandle {
   message: String!
 }
 
+type ClientErrorInvalidInputLength {
+  message: String!
+}
+
 type ClientErrorInvalidPropertyInput {
+  message: String!
+}
+
+type ClientErrorInvalidPropertySlotInput {
   message: String!
 }
 
@@ -27,6 +39,7 @@ type ClientErrorUserNotExists {
 
 type createPropertyReturn {
   ClientErrorInvalidHandle: ClientErrorInvalidHandle
+  ClientErrorInvalidInputLength: ClientErrorInvalidInputLength
   ClientErrorInvalidPropertyInput: ClientErrorInvalidPropertyInput
   ClientErrorUserNotExists: ClientErrorUserNotExists
   Property: Property
@@ -63,6 +76,7 @@ type findPropertyResult {
 
 type findUserResult {
   ClientErrorInvalidHandle: ClientErrorInvalidHandle
+  ClientErrorInvalidInputLength: ClientErrorInvalidInputLength
   ClientErrorUserNotExists: ClientErrorUserNotExists
   User: User
 }
@@ -113,6 +127,20 @@ type Mutation {
     zip: Int!
   ): createPropertyReturn!
   createUser: Boolean!
+
+  """
+  Edit user profile data
+  """
+  updateUser(
+    description: String
+    dob: String
+    fullName: String
+    id: String
+    licenseS3Id: String
+    passportS3Id: String
+    solvencyS3Id: String
+    zip: Int
+  ): findUserResult!
 }
 
 type PaymentInformation {
@@ -160,9 +188,9 @@ type PropertySlot {
 PropertySlot input
 """
 input PropertySlotInput {
+  availableDays: [GenericDaySlotInput]!
   endDate: DateTime!
   frequency: Frequency!
-  genericDaySlots: [GenericDaySlotInput]!
   minMonths: Int!
   startDate: DateTime!
 }
@@ -176,7 +204,7 @@ type Query {
   findProperty(handle: String): findPropertyResult!
 
   """
-  Takes a handle and returns the user.
+  Takes a handle and returns the user
   """
   findUser(handle: String): findUserResult!
 }
@@ -188,10 +216,15 @@ type UnknownError {
 type User {
   charges: [CustomerCharge!]!
   defaultPayment: PaymentInformation
+  description: String
+  dob: DateTime
   email: String!
   fullName: String!
   handle: String!
   id: String!
+  licenseS3Id: String
+  passportS3Id: String
   paymentMethods: [PaymentInformation!]!
-  zip: Int!
+  solvencyS3Id: String
+  zip: Int
 }

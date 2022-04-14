@@ -4,9 +4,11 @@ import {
   ClientErrorInvalidHandle,
   ClientErrorInvalidPropertyInput,
   UnknownError,
+  ClientErrorInvalidInputLength,
 } from '../Error';
-import { PropertySlotInput } from '../PropertySlot';
 import { v4 as uuidv4 } from 'uuid';
+import {notEmpty, checkUserExists, checkInvalidInputLength} from "../../../validation/index";
+import {PropertySlotInput } from '../PropertySlot';
 
 export const Mutation = extendType({
   type: 'Mutation',
@@ -29,6 +31,9 @@ export const CreatePropertyReturn = objectType({
     });
     t.nullable.field('ClientErrorInvalidHandle', {
       type: ClientErrorInvalidHandle,
+    });
+    t.nullable.field('ClientErrorInvalidInputLength', {
+      type: ClientErrorInvalidInputLength,
     });
     t.nullable.field('ClientErrorInvalidPropertyInput', {
       type: ClientErrorInvalidPropertyInput,
@@ -66,83 +71,46 @@ export const CreateListing = extendType({
 
       //check user exists, street length not empty, not longer than 200, zip code lengt, city, enumsn nullable in db? rules
       async resolve(_root, args, ctx) {
-        function findUser() {
-          return ctx.prisma.user.findUnique({
-            where: {
-              id: args.ownerId,
-            },
-          });
-        }
-        if (!findUser()) {
-          return {
-            ClientErrorUserNotExists: {
-              message: `owner for ownerId ${args.ownerId} does not exist`,
-            },
-          };
-        }
-        const invalidInputLengthError = (inputType: string, arg: string) => {
-          return {
-            ClientErrorInvalidPropertyInput: {
-              message: `${inputType} ${arg} is invalid, must have a max length of 5`,
-            },
-          };
-        };
-        const isOverMaxLength = (str: string, maxLength: number) => {
-          return str.length > maxLength;
-        };
-        if (isOverMaxLength(args.zip.toString(), 5)) {
-          return invalidInputLengthError('Zip code', args.zip.toString());
-        }
-        if (isOverMaxLength(args.city, 200)) {
-          return invalidInputLengthError('City name', args.city);
-        }
-        if (isOverMaxLength(args.street, 200)) {
-          return invalidInputLengthError('Street name', args.street);
-        }
-        if (isOverMaxLength(args.description, 1000)) {
-          return invalidInputLengthError('Description', args.description);
-        }
-        function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
-          return value !== null && value !== undefined;
-        }
-        try {
-          const slots: { startTime: string; endTime: string; weekday: string }[] =
-            args.availabilities.genericDaySlots.filter(notEmpty);
+        const isInvalidUser = checkUserExists(args.ownerId);
+        if (isInvalidUser) return isInvalidUser;
+        const isInvalidZipLength = checkInvalidInputLength("Zip code",args.zip.toString(), 5);
+        if(isInvalidZipLength) return isInvalidZipLength;
+        const isInvalidCityLength = checkInvalidInputLength("City name",args.city, 200);
+        if(isInvalidCityLength) return isInvalidCityLength;
+        const isInvalidStreetLength = checkInvalidInputLength("Street name", args.street, 200);
+        if(isInvalidStreetLength) return isInvalidStreetLength;
+        const isInvalidDescriptionLength = checkInvalidInputLength("Description", args.description, 1000);
+        if(isInvalidDescriptionLength) return isInvalidDescriptionLength;
 
-          const prop = await ctx.prisma.property.create({
-            data: {
-              size: args.size,
-              ownerId: args.ownerId,
-              street: args.street,
-              title: args.title.toLowerCase(),
-              handle: createHandle(args.title),
-              streetNumber: args.streetNumber,
-              zip: args.zip,
-              city: args.city,
-              description: args.description,
-              rules: args.rules,
-              serviceFee: args.serviceFee,
-              hourlyPrice: args.hourlyPrice,
-              facilities: args.facilities,
-              deposit: args.deposit,
-              images: args.images,
-              partialSpace: args.partialSpace,
-              pickup: args.pickup ?? false,
-              availabilities: {
-                create: {
-                  endDate: args.availabilities.endDate,
-                  startDate: args.availabilities.startDate,
-                  frequency: args.availabilities.frequency,
-                  minMonths: args.availabilities.minMonths,
-                  availableDays: {
-                    createMany: {
-                      data: slots,
-                    },
-                  },
-                },
-              },
-            },
-          });
+        try {
+          const prop = await ctx.prisma.property.create({ data: {size: args.size,
+          ownerId: args.ownerId,
+          handle: createHandle(args.title),
+          title:args.title,
+          street: args.street,
+          streetNumber: args.streetNumber,
+          zip: args.zip,
+          city: args.city,
+          description: args.description,
+          rules: args.rules,
+          serviceFee: args.serviceFee,
+          hourlyPrice: args.hourlyPrice,
+          facilities: args.facilities,
+          deposit: args.deposit,
+          images: args.images,
+          partialSpace:args.partialSpace,
+          pickup:args.pickup ?? false,
+          availabilities: {create: 
+            {endDate: args.availabilities.endDate,
+            startDate: args.availabilities.startDate,
+            frequency: args.availabilities.frequency,
+            minMonths: args.availabilities.minMonths,
+            availableDays:{ createMany:{
+            data: args.availabilities.availableDays.filter(notEmpty)
+            }}
+          }},
+
+        } });
           return { Property: prop };
         } catch (error) {
           console.log({ error });

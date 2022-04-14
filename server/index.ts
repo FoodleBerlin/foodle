@@ -47,7 +47,6 @@ router.get('/api/auth', passport.authenticate('google', { scope: ['profile', 'em
 
 router.get('/api/callback', (req: any, res: any, next) => {
   passport.authenticate('google', async (err: any, user: any) => {
-    if (!user) throw new Error('NO USER');
     const token = await forgeJWT(user);
     res.cookie('jwt', token, {
       httpOnly: true,

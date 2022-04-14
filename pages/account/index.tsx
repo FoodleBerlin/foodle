@@ -1,11 +1,19 @@
-import { NextPage, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import React from 'react';
-import { extractUserFromToken } from '../../server/context';
-import { useFindUserQuery } from '../../codegen';
-import { Token } from '../../utils/forgeJWT';
-import styles from './Account.module.scss';
+import { GetServerSidePropsContext, NextPage } from 'next';
 import Navbar from '../../components/Layout/Navbar';
+import { AuthenticatedProps } from './payments';
+
+import { FindUserResult, useFindUserQuery, User, useUpdateUserMutation } from '../../codegen';
 import Sidebar from '../../components/Layout/Sidebar';
+import styles from './Account.module.scss';
+import { extractUserFromToken } from '../../server/context';
+import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
+import { UploaderImage } from '../../components/Create/wizard/Step4';
+import ProfileButton from '../../components/Profile/ProfileButton';
+import client from '../../client';
+import { UpdateUser } from '../../codegen/account';
+import React from 'react';
+import { getDescription } from 'graphql';
+import ProfileForm from '../../components/Profile/ProfileForm';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   if (!req.cookies['jwt']) {
@@ -24,13 +32,13 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
     },
   };
 }
-export type AuthenticatedProps = {
-  session: Token['user'];
-  jwt: string;
-};
-const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
-  console.log({ props });
-  const { status, data, error, isFetching } = useFindUserQuery(
+const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
+  const {
+    data: findUserData,
+    status,
+    error,
+    isFetching,
+  } = useFindUserQuery(
     {
       endpoint: 'http://localhost:5000/graphql',
       fetchParams: {
@@ -40,60 +48,21 @@ const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
         },
       },
     },
-    // TODO type props
     { handle: props.session.email },
     {}
   );
-  console.log({ data });
-  console.log({ error });
 
-  // TODO show default
+  const isMounted = useRef(false);
+
   return (
     <div className={styles['account']}>
-      <Navbar user={props.session}></Navbar>
-      <Sidebar user={props.session}></Sidebar>
-      <div className={styles['container']}>
-        <h2>Payment Methods</h2>
-        {data?.findUser.User?.paymentMethods.map((method) => {
-          return (
-            <div className={styles['row']}>
-              <span>
-                {method.type}....{method.cardNumber}
-              </span>
-              <span>
-                Expiry: {method.expiryMonth}/{method.expiryYear}
-              </span>
-              <span>
-                <button>make default</button>
-              </span>
-              <span>x</span>
-            </div>
-          );
-        })}
-        <button>Add payment</button>
-      </div>
-
-      <h2>Past Payments</h2>
-      <div className={styles['container']}>
-        {data?.findUser.User?.charges.map((charge) => {
-          return (
-            <div className={styles['row']}>
-              <span>{new Date(charge.date! * 1000).toUTCString()}</span>
-              <span>
-                {charge.currency}
-                {charge.amount! * 0.01}
-              </span>
-              <span>card: {charge.card}</span>
-              <span>{charge.status}</span>
-              <span>
-                {charge.description}: {charge.invoiceId}
-              </span>
-            </div>
-          );
-        })}
-      </div>
+      <Navbar user={props.session} />
+      <Sidebar />
+      <main>
+        <ProfileForm session={props.session} isMountedRef={isMounted} jwt={props.jwt} user={findUserData} />
+      </main>
     </div>
   );
 };
 
-export default Account;
+export default Profile;

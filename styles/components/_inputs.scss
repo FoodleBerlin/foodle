@@ -1,100 +1,39 @@
-@use '../base/colors';
 input[type='checkbox']::before {
 }
 
-.standard-form {
-  font-size: 1.8rem;
+@mixin input($width: auto, $font-size: 1.8rem) {
+  font-size: $font-size;
   outline: $color-grey;
   border: 1px solid $color-grey;
-  border-radius: 1rem;
+  border-radius: 1.8rem;
   padding: 1rem 1rem;
   margin-right: -2rem;
+  width: $width;
+}
+
+.standard-form {
+  @include input();
   &__inputSmall {
-    font-size: 1.8rem;
-    outline: $color-grey;
-    border: 1px solid $color-grey;
-    border-radius: 1rem;
-    padding: 1rem 1rem;
-    margin-right: -2rem;
-    width: 6rem;
+    @include input(6rem);
   }
   &__inputMedium {
-    font-size: 1.8rem;
-    outline: $color-grey;
-    border: 1px solid $color-grey;
-    border-radius: 1rem;
-    padding: 1rem 1rem;
-    margin-right: -2rem;
-    width: 8rem;
+    @include input(8rem);
   }
   &__textarea {
-    font-size: 1.8rem;
-    outline: $color-grey;
-    border: 1px solid $color-grey;
-    border-radius: 1rem;
-    padding: 1rem 1rem;
-    margin-right: -2rem;
+    @include input(750px);
     resize: none;
     max-width: 100%;
-    width: 750px;
     height: 180px;
   }
   &__inputTime {
-    font-size: 1.4rem;
-    outline: $color-grey;
-    border: 1px solid $color-grey;
-    border-radius: 1rem;
-    padding: 1rem 1rem;
-    margin-right: -2rem;
-    width: 12rem;
+    @include input(12rem, 1.4rem);
   }
   &__selectMedium {
     background-color: white;
-    font-size: 1.8rem;
-    outline: $color-grey;
-    border: 1px solid $color-grey;
-    border-radius: 1rem;
-    padding: 1rem 1rem;
-    margin-right: -2rem;
-    width: 16rem;
+    @include input(16rem, 1.4rem);
   }
 }
 
-.weekDays {
-  &__timeInputWrapper {
-    display: flex;
-    gap: 1.7rem;
-    align-items: center;
-  }
-
-  &__checkbox {
-    display: inline-block;
-  }
-  &__container {
-    white-space: nowrap;
-    input[type='checkbox'] {
-      display: none !important;
-    }
-
-    input[type='checkbox'] + label {
-      display: inline-block;
-      border-radius: 3px;
-      background: #ecf4f1;
-      font-weight: 500;
-      font-size: 1.5rem;
-      color: black;
-      height: 30px;
-      width: 30px;
-      margin-right: 6px;
-      line-height: 30px;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    input[type='checkbox']:checked + label {
-      background: colors.$color-primary-light;
-      color: #ffffff;
-    }
-  }
-
+.profile-form {
+  @include input(100%, 2.2rem);
 }

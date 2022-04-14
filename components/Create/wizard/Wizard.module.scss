@@ -2,11 +2,16 @@
 @use '../../../styles/components/buttons';
 
 .wizard {
-  color: #2b2b2b;
-  margin-top: 15vh;
-  margin-bottom: 100px;
-  margin-left: calc(23rem + 5vw);
-  max-width: calc(65rem + 20vw);
+  color: hsl(0, 0%, 17%);
+  flex: 1 1 75%;
+  height: fit-content;
+
+  padding: 15rem calc(20vw) 30rem 0;
+  // max-width: calc(65rem + 20vw);
+  min-width: 110rem;
+
+  border-left: 0.2rem solid rgb(214, 214, 214);
+
   .formItem {
     margin-bottom: 50px;
   }
@@ -50,6 +55,7 @@
 
 .step1 {
   width: 100%;
+  height: 100%;
   padding: 0 10rem;
   &__buttonWrapper {
     display: inline-flex;
@@ -153,17 +159,6 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  /*   &--firstLabelButton {
-    height: 90px;
-    width: 200px;
-    border: 1px solid #00695c;
-    position: relative;
-    border-radius: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  } */
 }
 
 .step2 {
@@ -185,10 +180,6 @@
   &__label {
     margin-top: 1rem;
     align-items: center;
-  }
-  &__marginHeadline {
-    margin-top: 5rem;
-    margin-bottom: 0rem;
   }
   &__buttonsGridWrapper {
     display: flex;
@@ -376,11 +367,14 @@
 
 .footer {
   background-color: white;
-  border: 1px solid grey;
+  border-top: 0.2rem solid rgb(214, 214, 214);
+  // border-left: 0.2rem solid rgb(214, 214, 214);
   position: fixed;
-  padding-left: 300px;
+  // padding-left: 300px;
+  // margin-left: 30rem;
+
   bottom: 0;
-  width: 100%;
+  width: calc(100%);
 
   .footer-container {
     display: flex;
@@ -398,11 +392,11 @@
 .item {
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 3.5rem;
   &__activeOrPassed {
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 3.5rem;
     .dots {
       width: 40px;
       height: 40px;
@@ -426,6 +420,5 @@
   }
 }
 .sidebar-container {
-  margin: 110px auto;
   width: 50%;
 }

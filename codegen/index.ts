@@ -40,7 +40,7 @@ export type Query = {
   findAllProperties: FindAllPropertiesReturn;
   /** Takes a propertyId and returns the property */
   findProperty: FindPropertyResult;
-  /** Takes a handle and returns the user.  */
+  /** Takes a handle and returns the user */
   findUser: FindUserResult;
 };
 
@@ -122,12 +122,17 @@ export type User = {
   __typename?: 'User';
   charges: Array<CustomerCharge>;
   defaultPayment?: Maybe<PaymentInformation>;
+  description?: Maybe<Scalars['String']>;
+  dob?: Maybe<Scalars['DateTime']>;
   email: Scalars['String'];
   fullName: Scalars['String'];
   handle: Scalars['String'];
   id: Scalars['String'];
+  licenseS3Id?: Maybe<Scalars['String']>;
+  passportS3Id?: Maybe<Scalars['String']>;
   paymentMethods: Array<PaymentInformation>;
-  zip: Scalars['Int'];
+  solvencyS3Id?: Maybe<Scalars['String']>;
+  zip?: Maybe<Scalars['Int']>;
 };
 
 export type CustomerCharge = {
@@ -174,8 +179,14 @@ export type ClientErrorPropertyNotExists = {
 export type FindUserResult = {
   __typename?: 'findUserResult';
   ClientErrorInvalidHandle?: Maybe<ClientErrorInvalidHandle>;
+  ClientErrorInvalidInputLength?: Maybe<ClientErrorInvalidInputLength>;
   ClientErrorUserNotExists?: Maybe<ClientErrorUserNotExists>;
   User?: Maybe<User>;
+};
+
+export type ClientErrorInvalidInputLength = {
+  __typename?: 'ClientErrorInvalidInputLength';
+  message: Scalars['String'];
 };
 
 export type ClientErrorUserNotExists = {
@@ -187,6 +198,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   createListing: CreatePropertyReturn;
   createUser: Scalars['Boolean'];
+  /** Edit user profile data */
+  updateUser: FindUserResult;
 };
 
 
@@ -210,11 +223,23 @@ export type MutationCreateListingArgs = {
   zip: Scalars['Int'];
 };
 
+
+export type MutationUpdateUserArgs = {
+  description?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
+  fullName?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  licenseS3Id?: InputMaybe<Scalars['String']>;
+  passportS3Id?: InputMaybe<Scalars['String']>;
+  solvencyS3Id?: InputMaybe<Scalars['String']>;
+  zip?: InputMaybe<Scalars['Int']>;
+};
+
 /** PropertySlot input */
 export type PropertySlotInput = {
+  availableDays: Array<InputMaybe<GenericDaySlotInput>>;
   endDate: Scalars['DateTime'];
   frequency: Frequency;
-  genericDaySlots: Array<InputMaybe<GenericDaySlotInput>>;
   minMonths: Scalars['Int'];
   startDate: Scalars['DateTime'];
 };
@@ -229,6 +254,7 @@ export type GenericDaySlotInput = {
 export type CreatePropertyReturn = {
   __typename?: 'createPropertyReturn';
   ClientErrorInvalidHandle?: Maybe<ClientErrorInvalidHandle>;
+  ClientErrorInvalidInputLength?: Maybe<ClientErrorInvalidInputLength>;
   ClientErrorInvalidPropertyInput?: Maybe<ClientErrorInvalidPropertyInput>;
   ClientErrorUserNotExists?: Maybe<ClientErrorUserNotExists>;
   Property?: Maybe<Property>;
@@ -245,15 +271,40 @@ export type BookingSlot = {
   id: Scalars['String'];
 };
 
+export type ClientErrorInvalidGenericDaySlotInput = {
+  __typename?: 'ClientErrorInvalidGenericDaySlotInput';
+  message: Scalars['String'];
+};
+
+export type ClientErrorInvalidPropertySlotInput = {
+  __typename?: 'ClientErrorInvalidPropertySlotInput';
+  message: Scalars['String'];
+};
+
 export type FindUserQueryVariables = Exact<{
   handle: Scalars['String'];
 }>;
 
 
-export type FindUserQuery = { __typename?: 'Query', findUser: { __typename: 'findUserResult', User?: { __typename: 'User', email: string, handle: string, fullName: string, zip: number, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle', message: string } | null } };
+export type FindUserQuery = { __typename?: 'Query', findUser: { __typename: 'findUserResult', User?: { __typename: 'User', email: string, handle: string, fullName: string, description?: string | null, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle', message: string } | null } };
+
+export type UpdateUserMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['String']>;
+  fullName?: InputMaybe<Scalars['String']>;
+  zip?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
+  passportS3Id?: InputMaybe<Scalars['String']>;
+  solvencyS3Id?: InputMaybe<Scalars['String']>;
+  licenseS3Id?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'findUserResult', User?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, description?: string | null, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidInputLength?: { __typename?: 'ClientErrorInvalidInputLength', message: string } | null, ClientErrorInvalidHandle?: { __typename?: 'ClientErrorInvalidHandle', message: string } | null } };
 
 export type CreateListingMutationVariables = Exact<{
   size: Scalars['Int'];
+  title: Scalars['String'];
   ownerId: Scalars['String'];
   street: Scalars['String'];
   streetNumber: Scalars['Int'];
@@ -262,7 +313,6 @@ export type CreateListingMutationVariables = Exact<{
   description: Scalars['String'];
   pickup: Scalars['Boolean'];
   rules: Array<Scalars['String']> | Scalars['String'];
-  title: Scalars['String'];
   hourlyPrice: Scalars['Int'];
   serviceFee: Scalars['Int'];
   facilities: Array<Scalars['String']> | Scalars['String'];
@@ -273,7 +323,7 @@ export type CreateListingMutationVariables = Exact<{
 }>;
 
 
-export type CreateListingMutation = { __typename?: 'Mutation', createListing: { __typename?: 'createPropertyReturn', Property?: { __typename?: 'Property', size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, isVerified: boolean, hourlyPrice: number, serviceFee: number, deposit: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, minMonths: number, frequency: Frequency, availableDays: Array<{ __typename?: 'GenericDaySlot', weekday: string, startTime: any, endTime: any }> } | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename?: 'ClientErrorInvalidHandle', message: string } | null, ClientErrorInvalidPropertyInput?: { __typename?: 'ClientErrorInvalidPropertyInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
+export type CreateListingMutation = { __typename?: 'Mutation', createListing: { __typename?: 'createPropertyReturn', Property?: { __typename?: 'Property', size: number, title: string, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, isVerified: boolean, hourlyPrice: number, serviceFee: number, deposit: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, minMonths: number, frequency: Frequency, availableDays: Array<{ __typename?: 'GenericDaySlot', weekday: string, startTime: any, endTime: any }> } | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename?: 'ClientErrorInvalidHandle', message: string } | null, ClientErrorInvalidPropertyInput?: { __typename?: 'ClientErrorInvalidPropertyInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
 
 export type ListingsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -290,7 +340,12 @@ export const FindUserDocument = `
       email
       handle
       fullName
+      description
       zip
+      dob
+      passportS3Id
+      solvencyS3Id
+      licenseS3Id
       charges {
         amount
         date
@@ -337,6 +392,45 @@ export const useFindUserQuery = <
       fetcher<FindUserQuery, FindUserQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindUserDocument, variables),
       options
     );
+export const UpdateUserDocument = `
+    mutation UpdateUser($id: String, $fullName: String, $zip: Int, $description: String, $dob: String, $passportS3Id: String, $solvencyS3Id: String, $licenseS3Id: String) {
+  updateUser(id: $id, fullName: $fullName, zip: $zip, description: $description, dob: $dob, passportS3Id: $passportS3Id, solvencyS3Id: $solvencyS3Id, licenseS3Id: $licenseS3Id) {
+    User {
+      id
+      fullName
+      email
+      handle
+      description
+      zip
+      dob
+      passportS3Id
+      solvencyS3Id
+      licenseS3Id
+    }
+    ClientErrorUserNotExists {
+      message
+    }
+    ClientErrorInvalidInputLength {
+      message
+    }
+    ClientErrorInvalidHandle {
+      message
+    }
+  }
+}
+    `;
+export const useUpdateUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>
+    ) =>
+    useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
+      ['UpdateUser'],
+      (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdateUserDocument, variables)(),
+      options
+    );
 export const CreateListingDocument = `
     mutation CreateListing($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $rules: [String!]!, $title: String!, $hourlyPrice: Int!, $serviceFee: Int!, $facilities: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $availabilities: PropertySlotInput!) {
   createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, pickup: $pickup, rules: $rules, title: $title, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, facilities: $facilities, deposit: $deposit, images: $images, partialSpace: $partialSpace, availabilities: $availabilities) {
@@ -347,6 +441,7 @@ export const CreateListingDocument = `
         fullName
         email
       }
+      title
       kind
       bookings {
         id

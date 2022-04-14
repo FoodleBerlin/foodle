@@ -53,7 +53,7 @@ export const PropertySlotInput = inputObjectType({
     t.nonNull.field('startDate', {type: 'DateTime'});
     t.nonNull.field('endDate', {type: 'DateTime'});
     t.nonNull.int('minMonths');
-    t.nonNull.list.field('genericDaySlots', {type: GenericDaySlotInput});
+    t.nonNull.list.field('availableDays', {type: GenericDaySlotInput});
     t.nonNull.field('frequency', {type: Frequency});
   },
 });
