@@ -1,18 +1,12 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Navbar from '../../components/Layout/Navbar';
 import { AuthenticatedProps } from './payments';
-
-import { FindUserResult, useFindUserQuery, User, useUpdateUserMutation } from '../../codegen';
+import { useFindUserQuery } from '../../codegen';
 import Sidebar from '../../components/Layout/Sidebar';
 import styles from './Account.module.scss';
 import { extractUserFromToken } from '../../server/context';
-import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
-import { UploaderImage } from '../../components/Create/wizard/Step4';
-import ProfileButton from '../../components/Profile/ProfileButton';
-import client from '../../client';
-import { UpdateUser } from '../../codegen/account';
+import { useRef } from 'react';
 import React from 'react';
-import { getDescription } from 'graphql';
 import ProfileForm from '../../components/Profile/ProfileForm';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
