@@ -1,18 +1,18 @@
-import { Booking, BookingStatus, PropertySlot, Role } from '@prisma/client';
+import { Booking, BookingStatus, Property, PropertySlot, Role } from '@prisma/client';
 import moment from 'moment';
 import { extendType, list, nonNull, objectType, stringArg } from 'nexus';
 import { FrequencyEnum } from '../EnumsScalars/Enums';
 import {
   ClientErrorInvalidInput,
   ClientErrorInvalidPropertyInput,
+  ClientErrorPropertyNotExists,
   ClientErrorUserNotExists,
   NoAvailableSlots,
   UnknownError,
 } from '../Error';
-import { AvailableDay } from '../PropertySlot';
+import { AvailableDay, DaySlotInterface } from '../Property';
 import {
   checkForSameWeekday,
-  DaySlot,
   frequencyToInt,
   getAllDatesForWeekday,
   weekdayToInt,
@@ -25,6 +25,9 @@ export const CreateBookingReturn = objectType({
     t.nullable.field('Booking', { type: BookingApi });
     t.nullable.field('ClientErrorUserNotExists', {
       type: ClientErrorUserNotExists,
+    });
+    t.nullable.field('ClientErrorPropertyNotExists', {
+      type: ClientErrorPropertyNotExists,
     });
     t.nullable.field('ClientErrorInvalidInput', {
       type: ClientErrorInvalidInput,
@@ -49,14 +52,13 @@ export const BookingOnListing = extendType({
       args: {
         userHandle: nonNull(stringArg()),
         propertyHandle: nonNull(stringArg()),
-        startDate: nonNull(stringArg()),
-        endDate: nonNull(stringArg()),
+        startDate: nonNull('DateTime'),
+        endDate: nonNull('DateTime'),
         frequency: nonNull(FrequencyEnum),
         daySlots: nonNull(list(nonNull(AvailableDay))),
       },
       async resolve(_root, args, ctx) {
         // validate input
-
         const property = await ctx.prisma.property.findUnique({
           where: {
             handle: args.propertyHandle,
@@ -88,13 +90,15 @@ export const BookingOnListing = extendType({
             },
           };
         }
+        // Todo: check for minimum bookings
+        // Todo date from datetime
 
         // calculate every date and save all in daySlotDates
-        const startDate = moment(new Date(args.startDate));
-        const endDate = moment(new Date(args.endDate));
+        const startDate = moment(args.startDate);
+        const endDate = moment(args.endDate);
         const frequency = frequencyToInt(args.frequency);
 
-        let daySlotDates: DaySlot[] = [];
+        let daySlotDates: DaySlotInterface[] = [];
 
         args.daySlots.forEach((availabeDay) => {
           var nextWeekday = startDate;
@@ -117,19 +121,13 @@ export const BookingOnListing = extendType({
         });
 
         // check if matching propertySlot exists
-        // ?  should all have an index? Is it more efficient the more detailed where {} is?
         let possiblePropertySlots = await ctx.prisma.propertySlot.findMany({
           where: {
             propertyId: property.id,
-            frequency: args.frequency,
+            // check for minimum bookings
             minimumBookings: {
               gte: daySlotDates.length,
             },
-            /*  weekdays: {
-              contains: WeekDay.fri
-            } 
-            possiblity to filter also by startDate? E.g. where startDate before daySlot.startDate
-            */
           },
         });
 
@@ -147,14 +145,14 @@ export const BookingOnListing = extendType({
           count++;
         }
         // if no free slot available return error
-        if (propertySlot === null) {
+        if (propertySlot == null) {
           return {
             NoAvailableSlots: {
               message: `No available property slot for booking request.`,
             },
           };
         }
-
+        console.log('Length: ' + daySlotDates.toString());
         // check availability for every daySlot in daySlotDates
         daySlotDates.forEach(async (day) => {
           let daySlot = await ctx.prisma.daySlot.findFirst({
@@ -164,10 +162,24 @@ export const BookingOnListing = extendType({
             },
           });
           if (daySlot !== null) {
-            if (daySlot.bookingId === null && daySlot.bookedStartTime === null && daySlot.bookedEndTime === null) {
+            // check if slot is still available
+            if (!(daySlot.bookingId === null && daySlot.bookedStartTime === null && daySlot.bookedEndTime === null)) {
               return {
                 NoAvailableSlots: {
                   message: `No available daySlot on ${day.date} for booking request.`,
+                },
+              };
+            }
+            // check if start and endTime is within daySlot time frame
+            if (
+              !(
+                moment(day.startTime).isSameOrAfter(daySlot.startTime) &&
+                moment(daySlot.endTime).isSameOrAfter(day.endTime)
+              )
+            ) {
+              return {
+                NoAvailableSlots: {
+                  message: `No available daySlot on ${day.date} for requested time frame.`,
                 },
               };
             }
@@ -182,7 +194,7 @@ export const BookingOnListing = extendType({
               tenantId: user.id,
               propertyId: property.id,
               bookingStatus: BookingStatus.pending,
-              totalPrice: 12, // Todo calculate total price
+              totalPrice: calculatePrice(daySlotDates, property),
               startDate: args.startDate,
               endDate: args.endDate,
               frequency: args.frequency,
@@ -205,20 +217,25 @@ export const BookingOnListing = extendType({
         daySlotDates.forEach((day) => {
           dateArray.push(day.date.toISOString());
         });
-
-        // updateMany is transactional, will either update all or none
+        console.log(dateArray);
+        // updates as transaction => if one update fails all fail
         try {
-          await ctx.prisma.daySlot.updateMany({
-            where: {
-              date: {
-                in: dateArray,
-              },
-            },
-            data: {
-              bookingId: '', // Todo bookingslot
-              bookedStartTime: '',
-              bookedEndTime: '',
-            },
+          await daySlotDates.forEach((day) => {
+            ctx.prisma.$transaction([
+              ctx.prisma.daySlot.update({
+                where: {
+                  date_propertySlotId: {
+                    date: day.date.toISOString(),
+                    propertySlotId: property.id,
+                  },
+                },
+                data: {
+                  bookingId: booking.id,
+                  bookedStartTime: day.startTime,
+                  bookedEndTime: day.endTime,
+                },
+              }),
+            ]);
           });
         } catch (error) {
           // if error occurs delete existing booking
@@ -240,20 +257,17 @@ export const BookingOnListing = extendType({
 
         // if no error was returned so far every step is succeeded, booking can be returned
         return { Booking: booking };
-
-        /*
-        calculate every single date with daySlots, frequency, start and endDate
-        loop over every date and check if daySlot with start and end time exists.
-        check if daySlot is still free
-
-        check if there is an existing propertySlot that matches with start, endDate, frequency, days
-
-        index on date
-        */
-
-        // check if slot is available
-        // create booking or return error
       },
     });
   },
 });
+
+function calculatePrice(daySlotDates: DaySlotInterface[], property: Property): number {
+  let hours = 0;
+  daySlotDates.forEach((day) => {
+    let start = moment(day.startTime);
+    let end = moment(day.endTime);
+    hours += start.diff(end, 'hours');
+  });
+  return hours * property.hourlyPrice;
+}

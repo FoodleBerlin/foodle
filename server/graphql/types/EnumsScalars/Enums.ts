@@ -3,7 +3,7 @@ import { enumType } from 'nexus';
 
 export const WeekDayEnum = enumType({
   name: 'WeekDays',
-
+  description: 'map nexus WeekDay to prisma enum',
   members: {
     MON: WeekDay.mon,
     TUE: WeekDay.thu,
@@ -17,6 +17,7 @@ export const WeekDayEnum = enumType({
 
 export const BookingStatusEnum = enumType({
   name: 'BookingStatus',
+  description: 'map nexus BookingStatus to prisma enum',
   members: {
     ACCEPTED: BookingStatus.accepted,
     PENDING: BookingStatus.pending,
@@ -26,7 +27,7 @@ export const BookingStatusEnum = enumType({
 
 export const FrequencyEnum = enumType({
   name: 'FrequencyEnum',
-  // description: 'map nexus frequency to prisma enum',
+  description: 'map nexus frequency to prisma enum',
   members: {
     NONE: Frequency.none,
     WEEKLY: Frequency.weekly,

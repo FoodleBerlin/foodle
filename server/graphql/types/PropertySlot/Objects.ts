@@ -1,8 +1,10 @@
 import { inputObjectType, objectType } from 'nexus';
+import { DaySlot } from '../DaySlot';
 
 export const PropertySlot = objectType({
   name: 'PropertySlot',
   definition(t) {
+    t.dateTime('startDate');
     t.field('startDate', {
       type: 'DateTime',
     });
@@ -10,16 +12,16 @@ export const PropertySlot = objectType({
       type: 'DateTime',
     });
     t.string('propertyId');
-    /* t.nullable.field('bookingSlot', {
-      type: BookingSlot,
+    t.list.field('availableDays', {
+      type: DaySlot,
       async resolve(parent, args, ctx) {
-        return await ctx.prisma.bookingSlot.findUnique({
+        return await ctx.prisma.daySlot.findMany({
           where: {
-            id: parent.id,
+            propertySlotId: parent.id,
           },
         });
       },
-    }); */
+    });
   },
 });
 
@@ -32,7 +34,3 @@ export const SlotInput = inputObjectType({
     t.nonNull.string('weekday');
   },
 });
-
-// Todo: date input with scalar => remove parsing to momentDate
-// Todo: extend PropertySlot object
-// Todo: logging statements?

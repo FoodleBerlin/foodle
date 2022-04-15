@@ -1,11 +1,6 @@
 import { Frequency, WeekDay } from '@prisma/client';
 import moment from 'moment';
-
-export interface DaySlot {
-  date: moment.Moment;
-  startTime: string;
-  endTime: string;
-}
+import { DaySlotInterface } from '../Property/Objects';
 
 export function checkForSameWeekday(date: moment.Moment, weekday: WeekDay): boolean {
   if (date.isoWeekday() === weekdayToInt(weekday)) {
@@ -22,9 +17,9 @@ export function getAllDatesForWeekday(
   weekday: number,
   startTime: string,
   endTime: string
-): DaySlot[] {
-  let allDates: DaySlot[] = [];
-  const firstDay: DaySlot = { date: loopDay, startTime: startTime, endTime: endTime };
+): DaySlotInterface[] {
+  let allDates: DaySlotInterface[] = [];
+  const firstDay: DaySlotInterface = { date: loopDay, startTime: startTime, endTime: endTime };
   allDates.push(firstDay);
   while (moment(loopDay).isBefore(endDate)) {
     if (frequency < 15) {
@@ -36,7 +31,7 @@ export function getAllDatesForWeekday(
       }
     }
     if (moment(loopDay).isBefore(endDate)) {
-      const daySlot: DaySlot = { date: loopDay, startTime: startTime, endTime: endTime };
+      const daySlot: DaySlotInterface = { date: loopDay, startTime: startTime, endTime: endTime };
       allDates.push(daySlot);
     }
   }

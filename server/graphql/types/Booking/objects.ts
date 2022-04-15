@@ -40,7 +40,7 @@ export const Booking = objectType({
     });
     t.field('bookingStatus', { type: BookingStatusEnum });
     t.field('frequency', { type: FrequencyEnum });
-    t.int('totalPrice');
+    //t.decimal('totalPrice'); // Todo: resolve prisma decimal to nexus scalar
     t.string('startDate');
     t.string('endDate');
   },

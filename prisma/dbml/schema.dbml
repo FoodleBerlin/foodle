@@ -39,6 +39,10 @@ Table DaySlot {
   propertySlot PropertySlot [not null]
   bookingId String
   booking Booking
+
+  indexes {
+    (date, propertySlotId) [unique]
+  }
 }
 
 Table Property {

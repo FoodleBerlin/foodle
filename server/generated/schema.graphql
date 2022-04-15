@@ -16,9 +16,11 @@ type Booking {
   property: Property
   startDate: String!
   tenant: User
-  totalPrice: Int!
 }
 
+"""
+map nexus BookingStatus to prisma enum
+"""
 enum BookingStatus {
   ACCEPTED
   PENDING
@@ -45,24 +47,17 @@ type CreateBookingReturn {
   Booking: Booking
   ClientErrorInvalidInput: ClientErrorInvalidInput
   ClientErrorInvalidPropertyInput: ClientErrorInvalidPropertyInput
+  ClientErrorPropertyNotExists: ClientErrorPropertyNotExists
   ClientErrorUserNotExists: ClientErrorUserNotExists
   NoAvailableSlots: NoAvailableSlots
   UnknownError: UnknownError
 }
 
-type CreatePropertyReturn {
+type CreateListingReturn {
   ClientErrorInvalidInput: ClientErrorInvalidInput
-  ClientErrorInvalidPropertyInput: ClientErrorInvalidPropertyInput
   ClientErrorUserNotExists: ClientErrorUserNotExists
+  NoAvailableSlots: NoAvailableSlots
   Property: Property
-  UnknownError: UnknownError
-}
-
-type CreatePropertySlotReturn {
-  ClientErrorInvalidInput: ClientErrorInvalidInput
-  ClientErrorInvalidListingInput: ClientErrorInvalidPropertyInput
-  ClientErrorPropertyNotExists: ClientErrorUserNotExists
-  PropertySlot: PropertySlot
   UnknownError: UnknownError
 }
 
@@ -86,7 +81,6 @@ scalar DateTime
 type DaySlot {
   date: String!
   endTime: String!
-  id: String!
   startTime: String!
 }
 
@@ -107,6 +101,9 @@ type findUserResult {
   User: User
 }
 
+"""
+map nexus frequency to prisma enum
+"""
 enum FrequencyEnum {
   BIWEEKLY
   MONTHLY
@@ -117,39 +114,36 @@ enum FrequencyEnum {
 type Mutation {
   createBooking(
     daySlots: [AvailableDay!]!
-    endDate: String!
+    endDate: DateTime!
     frequency: FrequencyEnum!
     propertyHandle: String!
-    startDate: String!
+    startDate: DateTime!
     userHandle: String!
   ): CreateBookingReturn!
   createListing(
-    availabilities: PropertySlotInput
+    availableDays: [AvailableDay!]!
     city: String!
     deposit: Int!
     description: String!
+    endDate: DateTime!
     facilities: [String!]!
+    frequency: FrequencyEnum!
     hourlyPrice: Int!
     images: [String!]!
+    minimumBookings: Int!
     ownerId: String!
     partialSpace: Boolean!
     pickup: Boolean
+    propertyHandle: String!
     rules: [String!]!
     serviceFee: Int!
     size: Int!
+    startDate: DateTime!
     street: String!
     streetNumber: Int!
     title: String!
     zip: Int!
-  ): CreatePropertyReturn!
-  createPropertySlot(
-    availableDays: [AvailableDay!]!
-    endDate: String!
-    frequency: FrequencyEnum!
-    minimumBookings: Int!
-    propertyHandle: String!
-    startDate: String!
-  ): CreatePropertySlotReturn!
+  ): CreateListingReturn!
 }
 
 type NoAvailableSlots {
@@ -164,6 +158,7 @@ type PaymentInformation {
 }
 
 type Property {
+  availabilites: [PropertySlot!]!
   bookings: [Booking!]!
   city: String!
   deposit: Int!
@@ -187,6 +182,7 @@ type Property {
 }
 
 type PropertySlot {
+  availableDays: [DaySlot!]!
   endDate: DateTime!
   propertyId: String!
   startDate: DateTime!
@@ -230,6 +226,9 @@ type User {
   zip: Int!
 }
 
+"""
+map nexus WeekDay to prisma enum
+"""
 enum WeekDays {
   FRI
   MON

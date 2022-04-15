@@ -1,26 +1,31 @@
+import { Property, PropertySlot } from '@prisma/client';
+import moment from 'moment';
 import { booleanArg, extendType, intArg, list, nonNull, nullable, objectType, stringArg } from 'nexus';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  ClientErrorInvalidInput,
-  ClientErrorInvalidPropertyInput,
-  ClientErrorUserNotExists,
-  UnknownError,
-} from '../Error';
-import { SlotInput } from '../PropertySlot';
-import { Property } from './Objects';
+import { FrequencyEnum } from '../EnumsScalars/Enums';
+import { ClientErrorInvalidInput, ClientErrorUserNotExists, NoAvailableSlots, UnknownError } from '../Error';
 
-export const CreatePropertyReturn = objectType({
-  name: 'CreatePropertyReturn',
+import {
+  checkForSameWeekday,
+  frequencyToInt,
+  getAllDatesForWeekday,
+  weekdayToInt,
+} from '../PropertySlot/helperFunctions';
+import { checkForEmptyList, validateStartEndDate } from '../PropertySlot/validation';
+import { AvailableDay, DaySlotInterface } from './Objects';
+
+export const CreateListingReturn = objectType({
+  name: 'CreateListingReturn',
   definition(t) {
-    t.nullable.field('Property', { type: Property });
+    t.nullable.field('Property', { type: 'Property' });
     t.nullable.field('ClientErrorUserNotExists', {
       type: ClientErrorUserNotExists,
     });
     t.nullable.field('ClientErrorInvalidInput', {
       type: ClientErrorInvalidInput,
     });
-    t.nullable.field('ClientErrorInvalidPropertyInput', {
-      type: ClientErrorInvalidPropertyInput,
+    t.nullable.field('NoAvailableSlots', {
+      type: NoAvailableSlots,
     });
     t.nullable.field('UnknownError', {
       type: UnknownError,
@@ -32,7 +37,7 @@ export const CreateListing = extendType({
   type: 'Mutation',
   definition(p) {
     p.field('createListing', {
-      type: CreatePropertyReturn, // needs to be changed
+      type: CreateListingReturn,
       args: {
         size: nonNull(intArg()),
         title: nonNull(stringArg()),
@@ -50,10 +55,14 @@ export const CreateListing = extendType({
         deposit: nonNull(intArg()),
         images: nonNull(list(nonNull(stringArg()))),
         partialSpace: nonNull(booleanArg()),
-        availabilities: SlotInput,
+        startDate: nonNull('DateTime'),
+        endDate: nonNull('DateTime'),
+        frequency: nonNull(FrequencyEnum),
+        minimumBookings: nonNull(intArg()),
+        propertyHandle: nonNull(stringArg()),
+        availableDays: nonNull(list(nonNull(AvailableDay))),
       },
 
-      //check user exists, street length not empty, not longer than 200, zip code lengt, city, enumsn nullable in db? rules
       async resolve(_root, args, ctx) {
         function findUser() {
           return ctx.prisma.user.findUnique({
@@ -71,7 +80,7 @@ export const CreateListing = extendType({
         }
         const invalidInputLengthError = (inputType: string, arg: string) => {
           return {
-            ClientErrorInvalidPropertyInput: {
+            ClientErrorInvalidInput: {
               message: `${inputType} ${arg} is invalid, must have a max length of 5`,
             },
           };
@@ -91,11 +100,31 @@ export const CreateListing = extendType({
         if (isOverMaxLength(args.description, 1000)) {
           return invalidInputLengthError('Description', args.description);
         }
-        function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
-          return value !== null && value !== undefined;
+        if (!validateStartEndDate(moment(args.startDate), moment(args.endDate))) {
+          return {
+            ClientErrorInvalidInput: {
+              message: `startDate should be before endDate`,
+            },
+          };
         }
+        if (!validateStartEndDate(moment(args.startDate), moment(args.endDate))) {
+          return {
+            ClientErrorInvalidInput: {
+              message: `Starttime of daySlot should be before endTime.`,
+            },
+          };
+        }
+
+        if (checkForEmptyList(args.availableDays.length)) {
+          return {
+            ClientErrorInvalidInput: {
+              message: `List argument availableDays must not be empty.`,
+            },
+          };
+        }
+        let prop: Property;
         try {
-          const prop = await ctx.prisma.property.create({
+          prop = await ctx.prisma.property.create({
             data: {
               size: args.size,
               ownerId: args.ownerId,
@@ -114,20 +143,117 @@ export const CreateListing = extendType({
               images: args.images,
               partialSpace: args.partialSpace,
               pickup: args.pickup ?? false,
-              // TODO create an array
-              /*     availableDays: {
-                create: {
-                  endTime: args.availabilities.endDate,
-                  startTime: args.availabilities.startDate,
-                  weekday: args.availabilities.weekday,
-                },
-              }, */
             },
           });
+        } catch (error) {
+          console.log({ error });
+          let errorMessage = 'Unknown error when creating a property: ';
+          if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+          return {
+            UnknownError: {
+              message: errorMessage,
+            },
+          };
+        }
+
+        // check if slot overlaps with already existing slot
+        let slots = await ctx.prisma.propertySlot.findMany();
+        slots = slots.filter((slot) => {
+          moment(startDate).isAfter(moment(slot.startDate)) && moment(startDate).isBefore(moment(slot.startDate));
+        });
+        slots.forEach((slot) => {
+          slot.weekdays.forEach((weekday) => {
+            args.availableDays.forEach((day) => {
+              if (day.weekday === weekday) {
+                return {
+                  ClientErrorInvalidInput: {
+                    message: `Existing property slot overlaps with selected dates.`,
+                  },
+                };
+              }
+            });
+          });
+        });
+
+        let propSlot: PropertySlot;
+        try {
+          // create PropertySlot
+          propSlot = await ctx.prisma.propertySlot.create({
+            data: {
+              minimumBookings: args.minimumBookings,
+              frequency: args.frequency,
+              startDate: args.startDate,
+              endDate: args.endDate,
+              propertyId: prop.id,
+            },
+          });
+        } catch (error) {
+          console.log({ error });
+          let errorMessage = 'Unknown error when creating a proeprtySlot';
+          if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+          return {
+            UnknownError: {
+              message: errorMessage,
+            },
+          };
+        }
+
+        const startDate = moment(new Date(args.startDate));
+        const endDate = moment(new Date(args.endDate));
+        const frequency = frequencyToInt(args.frequency);
+        // push all specific dates between startDate and endDate to daySlotDates[]
+        let daySlotDates: DaySlotInterface[] = [];
+
+        // loop through availableDays and get all specific dates for each generic day
+        args.availableDays.forEach((availabeDay) => {
+          var nextWeekday = startDate;
+          // find first date for weekday
+          while (checkForSameWeekday(nextWeekday, availabeDay.weekday)) {
+            nextWeekday = moment(nextWeekday).add(1, 'days');
+          }
+          // get all dates for the weekday in the timeslot, according to the frequency
+          let datesForWeekday = getAllDatesForWeekday(
+            nextWeekday,
+            frequency,
+            endDate,
+            weekdayToInt(availabeDay.weekday),
+            availabeDay.startTime,
+            availabeDay.endTime
+          );
+          datesForWeekday.forEach((date) => {
+            daySlotDates.push(date);
+          });
+        });
+
+        // throw error if more than 26 day slots would be created
+        if (daySlotDates.length > 26) {
+          return {
+            ClientErrorInvalidInput: {
+              message: `${daySlotDates.length} daySlots, max 26 day slots for 1 propertySlot allowed.`,
+            },
+          };
+        }
+        // for each entry in daySlotDates[] create a daySlot and save it to the db
+        try {
+          daySlotDates.forEach(async (day) => {
+            const daySlot = await ctx.prisma.daySlot.create({
+              data: {
+                date: day.date.toISOString(),
+                startTime: day.startTime,
+                endTime: day.endTime,
+                propertySlotId: propSlot.id,
+              },
+            });
+          });
+
           return { Property: prop };
         } catch (error) {
           console.log({ error });
-          let errorMessage = 'Unknown error';
+          let errorMessage = 'Unknown error when creating a daySlots ';
           if (error instanceof Error) {
             errorMessage = error.message;
           }
@@ -144,7 +270,6 @@ export const CreateListing = extendType({
 
 function createHandle(title: String): string {
   const id = uuidv4().substring(0, 6);
-  // TODO remove multiple spaces
-  const titleFormatted = title.toLowerCase().trim().split(' ').join('_');
+  const titleFormatted = title.toLowerCase().trim().split(' ').join('_').replace(/\s/g, '');
   return `${titleFormatted}_${id}`;
 }

@@ -1,5 +1,7 @@
-import { objectType } from 'nexus';
+import { inputObjectType, objectType } from 'nexus';
 import { Booking } from '../Booking';
+import { WeekDayEnum } from '../EnumsScalars/Enums';
+import { PropertySlot } from '../PropertySlot';
 
 import { User } from '../User';
 
@@ -30,6 +32,16 @@ export const Property = objectType({
         });
       },
     });
+    p.list.field('availabilites', {
+      type: PropertySlot,
+      async resolve(parent, args, ctx) {
+        return await ctx.prisma.propertySlot.findMany({
+          where: {
+            propertyId: parent.id,
+          },
+        });
+      },
+    });
     p.string('street');
     p.int('streetNumber');
     p.int('zip');
@@ -47,20 +59,17 @@ export const Property = objectType({
   },
 });
 
-/*
-p.nonNull.list.field('availableDays', {
-      type: PropertySlot,
-      async resolve(parent, args, ctx: Context) {
-        return await ctx.prisma.propertySlot.findMany({
-          where: {
-            propertyId: parent.id,
-          },
-          include: {
-            bookingSlot: true,
-            property: true,
-          },
-        });
-      },
-    });
-    p.field('frequency', { type: Frequency });
-*/
+export const AvailableDay = inputObjectType({
+  name: 'AvailableDay',
+  definition(t) {
+    t.nonNull.string('endTime');
+    t.nonNull.string('startTime');
+    t.nonNull.field('weekday', { type: WeekDayEnum });
+  },
+});
+
+export interface DaySlotInterface {
+  date: moment.Moment;
+  startTime: string;
+  endTime: string;
+}

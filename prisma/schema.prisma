@@ -113,6 +113,7 @@ model DaySlot {
   bookingId       String?
   booking         Booking?     @relation("daySlotToBooking", fields: [bookingId], references: [id])
 
+  @@unique([date, propertySlotId], map: "date_within_same_propertySlot_unique_constraint")
   @@index([date])
   @@index([propertySlotId])
 }
@@ -135,7 +136,7 @@ model Property {
   pickup        Boolean        @default(false)
   facilities    String[]
   isVerified    Boolean        @default(false)
-  hourlyPrice   Int
+  hourlyPrice   Int // => decimal
   serviceFee    Int
   rules         String[]
   deposit       Int
