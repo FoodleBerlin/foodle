@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import styles from '../Create/wizard/Wizard.module.scss';
 import PriceLine from '../Create/PriceLine';
-import { UploaderImage } from '../Create/wizard/Step4';
+// import { UploaderImage } from '../Create/wizard/Step4';
 
 /*
 TO-DO:
@@ -30,8 +30,8 @@ interface ListedKitchenProps {
 }
 
 const ListedKitchen = (props: ListedKitchenProps) => {
-  const month = new Date(props.availability.startDate).toLocaleString('default', { month: 'long' });
-  console.log(month);
+  // const month = new Date(props.availability.startDate).toLocaleString('default', { month: 'long' });
+  // console.log(month);
 
   return (
     <div>
@@ -104,8 +104,8 @@ const ListedKitchen = (props: ListedKitchenProps) => {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Availability</h2>
           <div className={styles['step5__availabilityGrid']}>
             <div className={styles['step5__availabilityDate']}>
-              <p className="small-text">{month}</p>
-              <p className="small-text">{new Date(props.availability.startDate).getFullYear()}</p>
+              {/* <p className="small-text">{month}</p>
+              <p className="small-text">{new Date(props.availability.startDate).getFullYear()}</p> */}
             </div>
 
             <div className={styles['step5__nextMonthButton']}>
