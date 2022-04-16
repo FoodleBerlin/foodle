@@ -32,7 +32,6 @@ enum ModelKind {
 enum Frequency {
   none
   weekly
-  biweekly
   monthly
 }
 
@@ -102,7 +101,8 @@ model DaySlot {
   // Must be the same day
   startTime       DateTime
   endTime         DateTime
-  // booked startTime and endTime
+  // booked startTime and endTime always needs to be added manually during
+  // the create booking mutation if booking id is null
   bookedStartTime DateTime?
   bookedEndTime   DateTime?
   // Parent property
@@ -118,7 +118,6 @@ model DaySlot {
   @@index([propertySlotId])
 }
 
-//title: string, unique handle => lowercase title unique
 model Property {
   kind          ModelKind      @default(property)
   id            String         @id @default(cuid())
@@ -150,18 +149,18 @@ model Property {
 }
 
 model PropertySlot {
-  kind            ModelKind @default(propertySlot)
-  id              String    @id @default(cuid())
-  minimumBookings Int       @default(0)
-  availableDays   DaySlot[] @relation("propertySlotToDaySlot")
-  frequency       Frequency
-  startDate       DateTime
-  endDate         DateTime
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  propertyId      String
-  weekdays        WeekDay[]
-  property        Property  @relation("propertySlotToProperty", fields: [propertyId], references: [id])
+  kind          ModelKind @default(propertySlot)
+  id            String    @id @default(cuid())
+  // minimumBookings Int       @default(0)
+  availableDays DaySlot[] @relation("propertySlotToDaySlot")
+  frequency     Frequency
+  startDate     DateTime
+  endDate       DateTime
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  propertyId    String
+  weekdays      WeekDay[]
+  property      Property  @relation("propertySlotToProperty", fields: [propertyId], references: [id])
 
   @@index([propertyId])
 }
@@ -179,8 +178,6 @@ model Booking {
   endDate       DateTime
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  // startTime     DateTime => in daySlot now
-  // endTime       DateTime
   // weekdays      WeekDay[] => not necessary?
   daySlots      DaySlot[]     @relation("daySlotToBooking")
   frequency     Frequency

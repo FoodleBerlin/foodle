@@ -1,13 +1,13 @@
+import { DataSources } from 'apollo-server-core/dist/graphqlOptions';
 import { ApolloServer } from 'apollo-server-express';
-import schema from './schema';
-import { createContext } from './context';
 import express from 'express';
 import session from 'express-session';
-import passport from './passport';
 import forgeJWT from '../utils/forgeJWT';
-import { DataSources } from 'apollo-server-core/dist/graphqlOptions';
-import StripeWrapper from './singletons/stripe/endpoints';
+import { createContext } from './context';
+import passport from './passport';
+import schema from './schema';
 import datasources from './singletons/datasources';
+import StripeWrapper from './singletons/stripe/endpoints';
 
 export const app = express();
 app.use(passport.initialize());
