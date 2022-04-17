@@ -111,7 +111,7 @@ model DaySlot {
   // Property slots might have a corresponding booking
   // Will be null if it is available
   bookingId       String?
-  booking         Booking?     @relation("daySlotToBooking", fields: [bookingId], references: [id])
+  booking         Booking?     @relation("daySlotToBooking", fields: [bookingId], references: [id], onDelete: Cascade)
 
   @@unique([date, propertySlotId], map: "date_within_same_propertySlot_unique_constraint")
   @@index([date])
@@ -125,7 +125,7 @@ model Property {
   title         String
   size          Int // will be sq.ft
   ownerId       String
-  owner         User           @relation(name: "owner", fields: [ownerId], references: [id])
+  owner         User           @relation(name: "owner", fields: [ownerId], references: [id], onDelete: Cascade)
   bookings      Booking[]      @relation("property")
   street        String
   streetNumber  Int
@@ -160,7 +160,7 @@ model PropertySlot {
   updatedAt     DateTime  @updatedAt
   propertyId    String
   weekdays      WeekDay[]
-  property      Property  @relation("propertySlotToProperty", fields: [propertyId], references: [id])
+  property      Property  @relation("propertySlotToProperty", fields: [propertyId], references: [id], onDelete: Cascade)
 
   @@index([propertyId])
 }

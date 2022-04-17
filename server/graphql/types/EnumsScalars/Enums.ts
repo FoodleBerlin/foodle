@@ -31,7 +31,6 @@ export const FrequencyEnum = enumType({
   members: {
     NONE: Frequency.none,
     WEEKLY: Frequency.weekly,
-    BIWEEKLY: Frequency.biweekly,
     MONTHLY: Frequency.monthly,
   },
 });

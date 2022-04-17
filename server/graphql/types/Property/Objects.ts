@@ -70,6 +70,6 @@ export const AvailableDay = inputObjectType({
 
 export interface DaySlotInterface {
   date: moment.Moment;
-  startTime: string;
+  startTime: string; // should also be moment.Moment
   endTime: string;
 }

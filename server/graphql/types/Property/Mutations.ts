@@ -1,16 +1,10 @@
 import { Property, PropertySlot } from '@prisma/client';
 import moment from 'moment';
 import { booleanArg, extendType, intArg, list, nonNull, nullable, objectType, stringArg } from 'nexus';
-import { v4 as uuidv4 } from 'uuid';
 import { FrequencyEnum } from '../EnumsScalars/Enums';
 import { ClientErrorInvalidInput, ClientErrorUserNotExists, NoAvailableSlots, UnknownError } from '../Error';
 
-import {
-  checkForSameWeekday,
-  frequencyToInt,
-  getAllDatesForWeekday,
-  weekdayToInt,
-} from '../PropertySlot/helperFunctions';
+import { compareDateWithDayOfWeek, getAllDatesForWeekday, weekdayToInt } from '../PropertySlot/helperFunctions';
 import { checkForEmptyList, validateStartEndDate } from '../PropertySlot/validation';
 import { AvailableDay, DaySlotInterface } from './Objects';
 
@@ -58,20 +52,17 @@ export const CreateListing = extendType({
         startDate: nonNull('DateTime'),
         endDate: nonNull('DateTime'),
         frequency: nonNull(FrequencyEnum),
-        minimumBookings: nonNull(intArg()),
         propertyHandle: nonNull(stringArg()),
         availableDays: nonNull(list(nonNull(AvailableDay))),
       },
 
       async resolve(_root, args, ctx) {
-        function findUser() {
-          return ctx.prisma.user.findUnique({
-            where: {
-              id: args.ownerId,
-            },
-          });
-        }
-        if (!findUser()) {
+        const user = await ctx.prisma.user.findUnique({
+          where: {
+            id: args.ownerId,
+          },
+        });
+        if (user === null) {
           return {
             ClientErrorUserNotExists: {
               message: `owner for ownerId ${args.ownerId} does not exist`,
@@ -204,7 +195,7 @@ export const CreateListing = extendType({
 
         const startDate = moment(new Date(args.startDate));
         const endDate = moment(new Date(args.endDate));
-        const frequency = frequencyToInt(args.frequency);
+        const frequency = args.frequency;
         // push all specific dates between startDate and endDate to daySlotDates[]
         let daySlotDates: DaySlotInterface[] = [];
 
@@ -212,7 +203,7 @@ export const CreateListing = extendType({
         args.availableDays.forEach((availabeDay) => {
           var nextWeekday = startDate;
           // find first date for weekday
-          while (checkForSameWeekday(nextWeekday, availabeDay.weekday)) {
+          while (compareDateWithDayOfWeek(nextWeekday, availabeDay.weekday)) {
             nextWeekday = moment(nextWeekday).add(1, 'days');
           }
           // get all dates for the weekday in the timeslot, according to the frequency
@@ -239,17 +230,18 @@ export const CreateListing = extendType({
         }
         // for each entry in daySlotDates[] create a daySlot and save it to the db
         try {
-          daySlotDates.forEach(async (day) => {
-            const daySlot = await ctx.prisma.daySlot.create({
-              data: {
-                date: day.date.toISOString(),
-                startTime: day.startTime,
-                endTime: day.endTime,
-                propertySlotId: propSlot.id,
-              },
-            });
-          });
-
+          await Promise.all(
+            daySlotDates.map(async (day) => {
+              await ctx.prisma.daySlot.create({
+                data: {
+                  date: day.date.toISOString(),
+                  startTime: day.startTime,
+                  endTime: day.endTime,
+                  propertySlotId: propSlot.id,
+                },
+              });
+            })
+          );
           return { Property: prop };
         } catch (error) {
           console.log({ error });
@@ -267,9 +259,6 @@ export const CreateListing = extendType({
     });
   },
 });
-
-function createHandle(title: String): string {
-  const id = uuidv4().substring(0, 6);
-  const titleFormatted = title.toLowerCase().trim().split(' ').join('_').replace(/\s/g, '');
-  return `${titleFormatted}_${id}`;
+function createHandle(title: string): any {
+  throw new Error('Function not implemented.');
 }
