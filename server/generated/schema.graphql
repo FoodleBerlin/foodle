@@ -105,7 +105,6 @@ type findUserResult {
 map nexus frequency to prisma enum
 """
 enum FrequencyEnum {
-  BIWEEKLY
   MONTHLY
   NONE
   WEEKLY
@@ -130,7 +129,6 @@ type Mutation {
     frequency: FrequencyEnum!
     hourlyPrice: Int!
     images: [String!]!
-    minimumBookings: Int!
     ownerId: String!
     partialSpace: Boolean!
     pickup: Boolean

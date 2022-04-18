@@ -113,7 +113,7 @@ model DaySlot {
   bookingId       String?
   booking         Booking?     @relation("daySlotToBooking", fields: [bookingId], references: [id], onDelete: Cascade)
 
-  @@unique([date, propertySlotId], map: "date_within_same_propertySlot_unique_constraint")
+  @@unique([date, propertySlotId])
   @@index([date])
   @@index([propertySlotId])
 }

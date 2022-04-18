@@ -4,7 +4,12 @@ import { booleanArg, extendType, intArg, list, nonNull, nullable, objectType, st
 import { FrequencyEnum } from '../EnumsScalars/Enums';
 import { ClientErrorInvalidInput, ClientErrorUserNotExists, NoAvailableSlots, UnknownError } from '../Error';
 
-import { compareDateWithDayOfWeek, getAllDatesForWeekday, weekdayToInt } from '../PropertySlot/helperFunctions';
+import {
+  compareDateWithDayOfWeek,
+  createHandle,
+  getAllDatesForWeekday,
+  weekdayToInt,
+} from '../PropertySlot/helperFunctions';
 import { checkForEmptyList, validateStartEndDate } from '../PropertySlot/validation';
 import { AvailableDay, DaySlotInterface } from './Objects';
 
@@ -55,7 +60,21 @@ export const CreateListing = extendType({
         propertyHandle: nonNull(stringArg()),
         availableDays: nonNull(list(nonNull(AvailableDay))),
       },
-
+      // validation: endDate should equal startDate when frequency none,
+      // validation: endDate and startDate should be appart at least one week month when frequency > none
+      // Todo unique constraint
+      /*
+      create listing
+ => propertySlot and DaySlot correctly added?
+ => errors correctly thrown?
+create booking on listing
+ => booking and daySlots correctly added/ updated?
+ => errors correctly thrown?
+delete user cascade
+delete booking cascade
+delete propertySlot cascade
+delete daySlot should not be possible
+      */
       async resolve(_root, args, ctx) {
         const user = await ctx.prisma.user.findUnique({
           where: {
@@ -173,7 +192,6 @@ export const CreateListing = extendType({
           // create PropertySlot
           propSlot = await ctx.prisma.propertySlot.create({
             data: {
-              minimumBookings: args.minimumBookings,
               frequency: args.frequency,
               startDate: args.startDate,
               endDate: args.endDate,
@@ -198,7 +216,6 @@ export const CreateListing = extendType({
         const frequency = args.frequency;
         // push all specific dates between startDate and endDate to daySlotDates[]
         let daySlotDates: DaySlotInterface[] = [];
-
         // loop through availableDays and get all specific dates for each generic day
         args.availableDays.forEach((availabeDay) => {
           var nextWeekday = startDate;
@@ -259,6 +276,3 @@ export const CreateListing = extendType({
     });
   },
 });
-function createHandle(title: string): any {
-  throw new Error('Function not implemented.');
-}

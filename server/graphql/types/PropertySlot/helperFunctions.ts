@@ -26,12 +26,13 @@ export function getAllDatesForWeekday(
   let allDates: DaySlotInterface[] = [];
   const firstDay: DaySlotInterface = { date: loopDay, startTime: startTime, endTime: endTime };
   allDates.push(firstDay);
+  let momentCounter = 1;
   while (moment(loopDay).isBefore(endDate)) {
-    let momentCounter = 1;
     if (frequency == Frequency.weekly) {
-      loopDay = moment(loopDay).add(frequency, 'days');
+      loopDay = moment(loopDay).add(7, 'days');
     } else if (frequency == Frequency.monthly) {
       loopDay = moment(firstDay.date).add(momentCounter, 'month');
+      momentCounter++;
       while (loopDay.isoWeekday() != weekday) {
         loopDay = moment(loopDay).add(1, 'days');
       }
@@ -39,6 +40,9 @@ export function getAllDatesForWeekday(
     if (moment(loopDay).isBefore(endDate)) {
       const daySlot: DaySlotInterface = { date: loopDay, startTime: startTime, endTime: endTime };
       allDates.push(daySlot);
+    }
+    if (frequency == Frequency.none) {
+      break;
     }
   }
   return allDates;
