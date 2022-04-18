@@ -12,7 +12,7 @@ COPY codegen.yaml /src/app/
 COPY next-env.d.ts /src/app/
 COPY next.config.js /src/app/
 COPY tsconfig.json /src/app/
-COPY .env.production /src/app/
+COPY .env /src/app/
 RUN yarn install --frozen-lockfile
 EXPOSE 3000
 RUN yarn next:build && yarn next:start
