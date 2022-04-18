@@ -1,0 +1,18 @@
+FROM node:16
+WORKDIR /src/app
+COPY package*.json /src/app
+RUN yarn cache clean && yarn --update-checksums
+COPY pages /src/app
+COPY client /src/app
+COPY codegen /src/app
+COPY @types /src/app
+COPY components /src/app
+COPY styles /src/app/
+COPY codegen.yaml /src/app/
+COPY next-env.d.ts /src/app/
+COPY next.config.js /src/app/
+COPY tsconfig.json /src/app/
+COPY .env.production /src/app/
+RUN yarn install --frozen-lockfile
+EXPOSE 3000
+RUN yarn next:build && yarn next:start
