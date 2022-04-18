@@ -1,1 +1,13 @@
-{ "screenshotOnRunFailure": false, "video": false, "chromeWebSecurity": false }
+{
+  "screenshotOnRunFailure": false,
+  "video": false,
+  "chromeWebSecurity": false,
+  "env": {
+    "baseUrl":"http://localhost:3000",
+    "routes": [
+      { "path": "/", "protected": false, "withNavbar": true },
+      { "path": "/all", "protected": true, "withNavbar": true },
+      { "path": "/create", "protected": true, "withNavbar": true }
+    ]
+  }
+}
