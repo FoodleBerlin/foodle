@@ -1,6 +1,5 @@
-version: "3.8"
+version: '3.8'
 services:
-  # postgresql://foodle:foodle@localhost:5431
   postgres:
     image: postgres
     container_name: foodle
@@ -10,3 +9,49 @@ services:
       - POSTGRES_PASSWORD=foodle
     ports:
       - "5431:5432"
+    volumes:
+      - postgres:/var/lib/postgres
+  prisma:
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    container_name: prisma
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    ports:
+      - '5555:5555'
+    build:
+      context: .
+      dockerfile: Dockerfile.pris
+    volumes:
+      - /app/prisma
+  backend:
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    container_name: backend
+    ports:
+      - '5000:5000'
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - /app/prisma
+  frontend:
+    container_name: frontend
+    ports:
+      - '3000:3000'
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+
+volumes: #define our mysql volume used above
+  postgres:
