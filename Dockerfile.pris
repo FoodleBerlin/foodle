@@ -1,0 +1,9 @@
+FROM node:16
+
+RUN mkdir /app
+WORKDIR /app
+COPY ./package*.json ./
+COPY .env.production ./
+COPY ./prisma ./prisma/
+RUN yarn install
+RUN yarn production:prisma:generate
