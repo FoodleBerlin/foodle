@@ -92,10 +92,13 @@ const ListedKitchen = (props: ListedKitchenProps) => {
         </div>
         <div className={styles['formItem']}>
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Rules</h2>
-          <p className="small-text">
-            {props.rules}
-            <br /> <br />
-          </p>
+          <div>
+            {props.rules.map((rule: string, index: number) => (
+              <p key={index} className="body-text-secondary">
+                {rule} <br /> <br />
+              </p>
+            ))}
+          </div>
         </div>
         <div className={styles['formItem']}>
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Availability</h2>
