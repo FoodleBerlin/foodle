@@ -1,8 +1,6 @@
+import {s3} from '../../components/Create/Uploader'
 
-import { AuthenticatedProps } from '../account/payments';
-import {s3} from '../../utils/s3ResourceHandlers'
-
-export default async function handler(req: any, res: any, props: AuthenticatedProps) {
+export default async function handler(req: any, res: any) {
   s3.listObjectsV2({Bucket: 'foodle-bucket'}, async (err, data)=> {
     if (data.Contents!.length<100) {
       try { 

@@ -1,6 +1,4 @@
-
-
-import {s3} from '../../utils/s3ResourceHandlers'
+import {s3} from '../../components/Create/Uploader'
 
 export default async function handler(req: any, res: any) {
   try {

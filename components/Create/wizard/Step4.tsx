@@ -1,9 +1,8 @@
 import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import React, { useEffect, useState } from 'react';
-import Uploader from '../Uploader';
+import Uploader, { deleteResource } from '../Uploader';
 import Preview from '../Preview';
 import styles from '../../Create/Create.module.scss';
-import { deleteResource } from '../../../utils/s3ResourceHandlers';
 
 export type UploaderImg = {
   fileName: string;
