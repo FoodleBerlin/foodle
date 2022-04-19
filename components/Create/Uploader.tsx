@@ -4,8 +4,8 @@ import { UploaderImg } from './wizard/Step4';
 import { useDropzone } from 'react-dropzone';
 import { useWizardContext } from './wizard/Wizard';
 import { v4 as uuidv4 } from 'uuid';
-import { uploadResource } from '../../pages/api/uploadImage';
-import { getResourceUrl } from '../../pages/api/getImage';
+import { uploadResource } from '../../utils/s3ResourceHandlers';
+import { getResourceUrl } from '../../utils/s3ResourceHandlers';
 interface UploaderProps {
   idCount: number;
   setIdCount: (idCount: number) => void;

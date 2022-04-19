@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Uploader from '../Uploader';
 import Preview from '../Preview';
 import styles from '../../Create/Create.module.scss';
-import { deleteResource } from '../../../pages/api/deleteImage';
+import { deleteResource } from '../../../utils/s3ResourceHandlers';
 
 export type UploaderImg = {
   fileName: string;

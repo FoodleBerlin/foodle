@@ -1,25 +1,6 @@
-import aws from 'aws-sdk'
+
 import { AuthenticatedProps } from '../account/payments';
-export const s3 = new aws.S3({
-  accessKeyId: process.env.APP_AWS_ACCESS_KEY,
-  secretAccessKey: process.env.APP_AWS_SECRET_KEY,
-  region: process.env.APP_AWS_REGION,
-})
-
-export const uploadResource= async (file:File | null, filename: string)=>{
-  const res = await fetch(`/api/uploadImage?file=${filename}`);
-  const data = await res.json();
-  const formData = new FormData();
-
-  Object.entries({ ...data.fields, file }).forEach(([key, value]: any) => {
-    formData.append(key, value);
-  });
-  await fetch(data.url, {
-    method: 'POST',
-    body: formData,
-  });
-  return await data;
-}
+import {s3} from '../../utils/s3ResourceHandlers'
 
 export default async function handler(req: any, res: any, props: AuthenticatedProps) {
   s3.listObjectsV2({Bucket: 'foodle-bucket'}, async (err, data)=> {

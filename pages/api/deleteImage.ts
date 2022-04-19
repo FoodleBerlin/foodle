@@ -1,10 +1,7 @@
 
-import {s3} from './uploadImage'
 
-export const deleteResource = async(filename:string)=>{
-    const res = await fetch(`/api/deleteImage?file=${filename}`);
-    const data = await res.json();
-}
+import {s3} from '../../utils/s3ResourceHandlers'
+
 export default async function handler(req: any, res: any) {
   try {
     s3.deleteObject({

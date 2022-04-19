@@ -1,10 +1,5 @@
-import {s3} from './uploadImage'
+import {s3} from '../../utils/s3ResourceHandlers'
 
-export const getResourceUrl = async(file:File | null)=>{
-  const signedUrlRes = await fetch(`/api/getImage?file=${file ? file.name : ''}`);
-  const signedUrlData = await signedUrlRes.json();
-  return signedUrlData.imageUrl;
-}
 
 export default async function handler(req: any, res: any) {
 
