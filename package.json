@@ -24,7 +24,8 @@
     "next:dev": "next dev",
     "next:build": "next build",
     "next:start": "next start",
-    "next:lint": "next lint"
+    "next:lint": "next lint",
+    "build:server:prod": "dotenv -e .env.local node build/server/index.js"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",

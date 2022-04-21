@@ -21,7 +21,7 @@ interface ListedKitchenProps {
   description: string;
   deposit: number;
   rules: string[];
-  availability: object;
+  availability: object & { startDate: string };
   partialSpace: boolean;
   street: string;
   streetNumber: number;

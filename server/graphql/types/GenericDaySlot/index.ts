@@ -5,7 +5,6 @@ export const GenericDaySlot = objectType({
   name: 'GenericDaySlot',
   definition(t) {
     t.string('id');
-    t.string('propertySlotId');
     t.field('startTime', {
       type: 'DateTime',
     });
@@ -14,17 +13,18 @@ export const GenericDaySlot = objectType({
     });
     t.string('weekday');
     t.nullable.field('propertySlot', {
-      type: PropertySlot, 
+      type: PropertySlot,
       async resolve(parent, args, ctx) {
-        return await ctx.prisma.propertySlot.findUnique({
-          where: {
-            id: parent.propertySlotId,
-          },
-        });
+        return null;
+        // return await ctx.prisma.propertySlot.findUnique({
+        //   where: {
+        //     id: parent.propertySlotId,
+        //   },
+        // });
       },
-    })
+    });
     // t.nullable.list.field('bookingSlot', {
-    //   type: BookingSlot || null, 
+    //   type: BookingSlot || null,
     //   async resolve(parent, args, ctx) {
     //     return await ctx.prisma.bookingSlot.findMany({
     //       where: {
@@ -40,8 +40,8 @@ export const GenericDaySlotInput = inputObjectType({
   name: 'GenericDaySlotInput',
   description: 'GenericDaySlot input',
   definition(t) {
-    t.nonNull.field('startTime', {type: 'DateTime'});
-    t.nonNull.field('endTime', {type: 'DateTime'});
+    t.nonNull.field('startTime', { type: 'DateTime' });
+    t.nonNull.field('endTime', { type: 'DateTime' });
     t.nonNull.string('weekday');
   },
 });
