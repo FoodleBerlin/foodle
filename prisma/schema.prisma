@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://foodle:foodle@localhost:5431"
+  url      = env("DATABASE_URL")
 }
 
 enum ModelKind {
