@@ -17,7 +17,7 @@ export default function Step4() {
 
   useEffect(() => {
     wizardContext.setValue('images', images as FormData['images'], touchDirtyValidate);
-  }, [images]);
+  }, [images, wizardContext]);
 
   const deleteImage = (id: number) => {
     let idAmount = 1;

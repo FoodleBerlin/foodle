@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import styles from './Navbar.module.scss';
 import Tab from './Tab';
 import Modal from './Modal';
-import { AuthenticatedProps } from '~/pages/account/payments';
+import { AuthenticatedProps } from '../../pages/account/payments';
 
 type NavbarProps = {
   user?: AuthenticatedProps['session'];
@@ -26,7 +26,7 @@ const Navbar = (props: NavbarProps) => {
         <Tab href="/" title="Contact" />
       </div>
       {props.user && (
-        <Link href="/account">
+        <Link href="/account" passHref>
           <div className={styles['avatar']}></div>
         </Link>
       )}
