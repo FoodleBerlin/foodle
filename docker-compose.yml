@@ -1,4 +1,8 @@
 version: '3.8'
+networks:
+  foodle-network:
+    external:
+      name: foodle-network
 services:
   postgres:
     image: postgres
@@ -8,61 +12,6 @@ services:
       - POSTGRES_USER=foodle
       - POSTGRES_PASSWORD=foodle
     ports:
-      - "5431:5432"
-    volumes:
-      - postgres:/var/lib/postgres
-  prisma:
-    links:
-      - postgres
-    depends_on:
-      - postgres
-    container_name: prisma
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-    ports:
-      - '5555:5555'
-    build:
-      context: .
-      dockerfile: Dockerfile.pris
-    volumes:
-      - /app/prisma
-  backend:
-    links:
-      - postgres
-    depends_on:
-      - postgres
-    container_name: backend
-    ports:
-      - '5000:5000'
-    build:
-      context: .
-      dockerfile: Dockerfile.api
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-      - /app/prisma
-    environment:
-      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
-      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
-      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
-      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
-      - SERVER_SECRET=${SERVER_SECRET}
-  frontend:
-    container_name: frontend
-    ports:
-      - '3000:3000'
-    build:
-      context: .
-      dockerfile: Dockerfile.web
-    environment:
-      - APP_AWS_ACCESS_KEY=${APP_AWS_ACCESS_KEY}
-      - APP_AWS_SECRET_KEY=${APP_AWS_SECRET_KEY}
-      - APP_AWS_REGION=${APP_AWS_REGION}
-      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/.next
-volumes:
-  postgres:
+      - '5431:5432'
+    networks:
+      - foodle-network
