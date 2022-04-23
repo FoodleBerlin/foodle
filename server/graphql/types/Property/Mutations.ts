@@ -40,7 +40,7 @@ export const CreateListing = extendType({
       args: {
         size: nonNull(intArg()),
         title: nonNull(stringArg()),
-        ownerId: nonNull(stringArg()),
+        ownerHandle: nonNull(stringArg()),
         street: nonNull(stringArg()),
         streetNumber: nonNull(intArg()),
         zip: nonNull(intArg()),
@@ -78,13 +78,13 @@ delete daySlot should not be possible
       async resolve(_root, args, ctx) {
         const user = await ctx.prisma.user.findUnique({
           where: {
-            id: args.ownerId,
+            handle: args.ownerHandle,
           },
         });
         if (user === null) {
           return {
             ClientErrorUserNotExists: {
-              message: `owner for ownerId ${args.ownerId} does not exist`,
+              message: `owner for ownerHandle ${args.ownerHandle} does not exist`,
             },
           };
         }
@@ -137,7 +137,7 @@ delete daySlot should not be possible
           prop = await ctx.prisma.property.create({
             data: {
               size: args.size,
-              ownerId: args.ownerId,
+              ownerId: user.id,
               street: args.street,
               title: args.title.toLowerCase(),
               handle: createHandle(args.title),

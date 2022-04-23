@@ -23,9 +23,8 @@ passport.use(
         });
         console.log('user first');
         if (!user) {
-          console.log('no user');
           // Create user for them on stripe
-          //const stripeId = await stripeWrapper.createCustomer({ email: profile.emails[0].value });
+          const stripeId = await stripeWrapper.createCustomer({ email: profile.emails[0].value });
           const res = await prisma.user.create({
             data: {
               kind: 'user',
@@ -34,19 +33,11 @@ passport.use(
               fullName: profile.displayName,
               email: profile.emails[0].value,
               image: profile.picture,
-              zip: -1,
-              description: 'I am from ...',
               isVerified: false,
               role: 'tenant',
               bookings: { create: [] },
               rentingOut: { create: [] },
               superOwner: false,
-              passport: 'passportString',
-              passportVerified: false,
-              license: 'licenseString',
-              licenseVerified: false,
-              solvency: 'solvencyString',
-              solvencyVerified: false,
             },
           });
           console.log('user');
@@ -55,7 +46,6 @@ passport.use(
           console.log('cb');
           return cb(null, user);
         }
-        console.log('here');
       } catch (e) {
         console.log('ERROR', e);
         return cb(e);

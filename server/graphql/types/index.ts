@@ -1,3 +1,4 @@
+
 import { GraphQLScalarType } from 'graphql';
 import { DateTimeResolver } from 'graphql-scalars';
 import { asNexusMethod } from 'nexus';
@@ -9,3 +10,5 @@ export * from './Error';
 export * from './Property';
 export * from './PropertySlot';
 export * from './User';
+export * from "./DateTime"
+

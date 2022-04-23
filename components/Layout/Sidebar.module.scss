@@ -1,13 +1,25 @@
 .sidebar {
-  width: 300px;
+  flex: 1 1 15%;
+  padding: 10rem 1vw 0 calc(2rem + 2vw);
+  min-width: 29rem;
   height: 100%;
-  top: 65px;
-  position: fixed;
   background-color: white;
-  border-right: 1px solid grey;
-  z-index: 999;
   .menu {
     color: green;
     text-align: left;
+    a {
+      margin-left: -1vw;
+      color: black;
+      position: sticky;
+      top: 0rem;
+    }
+    button {
+      font-size: 2rem;
+      margin-left: -1vw;
+      margin-top: 20rem;
+      border-radius: 2rem !important;
+      padding: 1.5rem 2.5rem !important;
+      width: 100%;
+    }
   }
 }

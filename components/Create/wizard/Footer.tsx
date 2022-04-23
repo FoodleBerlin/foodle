@@ -1,5 +1,5 @@
 import React, { ReactChildren, useEffect, useState } from 'react';
-import { AuthenticatedProps } from '../../../pages/account';
+import { AuthenticatedProps } from '../../../pages/account/payments';
 import client from '../../../client';
 import { CreateListing } from '../../../codegen/createListing';
 import { UploaderImage } from './Step4';
@@ -103,8 +103,6 @@ const Footer = (props: FooterProps) => {
         },
       },
     });
-
-    console.log({ res });
   };
 
   const error = () => {
@@ -130,17 +128,17 @@ const Footer = (props: FooterProps) => {
       <div className={styles['footer-container']}>
         <button
           onClick={() => previousStep(props.step)}
-          className={props.step === 1 ? styles['hidden'] : styles['secondary-btn']}
+          className={props.step === 1 ? styles['hidden'] : styles['secondary-btn-small']}
         >
           back
         </button>
 
         <button
-          className={styles['primary-btn']}
+          className={styles['primary-btn-small']}
           disabled={error() ? true : false}
           onClick={() => {
             nextStep(props.step);
-            handleSubmit();
+            props.step === 5 ? handleSubmit() : console.log(getValues());
           }}
         >
           {props.step === 5 ? 'submit' : 'next'}

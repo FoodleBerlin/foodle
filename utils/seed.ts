@@ -1,4 +1,5 @@
 import prisma from '../server/singletons/prisma';
+import {DateTime} from '../server/graphql/types';
 export async function seed() {
   const [users] = await Promise.all(
     await prisma.$transaction([
@@ -11,6 +12,10 @@ export async function seed() {
             fullName: 'User 1',
             role: 'tenant',
             zip: 13000,
+            description: "desc",
+            passportS3Id: "passS3",
+            solvencyS3Id: "solvS3",
+            licenseS3Id: "liceS3",
           },
           {
             id: '2',
@@ -19,6 +24,10 @@ export async function seed() {
             fullName: 'User 2',
             role: 'tenant',
             zip: 14000,
+            description: "desc",
+            passportS3Id: "passS3",
+            solvencyS3Id: "solvS3",
+            licenseS3Id: "liceS3",
           },
           {
             id: '3',
@@ -27,6 +36,10 @@ export async function seed() {
             fullName: 'User 3',
             role: 'tenant',
             zip: 14000,
+            description: "desc",
+            passportS3Id: "passS3",
+            solvencyS3Id: "solvS3",
+            licenseS3Id: "liceS3",
           },
           {
             id: '4',
@@ -35,6 +48,10 @@ export async function seed() {
             fullName: 'User 4',
             role: 'landlord',
             zip: 15000,
+            description: "desc",
+            passportS3Id: "passS3",
+            solvencyS3Id: "solvS3",
+            licenseS3Id: "liceS3",
           },
           {
             id: '5',
@@ -43,33 +60,58 @@ export async function seed() {
             fullName: 'User 5',
             role: 'tenantLandlord',
             zip: 16000,
+            description: "desc",
+            passportS3Id: "passS3",
+            solvencyS3Id: "solvS3",
+            licenseS3Id: "liceS3",
           },
         ],
       }),
     ])
   );
-  await prisma.property.createMany({
-    data: [
-      {
-        id: '1',
-        size: 123,
-        ownerId: '1',
-        street: 'testhbdbjkfsdbjf',
-        streetNumber: 1233,
-        zip: 123445,
-        city: 'berlin',
-        description: 'testhbdbjkfsdbjf',
-        rules: 'fffff',
-        hourlyPrice: 100,
-        serviceFee: 0,
-        deposit: 500,
-        images: [],
-        partialSpace: false,
-        handle: '1',
-        title: '1',
-        frequency: 'weekly',
+
+  await prisma.property.create({
+    data: {
+      id: '1',
+      size: 30,
+      ownerId: '1',
+      street: 'Turmstrasse',
+      streetNumber: 1233,
+      zip: 10210,
+      city: 'Berlin',
+      description: 'this is the first kitchen on foodle.',
+      facilities: ['Dishwasher', 'Oven', 'Elevator'],
+      rules: ['Hello its me', 'no smoking'],
+      hourlyPrice: 100,
+      serviceFee: 50,
+      deposit: 500,
+      images: ['new image'],
+      partialSpace: false,
+      pickup: false,
+      handle: '1',
+      title: 'Industrial Grade Kitchen in Mitte',
+      isVerified: true,
+      availabilities: {
+        create: {
+          startDate: new Date('2022-03-25').toISOString(),
+          endDate: new Date('2022-04-08').toISOString(),
+          minMonths: 1,
+          frequency: 'weekly',
+          availableDays: {
+            createMany: {
+              data: [
+                {
+                  startTime: new Date('1999-01-01T07:00:00').toISOString(),
+                  endTime: new Date('1999-01-01T19:00:00').toISOString(),
+                  weekday: 'Monday',
+                },
+              ],
+            },
+          },
+        },
       },
-    ],
+    },
   });
 }
+
 export default seed;

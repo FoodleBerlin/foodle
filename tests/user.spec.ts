@@ -1,4 +1,4 @@
-import { apollo as server, app, router } from '../tests/server';
+import { apollo as server, app, router } from '../server/index';
 import { seed } from '../utils/seed';
 import { clean } from '../utils/clean';
 import forgeJWT from '../utils/forgeJWT';
@@ -7,6 +7,7 @@ beforeAll(async () => {
   await clean();
   await seed();
 });
+
 
 describe('Find user by handle', () => {
   const query = `query Query($handle: String!) {

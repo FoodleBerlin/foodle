@@ -1,13 +1,15 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/pages/Home.module.scss';
 import Navbar from '../components/Layout/Navbar';
 import LandingInfo from '../components/Layout/LandingInfo';
+import Modal from '../components/Layout/Modal';
 
 const Home: NextPage = () => {
   const [email, setEmail] = React.useState<string>('');
+  const [openModal, setOpenModal] = useState<boolean>(false);
   return (
     <div>
       <Head>
@@ -33,15 +35,10 @@ const Home: NextPage = () => {
               We pair licensed kitchen owners with new chefs and bakers so businesses can grow together.
             </h3>
             <div>
-              <input
-                className={styles['hero__left--email'] + ' standard-form'}
-                type="text"
-                placeholder="Notify me for early access"
-                onChange={(val) => setEmail(val.target.value)}
-              ></input>
-              <button onClick={() => console.log(email)} className="primary-btn">
-                Submit Email
+              <button onClick={() => setOpenModal(true)} className="primary-btn bold-medium">
+                Sign Up With Google
               </button>
+              <Modal onClose={() => setOpenModal(false)} show={openModal} />
             </div>
           </div>
         </div>

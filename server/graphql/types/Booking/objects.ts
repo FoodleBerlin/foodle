@@ -9,7 +9,8 @@ export const Booking = objectType({
   definition(t) {
     t.string('id');
     t.nullable.field('tenant', {
-      type: User,
+      ///////////////////////////////////////// Todo
+      type: 'User',
       async resolve(parent, args, ctx) {
         return await ctx.prisma.user.findUnique({
           where: {

@@ -27,11 +27,23 @@ enum BookingStatus {
   REJECTED
 }
 
+type ClientErrorInvalidGenericDaySlotInput {
+  message: String!
+}
+
+type ClientErrorInvalidHandle {
+  message: String!
+}
+
 type ClientErrorInvalidInput {
   message: String!
 }
 
 type ClientErrorInvalidPropertyInput {
+  message: String!
+}
+
+type ClientErrorInvalidPropertySlotInput {
   message: String!
 }
 
@@ -96,7 +108,7 @@ type findPropertyResult {
 }
 
 type findUserResult {
-  ClientErrorInvalidInput: ClientErrorInvalidInput
+  ClientErrorInvalidHandle: ClientErrorInvalidHandle
   ClientErrorUserNotExists: ClientErrorUserNotExists
   User: User
 }
@@ -129,7 +141,7 @@ type Mutation {
     frequency: FrequencyEnum!
     hourlyPrice: Int!
     images: [String!]!
-    ownerId: String!
+    ownerHandle: String!
     partialSpace: Boolean!
     pickup: Boolean
     propertyHandle: String!
@@ -204,7 +216,7 @@ type Query {
   findProperty(handle: String): findPropertyResult!
 
   """
-  Takes a handle and returns the user.
+  Takes a handle and returns the user
   """
   findUser(handle: String): findUserResult!
 }
@@ -216,12 +228,16 @@ type UnknownError {
 type User {
   charges: [CustomerCharge!]!
   defaultPayment: PaymentInformation
+  dob: DateTime
   email: String!
   fullName: String!
   handle: String!
   id: String!
+  licenseS3Id: String
+  passportS3Id: String
   paymentMethods: [PaymentInformation!]!
-  zip: Int!
+  solvencyS3Id: String
+  zip: Int
 }
 
 """
