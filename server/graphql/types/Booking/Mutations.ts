@@ -50,6 +50,7 @@ export const BookingOnListing = extendType({
     b.field('createBooking', {
       type: CreateBookingReturn,
       args: {
+        // remove
         userHandle: nonNull(stringArg()),
         propertyHandle: nonNull(stringArg()),
         startDate: nonNull('DateTime'),
@@ -74,10 +75,13 @@ export const BookingOnListing = extendType({
 
         const user = await ctx.prisma.user.findUnique({
           where: {
-            id: ctx.user?.id,
+            // change back id: ctx.user?.id,
+            handle: args.userHandle,
           },
         });
-        if (user === null) {
+        // Todo : not working
+        if (user == null || user == undefined) {
+          console.log('asdf: ' + user);
           return {
             ClientErrorUserNotExists: {
               message: `User is not logged in.`,
