@@ -1,4 +1,4 @@
-import { Frequency, Property, WeekDay } from '@prisma/client';
+import { Property, WeekDay } from '@prisma/client';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import { DaySlotInterface } from '../Property/Objects';
@@ -13,39 +13,6 @@ export function compareDateWithDayOfWeek(date: moment.Moment, weekday: WeekDay):
   } else {
     return false;
   }
-}
-
-export function getAllDatesForWeekday(
-  loopDay: moment.Moment,
-  frequency: Frequency,
-  endDate: moment.Moment,
-  weekday: number,
-  startTime: string,
-  endTime: string
-): DaySlotInterface[] {
-  let allDates: DaySlotInterface[] = [];
-  const firstDay: DaySlotInterface = { date: loopDay, startTime: startTime, endTime: endTime };
-  allDates.push(firstDay);
-  let momentCounter = 1;
-  while (moment(loopDay).isBefore(endDate)) {
-    if (frequency == Frequency.weekly) {
-      loopDay = moment(loopDay).add(7, 'days');
-    } else if (frequency == Frequency.monthly) {
-      loopDay = moment(firstDay.date).add(momentCounter, 'month');
-      momentCounter++;
-      while (loopDay.isoWeekday() != weekday) {
-        loopDay = moment(loopDay).add(1, 'days');
-      }
-    }
-    if (moment(loopDay).isBefore(endDate)) {
-      const daySlot: DaySlotInterface = { date: loopDay, startTime: startTime, endTime: endTime };
-      allDates.push(daySlot);
-    }
-    if (frequency == Frequency.none) {
-      break;
-    }
-  }
-  return allDates;
 }
 
 export function weekdayToInt(weekday: WeekDay): number {

@@ -1,15 +1,10 @@
 import { Property, PropertySlot } from '@prisma/client';
 import moment from 'moment';
 import { booleanArg, extendType, intArg, list, nonNull, nullable, objectType, stringArg } from 'nexus';
+import { bookingService } from '../../../singletons/BookingService';
 import { FrequencyEnum } from '../EnumsScalars/Enums';
 import { ClientErrorInvalidInput, ClientErrorUserNotExists, NoAvailableSlots, UnknownError } from '../Error';
-
-import {
-  compareDateWithDayOfWeek,
-  createHandle,
-  getAllDatesForWeekday,
-  weekdayToInt,
-} from '../PropertySlot/helperFunctions';
+import { createHandle } from '../PropertySlot/helperFunctions';
 import { checkForEmptyList, validateStartEndDate } from '../PropertySlot/validation';
 import { AvailableDay, DaySlotInterface } from './Objects';
 
@@ -60,22 +55,8 @@ export const CreateListing = extendType({
         propertyHandle: nonNull(stringArg()),
         availableDays: nonNull(list(nonNull(AvailableDay))),
       },
-      // validation: endDate should equal startDate when frequency none,
-      // validation: endDate and startDate should be appart at least one week month when frequency > none
-      // Todo unique constraint
-      /*
-      create listing
- => propertySlot and DaySlot correctly added?
- => errors correctly thrown?
-create booking on listing
- => booking and daySlots correctly added/ updated?
- => errors correctly thrown?
-delete user cascade
-delete booking cascade
-delete propertySlot cascade
-delete daySlot should not be possible
-      */
       async resolve(_root, args, ctx) {
+        // validate input
         const user = await ctx.prisma.user.findUnique({
           where: {
             handle: args.ownerHandle,
@@ -124,7 +105,6 @@ delete daySlot should not be possible
             },
           };
         }
-
         if (checkForEmptyList(args.availableDays.length)) {
           return {
             ClientErrorInvalidInput: {
@@ -132,6 +112,48 @@ delete daySlot should not be possible
             },
           };
         }
+
+        const startDate = moment(new Date(args.startDate));
+        const endDate = moment(new Date(args.endDate));
+        const frequency = args.frequency;
+
+        // check if slot overlaps with already existing slot
+        let slots = await ctx.prisma.propertySlot.findMany();
+        slots = slots.filter((slot: any) => {
+          moment(startDate).isAfter(moment(slot.startDate)) && moment(startDate).isBefore(moment(slot.startDate));
+        });
+        slots.forEach((slot: any) => {
+          slot.weekdays.forEach((weekday: any) => {
+            args.availableDays.forEach((day: any) => {
+              if (day.weekday === weekday) {
+                return {
+                  ClientErrorInvalidInput: {
+                    message: `Existing property slot overlaps with selected dates.`,
+                  },
+                };
+              }
+            });
+          });
+        });
+
+        // calculate concrete dates of propertySlot to create DaySlots
+        const daySlotDates: DaySlotInterface[] = bookingService.calculateDates(
+          args.availableDays,
+          endDate,
+          startDate,
+          frequency
+        );
+
+        // throw error if more than 100 day slots would be created
+        if (daySlotDates.length > 100) {
+          return {
+            ClientErrorInvalidInput: {
+              message: `${daySlotDates.length} daySlots, max 100 day slots for 1 propertySlot allowed.`,
+            },
+          };
+        }
+
+        // create property
         let prop: Property;
         try {
           prop = await ctx.prisma.property.create({
@@ -168,28 +190,9 @@ delete daySlot should not be possible
           };
         }
 
-        // check if slot overlaps with already existing slot
-        let slots = await ctx.prisma.propertySlot.findMany();
-        slots = slots.filter((slot) => {
-          moment(startDate).isAfter(moment(slot.startDate)) && moment(startDate).isBefore(moment(slot.startDate));
-        });
-        slots.forEach((slot) => {
-          slot.weekdays.forEach((weekday) => {
-            args.availableDays.forEach((day) => {
-              if (day.weekday === weekday) {
-                return {
-                  ClientErrorInvalidInput: {
-                    message: `Existing property slot overlaps with selected dates.`,
-                  },
-                };
-              }
-            });
-          });
-        });
-
+        // create PropertySlot
         let propSlot: PropertySlot;
         try {
-          // create PropertySlot
           propSlot = await ctx.prisma.propertySlot.create({
             data: {
               frequency: args.frequency,
@@ -211,40 +214,6 @@ delete daySlot should not be possible
           };
         }
 
-        const startDate = moment(new Date(args.startDate));
-        const endDate = moment(new Date(args.endDate));
-        const frequency = args.frequency;
-        // push all specific dates between startDate and endDate to daySlotDates[]
-        let daySlotDates: DaySlotInterface[] = [];
-        // loop through availableDays and get all specific dates for each generic day
-        args.availableDays.forEach((availabeDay) => {
-          var nextWeekday = startDate;
-          // find first date for weekday
-          while (compareDateWithDayOfWeek(nextWeekday, availabeDay.weekday)) {
-            nextWeekday = moment(nextWeekday).add(1, 'days');
-          }
-          // get all dates for the weekday in the timeslot, according to the frequency
-          let datesForWeekday = getAllDatesForWeekday(
-            nextWeekday,
-            frequency,
-            endDate,
-            weekdayToInt(availabeDay.weekday),
-            availabeDay.startTime,
-            availabeDay.endTime
-          );
-          datesForWeekday.forEach((date) => {
-            daySlotDates.push(date);
-          });
-        });
-
-        // throw error if more than 26 day slots would be created
-        if (daySlotDates.length > 26) {
-          return {
-            ClientErrorInvalidInput: {
-              message: `${daySlotDates.length} daySlots, max 26 day slots for 1 propertySlot allowed.`,
-            },
-          };
-        }
         // for each entry in daySlotDates[] create a daySlot and save it to the db
         try {
           await Promise.all(
@@ -259,6 +228,8 @@ delete daySlot should not be possible
               });
             })
           );
+
+          // if no error occured so far, listing was succesfully created and property can be returned
           return { Property: prop };
         } catch (error) {
           console.log({ error });

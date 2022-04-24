@@ -1,6 +1,7 @@
-import { Booking, BookingStatus, PropertySlot, Role } from '@prisma/client';
+import { Booking, PropertySlot, Role } from '@prisma/client';
 import moment from 'moment';
 import { extendType, list, nonNull, objectType, stringArg } from 'nexus';
+import { bookingService } from '../../../singletons/BookingService';
 import { FrequencyEnum } from '../EnumsScalars/Enums';
 import {
   ClientErrorInvalidInput,
@@ -11,12 +12,6 @@ import {
   UnknownError,
 } from '../Error';
 import { AvailableDay, DaySlotInterface } from '../Property';
-import {
-  calculatePrice,
-  compareDateWithDayOfWeek,
-  getAllDatesForWeekday,
-  weekdayToInt,
-} from '../PropertySlot/helperFunctions';
 import { Booking as BookingObject } from './objects';
 
 export const CreateBookingReturn = objectType({
@@ -50,7 +45,7 @@ export const BookingOnListing = extendType({
     b.field('createBooking', {
       type: CreateBookingReturn,
       args: {
-        // remove
+        // Todo: from context
         userHandle: nonNull(stringArg()),
         propertyHandle: nonNull(stringArg()),
         startDate: nonNull('DateTime'),
@@ -75,7 +70,7 @@ export const BookingOnListing = extendType({
 
         const user = await ctx.prisma.user.findUnique({
           where: {
-            // change back id: ctx.user?.id,
+            // Todo: change back id: ctx.user?.id,
             handle: args.userHandle,
           },
         });
@@ -96,37 +91,23 @@ export const BookingOnListing = extendType({
           };
         }
 
-        // calculate every date and save all in daySlotDates
         const startDate = moment(args.startDate);
         const endDate = moment(args.endDate);
         const frequency = args.frequency;
 
-        let daySlotDates: DaySlotInterface[] = [];
-
-        args.daySlots.forEach((availabeDay) => {
-          let firstConcreteDate = startDate;
-          // find first concrete date for generic weekday (Mon, Tue, etc.) as it does not necessarily match with args.startDate ans save it as nextWeekday
-          while (compareDateWithDayOfWeek(firstConcreteDate, availabeDay.weekday)) {
-            firstConcreteDate = moment(firstConcreteDate).add(1, 'days');
-          }
-          // get all concrete dates for the generic weekday in the timeslot, according to the frequency
-          const datesForWeekday = getAllDatesForWeekday(
-            firstConcreteDate,
-            frequency,
-            endDate,
-            weekdayToInt(availabeDay.weekday),
-            availabeDay.startTime,
-            availabeDay.endTime
-          );
-          datesForWeekday.forEach((date) => {
-            daySlotDates.push(date);
-          });
-        });
+        // calculate every date and save all in daySlotDates
+        let daySlotDates: DaySlotInterface[] = bookingService.calculateDates(
+          args.daySlots,
+          startDate,
+          endDate,
+          frequency
+        );
 
         // check if matching propertySlot exists
         const possiblePropertySlots = await ctx.prisma.propertySlot.findMany({
           where: {
             propertyId: property.id,
+            // Todo check here also for date?
           },
         });
 
@@ -143,6 +124,7 @@ export const BookingOnListing = extendType({
           }
           count++;
         }
+
         // if no free slot available return error
         if (propertySlot == null) {
           return {
@@ -151,7 +133,6 @@ export const BookingOnListing = extendType({
             },
           };
         }
-        console.log('Length: ' + daySlotDates.toString());
         // check availability for every daySlot in daySlotDates
         await Promise.all(
           daySlotDates.map(async (day) => {
@@ -190,17 +171,14 @@ export const BookingOnListing = extendType({
         // create Booking
         let booking: Booking;
         try {
-          booking = await ctx.prisma.booking.create({
-            data: {
-              tenantId: user.id,
-              propertyId: property.id,
-              bookingStatus: BookingStatus.pending,
-              totalPrice: calculatePrice(daySlotDates, property),
-              startDate: args.startDate,
-              endDate: args.endDate,
-              frequency: args.frequency,
-            },
-          });
+          booking = await bookingService.createBooking(
+            user.id,
+            property.id,
+            12, // Todo: price
+            startDate,
+            endDate,
+            frequency
+          );
         } catch (error) {
           let errorMessage = 'Unknown error when creating booking';
           if (error instanceof Error) {
@@ -213,28 +191,9 @@ export const BookingOnListing = extendType({
           };
         }
 
-        // update all daySlots with bookingId to mark them as booked
-        // updates as transaction => if one update fails all fail
+        // update daySlots to mark them as booked
         try {
-          await Promise.all(
-            daySlotDates.map((day) => {
-              ctx.prisma.$transaction([
-                ctx.prisma.daySlot.update({
-                  where: {
-                    date_propertySlotId: {
-                      date: day.date.toISOString(),
-                      propertySlotId: property.id,
-                    },
-                  },
-                  data: {
-                    bookingId: booking.id,
-                    bookedStartTime: day.startTime,
-                    bookedEndTime: day.endTime,
-                  },
-                }),
-              ]);
-            })
-          );
+          bookingService.bookDaySlots(daySlotDates, property.id, booking.id);
         } catch (error) {
           // if error occurs delete existing booking
           ctx.prisma.booking.delete({

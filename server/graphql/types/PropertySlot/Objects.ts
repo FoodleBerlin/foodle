@@ -4,7 +4,6 @@ import { DaySlot } from '../DaySlot';
 export const PropertySlot = objectType({
   name: 'PropertySlot',
   definition(t) {
-    t.dateTime('startDate');
     t.field('startDate', {
       type: 'DateTime',
     });

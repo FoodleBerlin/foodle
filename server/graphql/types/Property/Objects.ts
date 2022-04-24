@@ -1,3 +1,5 @@
+import { WeekDay } from '@prisma/client';
+import moment from 'moment';
 import { inputObjectType, objectType } from 'nexus';
 import { Booking } from '../Booking';
 import { WeekDayEnum } from '../EnumsScalars/Enums';
@@ -68,8 +70,14 @@ export const AvailableDay = inputObjectType({
   },
 });
 
+export interface AvailableDayInterface {
+  endTime: moment.Moment;
+  startTime: moment.Moment;
+  weekday: WeekDay;
+}
+
 export interface DaySlotInterface {
   date: moment.Moment;
-  startTime: string; // should also be moment.Moment
+  startTime: string; // Todo should also be moment.Moment
   endTime: string;
 }
