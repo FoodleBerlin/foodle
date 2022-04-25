@@ -1,5 +1,6 @@
 import { inputObjectType, objectType } from 'nexus';
 import { DaySlot } from '../DaySlot';
+import { FrequencyEnum } from '../EnumsScalars/Enums';
 
 export const PropertySlot = objectType({
   name: 'PropertySlot',
@@ -10,6 +11,13 @@ export const PropertySlot = objectType({
     t.field('endDate', {
       type: 'DateTime',
     });
+    t.field('frequency', {
+      type: FrequencyEnum,
+    });
+    // Todo resolve type error (and adapt in tests)
+    /* t.list.field('weekDays', {
+      type: WeekDayEnum,
+    }); */
     t.string('propertyId');
     t.list.field('availableDays', {
       type: DaySlot,

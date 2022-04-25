@@ -144,7 +144,6 @@ type Mutation {
     ownerHandle: String!
     partialSpace: Boolean!
     pickup: Boolean
-    propertyHandle: String!
     rules: [String!]!
     serviceFee: Int!
     size: Int!
@@ -173,7 +172,6 @@ type Property {
   city: String!
   deposit: Int!
   description: String!
-  facilities: [String!]!
   handle: String!
   hourlyPrice: Int!
   images: [String!]!
@@ -194,6 +192,7 @@ type Property {
 type PropertySlot {
   availableDays: [DaySlot!]!
   endDate: DateTime!
+  frequency: FrequencyEnum!
   propertyId: String!
   startDate: DateTime!
 }

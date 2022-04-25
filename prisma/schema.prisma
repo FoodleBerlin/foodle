@@ -21,7 +21,6 @@ enum ModelKind {
   booking
   bookingDay
   propertyAvailability
-  facility
   payment
   paymentMethod
   bookingSlot
@@ -134,7 +133,6 @@ model Property {
   city          String
   description   String
   pickup        Boolean        @default(false)
-  facilities    String[]
   isVerified    Boolean        @default(false)
   hourlyPrice   Int // => decimal
   serviceFee    Int

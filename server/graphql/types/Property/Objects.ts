@@ -50,7 +50,6 @@ export const Property = objectType({
     p.string('city');
     p.string('description');
     p.nullable.boolean('pickup');
-    p.list.string('facilities');
     p.int('deposit');
     p.list.string('images');
     p.boolean('partialSpace');

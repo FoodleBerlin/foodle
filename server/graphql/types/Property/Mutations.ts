@@ -35,6 +35,7 @@ export const CreateListing = extendType({
       args: {
         size: nonNull(intArg()),
         title: nonNull(stringArg()),
+        // Todo: back to id from context
         ownerHandle: nonNull(stringArg()),
         street: nonNull(stringArg()),
         streetNumber: nonNull(intArg()),
@@ -52,13 +53,14 @@ export const CreateListing = extendType({
         startDate: nonNull('DateTime'),
         endDate: nonNull('DateTime'),
         frequency: nonNull(FrequencyEnum),
-        propertyHandle: nonNull(stringArg()),
         availableDays: nonNull(list(nonNull(AvailableDay))),
       },
       async resolve(_root, args, ctx) {
         // validate input
+
         const user = await ctx.prisma.user.findUnique({
           where: {
+            // Todo id from context
             handle: args.ownerHandle,
           },
         });
@@ -170,7 +172,6 @@ export const CreateListing = extendType({
               rules: args.rules,
               serviceFee: args.serviceFee,
               hourlyPrice: args.hourlyPrice,
-              facilities: args.facilities,
               deposit: args.deposit,
               images: args.images,
               partialSpace: args.partialSpace,

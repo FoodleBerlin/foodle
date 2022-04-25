@@ -61,7 +61,6 @@ Table Property {
   city String [not null]
   description String [not null]
   pickup Boolean [not null, default: false]
-  facilities String [not null]
   isVerified Boolean [not null, default: false]
   hourlyPrice Int [not null]
   serviceFee Int [not null]
@@ -111,7 +110,6 @@ Enum ModelKind {
   booking
   bookingDay
   propertyAvailability
-  facility
   payment
   paymentMethod
   bookingSlot

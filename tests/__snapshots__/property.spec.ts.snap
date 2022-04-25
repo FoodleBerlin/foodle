@@ -2,10 +2,56 @@
 
 exports[` Property can create a listing 1`] = `
 Object {
-  "data": undefined,
-  "errors": Array [
-    [ValidationError: Unknown argument "handle" on field "createListing" of type "Mutation".],
-  ],
+  "data": Object {
+    "createListing": Object {
+      "ClientErrorInvalidInput": null,
+      "ClientErrorUserNotExists": null,
+      "NoAvailableSlots": null,
+      "Property": Object {
+        "availabilites": Array [
+          Object {
+            "availableDays": Array [
+              Object {
+                "date": "1652544171063",
+                "endTime": "1643846400000",
+                "startTime": "1640995200000",
+              },
+            ],
+            "endDate": 2022-05-14T16:02:51.063Z,
+            "frequency": "WEEKLY",
+            "propertyId": "cl2dj7b870023eveotyp9to6y",
+            "startDate": 2022-03-14T16:02:51.063Z,
+          },
+        ],
+        "bookings": Array [],
+        "city": "Germany2",
+        "deposit": 0,
+        "description": "",
+        "handle": "titlee_1a768c",
+        "hourlyPrice": 0,
+        "images": Array [
+          "",
+        ],
+        "isVerified": false,
+        "owner": Object {
+          "email": "user4@gmail.com",
+          "fullName": "User 4",
+          "id": "4",
+        },
+        "partialSpace": false,
+        "pickup": false,
+        "rules": Array [],
+        "serviceFee": 0,
+        "size": 0,
+        "street": "FoodleStreet",
+        "streetNumber": 0,
+        "title": "titlee",
+        "zip": 0,
+      },
+      "UnknownError": null,
+    },
+  },
+  "errors": undefined,
   "extensions": undefined,
   "http": Object {
     "headers": Headers {
@@ -21,7 +67,7 @@ Object {
     "findAllProperties": Object {
       "Properties": Array [
         Object {
-          "city": "Berlin",
+          "city": "Germany2",
         },
       ],
       "UnknownError": null,
