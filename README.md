@@ -1,18 +1,47 @@
-## Development
+## Foodle 
+A licensed kitchen rental service. 
+### Foodle's Architecture
+![FoodleArchitecture](https://user-images.githubusercontent.com/50741293/165260033-f6c8e0aa-8c24-45b6-8b54-427525527121.png)
+
+### Repository Structure
+- This repository has a monolithic architecture
+- The web pages can be found /pages and the reusable components for these pages under /components
+- Global SCSS styles can be found under /styles
+- The Prisma schema and migrations made from it can be found under /prisma
+- The Nexus Generated GraphQL schema can be found under server/generated/schema.graphql
+- Code Definitons for GraphQL queries, mutations and types can be found under server/graphql/types
+- Authentication relevant functions can be found under server/passport.ts as well as server/index.ts and utils/forgeJWT
+
+### Server Architecture
+![FoodleServerArchitecture](https://user-images.githubusercontent.com/50741293/165266675-fbf2f9f0-2375-4f8a-83c7-52bf80636872.png)
+
+### Server Tech Stack 
+-  Prisma: An Object-Relational Mapper that migrates changes to its schema to an SQL schema on command. 
+-	NexusJS: A schema generator for GraphQL APIs. It can use code definitions for types, queries, and mutations to generate a GraphQL schema that we can interact with. Furthermore, the Prisma client can use these code definitions to interact with the PostgreSQL database.   
+-	Apollo-Express Server: A GraphQL Server handling CRUD operations called from the frontend. In addition, this server can handle REST requests to handle our Google OAuth authentication process that goes through PassportJS middleware. 
+
+### Client Tech Stack
+- Next.Js + React.Js: ReactJs and the framework Next.Js built on top of it are used for routing, state management, server-side-rendering, CRUD requests from the Next API to our AWS S3 bucket, and much more.
+- GraphQL CodeGen: Uses raw GraphQL queries to generates types (for our TypeScript code definitions) and react hooks to query our Server.
+- Apollo Client: Also used to query our Server (but will be removed soon since it does not offer the same type safety as Codegen hooks)
+- SCSS Modules: For component level styles
+- 7-1 SCSS Architecture: For global styles and utility classes.
+
+## Setup
 
 1. `yarn` to install deps.
+2. Add a `.env.local` file to the root, all the environment variables will be sent to you by one of the teammates over a private Slack message. 
 
-![Foodle Architecture Diagram](/foodle/assets/FoodleArchitecture.png)
+## Development
 
 ### Server
 
 1. `yarn db:up` to start the database
-2. Add a `.env.local` file to the root and set `DATABASE_URL` to the string commented in the docker-compose.yml file. Also set a `SERVER_SECRET` to any string value, and `GOOGLE_CLIENT_ID`, and `GOOGLE_CLIENT_SECRET` (ask a teammate for the value). Add `STRIPE_PUBLISHABLE_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` (ask a teammate for the values).
-3. `yarn prisma:migrate:deploy` to project the generated migration from prisma.schema onto your database
-4. `yarn nexus:watch` to generate the graphql.schema
-5. `yarn dev` to start the server in development
-6. navigate to "localhost:5000/graphql" for the apollo interface where you can manually test queries/mutations
-7. `yarn db:seed` to seed the database.
+2. `yarn prisma:migrate:deploy` to project the generated migration from prisma.schema onto your database
+3. `yarn nexus:watch` to generate the graphql.schema
+4. `yarn dev` to start the server in development
+5. navigate to "localhost:5000/graphql" for the apollo interface where you can manually test queries/mutations
+6. `yarn db:seed` to seed the database.
 
 ### Client
 
