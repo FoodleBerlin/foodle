@@ -2,6 +2,8 @@
 
 1. `yarn` to install deps.
 
+![Foodle Architecture Diagram](/foodle/assets/FoodleArchitecture.png)
+
 ### Server
 
 1. `yarn db:up` to start the database
