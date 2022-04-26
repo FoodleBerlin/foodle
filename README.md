@@ -1,5 +1,32 @@
 ## Foodle 
 A licensed kitchen rental service. 
+## Setup
+
+1. `yarn` to install deps.
+2. Add a `.env.local` file to the root, all the environment variables will be sent to you by one of the teammates over a private Slack message. 
+
+## Development
+
+### Server
+
+1. `yarn db:up` to start the database
+2. `yarn prisma:migrate:deploy` to project the generated migration from prisma.schema onto your database
+3. `yarn nexus:watch` to generate the graphql.schema
+4. `yarn dev` to start the server in development
+5. navigate to "localhost:5000/graphql" for the apollo interface where you can manually test queries/mutations
+6. `yarn db:seed` to seed the database.
+
+### Client
+
+1. Ensure the dev server is on and run `yarn codegen:generate`
+2. `yarn next:dev` to run the file watcher. front end should be accessible at localhost:3000
+   NOTE: when you change front end queries or mutations to the backend you need to manually run step 1 again.
+
+## Api Tests
+
+1. Important: Dev Server needs to be stopped.
+2. `yarn test:api` to start the test
+
 ### Foodle's Architecture
 ![FoodleArchitecture](https://user-images.githubusercontent.com/50741293/165260033-f6c8e0aa-8c24-45b6-8b54-427525527121.png)
 
@@ -27,29 +54,8 @@ A licensed kitchen rental service.
 - SCSS Modules: For component level styles
 - 7-1 SCSS Architecture: For global styles and utility classes.
 
-## Setup
-
-1. `yarn` to install deps.
-2. Add a `.env.local` file to the root, all the environment variables will be sent to you by one of the teammates over a private Slack message. 
-
-## Development
-
-### Server
-
-1. `yarn db:up` to start the database
-2. `yarn prisma:migrate:deploy` to project the generated migration from prisma.schema onto your database
-3. `yarn nexus:watch` to generate the graphql.schema
-4. `yarn dev` to start the server in development
-5. navigate to "localhost:5000/graphql" for the apollo interface where you can manually test queries/mutations
-6. `yarn db:seed` to seed the database.
-
-### Client
-
-1. Ensure the dev server is on and run `yarn codegen:generate`
-2. `yarn next:dev` to run the file watcher. front end should be accessible at localhost:3000
-   NOTE: when you change front end queries or mutations to the backend you need to manually run step 1 again.
-
-## Api Tests
-
-1. Important: Dev Server needs to be stopped.
-2. `yarn test:api` to start the test
+### Authentication
+Currently we have authentication done through Google's OAuth process, facilitated by PassportJS and some ExpressJS routes. 
+![Foodle Authentication](https://user-images.githubusercontent.com/50741293/165271388-52ce8c88-a135-4561-9673-3e20ca5fd0fd.png)
+<br>
+This flow looks roughly as above (from [The Net Ninja](https://www.youtube.com/watch?v=nK6fkNShhGc&ab_channel=TheNetNinja)), except that we have a PostgreSQL database instead of a MongoDB NoSQL database. Any protected NextJS route checks for a valid JWT cookie and redirects users to the home page if they are not authenticated. 
