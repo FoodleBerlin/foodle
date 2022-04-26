@@ -38,6 +38,7 @@ A licensed kitchen rental service.
 - The Nexus Generated GraphQL schema can be found under server/generated/schema.graphql
 - Code Definitons for GraphQL queries, mutations and types can be found under server/graphql/types
 - Authentication relevant functions can be found under server/passport.ts as well as server/index.ts and utils/forgeJWT
+- AWS-SDK: Currently AWS S3 CRUD functions for images are in the pages/api and are being called in the Step4 (and related) components of the Create A Listing flow. (this currently resides in the feat/s3 branch)
 
 ### Server Architecture
 ![FoodleServerArchitecture](https://user-images.githubusercontent.com/50741293/165266675-fbf2f9f0-2375-4f8a-83c7-52bf80636872.png)
@@ -52,7 +53,7 @@ A licensed kitchen rental service.
 - GraphQL CodeGen: Uses raw GraphQL queries to generates types (for our TypeScript code definitions) and react hooks to query our Server.
 - Apollo Client: Also used to query our Server (but will be removed soon since it does not offer the same type safety as Codegen hooks)
 - SCSS Modules: For component level styles
-- 7-1 SCSS Architecture: For global styles and utility classes.
+- 7-1 SCSS Architecture: For global styles and utility classes
 
 ### Authentication
 Currently we have authentication done through Google's OAuth process, facilitated by PassportJS and some ExpressJS routes. 
