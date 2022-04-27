@@ -50,9 +50,10 @@ export function createHandle(title: String): string {
 export function calculatePrice(daySlotDates: DaySlotInterface[], property: Property): number {
   let hours = 0;
   daySlotDates.forEach((day) => {
-    let start = moment(day.startTime);
+    // Todo: adapt
+    /*   let start = moment(day.startTime);
     let end = moment(day.endTime);
-    hours += start.diff(end, 'hours');
+    hours += start.diff(end, 'hours'); */
   });
   return hours * property.hourlyPrice;
 }

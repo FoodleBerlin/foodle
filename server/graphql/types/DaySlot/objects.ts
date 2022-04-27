@@ -3,9 +3,11 @@ import { objectType } from 'nexus';
 export const DaySlot = objectType({
   name: 'DaySlot',
   definition(t) {
-    t.string('date');
-    t.string('startTime');
-    t.string('endTime');
+    t.field('date', {
+      type: 'DateTime',
+    });
+    t.string('duration');
+    // Todo
     /*     t.nullable.string('bookedStartTime');
     t.nullable.string('bookedEndTime'); */
     /*  t.field('propertySlot', {

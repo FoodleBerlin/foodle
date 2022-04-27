@@ -63,8 +63,8 @@ export const Property = objectType({
 export const AvailableDay = inputObjectType({
   name: 'AvailableDay',
   definition(t) {
-    t.nonNull.string('endTime');
-    t.nonNull.string('startTime');
+    t.nonNull.string('dateTime'); // Todo DateTime format
+    t.nonNull.int('duration');
     t.nonNull.field('weekday', { type: WeekDayEnum });
   },
 });
@@ -76,7 +76,6 @@ export interface AvailableDayInterface {
 }
 
 export interface DaySlotInterface {
-  date: moment.Moment;
-  startTime: string; // Todo should also be moment.Moment
-  endTime: string;
+  dateTime: moment.Moment;
+  duration: number; // Todo should also be moment.Moment
 }

@@ -71,10 +71,10 @@ export const CreateListing = extendType({
             },
           };
         }
-        const invalidInputLengthError = (inputType: string, arg: string) => {
+        const invalidInputLengthError = (inputType: string, arg: string, maxLength: number) => {
           return {
             ClientErrorInvalidInput: {
-              message: `${inputType} ${arg} is invalid, must have a max length of 5`,
+              message: `${inputType} ${arg} is invalid, must have a max length of ${maxLength} characters.`,
             },
           };
         };
@@ -82,16 +82,16 @@ export const CreateListing = extendType({
           return str.length > maxLength;
         };
         if (isOverMaxLength(args.zip.toString(), 5)) {
-          return invalidInputLengthError('Zip code', args.zip.toString());
+          return invalidInputLengthError('Zip code', args.zip.toString(), 5);
         }
-        if (isOverMaxLength(args.city, 200)) {
-          return invalidInputLengthError('City name', args.city);
+        if (isOverMaxLength(args.city, 50)) {
+          return invalidInputLengthError('City name', args.city, 50);
         }
-        if (isOverMaxLength(args.street, 200)) {
-          return invalidInputLengthError('Street name', args.street);
+        if (isOverMaxLength(args.street, 50)) {
+          return invalidInputLengthError('Street name', args.street, 50);
         }
         if (isOverMaxLength(args.description, 1000)) {
-          return invalidInputLengthError('Description', args.description);
+          return invalidInputLengthError('Description', args.description, 1000);
         }
         if (!validateStartEndDate(moment(args.startDate), moment(args.endDate))) {
           return {
@@ -115,8 +115,8 @@ export const CreateListing = extendType({
           };
         }
 
-        const startDate = moment(new Date(args.startDate));
-        const endDate = moment(new Date(args.endDate));
+        const startDate = moment(args.startDate);
+        const endDate = moment(args.endDate);
         const frequency = args.frequency;
 
         // check if slot overlaps with already existing slot
@@ -194,6 +194,7 @@ export const CreateListing = extendType({
         // create PropertySlot
         let propSlot: PropertySlot;
         try {
+          const a = args.startDate;
           propSlot = await ctx.prisma.propertySlot.create({
             data: {
               frequency: args.frequency,
@@ -221,9 +222,8 @@ export const CreateListing = extendType({
             daySlotDates.map(async (day) => {
               await ctx.prisma.daySlot.create({
                 data: {
-                  date: day.date.toISOString(),
-                  startTime: day.startTime,
-                  endTime: day.endTime,
+                  date: day.dateTime.toISOString(),
+                  duration: day.duration,
                   propertySlotId: propSlot.id,
                 },
               });

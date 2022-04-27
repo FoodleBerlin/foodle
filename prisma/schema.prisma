@@ -99,8 +99,7 @@ model DaySlot {
   id              String       @id @default(cuid())
   date            DateTime
   // Must be the same day
-  startTime       DateTime
-  endTime         DateTime
+  duration        Int
   // booked startTime and endTime always needs to be added manually during
   // the create booking mutation if booking id is null
   bookedStartTime DateTime?

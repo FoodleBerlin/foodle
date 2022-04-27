@@ -138,7 +138,7 @@ export const BookingOnListing = extendType({
           daySlotDates.map(async (day) => {
             let daySlot = await ctx.prisma.daySlot.findFirst({
               where: {
-                date: day.date.toISOString(),
+                date: day.dateTime.toISOString(),
                 propertySlotId: propertySlot!.id,
               },
             });
@@ -147,12 +147,13 @@ export const BookingOnListing = extendType({
               if (!(daySlot.bookingId === null && daySlot.bookedStartTime === null && daySlot.bookedEndTime === null)) {
                 return {
                   NoAvailableSlots: {
-                    message: `No available daySlot on ${day.date} for booking request.`,
+                    message: `No available daySlot on ${day.dateTime} for booking request.`,
                   },
                 };
               }
               // check if start and endTime is within daySlot time frame
-              if (
+              //Todo: unkommt
+              /* if (
                 !(
                   moment(day.startTime).isSameOrAfter(daySlot.startTime) &&
                   moment(daySlot.endTime).isSameOrAfter(day.endTime)
@@ -160,10 +161,10 @@ export const BookingOnListing = extendType({
               ) {
                 return {
                   NoAvailableSlots: {
-                    message: `No available daySlot on ${day.date} for requested time frame.`,
+                    message: `No available daySlot on ${day.dateTime} for requested time frame.`,
                   },
                 };
-              }
+              } */
             }
           })
         );

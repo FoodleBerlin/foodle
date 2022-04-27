@@ -2,8 +2,8 @@
 ### Do not make changes to this file directly
 
 input AvailableDay {
-  endTime: String!
-  startTime: String!
+  dateTime: String!
+  duration: Int!
   weekday: WeekDays!
 }
 
@@ -91,9 +91,8 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
 scalar DateTime
 
 type DaySlot {
-  date: String!
-  endTime: String!
-  startTime: String!
+  date: DateTime!
+  duration: String!
 }
 
 type findAllPropertiesReturn {
