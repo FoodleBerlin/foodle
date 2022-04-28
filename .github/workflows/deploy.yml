@@ -1,0 +1,39 @@
+name: Foodle Deployment
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      SERVER_SECRET: ${{ secrets.SERVER_SECRET }}
+      STRIPE_PUBLISHABLE_KEY: ${{secrets.STRIPE_PUBLISHABLE_KEY]}
+      STRIPE_SECRET_KEY: ${{secrets.STRIPE_SECRET_KEY}}
+      STRIPE_WEBHOOK_SECRET: ${{secrets.STRIPE_WEBHOOK_SECRET}}
+      APP_AWS_ACCESS_KEY: ${{secrets.APP_AWS_ACCESS_KEY}}
+      APP_AWS_SECRET_KEY: ${{secrets.APP_AWS_SECRET_KEY}}
+      APP_AWS_REGION: ${{secrets.APP_AWS_REGION}}
+      AWS_S3_BUCKET_NAME: ${{secrets.AWS_S3_BUCKET_NAME}}
+    steps:
+      - name: Deploy to GCloud
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: 'yarn'
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{ secrets.SSH_USERNAME }}
+          script: |
+            rm -rf foodle
+            git clone git@github.com:FoodleBerlin/foodle.git
+            cd foodle
+            yarn
+            pm2 delete foodle
+            yarn build
+            SERVER_SECRET=${{secrets.SERVER_SECRET}} STAGE=production pm2 start npm --name "foodle" -- start
+            echo 'Succesfully deployed 🎉'
