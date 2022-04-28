@@ -26,7 +26,8 @@
     "next:start": "next start",
     "next:lint": "next lint",
     "build:client:prod": "dotenv -e .env.local next build && next start",
-    "build:server:prod": "dotenv -e .env.production -- yarn prisma:migrate:deploy && dotenv -e .env.production -- node build/server/index.js"
+    "build:server:prod": "dotenv -e .env.production -- yarn prisma:migrate:deploy && dotenv -e .env.production -- node build/server/index.js",
+    "heroku:deploy": "npm prisma migrate deploy && node build/server/index.js"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
