@@ -9,6 +9,8 @@ import { DataSources } from 'apollo-server-core/dist/graphqlOptions';
 import StripeWrapper from './singletons/stripe/endpoints';
 import datasources from './singletons/datasources';
 
+const port = process.env.PORT || 5000
+
 export const app = express();
 app.use(passport.initialize());
 
@@ -36,7 +38,7 @@ export async function main() {
   app.use(router);
   apollo.applyMiddleware({ app });
   app.listen({
-    port: 5000,
+    port: port,
   });
 }
 if (!process.env.TEST) {
@@ -53,6 +55,6 @@ router.get('/api/callback', (req: any, res: any, next) => {
       secure: false, // true in prod,
       sameSite: 'lax', // 'strict' in prod,
     });
-    return res.redirect('http://localhost:3000');
+    return res.redirect(process.env.CLIENT_URL);
   })(req, res, next);
 });
