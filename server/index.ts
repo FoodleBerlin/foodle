@@ -36,7 +36,7 @@ export async function main() {
   app.use(router);
   apollo.applyMiddleware({ app });
   app.listen({
-    port: process.env.PORT || 5000,
+    port: 5000,
   });
 }
 if (!process.env.TEST) {
