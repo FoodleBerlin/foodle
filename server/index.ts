@@ -30,13 +30,13 @@ export const apollo: ApolloServer = new ApolloServer({
 });
 
 export const router = express.Router();
-
+const port = process.env.PORT || 5000;
 export async function main() {
   await apollo.start();
   app.use(router);
   apollo.applyMiddleware({ app });
   app.listen({
-    port: process.env.PORT || 5000,
+    port: port,
   });
 }
 if (!process.env.TEST) {
