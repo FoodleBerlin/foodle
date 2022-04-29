@@ -13,7 +13,7 @@ const Navbar = (props: NavbarProps) => {
   return (
     <nav className={styles['navbar'] + ' flex-center'}>
       <div className={styles['navbar__logo']}>
-        <Link href="/">
+        <Link href="/" passHref>
           <a>
             <Image src="/foodle_logo.svg" width={50} height={35} alt="Foodle Logo" />
           </a>
@@ -26,7 +26,7 @@ const Navbar = (props: NavbarProps) => {
         <Tab href="/" title="Contact" />
       </div>
       {props.user && (
-        <Link href="/account">
+        <Link href="/account" passHref>
           <div className={styles['avatar']}></div>
         </Link>
       )}
