@@ -9,9 +9,11 @@ interface IModalProps {
 }
 
 const Modal = (props: IModalProps) => {
+  console.log('SERVER_URL:' + process.env.SERVER_URL);
   if (!props.show) {
     return null;
   }
+
   return (
     <div className={styles['modal']} onClick={props.onClose}>
       <div className={styles['modal__content']} onClick={(e) => e.stopPropagation()}>
