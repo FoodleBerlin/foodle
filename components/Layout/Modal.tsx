@@ -33,7 +33,7 @@ const Modal = (props: IModalProps) => {
             ></input>
             <button
               className={'primary-btn'}
-              onClick={() => window.location.replace(process.env.SERVER_URL + 'api/auth')}
+              onClick={() => window.location.replace(`${process.env.SERVER_URL}api/auth`)}
             >
               Continue with google
             </button>
