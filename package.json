@@ -22,7 +22,7 @@
     "next:build": "next build",
     "next:start": "next start",
     "next:lint": "next lint",
-    "heroku:deploy": "npm prisma migrate deploy && node build/server/index.js"
+    "heroku:deploy":  "yarn prisma migrate deploy && node build/server/index.js"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
