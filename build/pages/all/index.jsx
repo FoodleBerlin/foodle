@@ -11,7 +11,7 @@ var All_module_scss_1 = __importDefault(require("../../styles/pages/All.module.s
 var index_1 = require("../../codegen/index");
 var All = function () {
     var _a = (0, index_1.useListingsQuery)({
-        endpoint: 'http://localhost:5000/graphql',
+        endpoint: process.env.SERVER_URL + 'graphql',
         fetchParams: {
             headers: {
                 'Content-Type': 'application/json',

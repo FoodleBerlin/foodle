@@ -43,11 +43,12 @@ var GoogleStrategy = require('passport-google-oauth20');
 var passport_1 = __importDefault(require("passport"));
 var prisma_1 = __importDefault(require("../server/singletons/prisma"));
 var datasources_1 = __importDefault(require("./singletons/datasources"));
+var uuid_1 = require("uuid");
 var stripeWrapper = (0, datasources_1.default)().stripeWrapper;
 passport_1.default.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'http://localhost:5000/api/callback',
+    callbackURL: process.env.SERVER_URL + 'api/callback',
     state: true,
 }, function (accessToken, refreshToken, profile, cb) {
     var _a;
@@ -74,7 +75,7 @@ passport_1.default.use(new GoogleStrategy({
                     return [4 /*yield*/, prisma_1.default.user.create({
                             data: {
                                 kind: 'user',
-                                stripeId: 'cus_Kza1oi2OTlvcpb',
+                                stripeId: (0, uuid_1.v4)(),
                                 handle: profile.emails[0].value,
                                 fullName: profile.displayName,
                                 email: profile.emails[0].value,

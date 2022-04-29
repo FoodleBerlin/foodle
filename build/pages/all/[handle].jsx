@@ -12,7 +12,7 @@ var Kitchen = function () {
     var router = (0, router_1.useRouter)();
     var handle = router.query.handle;
     var _a = (0, index_1.useListingsQuery)({
-        endpoint: 'http://localhost:5000/graphql',
+        endpoint: process.env.SERVER_URL + 'graphql',
         fetchParams: {
             headers: {
                 'Content-Type': 'application/json',

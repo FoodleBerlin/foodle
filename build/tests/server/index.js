@@ -173,7 +173,7 @@ exports.router.get('/api/callback', function (req, res, next) {
                         secure: false,
                         sameSite: 'lax', // 'strict' in prod,
                     });
-                    return [2 /*return*/, res.redirect('http://localhost:3000')];
+                    return [2 /*return*/, res.redirect(process.env.CLIENT_URL)];
             }
         });
     }); })(req, res, next);

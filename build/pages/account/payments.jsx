@@ -73,7 +73,7 @@ var Account = function (props) {
     var _a, _b;
     console.log({ props: props });
     var _c = (0, codegen_1.useFindUserQuery)({
-        endpoint: 'http://localhost:5000/graphql',
+        endpoint: process.env.SERVER_URL + 'graphql',
         fetchParams: {
             headers: {
                 'Content-Type': 'application/json',
@@ -91,8 +91,8 @@ var Account = function (props) {
       <Sidebar_1.default></Sidebar_1.default>
       <div className={Account_module_scss_1.default['container']}>
         <h2>Payment Methods</h2>
-        {(_a = data === null || data === void 0 ? void 0 : data.findUser.User) === null || _a === void 0 ? void 0 : _a.paymentMethods.map(function (method) {
-            return (<div className={Account_module_scss_1.default['row']}>
+        {(_a = data === null || data === void 0 ? void 0 : data.findUser.User) === null || _a === void 0 ? void 0 : _a.paymentMethods.map(function (method, index) {
+            return (<div key={index} className={Account_module_scss_1.default['row']}>
               <span>
                 {method.type}....{method.cardNumber}
               </span>
@@ -110,8 +110,8 @@ var Account = function (props) {
 
       <h2>Past Payments</h2>
       <div className={Account_module_scss_1.default['container']}>
-        {(_b = data === null || data === void 0 ? void 0 : data.findUser.User) === null || _b === void 0 ? void 0 : _b.charges.map(function (charge) {
-            return (<div className={Account_module_scss_1.default['row']}>
+        {(_b = data === null || data === void 0 ? void 0 : data.findUser.User) === null || _b === void 0 ? void 0 : _b.charges.map(function (charge, index) {
+            return (<div key={index} className={Account_module_scss_1.default['row']}>
               <span>{new Date(charge.date * 1000).toUTCString()}</span>
               <span>
                 {charge.currency}

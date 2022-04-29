@@ -62,7 +62,7 @@ var Home = function () {
         </div>
         <div className={Home_module_scss_1.default['hero__right']}>
           <div className={Home_module_scss_1.default['hero__right']}>
-            <image_1.default src={'/programming.png'} width={450} height={350}/>
+            <image_1.default alt={'Hero Image'} src={'/programming.png'} width={450} height={350}/>
           </div>
         </div>
       </div>
