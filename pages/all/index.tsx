@@ -8,7 +8,7 @@ import { useListingsQuery } from '../../codegen/index';
 
 const All: NextPage = () => {
   const { status, data, error, isFetching, isLoading } = useListingsQuery({
-    endpoint: 'http://localhost:5000/graphql',
+    endpoint: process.env.SERVER_URL + 'graphql',
     fetchParams: {
       headers: {
         'Content-Type': 'application/json',

@@ -36,7 +36,7 @@ export async function main() {
   app.use(router);
   apollo.applyMiddleware({ app });
   app.listen({
-    port: 5000,
+    port: process.env.PORT || 5000,
   });
 }
 if (!process.env.TEST) {
@@ -53,6 +53,6 @@ router.get('/api/callback', (req: any, res: any, next) => {
       secure: false, // true in prod,
       sameSite: 'lax', // 'strict' in prod,
     });
-    return res.redirect('http://localhost:3000');
+    return res.redirect(process.env.CLIENT_URL);
   })(req, res, next);
 });

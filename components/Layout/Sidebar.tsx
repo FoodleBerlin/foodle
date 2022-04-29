@@ -3,7 +3,7 @@ import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Sidebar.module.scss';
 import Tab from './Tab';
-import { AuthenticatedProps } from '~/pages/account/payments';
+import { AuthenticatedProps } from '../../pages/account/payments';
 
 type SidebarProps = {
   user?: AuthenticatedProps['session'];

@@ -1,5 +1,5 @@
 import { extendType, stringArg } from "nexus";
-import { Context } from "~/server/context";
+import { Context } from "../../../context";
 
 export const Query = extendType({
   type: "Query",

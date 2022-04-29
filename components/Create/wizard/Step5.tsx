@@ -2,8 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import { useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
-import { UploaderImage } from './Step4';
 import PriceLine from '../PriceLine';
+import { UploaderImg } from './Step4';
 
 export default function Step5() {
   const wiz = useWizardContext().getValues();
@@ -16,9 +16,9 @@ export default function Step5() {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
           <div className="gallery__container">
             <div className="gallery">
-              {wiz.images.map((image: UploaderImage, index) => (
+              {wiz.images.map((image: UploaderImg, index) => (
                 <div key={index} className={'gallery__item gallery__item--' + index}>
-                  <Image src={image.file} width={460} height={516} className="gallery__img" alt={'Image ' + index} />
+                  <Image src={image.url} width={460} height={516} className="gallery__img" alt={'Image ' + index} />
                 </div>
               ))}
             </div>

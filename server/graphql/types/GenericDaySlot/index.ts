@@ -5,7 +5,7 @@ export const GenericDaySlot = objectType({
   name: 'GenericDaySlot',
   definition(t) {
     t.string('id');
-    t.string('propertySlotId');
+    // t.string('propertySlotId');
     t.field('startTime', {
       type: 'DateTime',
     });
@@ -16,11 +16,12 @@ export const GenericDaySlot = objectType({
     t.nullable.field('propertySlot', {
       type: PropertySlot, 
       async resolve(parent, args, ctx) {
-        return await ctx.prisma.propertySlot.findUnique({
-          where: {
-            id: parent.propertySlotId,
-          },
-        });
+        // return await ctx.prisma.propertySlot.findUnique({
+        //   where: {
+        //     id: parent.propertySlotId,
+        //   },
+        // });
+        return null;
       },
     })
     // t.nullable.list.field('bookingSlot', {

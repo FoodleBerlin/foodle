@@ -1,8 +1,8 @@
 import { ChangeEvent, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { FindUserQuery, FindUserResult, User, useUpdateUserMutation } from '../../codegen';
-import { UploaderImage } from '../Create/wizard/Step4';
+import { UploaderImg } from '../Create/wizard/Step4';
 import styles from '../../pages/account/Account.module.scss';
-import ProfileButton from './ProfileButton';
+import ProfileButton, { UploaderImage } from './ProfileButton';
 import { Token } from '../../utils/forgeJWT';
 import { urlSafeEncode } from '@aws-amplify/core';
 interface ProfileFormProps {
@@ -14,7 +14,7 @@ interface ProfileFormProps {
 
 const ProfileForm = (props: ProfileFormProps) => {
   const { mutate, data } = useUpdateUserMutation({
-    endpoint: 'http://localhost:5000/graphql',
+    endpoint: process.env.SERVER_URL + 'graphql',
     fetchParams: {
       headers: {
         'Content-Type': 'application/json',

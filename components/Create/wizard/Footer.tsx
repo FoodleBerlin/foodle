@@ -2,9 +2,9 @@ import React, { ReactChildren, useEffect, useState } from 'react';
 import { AuthenticatedProps } from '../../../pages/account/payments';
 import client from '../../../client';
 import { CreateListing } from '../../../codegen/createListing';
-import { UploaderImage } from './Step4';
 import { FormData, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
+import { UploaderImg } from './Step4';
 
 type FooterProps = {
   step: number;
@@ -70,10 +70,8 @@ const Footer = (props: FooterProps) => {
   });
 
   const images: string[] = [];
-  wiz.images.forEach((image: UploaderImage) => {
-    if (image.s3Id) {
-      images.push(image.s3Id);
-    }
+  wiz.images.forEach((image: UploaderImg) => {
+    images.push(image.fileName);
   });
   const handleSubmit = async () => {
     const res = await client.mutate({
