@@ -92,7 +92,6 @@ type GenericDaySlot {
   endTime: DateTime!
   id: String!
   propertySlot: PropertySlot
-  propertySlotId: String!
   startTime: DateTime!
   weekday: String!
 }
