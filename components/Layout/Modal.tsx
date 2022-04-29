@@ -33,12 +33,15 @@ const Modal = (props: IModalProps) => {
               type="number"
               placeholder="Enter your zip code..."
             ></input>
-            <button
+            <Link href={'/heroku-auth'} passHref>
+              <a className={'primary-btn'}>Continue with google</a>
+            </Link>
+            {/* <button
               className={'primary-btn'}
               onClick={() => window.location.replace(`${process.env.SERVER_URL}api/auth`)}
             >
               Continue with google
-            </button>
+            </button> */}
             <button className={'primary-btn'}>Continue with facebook</button>
           </div>
         </div>
