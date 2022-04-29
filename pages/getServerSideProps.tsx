@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext, NextPage } from 'next';
 import { extractUserFromToken } from '../server/context';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
@@ -18,3 +18,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
     },
   };
 }
+const NullPage: NextPage = () => {
+  return <></>;
+};
+export default NullPage;
