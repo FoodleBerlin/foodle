@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import styles from '../Create/wizard/Wizard.module.scss';
 import PriceLine from '../Create/PriceLine';
-import { UploaderImage } from '../Create/wizard/Step4';
+import { UploaderImg } from '../Create/wizard/Step4';
 
 /*
 TO-DO:
@@ -21,7 +21,7 @@ interface ListedKitchenProps {
   description: string;
   deposit: number;
   rules: string[];
-  availability: object;
+  availability: object & { startDate: string };
   partialSpace: boolean;
   street: string;
   streetNumber: number;
