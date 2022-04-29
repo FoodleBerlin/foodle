@@ -14,7 +14,7 @@ interface ProfileFormProps {
 
 const ProfileForm = (props: ProfileFormProps) => {
   const { mutate, data } = useUpdateUserMutation({
-    endpoint: 'http://localhost:5000/graphql',
+    endpoint: process.env.SERVER_URL + 'graphql',
     fetchParams: {
       headers: {
         'Content-Type': 'application/json',
