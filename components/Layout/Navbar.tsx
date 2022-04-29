@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import styles from './Navbar.module.scss';
 import Tab from './Tab';
 import Modal from './Modal';
-import { AuthenticatedProps } from '~/pages/account/payments';
+import { AuthenticatedProps } from '../../pages/account/payments';
 
 type NavbarProps = {
   user?: AuthenticatedProps['session'];

@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
-import { extractUserFromToken } from '~/server/context';
+import { extractUserFromToken } from '../server/context';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   if (!req.cookies['jwt']) {
