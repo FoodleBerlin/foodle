@@ -45,8 +45,6 @@ export const BookingOnListing = extendType({
     b.field('createBooking', {
       type: CreateBookingReturn,
       args: {
-        // Todo: from context
-        userHandle: nonNull(stringArg()),
         propertyHandle: nonNull(stringArg()),
         startDate: nonNull('DateTime'),
         endDate: nonNull('DateTime'),
@@ -67,11 +65,13 @@ export const BookingOnListing = extendType({
             },
           };
         }
-
+        let id = ctx.user?.id;
+        if (process.env.DEV_LOGIN === 'true') {
+          id = process.env.DEV_USER_ID;
+        }
         const user = await ctx.prisma.user.findUnique({
           where: {
-            // Todo: change back id: ctx.user?.id,
-            handle: args.userHandle,
+            id: id,
           },
         });
         // Todo : not working
@@ -86,11 +86,11 @@ export const BookingOnListing = extendType({
         if (user.role === Role.landlord) {
           return {
             ClientErrorUserNotExists: {
-              message: `User for userHandle ${args.userHandle} does not have a tenant role`,
+              message: `User for userHandle ${user.handle} does not have a tenant role`,
             },
           };
         }
-
+        console.log('BEFORETEST: ' + args.startDate.toString());
         const startDate = moment(args.startDate);
         const endDate = moment(args.endDate);
         const frequency = args.frequency;

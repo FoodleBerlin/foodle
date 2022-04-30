@@ -35,7 +35,6 @@ export const CreateListing = extendType({
       args: {
         size: nonNull(intArg()),
         title: nonNull(stringArg()),
-        // Todo: back to id from context
         ownerHandle: nonNull(stringArg()),
         street: nonNull(stringArg()),
         streetNumber: nonNull(intArg()),
@@ -45,7 +44,6 @@ export const CreateListing = extendType({
         pickup: nullable(booleanArg()),
         hourlyPrice: nonNull(intArg()),
         serviceFee: nonNull(intArg()),
-        facilities: nonNull(list(nonNull(stringArg()))),
         rules: nonNull(list(nonNull(stringArg()))),
         deposit: nonNull(intArg()),
         images: nonNull(list(nonNull(stringArg()))),
@@ -57,13 +55,16 @@ export const CreateListing = extendType({
       },
       async resolve(_root, args, ctx) {
         // validate input
-
+        let id = ctx.user?.id;
+        if (process.env.DEV_LOGIN === 'true') {
+          id = process.env.DEV_USER_ID;
+        }
         const user = await ctx.prisma.user.findUnique({
           where: {
-            // Todo id from context
-            handle: args.ownerHandle,
+            id: id,
           },
         });
+        console.log('user: ' + user?.id);
         if (user === null) {
           return {
             ClientErrorUserNotExists: {
@@ -141,10 +142,11 @@ export const CreateListing = extendType({
         // calculate concrete dates of propertySlot to create DaySlots
         const daySlotDates: DaySlotInterface[] = bookingService.calculateDates(
           args.availableDays,
-          endDate,
           startDate,
+          endDate,
           frequency
         );
+        console.log('Length: ' + daySlotDates.length);
 
         // throw error if more than 100 day slots would be created
         if (daySlotDates.length > 100) {
