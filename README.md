@@ -28,7 +28,7 @@ A licensed kitchen rental service.
 2. `yarn test:api` to start the test
 
 ### Foodle's Architecture
-![FoodleArchitecture](https://user-images.githubusercontent.com/50741293/165260033-f6c8e0aa-8c24-45b6-8b54-427525527121.png)
+![foodleArchitecture2](https://user-images.githubusercontent.com/50741293/166102503-4a02de06-00fa-47cc-bfe5-9df26d90c1cf.png)
 
 ### Repository Structure
 - This repository has a monolithic architecture
@@ -41,7 +41,8 @@ A licensed kitchen rental service.
 - AWS-SDK: Currently AWS S3 CRUD functions for images are in the pages/api and are being called in the Step4 (and related) components of the Create A Listing flow. (this currently resides in the feat/s3 branch)
 
 ### Server Architecture
-![FoodleServerArchitecture](https://user-images.githubusercontent.com/50741293/165266675-fbf2f9f0-2375-4f8a-83c7-52bf80636872.png)
+![foodleServerArchitecture2](https://user-images.githubusercontent.com/50741293/166102506-9134d42a-08e7-425a-8be1-1baa98934e9d.png)
+
 
 ### Server Tech Stack 
 -  Prisma: An Object-Relational Mapper that migrates changes to its schema to an SQL schema on command. 
