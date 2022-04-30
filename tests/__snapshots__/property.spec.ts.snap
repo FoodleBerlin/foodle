@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` Property  Property can create a listing with optional arg 1`] = `
+exports[` Property  Property can create a listing with optional arg, frequency weekly 1`] = `
 Object {
   "data": Object {
     "createListing": Object {
@@ -8,19 +8,6 @@ Object {
       "ClientErrorUserNotExists": null,
       "NoAvailableSlots": null,
       "Property": Object {
-        "availabilites": Array [
-          Object {
-            "availableDays": Array [
-              Object {
-                "date": 2022-05-14T07:00:51.063Z,
-                "duration": "3",
-              },
-            ],
-            "endDate": 2022-05-14T16:02:51.063Z,
-            "frequency": "WEEKLY",
-            "startDate": 2022-03-14T16:02:51.063Z,
-          },
-        ],
         "bookings": Array [],
         "city": "Germany2",
         "deposit": 0,
@@ -31,9 +18,9 @@ Object {
         ],
         "isVerified": false,
         "owner": Object {
-          "email": "user4@gmail.com",
-          "fullName": "User 4",
-          "id": "4",
+          "email": "user1@gmail.com",
+          "fullName": "User 1",
+          "id": "1",
         },
         "partialSpace": false,
         "pickup": true,
@@ -65,18 +52,32 @@ Object {
       "ClientErrorInvalidInput": null,
       "ClientErrorUserNotExists": null,
       "NoAvailableSlots": null,
-      "Property": null,
-      "UnknownError": Object {
-        "message": "
-Invalid \`ctx.prisma.daySlot.create()\` invocation in
-/home/hee3be/Dev/foodle/server/graphql/types/Property/Mutations.ts:223:40
-
-  220 try {
-  221   await Promise.all(
-  222     daySlotDates.map(async (day) => {
-→ 223       await ctx.prisma.daySlot.create(
-  Unique constraint failed on the fields: (\`date\`,\`propertySlotId\`)",
+      "Property": Object {
+        "bookings": Array [],
+        "city": "Germany2",
+        "deposit": 0,
+        "description": "",
+        "hourlyPrice": 0,
+        "images": Array [
+          "",
+        ],
+        "isVerified": false,
+        "owner": Object {
+          "email": "user1@gmail.com",
+          "fullName": "User 1",
+          "id": "1",
+        },
+        "partialSpace": false,
+        "pickup": false,
+        "rules": Array [],
+        "serviceFee": 0,
+        "size": 0,
+        "street": "FoodleStreet",
+        "streetNumber": 0,
+        "title": "titlee",
+        "zip": 0,
       },
+      "UnknownError": null,
     },
   },
   "errors": undefined,
@@ -242,63 +243,7 @@ Object {
 }
 `;
 
-exports[` Property can create a listing, frequency monthly 1`] = `
-Object {
-  "data": Object {
-    "createListing": Object {
-      "ClientErrorInvalidInput": null,
-      "ClientErrorUserNotExists": null,
-      "NoAvailableSlots": null,
-      "Property": Object {
-        "availabilites": Array [
-          Object {
-            "availableDays": Array [
-              Object {
-                "date": 2022-05-14T07:00:51.063Z,
-                "duration": "3",
-              },
-            ],
-            "endDate": 2022-05-14T16:02:51.063Z,
-            "frequency": "MONTHLY",
-            "startDate": 2022-03-14T16:02:51.063Z,
-          },
-        ],
-        "bookings": Array [],
-        "city": "Germany2",
-        "deposit": 0,
-        "description": "",
-        "hourlyPrice": 0,
-        "images": Array [
-          "",
-        ],
-        "isVerified": false,
-        "owner": Object {
-          "email": "user4@gmail.com",
-          "fullName": "User 4",
-          "id": "4",
-        },
-        "partialSpace": false,
-        "pickup": false,
-        "rules": Array [],
-        "serviceFee": 0,
-        "size": 0,
-        "street": "FoodleStreet",
-        "streetNumber": 0,
-        "title": "titlee",
-        "zip": 0,
-      },
-      "UnknownError": null,
-    },
-  },
-  "errors": undefined,
-  "extensions": undefined,
-  "http": Object {
-    "headers": Headers {
-      Symbol(map): Object {},
-    },
-  },
-}
-`;
+exports[` Property can create a listing, frequency monthly 1`] = `undefined`;
 
 exports[` Property can create a listing, frequency none 1`] = `
 Object {
@@ -308,19 +253,6 @@ Object {
       "ClientErrorUserNotExists": null,
       "NoAvailableSlots": null,
       "Property": Object {
-        "availabilites": Array [
-          Object {
-            "availableDays": Array [
-              Object {
-                "date": 2022-05-14T07:00:51.063Z,
-                "duration": "3",
-              },
-            ],
-            "endDate": 2022-05-14T16:02:51.063Z,
-            "frequency": "NONE",
-            "startDate": 2022-03-14T16:02:51.063Z,
-          },
-        ],
         "bookings": Array [],
         "city": "Germany2",
         "deposit": 0,
@@ -331,9 +263,9 @@ Object {
         ],
         "isVerified": false,
         "owner": Object {
-          "email": "user4@gmail.com",
-          "fullName": "User 4",
-          "id": "4",
+          "email": "user1@gmail.com",
+          "fullName": "User 1",
+          "id": "1",
         },
         "partialSpace": false,
         "pickup": false,
@@ -366,19 +298,6 @@ Object {
       "ClientErrorUserNotExists": null,
       "NoAvailableSlots": null,
       "Property": Object {
-        "availabilites": Array [
-          Object {
-            "availableDays": Array [
-              Object {
-                "date": 2022-05-14T07:00:51.063Z,
-                "duration": "3",
-              },
-            ],
-            "endDate": 2022-05-14T16:02:51.063Z,
-            "frequency": "WEEKLY",
-            "startDate": 2022-03-14T16:02:51.063Z,
-          },
-        ],
         "bookings": Array [],
         "city": "Germany2",
         "deposit": 0,
@@ -389,9 +308,9 @@ Object {
         ],
         "isVerified": false,
         "owner": Object {
-          "email": "user4@gmail.com",
-          "fullName": "User 4",
-          "id": "4",
+          "email": "user1@gmail.com",
+          "fullName": "User 1",
+          "id": "1",
         },
         "partialSpace": false,
         "pickup": false,
