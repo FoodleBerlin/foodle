@@ -128,7 +128,6 @@ type Mutation {
     frequency: FrequencyEnum!
     propertyHandle: String!
     startDate: DateTime!
-    userHandle: String!
   ): CreateBookingReturn!
   createListing(
     availableDays: [AvailableDay!]!
@@ -136,7 +135,6 @@ type Mutation {
     deposit: Int!
     description: String!
     endDate: DateTime!
-    facilities: [String!]!
     frequency: FrequencyEnum!
     hourlyPrice: Int!
     images: [String!]!
