@@ -61,9 +61,10 @@ export const bookingService = {
     daySlots.forEach((availabeDay) => {
       let firstConcreteDate = startDate;
       // find first concrete date for generic weekday (Mon, Tue, etc.) as it does not necessarily match with args.startDate ans save it as nextWeekday
-      while (compareDateWithDayOfWeek(firstConcreteDate, availabeDay.weekday)) {
+      while (!compareDateWithDayOfWeek(firstConcreteDate, availabeDay.weekday)) {
         firstConcreteDate = moment(firstConcreteDate).add(1, 'days');
       }
+
       // get all concrete dates for the generic weekday in the timeslot, according to the frequency
       const datesForWeekday = getAllDatesForWeekday(
         firstConcreteDate,
