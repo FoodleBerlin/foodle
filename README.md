@@ -41,7 +41,8 @@ A licensed kitchen rental service.
 - AWS-SDK: Currently AWS S3 CRUD functions for images are in the pages/api and are being called in the Step4 (and related) components of the Create A Listing flow. (this currently resides in the feat/s3 branch)
 
 ### Server Architecture
-![foodleServerArchitecture2](https://user-images.githubusercontent.com/50741293/166102506-9134d42a-08e7-425a-8be1-1baa98934e9d.png)
+![foodleServerArchitecture3](https://user-images.githubusercontent.com/50741293/166102585-1762387a-5664-44c0-a464-1e37415e066e.png)
+
 
 
 ### Server Tech Stack 
