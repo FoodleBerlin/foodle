@@ -1,4 +1,4 @@
-import { Booking, PropertySlot, Role } from '@prisma/client';
+import { Booking, Role } from '@prisma/client';
 import moment from 'moment';
 import { extendType, list, nonNull, objectType, stringArg } from 'nexus';
 import { bookingService } from '../../../singletons/BookingService';
@@ -11,6 +11,7 @@ import {
   NoAvailableSlots,
   UnknownError,
 } from '../Error';
+import { calculatePrice, validateDaySlot } from '../helperFunctions';
 import { AvailableDay, DaySlotInterface } from '../Property';
 import { Booking as BookingObject } from './objects';
 
@@ -58,13 +59,14 @@ export const BookingOnListing = extendType({
             handle: args.propertyHandle,
           },
         });
-        if (property === null) {
+        if (property == null) {
           return {
             ClientErrorPropertyNotExists: {
               message: `Property for propertyHandle ${args.propertyHandle} does not exist`,
             },
           };
         }
+        console.log('property: ' + property);
         let id = ctx.user?.id;
         if (process.env.DEV_LOGIN === 'true') {
           id = process.env.DEV_USER_ID;
@@ -74,9 +76,16 @@ export const BookingOnListing = extendType({
             id: id,
           },
         });
-        // Todo : not working
+        args.daySlots.forEach((day) => {
+          if (validateDaySlot(day)) {
+            return {
+              ClientErrorInvalidInput: {
+                message: `Invalid input for availableDay ${day.startTime}: startTime can't be after endTime and startTime and endTime have to be on the same day.`,
+              },
+            };
+          }
+        });
         if (user == null || user == undefined) {
-          console.log('asdf: ' + user);
           return {
             ClientErrorUserNotExists: {
               message: `User is not logged in.`,
@@ -90,7 +99,6 @@ export const BookingOnListing = extendType({
             },
           };
         }
-        console.log('BEFORETEST: ' + args.startDate.toString());
         const startDate = moment(args.startDate);
         const endDate = moment(args.endDate);
         const frequency = args.frequency;
@@ -102,84 +110,49 @@ export const BookingOnListing = extendType({
           endDate,
           frequency
         );
+        console.log('Length: ' + daySlotDates[0].startTime.toString() + ' | ' + daySlotDates[0].endTime.toString());
 
-        // check if matching propertySlot exists
-        const possiblePropertySlots = await ctx.prisma.propertySlot.findMany({
-          where: {
-            propertyId: property.id,
-            // Todo check here also for date?
-          },
-        });
-
-        // filter possible slots for start and endDates
-        let count = 0;
-        let propertySlot: PropertySlot | null = null;
-        while (count < possiblePropertySlots.length) {
-          if (moment(possiblePropertySlots[count].startDate).isSameOrAfter(args.startDate)) {
-            if (moment(possiblePropertySlots[count].endDate).isSameOrAfter(args.endDate)) {
-              // Todo: check for start end time matching
-              propertySlot = possiblePropertySlots[count];
-              break;
-            }
-          }
-          count++;
-        }
-
-        // if no free slot available return error
-        if (propertySlot == null) {
-          return {
-            NoAvailableSlots: {
-              message: `No available property slot for booking request.`,
-            },
-          };
-        }
         // check availability for every daySlot in daySlotDates
-        await Promise.all(
-          daySlotDates.map(async (day) => {
-            let daySlot = await ctx.prisma.daySlot.findFirst({
-              where: {
-                date: day.dateTime.toISOString(),
-                propertySlotId: propertySlot!.id,
+
+        for await (const day of daySlotDates) {
+          const daySlot = await ctx.prisma.daySlot.findFirst({
+            where: {
+              propertyId: property.id,
+
+              startTime: {
+                lte: moment(day.startTime).toISOString(),
               },
-            });
-            if (daySlot !== null) {
-              // check if slot is still available
-              if (!(daySlot.bookingId === null && daySlot.bookedStartTime === null && daySlot.bookedEndTime === null)) {
-                return {
-                  NoAvailableSlots: {
-                    message: `No available daySlot on ${day.dateTime} for booking request.`,
-                  },
-                };
-              }
-              // check if start and endTime is within daySlot time frame
-              //Todo: unkommt
-              /* if (
-                !(
-                  moment(day.startTime).isSameOrAfter(daySlot.startTime) &&
-                  moment(daySlot.endTime).isSameOrAfter(day.endTime)
-                )
-              ) {
-                return {
-                  NoAvailableSlots: {
-                    message: `No available daySlot on ${day.dateTime} for requested time frame.`,
-                  },
-                };
-              } */
+              endTime: {
+                gte: moment(day.endTime).toISOString(),
+              },
+            },
+          });
+          if (daySlot !== null) {
+            // check if slot is still available
+            if (!(daySlot.bookingId === null && daySlot.bookedStartTime === null && daySlot.bookedEndTime === null)) {
+              return {
+                NoAvailableSlots: {
+                  message: `No available daySlot on ${day.startTime} for booking request.`,
+                },
+              };
             }
-          })
-        );
+            day.daySlotId = daySlot.id;
+            console.log('Set: ' + JSON.stringify(day));
+          } else {
+            console.log('else ' + day.startTime.toString());
+            return {
+              NoAvailableSlots: {
+                message: `No available daySlot on ${day.startTime} for booking request.`,
+              },
+            };
+          }
+        }
 
         // create Booking
         let booking: Booking;
+        const price = calculatePrice(daySlotDates, property);
         try {
-          booking = await bookingService.createBooking(
-            user.id,
-            property.id,
-            12, // Todo: price
-            startDate,
-            endDate,
-            frequency
-          );
+          booking = await bookingService.createBooking(user.id, property.id, price, startDate, endDate, frequency);
         } catch (error) {
           let errorMessage = 'Unknown error when creating booking';
           if (error instanceof Error) {
