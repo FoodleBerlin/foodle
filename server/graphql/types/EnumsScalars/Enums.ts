@@ -1,17 +1,17 @@
-import { BookingStatus, Frequency, WeekDay } from '@prisma/client';
+import { BookingStatus, Frequency } from '@prisma/client';
 import { enumType } from 'nexus';
 
 export const WeekDayEnum = enumType({
   name: 'WeekDays',
   description: 'map nexus WeekDay to prisma enum',
   members: {
-    MON: WeekDay.mon,
-    TUE: WeekDay.thu,
-    WED: WeekDay.wed,
-    THU: WeekDay.thu,
-    FRI: WeekDay.fri,
-    SAT: WeekDay.sat,
-    SUN: WeekDay.sun,
+    MON: 1,
+    TUE: 2,
+    WED: 3,
+    THU: 4,
+    FRI: 5,
+    SAT: 6,
+    SUN: 7,
   },
 });
 

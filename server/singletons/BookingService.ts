@@ -1,7 +1,7 @@
-import { BookingStatus, Frequency, WeekDay } from '@prisma/client';
+import { BookingStatus, Frequency } from '@prisma/client';
 import moment from 'moment';
+import { compareDateWithDayOfWeek } from '../graphql/types/helperFunctions';
 import { DaySlotInterface } from '../graphql/types/Property/Objects';
-import { compareDateWithDayOfWeek, weekdayToInt } from '../graphql/types/PropertySlot/helperFunctions';
 import prisma from './prisma';
 
 export const bookingService = {
@@ -10,18 +10,20 @@ export const bookingService = {
     await Promise.all(
       daySlotDates.map((day) => {
         // updates as transaction => if one update fails all fail
+        let id = '';
+        if (day.daySlotId !== undefined) {
+          id = day.daySlotId;
+        }
+        console.log('ID: ' + id);
         prisma.$transaction([
           prisma.daySlot.update({
             where: {
-              date_propertySlotId: {
-                date: day.dateTime.toISOString(),
-                propertySlotId: propertyId,
-              },
+              id: id,
             },
             data: {
               bookingId: bookingId,
-              bookedStartTime: day.dateTime.toISOString(),
-              bookedEndTime: day.dateTime.add(day.duration, 'hours').toISOString(),
+              bookedStartTime: day.startTime.toISOString(),
+              bookedEndTime: day.endTime.toISOString(),
             },
           }),
         ]);
@@ -51,12 +53,17 @@ export const bookingService = {
   },
 
   calculateDates: function (
-    daySlots: { duration: number; dateTime: string; weekday: WeekDay }[],
+    daySlots: {
+      endTime: string;
+      startTime: string;
+      weekday: 7 | 4 | 5 | 6 | 3 | 1 | 2;
+    }[],
     startDate: moment.Moment,
     endDate: moment.Moment,
     frequency: Frequency
   ): DaySlotInterface[] {
     let daySlotDates: DaySlotInterface[] = [];
+
     // loop through availableDays and get all specific dates for each generic day
     daySlots.forEach((availabeDay) => {
       let firstConcreteDate = startDate;
@@ -70,9 +77,9 @@ export const bookingService = {
         firstConcreteDate,
         frequency,
         endDate,
-        weekdayToInt(availabeDay.weekday),
-        moment(availabeDay.dateTime),
-        availabeDay.duration
+        availabeDay.weekday,
+        moment(availabeDay.startTime),
+        moment(availabeDay.endTime)
       );
       datesForWeekday.forEach((date) => {
         daySlotDates.push(date);
@@ -87,13 +94,16 @@ function getAllDatesForWeekday(
   frequency: Frequency,
   endDate: moment.Moment,
   weekday: number,
-  time: moment.Moment,
-  duration: number
+  starTime: moment.Moment,
+  endTime: moment.Moment
 ): DaySlotInterface[] {
   let allDates: DaySlotInterface[] = [];
+  const copy1 = moment({ ...loopDay });
+  const copy2 = moment({ ...loopDay });
+
   const firstDay: DaySlotInterface = {
-    dateTime: loopDay.hour(time.hour()).minute(time.minute()),
-    duration: duration,
+    startTime: copy1.set({ hour: starTime.hour(), minute: starTime.minute() }),
+    endTime: copy2.set({ hour: endTime.hour(), minute: endTime.minute() }),
   };
   allDates.push(firstDay);
   let momentCounter = 1;
@@ -106,7 +116,7 @@ function getAllDatesForWeekday(
         loopDay.subtract(1, 'day');
       }
 
-      loopDay = moment(firstDay.dateTime).add(momentCounter, 'month');
+      loopDay = moment(firstDay.startTime).add(momentCounter, 'month');
       const month = loopDay.month();
       momentCounter++;
       while (loopDay.isoWeekday() != weekday) {
@@ -121,11 +131,12 @@ function getAllDatesForWeekday(
       }
     }
     if (moment(loopDay).isBefore(endDate) && frequency != Frequency.none) {
-      const daySlot: DaySlotInterface = {
-        dateTime: loopDay.hour(time.hour()).minute(time.minute()),
-        duration: duration,
-      };
-      allDates.push(daySlot);
+      const loopDay1 = moment({ ...loopDay });
+      const loopDay2 = moment({ ...loopDay });
+      allDates.push({
+        startTime: loopDay1.set({ hour: starTime.hour(), minute: starTime.minute() }),
+        endTime: loopDay2.set({ hour: endTime.hour(), minute: endTime.minute() }),
+      });
     }
     if (frequency == Frequency.none) {
       break;
@@ -133,5 +144,6 @@ function getAllDatesForWeekday(
   }
   return allDates;
 }
+
 // Only export for unit testing => https://stackoverflow.com/questions/54116070/how-can-i-unit-test-non-exported-functions
 export const exportForTesting = { getAllDatesForWeekday };

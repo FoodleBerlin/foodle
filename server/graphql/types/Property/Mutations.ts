@@ -1,11 +1,11 @@
-import { Property, PropertySlot } from '@prisma/client';
+import { Property } from '@prisma/client';
 import moment from 'moment';
 import { booleanArg, extendType, intArg, list, nonNull, nullable, objectType, stringArg } from 'nexus';
 import { bookingService } from '../../../singletons/BookingService';
 import { FrequencyEnum } from '../EnumsScalars/Enums';
 import { ClientErrorInvalidInput, ClientErrorUserNotExists, NoAvailableSlots, UnknownError } from '../Error';
-import { createHandle } from '../PropertySlot/helperFunctions';
-import { checkForEmptyList, validateStartEndDate } from '../PropertySlot/validation';
+import { createHandle, validateDaySlot } from '../helperFunctions';
+import { checkForEmptyList, validateStartEndDate } from '../validation';
 import { AvailableDay, DaySlotInterface } from './Objects';
 
 export const CreateListingReturn = objectType({
@@ -115,29 +115,19 @@ export const CreateListing = extendType({
             },
           };
         }
+        args.availableDays.forEach((day) => {
+          if (validateDaySlot(day)) {
+            return {
+              ClientErrorInvalidInput: {
+                message: `Invalid input for availableDay ${day.startTime}: startTime can't be after endTime and startTime and endTime have to be on the same day.`,
+              },
+            };
+          }
+        });
 
         const startDate = moment(args.startDate);
         const endDate = moment(args.endDate);
         const frequency = args.frequency;
-
-        // check if slot overlaps with already existing slot
-        let slots = await ctx.prisma.propertySlot.findMany();
-        slots = slots.filter((slot: any) => {
-          moment(startDate).isAfter(moment(slot.startDate)) && moment(startDate).isBefore(moment(slot.startDate));
-        });
-        slots.forEach((slot: any) => {
-          slot.weekdays.forEach((weekday: any) => {
-            args.availableDays.forEach((day: any) => {
-              if (day.weekday === weekday) {
-                return {
-                  ClientErrorInvalidInput: {
-                    message: `Existing property slot overlaps with selected dates.`,
-                  },
-                };
-              }
-            });
-          });
-        });
 
         // calculate concrete dates of propertySlot to create DaySlots
         const daySlotDates: DaySlotInterface[] = bookingService.calculateDates(
@@ -146,13 +136,13 @@ export const CreateListing = extendType({
           endDate,
           frequency
         );
-        console.log('Length: ' + daySlotDates.length);
+        console.log('finish calculation');
 
         // throw error if more than 100 day slots would be created
         if (daySlotDates.length > 100) {
           return {
             ClientErrorInvalidInput: {
-              message: `${daySlotDates.length} daySlots, max 100 day slots for 1 propertySlot allowed.`,
+              message: `${daySlotDates.length} daySlots, max creation of 100 day slots  at once.`,
             },
           };
         }
@@ -192,45 +182,25 @@ export const CreateListing = extendType({
             },
           };
         }
-
-        // create PropertySlot
-        let propSlot: PropertySlot;
-        try {
-          const a = args.startDate;
-          propSlot = await ctx.prisma.propertySlot.create({
-            data: {
-              frequency: args.frequency,
-              startDate: args.startDate,
-              endDate: args.endDate,
-              propertyId: prop.id,
-            },
-          });
-        } catch (error) {
-          console.log({ error });
-          let errorMessage = 'Unknown error when creating a proeprtySlot';
-          if (error instanceof Error) {
-            errorMessage = error.message;
-          }
-          return {
-            UnknownError: {
-              message: errorMessage,
-            },
-          };
-        }
+        console.log('Craeted property: ' + prop);
+        console.log('Calculated days ' + daySlotDates.length);
 
         // for each entry in daySlotDates[] create a daySlot and save it to the db
         try {
           await Promise.all(
             daySlotDates.map(async (day) => {
+              console.log('loop');
               await ctx.prisma.daySlot.create({
                 data: {
-                  date: day.dateTime.toISOString(),
-                  duration: day.duration,
-                  propertySlotId: propSlot.id,
+                  startTime: day.startTime.toISOString(),
+                  endTime: day.endTime.toISOString(),
+                  propertyId: prop.id,
                 },
               });
             })
           );
+
+          console.log('done');
 
           // if no error occured so far, listing was succesfully created and property can be returned
           return { Property: prop };

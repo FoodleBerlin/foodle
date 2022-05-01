@@ -3,10 +3,19 @@ import { objectType } from 'nexus';
 export const DaySlot = objectType({
   name: 'DaySlot',
   definition(t) {
-    t.field('date', {
+    t.field('startTime', {
       type: 'DateTime',
     });
-    t.string('duration');
+    t.field('endTime', {
+      type: 'DateTime',
+    });
+    /*  t.nulable.field('bookedStartTime', {
+      type: 'bookedEndTime',
+    });
+    t.nullable.field('bookedEndTime', {
+      type: 'DateTime',
+    }); */
+
     // Todo
     /*     t.nullable.string('bookedStartTime');
     t.nullable.string('bookedEndTime'); */
@@ -20,15 +29,8 @@ export const DaySlot = objectType({
         });
       },
     }); */
-    /* t.field('booking', {
-      type: Booking,
-      async resolve(parent, args, ctx) {
-        return await ctx.prisma.booking.findUnique({
-          where: {
-            id: parent.bookingId,
-          },
-        });
-      },
-    }); */
+    /* 
+    
+    */
   },
 });

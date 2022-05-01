@@ -1,9 +1,8 @@
-import { WeekDay } from '@prisma/client';
 import moment from 'moment';
 import { inputObjectType, objectType } from 'nexus';
 import { Booking } from '../Booking';
+import { DaySlot } from '../DaySlot/objects';
 import { WeekDayEnum } from '../EnumsScalars/Enums';
-import { PropertySlot } from '../PropertySlot';
 
 import { User } from '../User';
 
@@ -34,10 +33,10 @@ export const Property = objectType({
         });
       },
     });
-    p.list.field('availabilites', {
-      type: PropertySlot,
+    p.list.field('daySlots', {
+      type: DaySlot,
       async resolve(parent, args, ctx) {
-        return await ctx.prisma.propertySlot.findMany({
+        return await ctx.prisma.daySlot.findMany({
           where: {
             propertyId: parent.id,
           },
@@ -63,8 +62,8 @@ export const Property = objectType({
 export const AvailableDay = inputObjectType({
   name: 'AvailableDay',
   definition(t) {
-    t.nonNull.string('dateTime'); // Todo DateTime format
-    t.nonNull.int('duration');
+    t.nonNull.string('startTime');
+    t.nonNull.string('endTime'); // Todo DateTime format
     t.nonNull.field('weekday', { type: WeekDayEnum });
   },
 });
@@ -72,10 +71,10 @@ export const AvailableDay = inputObjectType({
 export interface AvailableDayInterface {
   endTime: moment.Moment;
   startTime: moment.Moment;
-  weekday: WeekDay;
 }
 
 export interface DaySlotInterface {
-  dateTime: moment.Moment;
-  duration: number; // Todo should also be moment.Moment
+  startTime: moment.Moment;
+  endTime: moment.Moment;
+  daySlotId?: string;
 }
