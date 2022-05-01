@@ -21,6 +21,7 @@ jobs:
           node-version: 14.x
           cache: 'yarn'
       - run: yarn db:up
-      - run: yarn
+      - run: yarn format
       - run: yarn prisma:migrate:deploy
       - run: yarn test:api
+      - run: yarn next:lint
