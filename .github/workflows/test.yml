@@ -22,6 +22,6 @@ jobs:
           cache: 'yarn'
       - run: yarn db:up
       - run: yarn format
+      - run: yarn next:lint
       - run: yarn prisma:migrate:deploy
       - run: yarn test:api
-      - run: yarn next:lint
