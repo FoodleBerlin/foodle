@@ -16,6 +16,11 @@ A licensed kitchen rental service.
 5. navigate to "localhost:5000/graphql" for the apollo interface where you can manually test queries/mutations
 6. `yarn db:seed` to seed the database.
 
+Logging
+
+Default setting is 'none'. By chaning the LOG_LEVEL environment variable to info basic logging for the most important tasks is provided. By chaningn to debug sql queries are logged too.
+
+
 ### Client
 
 1. Ensure the dev server is on and run `yarn codegen:generate`
@@ -56,6 +61,10 @@ A licensed kitchen rental service.
 - Apollo Client: Also used to query our Server (but will be removed soon since it does not offer the same type safety as Codegen hooks)
 - SCSS Modules: For component level styles
 - 7-1 SCSS Architecture: For global styles and utility classes
+
+### Deployment
+The client is currently as a next.js application deployed on vercel. The backend is deployed on heroku and the postgreSQL database is deployed to render.
+A continuous integration pipeline on the master branch is implemented with vercel. On every new pull request vercel provides a deployed preview for testing before merching to master.
 
 ### API Design
 
