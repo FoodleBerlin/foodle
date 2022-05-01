@@ -15,6 +15,12 @@ datasource db {
   url      = "postgresql://foodle:foodle@localhost:5431"
 }
 
+enum Frequency {
+  none
+  weekly
+  monthly
+}
+
 enum ModelKind {
   user
   property
@@ -23,25 +29,7 @@ enum ModelKind {
   propertyAvailability
   payment
   paymentMethod
-  bookingSlot
-  propertySlot
   daySlot
-}
-
-enum Frequency {
-  none
-  weekly
-  monthly
-}
-
-enum WeekDay {
-  mon
-  tue
-  wed
-  thu
-  fri
-  sat
-  sun
 }
 
 enum PaymentType {
@@ -95,72 +83,58 @@ model User {
 }
 
 model DaySlot {
-  kind            ModelKind    @default(daySlot)
-  id              String       @id @default(cuid())
-  date            DateTime
-  // Must be the same day
-  duration        Int
+  kind            ModelKind @default(daySlot)
+  id              String    @id @default(cuid())
+  startTime       DateTime
+  // Must be the same day as startTime
+  endTime         DateTime
   // booked startTime and endTime always needs to be added manually during
   // the create booking mutation if booking id is null
   bookedStartTime DateTime?
   bookedEndTime   DateTime?
-  // Parent property
-  propertySlotId  String
-  propertySlot    PropertySlot @relation("propertySlotToDaySlot", fields: [propertySlotId], references: [id], onDelete: Cascade)
-  // Property slots might have a corresponding booking
+  propertyId      String
+  property        Property  @relation("daySlotToProperty", fields: [propertyId], references: [id], onDelete: Cascade)
   // Will be null if it is available
   bookingId       String?
-  booking         Booking?     @relation("daySlotToBooking", fields: [bookingId], references: [id], onDelete: Cascade)
+  booking         Booking?  @relation("daySlotToBooking", fields: [bookingId], references: [id], onDelete: Cascade)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  //  TODO cusotm constraint with just date possible?
+  //  https://www.prisma.io/docs/guides/database/advanced-database-tasks/data-validation/postgresql#8-validate-the-check-constraints-in-a-nodejs-script
 
-  @@unique([date, propertySlotId])
-  @@index([date])
-  @@index([propertySlotId])
+  @@index([startTime])
+  @@index([endTime])
+  @@index([propertyId])
+  @@index([bookingId])
 }
 
 model Property {
-  kind          ModelKind      @default(property)
-  id            String         @id @default(cuid())
-  handle        String         @unique
-  title         String
-  size          Int // will be sq.ft
-  ownerId       String
-  owner         User           @relation(name: "owner", fields: [ownerId], references: [id], onDelete: Cascade)
-  bookings      Booking[]      @relation("property")
-  street        String
-  streetNumber  Int
-  zip           Int
-  city          String
-  description   String
-  pickup        Boolean        @default(false)
-  isVerified    Boolean        @default(false)
-  hourlyPrice   Int // => decimal
-  serviceFee    Int
-  rules         String[]
-  deposit       Int
-  images        String[]
-  partialSpace  Boolean        @default(false)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  availabilites PropertySlot[] @relation("propertySlotToProperty")
+  kind         ModelKind @default(property)
+  id           String    @id @default(cuid())
+  handle       String    @unique
+  title        String
+  size         Int // will be sq.ft
+  ownerId      String
+  owner        User      @relation(name: "owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  bookings     Booking[] @relation("property")
+  street       String
+  streetNumber Int
+  zip          Int
+  city         String
+  description  String
+  pickup       Boolean   @default(false)
+  isVerified   Boolean   @default(false)
+  hourlyPrice  Int // => decimal
+  serviceFee   Int
+  rules        String[]
+  deposit      Int
+  images       String[]
+  partialSpace Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  daySlots     DaySlot[] @relation("daySlotToProperty")
 
   @@index([handle])
-}
-
-model PropertySlot {
-  kind          ModelKind @default(propertySlot)
-  id            String    @id @default(cuid())
-  // minimumBookings Int       @default(0)
-  availableDays DaySlot[] @relation("propertySlotToDaySlot")
-  frequency     Frequency
-  startDate     DateTime
-  endDate       DateTime
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  propertyId    String
-  weekdays      WeekDay[]
-  property      Property  @relation("propertySlotToProperty", fields: [propertyId], references: [id], onDelete: Cascade)
-
-  @@index([propertyId])
 }
 
 model Booking {
@@ -176,8 +150,6 @@ model Booking {
   endDate       DateTime
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  // weekdays      WeekDay[] => not necessary?
   daySlots      DaySlot[]     @relation("daySlotToBooking")
   frequency     Frequency
-
 }
