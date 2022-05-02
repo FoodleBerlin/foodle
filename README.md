@@ -94,3 +94,19 @@ Currently we have authentication done through Google's OAuth process, facilitate
 ![Foodle Authentication](https://user-images.githubusercontent.com/50741293/165271388-52ce8c88-a135-4561-9673-3e20ca5fd0fd.png)
 <br>
 This flow looks roughly as above (from [The Net Ninja](https://www.youtube.com/watch?v=nK6fkNShhGc&ab_channel=TheNetNinja)), except that we have a PostgreSQL database instead of a MongoDB NoSQL database. Any protected NextJS route checks for a valid JWT cookie and redirects users to the home page if they are not authenticated. 
+
+### Threat Model
+
+![Threat Model](https://user-images.githubusercontent.com/71644512/166215439-5a7a10cd-0d31-462e-806c-2fa3195f5787.jpg)
+
+List of Implemented Security features:
+- Input Validation 
+- Google Login and in the future use of Passwordless Login 
+- Role based access control
+- HTTPS used only
+- Key mangement is seperated (.env)
+- Dependabot 
+- Heroku view Logs in the future use add on to save logs and get log alerts 
+
+
+
