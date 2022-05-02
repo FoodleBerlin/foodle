@@ -1,7 +1,7 @@
 import { Property } from '@prisma/client';
 import moment from 'moment';
 import { booleanArg, extendType, intArg, list, nonNull, nullable, objectType, stringArg } from 'nexus';
-import { bookingService } from '../../../singletons/BookingService';
+import { bookingService } from '../../../singletons/bookingService';
 import { FrequencyEnum } from '../EnumsScalars/Enums';
 import { ClientErrorInvalidInput, ClientErrorUserNotExists, NoAvailableSlots, UnknownError } from '../Error';
 import { createHandle, validateDaySlot } from '../helperFunctions';

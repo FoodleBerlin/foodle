@@ -58,8 +58,9 @@ mutation Mutation($size: Int!, $title: String!, $ownerHandle: String!, $street: 
  all fails tested?
  query property tests
 
- available Days are not tested, as they are retrieved from the db in a different order each time => not possible
- with snapschot testing => therefore logic tested with unit tests
+ AvailableDays are not tested, as they are retrieved from the db in a different order each time therefore
+ snaps are never equal. DaySlot logic is tested separately in unit tests
+ missing: test if daySlot get saved to db correctly
 */
 
 const stdVars = {

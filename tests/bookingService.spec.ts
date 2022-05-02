@@ -1,7 +1,7 @@
 import { Frequency, WeekDay } from '@prisma/client';
 import moment from 'moment';
 import { DaySlotInterface } from '../server/graphql/types';
-import { bookingService, exportForTesting } from '../server/singletons/BookingService';
+import { bookingService, exportForTesting } from '../server/singletons/bookingService';
 
 const startDate = moment('2022-06-27T10:00:00.000Z');
 const endDate = moment('2022-08-27T10:00:00.000Z');

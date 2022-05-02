@@ -1,7 +1,7 @@
 import { Booking, Role } from '@prisma/client';
 import moment from 'moment';
 import { extendType, list, nonNull, objectType, stringArg } from 'nexus';
-import { bookingService } from '../../../singletons/BookingService';
+import { bookingService } from '../../../singletons/bookingService';
 import { FrequencyEnum } from '../EnumsScalars/Enums';
 import {
   ClientErrorInvalidInput,
