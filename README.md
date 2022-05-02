@@ -95,7 +95,15 @@ Currently we have authentication done through Google's OAuth process, facilitate
 <br>
 This flow looks roughly as above (from [The Net Ninja](https://www.youtube.com/watch?v=nK6fkNShhGc&ab_channel=TheNetNinja)), except that we have a PostgreSQL database instead of a MongoDB NoSQL database. Any protected NextJS route checks for a valid JWT cookie and redirects users to the home page if they are not authenticated. 
 
-### Threat Model
+### Threat Model (Alex) 
+![FoodleThreatModel](https://user-images.githubusercontent.com/50741293/166244358-31aa031f-1634-44c8-97ac-9adbcbb97e54.jpg)
+Implemented:
+- Google OAuth login with PassportJs
+- Some XSS Input Validation
+- Added Checking for JWT on several Next.Js pages
+- Security Policy for AWS S3 bucket
+
+### Threat Model (Max)
 
 ![Threat Model](https://user-images.githubusercontent.com/71644512/166215439-5a7a10cd-0d31-462e-806c-2fa3195f5787.jpg)
 
