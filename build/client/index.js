@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var client_1 = require("@apollo/client");
+var apolloUri = process.env.SERVER_URL + 'graphql';
 var apolloHttpLink = (0, client_1.createHttpLink)({
-    uri: 'http://localhost:5000/graphql',
+    uri: apolloUri,
     //   credentials: "include",
 });
 var client = new client_1.ApolloClient({

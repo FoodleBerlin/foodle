@@ -11,7 +11,7 @@ var Tab_1 = __importDefault(require("./Tab"));
 var Navbar = function (props) {
     return (<nav className={Navbar_module_scss_1.default['navbar'] + ' flex-center'}>
       <div className={Navbar_module_scss_1.default['navbar__logo']}>
-        <link_1.default href="/">
+        <link_1.default href="/" passHref>
           <a>
             <image_1.default src="/foodle_logo.svg" width={50} height={35} alt="Foodle Logo"/>
           </a>
@@ -23,7 +23,7 @@ var Navbar = function (props) {
         <Tab_1.default href="/create" title="List Your Kitchen"/>
         <Tab_1.default href="/" title="Contact"/>
       </div>
-      {props.user && (<link_1.default href="/account">
+      {props.user && (<link_1.default href="/account" passHref>
           <div className={Navbar_module_scss_1.default['avatar']}></div>
         </link_1.default>)}
     </nav>);

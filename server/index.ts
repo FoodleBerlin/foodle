@@ -30,13 +30,13 @@ export const apollo: ApolloServer = new ApolloServer({
 });
 
 export const router = express.Router();
-
+const port = process.env.PORT || 5000;
 export async function main() {
   await apollo.start();
   app.use(router);
   apollo.applyMiddleware({ app });
   app.listen({
-    port: process.env.PORT || 5000,
+    port: port,
   });
 }
 if (!process.env.TEST) {
@@ -52,6 +52,7 @@ router.get('/api/callback', (req: any, res: any, next) => {
       httpOnly: true,
       secure: false, // true in prod,
       sameSite: 'lax', // 'strict' in prod,
+      domain: process.env.CLIENT_URL,
     });
     return res.redirect(process.env.CLIENT_URL);
   })(req, res, next);

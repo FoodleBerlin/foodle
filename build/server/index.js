@@ -66,6 +66,7 @@ exports.apollo = new apollo_server_express_1.ApolloServer({
     dataSources: function () { return (0, datasources_1.default)(); },
 });
 exports.router = express_1.default.Router();
+var port = process.env.PORT || 5000;
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -76,7 +77,7 @@ function main() {
                     exports.app.use(exports.router);
                     exports.apollo.applyMiddleware({ app: exports.app });
                     exports.app.listen({
-                        port: 5000,
+                        port: port,
                     });
                     return [2 /*return*/];
             }
@@ -101,7 +102,7 @@ exports.router.get('/api/callback', function (req, res, next) {
                         secure: false,
                         sameSite: 'lax', // 'strict' in prod,
                     });
-                    return [2 /*return*/, res.redirect('http://localhost:3000')];
+                    return [2 /*return*/, res.redirect(process.env.CLIENT_URL)];
             }
         });
     }); })(req, res, next);

@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getServerSideProps = void 0;
-var context_1 = require("~/server/context");
+var context_1 = require("../server/context");
 function getServerSideProps(_a) {
     var req = _a.req;
     return __awaiter(this, void 0, void 0, function () {
@@ -61,3 +61,7 @@ function getServerSideProps(_a) {
     });
 }
 exports.getServerSideProps = getServerSideProps;
+var NullPage = function () {
+    return <></>;
+};
+exports.default = NullPage;
