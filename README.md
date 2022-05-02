@@ -32,6 +32,12 @@ Default setting is 'none'. By chaning the LOG_LEVEL environment variable to info
 1. Important: Dev Server needs to be stopped.
 2. `yarn test:api` to start the test
 
+## Frontend/ E2E - Tests
+
+Frontend and end-to-end test are currently developed in the branch "frontend-tests" and will be merged to master shortly.
+
+`yarn cy:run` to run the tests
+
 ### Foodle's Architecture
 ![foodleArchitecture2](https://user-images.githubusercontent.com/50741293/166102503-4a02de06-00fa-47cc-bfe5-9df26d90c1cf.png)
 
