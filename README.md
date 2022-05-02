@@ -97,7 +97,7 @@ This flow looks roughly as above (from [The Net Ninja](https://www.youtube.com/w
 
 ### Threat Model (Alex) 
 ![FoodleThreatModel](https://user-images.githubusercontent.com/50741293/166244358-31aa031f-1634-44c8-97ac-9adbcbb97e54.jpg)
-Implemented:
+Alex implemented:
 - Google OAuth login with PassportJs
 - Some XSS Input Validation
 - Added Checking for JWT on several Next.Js pages
