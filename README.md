@@ -118,7 +118,7 @@ List of Implemented Security features:
 - Google Login and in the future use of Passwordless Login 
 - Role based access control
 - HTTPS used only
-- Key mangement is seperated (.env)
+- Mangement use of (.env) file
 - Dependabot 
 - Heroku view Logs in the future use add on to save logs and get log alerts 
 
