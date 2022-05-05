@@ -115,7 +115,6 @@ Alex implemented:
 
 List of Implemented Security features:
 - Input Validation 
-- In the future use of Passwordless Login 
 - Role based access control
 - HTTPS used only
 - Mangement use of (.env) file
