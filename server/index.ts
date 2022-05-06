@@ -52,7 +52,6 @@ router.get('/api/callback', (req: any, res: any, next) => {
       httpOnly: true,
       secure: false, // true in prod,
       sameSite: 'lax', // 'strict' in prod,
-      domain: process.env.CLIENT_URL,
     });
     return res.redirect(process.env.CLIENT_URL);
   })(req, res, next);
