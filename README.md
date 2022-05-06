@@ -16,6 +16,11 @@ A licensed kitchen rental service.
 5. navigate to "localhost:5000/graphql" for the apollo interface where you can manually test queries/mutations
 6. `yarn db:seed` to seed the database.
 
+Logging
+
+Default setting is 'none'. By chaning the LOG_LEVEL environment variable to info basic logging for the most important tasks is provided. By chaningn to debug sql queries are logged too.
+
+
 ### Client
 
 1. Ensure the dev server is on and run `yarn codegen:generate`
@@ -27,8 +32,14 @@ A licensed kitchen rental service.
 1. Important: Dev Server needs to be stopped.
 2. `yarn test:api` to start the test
 
+## Frontend/ E2E - Tests
+
+Frontend and end-to-end test are currently developed in the branch "frontend-tests" and will be merged to master shortly.
+
+`yarn cy:run` to run the tests
+
 ### Foodle's Architecture
-![FoodleArchitecture](https://user-images.githubusercontent.com/50741293/165260033-f6c8e0aa-8c24-45b6-8b54-427525527121.png)
+![foodleArchitecture2](https://user-images.githubusercontent.com/50741293/166102503-4a02de06-00fa-47cc-bfe5-9df26d90c1cf.png)
 
 ### Repository Structure
 - This repository has a monolithic architecture
@@ -41,7 +52,9 @@ A licensed kitchen rental service.
 - AWS-SDK: Currently AWS S3 CRUD functions for images are in the pages/api and are being called in the Step4 (and related) components of the Create A Listing flow. (this currently resides in the feat/s3 branch)
 
 ### Server Architecture
-![FoodleServerArchitecture](https://user-images.githubusercontent.com/50741293/165266675-fbf2f9f0-2375-4f8a-83c7-52bf80636872.png)
+![foodleServerArchitecture3](https://user-images.githubusercontent.com/50741293/166102585-1762387a-5664-44c0-a464-1e37415e066e.png)
+
+
 
 ### Server Tech Stack 
 -  Prisma: An Object-Relational Mapper that migrates changes to its schema to an SQL schema on command. 
@@ -54,6 +67,10 @@ A licensed kitchen rental service.
 - Apollo Client: Also used to query our Server (but will be removed soon since it does not offer the same type safety as Codegen hooks)
 - SCSS Modules: For component level styles
 - 7-1 SCSS Architecture: For global styles and utility classes
+
+### Deployment
+The client is currently as a next.js application deployed on vercel. The backend is deployed on heroku and the postgreSQL database is deployed to render.
+A continuous integration pipeline on the master branch is implemented with vercel. On every new pull request vercel provides a deployed preview for testing before merching to master.
 
 ### API Design
 
@@ -83,3 +100,26 @@ Currently we have authentication done through Google's OAuth process, facilitate
 ![Foodle Authentication](https://user-images.githubusercontent.com/50741293/165271388-52ce8c88-a135-4561-9673-3e20ca5fd0fd.png)
 <br>
 This flow looks roughly as above (from [The Net Ninja](https://www.youtube.com/watch?v=nK6fkNShhGc&ab_channel=TheNetNinja)), except that we have a PostgreSQL database instead of a MongoDB NoSQL database. Any protected NextJS route checks for a valid JWT cookie and redirects users to the home page if they are not authenticated. 
+
+### Threat Model (Alex) 
+![FoodleThreatModel](https://user-images.githubusercontent.com/50741293/166244358-31aa031f-1634-44c8-97ac-9adbcbb97e54.jpg)
+Alex implemented:
+- Google OAuth login with PassportJs
+- Some XSS Input Validation
+- Added Checking for JWT on several Next.Js pages
+- Security Policy for AWS S3 bucket
+
+### Threat Model (Max)
+
+![Threat Model](https://user-images.githubusercontent.com/71644512/166215439-5a7a10cd-0d31-462e-806c-2fa3195f5787.jpg)
+
+List of Implemented Security features:
+- Input Validation 
+- Role based access control
+- HTTPS used only
+- Mangement use of (.env) file
+- Dependabot 
+- Heroku view Logs in the future use add on to save logs and get log alerts 
+
+
+
