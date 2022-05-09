@@ -70,6 +70,7 @@ model User {
   handle           String     @unique
   fullName         String
   stripeId         String?    @unique
+  awsId            String?    @unique
   email            String     @unique
   id               String     @id @default(cuid())
   image            String?
@@ -139,7 +140,7 @@ model Property {
   serviceFee     Int
   rules          String[]
   deposit        Int
-  images         String[]
+  imageIds       String[]
   partialSpace   Boolean       @default(false)
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
