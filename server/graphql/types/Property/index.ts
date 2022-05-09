@@ -4,6 +4,7 @@ import { ClientErrorInvalidHandle, UnknownError, ClientErrorPropertyNotExists } 
 import { User } from '../User';
 import { Booking } from '../Booking';
 import { PropertySlot } from '../PropertySlot';
+import { S3Resource } from '../S3Resource';
 
 export const Property = objectType({
   name: 'Property',
@@ -40,7 +41,29 @@ export const Property = objectType({
     p.nullable.boolean('pickup');
     p.list.string('facilities');
     p.int('deposit');
-    p.list.string('images');
+    p.list.string('imageIds');
+    p.list.field('images', {
+      type: S3Resource,
+      resolve: async (_, args, ctx: Context) => {
+        if (!ctx.user?.awsId || ctx.user.email !== ctx.user?.email) return [];
+        // return null;
+        // const charges = await ctx.dataSources!.stripeWrapper.getCustomerCharges({ customerId: ctx.user.awsId });
+        // if (!charges.response.success) return [];
+        // return charges.response.success.body.data.map((charge) => {
+        //   return {
+        //     currency: charge.currency,
+        //     amount: charge.amount,
+        //     date: charge.created,
+        //     card: charge.payment_method_details?.card?.last4,
+        //     status: charge.status,
+        //     description: charge.description,
+        //     invoiceId: charge.invoice as string,
+        //   };
+        // });
+        // TODO fix
+        // .sort((a, b) => b.date - a.date)
+      },
+    })
     p.boolean('partialSpace');
     p.boolean('isVerified');
     p.int('hourlyPrice');
