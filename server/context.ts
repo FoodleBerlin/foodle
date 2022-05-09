@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { Token } from '../utils/forgeJWT';
 import StripeWrapper from './singletons/stripe/endpoints';
+import AWSWrapper from './singletons/s3';
 export type Context = {
   req: any;
   res: any;
@@ -10,7 +11,8 @@ export type Context = {
   prisma: PrismaClient;
   // Must be optional and not passed in manually or apollo server will error
   //https://github.com/apollographql/apollo-server/blob/6954aff9b56bbb8eb0b60928df2c3e8a7941b459/packages/apollo-server-core/src/requestPipeline.ts#L104
-  dataSources?: Record<'stripeWrapper', StripeWrapper>;
+  dataSources?: Record<'stripeWrapper', StripeWrapper>
+  awsResources?: Record<'awsWrapper', AWSWrapper>;
 };
 
 export async function createContext(req: any, res: any): Promise<Context> {
