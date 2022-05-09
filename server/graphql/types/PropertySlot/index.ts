@@ -33,7 +33,7 @@ export const PropertySlot = objectType({
       async resolve(parent, args, ctx) {
         return await ctx.prisma.genericDaySlot.findMany({
           where: {
-            propertySlotId: parent.id,
+            propertySlotId: parent.propertyId,
           },
           include: {
             bookingSlot:true,

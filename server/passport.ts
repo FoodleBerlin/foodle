@@ -3,19 +3,35 @@ import passport from 'passport';
 import prisma from '../server/singletons/prisma';
 import datasources from './singletons/datasources';
 import { v4 as uuidv4 } from 'uuid';
+//import FacebookStrategy from 'passport-facebook'
+const FacebookStrategy = require('passport-facebook').Strategy;
+
 
 const { stripeWrapper } = datasources();
 
 passport.use(
-  new GoogleStrategy(
+ /*  new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.SERVER_URL+'api/callback',
+      callbackURL: process.env.SERVER_URL+'/api/callback',
       state: true,
+    }, */
+    new FacebookStrategy({
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: process.env.SERVER_URL + "/auth/facebook/callback",
+      proxy: true
+      //profileFields: ['email']
     },
-    async function (accessToken: unknown, refreshToken: unknown, profile: any, cb: any) {
-      try {
+    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
+      console.log("enther authenticate")
+      return cb(null);
+    }
+  /*   async function (accessToken: unknown, refreshToken: unknown, profile: any, cb: any) {
+      console.log("Envs: "+process.env.FACEBOOK_APP_ID+ " "+process.env.FACEBOOK_APP_SECRET)
+      return cb(null, profile) */
+     /*  try {
         if (!accessToken || !profile) return cb('error', null);
         const user = await prisma.user.findUnique({
           where: {
@@ -51,7 +67,7 @@ passport.use(
         console.log('ERROR', e);
         return cb(e);
       }
-    }
+    } */
   )
 );
 
@@ -65,5 +81,7 @@ passport.deserializeUser((id, done) => {
     return done(null, { id: 'testyes' });
   });
 });
+
+
 
 export default passport;

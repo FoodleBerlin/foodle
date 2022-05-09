@@ -9,6 +9,7 @@ import { DataSources } from 'apollo-server-core/dist/graphqlOptions';
 import StripeWrapper from './singletons/stripe/endpoints';
 import datasources from './singletons/datasources';
 
+
 export const app = express();
 app.use(passport.initialize());
 
@@ -43,11 +44,11 @@ if (!process.env.TEST) {
   main();
 }
 
-router.get('/api/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/api/callback', (req: any, res: any, next) => {
+router.get('/auth/google/callback', (req: any, res: any, next) => {
   passport.authenticate('google', async (err: any, user: any) => {
-    const token = await forgeJWT(user);
+    const token = await forgeJWT(user);//user
     res.cookie('jwt', token, {
       httpOnly: true,
       secure: false, // true in prod,
@@ -57,3 +58,38 @@ router.get('/api/callback', (req: any, res: any, next) => {
     return res.redirect(process.env.CLIENT_URL);
   })(req, res, next);
 });
+//{scope: ['profile', 'email']}
+
+router.get('/auth/facebook',
+  passport.authenticate('facebook')
+)
+
+
+
+router.get('/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/error'
+  }));
+
+
+  //This site can’t provide a secure connectionlocalhost sent an invalid response.  ERR_SSL_PROTOCOL_ERROR
+
+
+  
+/* router.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }),
+function(req, res) {
+   res.redirect('/');
+}); */
+    /* async (err: any, user: any) => { // user always undefined
+      const token = await forgeJWT(user);
+      res.cookie('jwt', token, {
+        httpOnly: true,
+        secure: false, // true in prod,
+        sameSite: 'lax', // 'strict' in prod,
+        domain: process.env.CLIENT_URL,
+      });
+      console.log("authentication finished")
+      return res.redirect(process.env.CLIENT_URL);
+    })(req, res, next); 
+});*/
