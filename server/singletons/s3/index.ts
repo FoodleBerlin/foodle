@@ -153,6 +153,7 @@ class AWSWrapper extends AWSWrapperAbstract{
 
 
 }
+export default AWSWrapper;
 // deleteResource= async (params: {s3Id: string }) => {
 //     let res: EndpointRes<string>;
 //     try {
