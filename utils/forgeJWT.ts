@@ -8,9 +8,10 @@ export type Token = {
     fullName: string;
     email: string;
     stripeId: string | null;
+    awsId: string | null;
   };
 };
-export default async function forgeJWT(user: Pick<User, 'id' | 'fullName' | 'email' | 'stripeId'>) {
+export default async function forgeJWT(user: Pick<User, 'id' | 'fullName' | 'email' | 'stripeId' | 'awsId'>) {
   const id = await prisma.user.findUnique({
     where: { id: user.id },
   });
@@ -21,6 +22,7 @@ export default async function forgeJWT(user: Pick<User, 'id' | 'fullName' | 'ema
       fullName: user.fullName,
       email: user.email,
       stripeId: user.stripeId,
+      awsId: user.awsId,
     },
   };
   const token = jwt.sign(tokenRaw, process.env.SERVER_SECRET ?? '', {
