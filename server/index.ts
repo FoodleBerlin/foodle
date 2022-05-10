@@ -47,13 +47,15 @@ if (!process.env.TEST) {
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/auth/google/callback', (req: any, res: any, next) => {
+
+  const isProduction = process.env.SERVER_URL!=="http://localhost:5000/"
   passport.authenticate('google', async (err: any, user: any) => {
     const token = await forgeJWT(user);//user
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: false, // true in prod,
-      sameSite: 'lax', // 'strict' in prod,
-      domain: process.env.CLIENT_URL,
+      secure: isProduction ? true : false, 
+      sameSite: isProduction ? 'strict': 'lax', 
+      
     });
     return res.redirect(process.env.CLIENT_URL);
   })(req, res, next);
