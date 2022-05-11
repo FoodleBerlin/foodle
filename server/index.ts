@@ -8,19 +8,26 @@ import forgeJWT from '../utils/forgeJWT';
 import { DataSources } from 'apollo-server-core/dist/graphqlOptions';
 import StripeWrapper from './singletons/stripe/endpoints';
 import datasources from './singletons/datasources';
-
+import helmet from 'helmet'
 export const app = express();
 app.use(passport.initialize());
 
-export const isProduction = process.env.SERVER_URL!=="http://localhost:5000/"
 
+export const isProduction = process.env.SERVER_URL!=="http://localhost:5000/"
+if (isProduction){
+  // Sets CSP header, enforces HTTPS, sets X-Frame-Options Header
+  app.use(helmet); 
+}
 app.use(
   session({
+    // Default name makes it easier for attackers to fingerprint server
+    name: 'SecureSession',   
     secret: process.env.SERVER_SECRET ?? '',
     resave: false,
     saveUninitialized: false,
   })
 );
+
 export const apollo: ApolloServer = new ApolloServer({
   // An executable GraphQL schema.
   schema,
