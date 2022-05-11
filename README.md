@@ -108,6 +108,10 @@ Alex implemented:
 - Some XSS Input Validation
 - Added Checking for JWT on several Next.Js pages
 - Security Policy for AWS S3 bucket
+- Added CSP for NextJS, ExpressJS
+- Added Security Headers to NextJS and Express
+- Made cookies enfore Https and Samesite-strict
+- Turned off introspection for Apollo in production
 
 ### Threat Model (Max)
 
