@@ -1,13 +1,14 @@
 /** @type {import('next').NextConfig} */
 // Prevents XSS, Clickjacking and Injection Attacks
-// 
+// 'unsafe-eval' is temporary solution - to avoid it we have to remove all inline event-handlers
 // 'unsafe-inline' is not ideal, but also very little can be achieved with CSS XSS attacks (Even Twitter and Spotify use it and they have very high security rating)
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval';
+  script-src 'self' 'unsafe-eval'; 
   child-src ${process.env.CLIENT_URL};
-  style-src 'unsafe-inline'; 
-  font-src 'self';  
+  style-src 'unsafe-inline' https://fonts.googleapis.com ; 
+  img-src 'self' data:;
+  font-src 'self' https://fonts.gstatic.com;  
 `
 const securityHeaders = [
   // { 
