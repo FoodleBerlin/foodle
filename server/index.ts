@@ -12,6 +12,8 @@ import datasources from './singletons/datasources';
 export const app = express();
 app.use(passport.initialize());
 
+export const isProduction = process.env.SERVER_URL!=="http://localhost:5000/"
+
 app.use(
   session({
     secret: process.env.SERVER_SECRET ?? '',
@@ -23,7 +25,8 @@ export const apollo: ApolloServer = new ApolloServer({
   // An executable GraphQL schema.
   schema,
   // An object (or a function that creates an object) that's passed to every resolver that executes for a particular operation.
-  introspection: true,
+  // Turned off for production to prevent accidentally sharing business secrets
+  introspection: isProduction? false : true,
   // This enables resolvers to share helpful context, such as a database connection.
   context: createContext,
   dataSources: () => datasources() as DataSources<Record<'stripeWrapper', StripeWrapper>>,
@@ -43,15 +46,18 @@ if (!process.env.TEST) {
   main();
 }
 
+
 router.get('/api/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/api/callback', (req: any, res: any, next) => {
   passport.authenticate('google', async (err: any, user: any) => {
     const token = await forgeJWT(user);
     res.cookie('jwt', token, {
-      httpOnly: true,
-      secure: false, // true in prod,
-      sameSite: 'lax', // 'strict' in prod,
+      // Is session cookie, expires on client shutdown
+      httpOnly: true, // prevents scripts from reading cookie
+      secure: isProduction ? true : false, // prevents cookie from being sent over unencrypted connection
+      sameSite: isProduction ? 'strict': 'lax', // Strict=browser will not send the cookie to our website if the request comes from a different domain, 
+      //Lax= Browser only blocks cookies with unsafe HTTP methods like POST
     });
     return res.redirect(process.env.CLIENT_URL);
   })(req, res, next);
