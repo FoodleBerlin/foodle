@@ -32,7 +32,7 @@ const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   console.log({ props });
   const { status, data, error, isFetching } = useFindUserQuery(
     {
-      endpoint: process.env.SERVER_URL + 'graphql',
+      endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
       fetchParams: {
         headers: {
           'Content-Type': 'application/json',

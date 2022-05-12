@@ -8,6 +8,7 @@ import { extractUserFromToken } from '../../server/context';
 import { useRef } from 'react';
 import React from 'react';
 import ProfileForm from '../../components/Profile/ProfileForm';
+import { envVars } from '../../env-config';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   if (!req.cookies['jwt']) {
@@ -34,7 +35,7 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
     isFetching,
   } = useFindUserQuery(
     {
-      endpoint: process.env.SERVER_URL + 'graphql',
+      endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
       fetchParams: {
         headers: {
           'Content-Type': 'application/json',

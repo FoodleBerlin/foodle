@@ -1,9 +1,9 @@
 import aws from 'aws-sdk'
 import { AuthenticatedProps } from '../account/payments';
 export const s3 = new aws.S3({
-  accessKeyId: process.env.APP_AWS_ACCESS_KEY,
-  secretAccessKey: process.env.APP_AWS_SECRET_KEY,
-  region: process.env.APP_AWS_REGION,
+  accessKeyId: process.env.NEXT_PUBLIC_APP_AWS_ACCESS_KEY,
+  secretAccessKey: process.env.NEXT_PUBLIC_APP_AWS_SECRET_KEY,
+  region: process.env.NEXT_PUBLIC_APP_AWS_REGION,
 })
 
 export const uploadResource= async (file:File | null, filename: string)=>{
@@ -25,9 +25,8 @@ export default async function handler(req: any, res: any, props: AuthenticatedPr
   s3.listObjectsV2({Bucket: 'foodle-bucket'}, async (err, data)=> {
     if (data.Contents!.length<100) {
       try { 
-        console.log("gettin 'ere")
         const post = s3.createPresignedPost({
-          Bucket: process.env.AWS_S3_BUCKET_NAME,
+          Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
           Fields: {
             key: req.query.file,
           },
