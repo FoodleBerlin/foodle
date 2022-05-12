@@ -8,6 +8,7 @@ const ContentSecurityPolicy = `
   child-src ${process.env.CLIENT_URL};
   style-src 'unsafe-inline' https://fonts.googleapis.com ; 
   img-src 'self' data:;
+  connect-src 'self' ${process.env.NEXT_PUBLIC_SERVER_URL} https://s3.eu-central-1.amazonaws.com;
   font-src 'self' https://fonts.gstatic.com;  
 `
 const securityHeaders = [
@@ -38,6 +39,11 @@ const securityHeaders = [
     value: 'nosniff',
   },
   {
+    /** Retains much of the referrer's usefulness, while mitigating the risk of leaking data cross-origins. **/
+    key: 'Referrer-Policy',
+    value: 'strict-origin-when-cross-origin'
+  },
+  {
     key: 'Content-Security-Policy',
     value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
   }
@@ -60,7 +66,7 @@ const nextConfig = {
     return [
       {
         source: '/heroku-auth',
-        destination: process.env.SERVER_URL+'api/auth',
+        destination: process.env.NEXT_PUBLIC_SERVER_URL+'api/auth',
         permanent: false,
         basePath: false
       },
