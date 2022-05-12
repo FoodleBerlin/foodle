@@ -13,7 +13,7 @@ export const app = express();
 app.use(passport.initialize());
 
 
-export const isProduction = process.env.SERVER_URL!=="http://localhost:5000/"
+export const isProduction = process.env.NEXT_PUBLIC_SERVER_URL!=="http://localhost:5000/"
 if (isProduction){
   // Sets CSP header, enforces HTTPS, sets X-Frame-Options Header
   app.use(helmet); 
@@ -31,6 +31,9 @@ app.use(
 export const apollo: ApolloServer = new ApolloServer({
   // An executable GraphQL schema.
   schema,
+  // @ts-ignore
+  // Need to check whet
+  csrfPrevention: true,
   // An object (or a function that creates an object) that's passed to every resolver that executes for a particular operation.
   // Turned off for production to prevent accidentally sharing business secrets
   introspection: isProduction? false : true,
@@ -39,12 +42,16 @@ export const apollo: ApolloServer = new ApolloServer({
   dataSources: () => datasources() as DataSources<Record<'stripeWrapper', StripeWrapper>>,
 });
 
+const corsOptions = {
+  origin: [process.env.CLIENT_URL!]
+};
 export const router = express.Router();
 const port = process.env.PORT || 5000;
 export async function main() {
   await apollo.start();
   app.use(router);
-  apollo.applyMiddleware({ app });
+  apollo.applyMiddleware({ app,
+  cors: corsOptions });
   app.listen({
     port: port,
   });
