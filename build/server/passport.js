@@ -48,7 +48,7 @@ var stripeWrapper = (0, datasources_1.default)().stripeWrapper;
 passport_1.default.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.SERVER_URL + 'api/callback',
+    callbackURL: process.env.NEXT_PUBLIC_SERVER_URL + 'api/callback',
     state: true,
 }, function (accessToken, refreshToken, profile, cb) {
     var _a;

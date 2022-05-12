@@ -38,9 +38,6 @@ var Home = function () {
         <meta name="description" content="The landing page of the up and coming
         kitchen rental portal, Foodle."/>
         <link rel="icon" href="/foodle_logo.svg"/>
-        <style type="text/css">
-          <link href="https://dafonttop.com/wp-data/a/21/8021/file/archia-regular-webfont.ttf" rel="stylesheet"/>
-        </style>
       </head_1.default>
       <Navbar_1.default />
       <div className={Home_module_scss_1.default['hero']}>

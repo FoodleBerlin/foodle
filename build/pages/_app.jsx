@@ -10,7 +10,6 @@ var react_query_1 = require("react-query");
 exports.queryClient = new react_query_1.QueryClient();
 function MyApp(_a) {
     var Component = _a.Component, pageProps = _a.pageProps;
-    console.log('SERVER_URL:' + process.env.SERVER_URL + 'api/auth');
     return (<react_query_1.QueryClientProvider client={exports.queryClient}>
       <Component {...pageProps}/>
     </react_query_1.QueryClientProvider>);
