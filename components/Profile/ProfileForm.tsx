@@ -5,7 +5,6 @@ import styles from '../../pages/account/Account.module.scss';
 import ProfileButton, { UploaderImage } from './ProfileButton';
 import { Token } from '../../utils/forgeJWT';
 import { urlSafeEncode } from '@aws-amplify/core';
-import { envVars } from '../../env-config';
 interface ProfileFormProps {
   session: Token['user'];
   jwt: string;
