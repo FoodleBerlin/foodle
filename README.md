@@ -127,7 +127,7 @@ List of Implemented Security features:
 - Heroku view Logs in the future use add on to save logs and get log alerts 
 
 
-Max: SE_22 Web and Mobile Backend Development paths for mentioned parts from the Essay: 
+Max: SE_22 Web and Mobile Backend Development paths for mentioned parts from the Essay Max: 
 - Facebook Login with passport.js file: passport.js (Branch: create-Facebook-Login)
 - Validation for XSS in the file: "validation.ts" (Branch: xss_backend_validation)
-- The rest mentioned in the Essay can be found in the master
+- The rest mentioned in the Essay like: Mutation, Query, Test, and Error Handling can be found in the master
