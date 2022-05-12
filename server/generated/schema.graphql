@@ -16,6 +16,7 @@ type Booking {
   property: Property
   startDate: String!
   tenant: User
+  totalPrice: Float!
 }
 
 """
@@ -121,6 +122,11 @@ enum FrequencyEnum {
   WEEKLY
 }
 
+type GetBookingsOfUser {
+  Bookings: [Booking!]
+  ClientErrorUserNotExists: ClientErrorUserNotExists
+}
+
 type Mutation {
   createBooking(
     daySlots: [AvailableDay!]!
@@ -190,9 +196,14 @@ type Query {
   findAllProperties: findAllPropertiesReturn!
 
   """
+  Takes user handle and returns all bookings of user
+  """
+  findBookingsOfUser: GetBookingsOfUser!
+
+  """
   Takes a propertyId and returns the property
   """
-  findProperty(handle: String): findPropertyResult!
+  findProperty(handle: String!): findPropertyResult!
 
   """
   Takes a handle and returns the user

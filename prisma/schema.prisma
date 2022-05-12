@@ -145,7 +145,7 @@ model Booking {
   propertyId    String
   property      Property      @relation(name: "property", fields: [propertyId], references: [id], onDelete: Cascade)
   bookingStatus BookingStatus
-  totalPrice    Decimal       @default(0)
+  totalPrice    Float         @default(0)
   startDate     DateTime
   endDate       DateTime
   createdAt     DateTime      @default(now())

@@ -2,14 +2,12 @@ import { objectType } from 'nexus';
 import { DaySlot } from '../DaySlot/objects';
 import { BookingStatusEnum, FrequencyEnum } from '../EnumsScalars/Enums';
 import { Property } from '../Property';
-import { User } from '../User/Objects';
 
 export const Booking = objectType({
   name: 'Booking',
   definition(t) {
     t.string('id');
     t.nullable.field('tenant', {
-      ///////////////////////////////////////// Todo
       type: 'User',
       async resolve(parent, args, ctx) {
         return await ctx.prisma.user.findUnique({
@@ -41,7 +39,7 @@ export const Booking = objectType({
     });
     t.field('bookingStatus', { type: BookingStatusEnum });
     t.field('frequency', { type: FrequencyEnum });
-    //t.decimal('totalPrice'); // Todo: resolve prisma decimal to nexus scalar
+    t.float('totalPrice');
     t.string('startDate');
     t.string('endDate');
   },

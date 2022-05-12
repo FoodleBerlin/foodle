@@ -1,7 +1,8 @@
 import { Booking, Role } from '@prisma/client';
 import moment from 'moment';
 import { extendType, list, nonNull, objectType, stringArg } from 'nexus';
-import { bookingService } from '../../../singletons/bookingService';
+import { BookingService } from '../../../singletons/bookingService';
+import { ValidatorService } from '../../../singletons/validatorService';
 import { FrequencyEnum } from '../EnumsScalars/Enums';
 import {
   ClientErrorInvalidInput,
@@ -11,7 +12,7 @@ import {
   NoAvailableSlots,
   UnknownError,
 } from '../Error';
-import { calculatePrice, validateDaySlot } from '../helperFunctions';
+import { calculatePrice } from '../helperFunctions';
 import { AvailableDay, DaySlotInterface } from '../Property';
 import { Booking as BookingObject } from './objects';
 
@@ -77,7 +78,7 @@ export const BookingOnListing = extendType({
           },
         });
         args.daySlots.forEach((day) => {
-          if (validateDaySlot(day)) {
+          if (ValidatorService.validateDaySlot(day)) {
             return {
               ClientErrorInvalidInput: {
                 message: `Invalid input for availableDay ${day.startTime}: startTime can't be after endTime and startTime and endTime have to be on the same day.`,
@@ -104,7 +105,7 @@ export const BookingOnListing = extendType({
         const frequency = args.frequency;
 
         // calculate every date and save all in daySlotDates
-        let daySlotDates: DaySlotInterface[] = bookingService.calculateDates(
+        let daySlotDates: DaySlotInterface[] = BookingService.calculateDates(
           args.daySlots,
           startDate,
           endDate,
@@ -152,7 +153,7 @@ export const BookingOnListing = extendType({
         let booking: Booking;
         const price = calculatePrice(daySlotDates, property);
         try {
-          booking = await bookingService.createBooking(user.id, property.id, price, startDate, endDate, frequency);
+          booking = await BookingService.createBooking(user.id, property.id, price, startDate, endDate, frequency);
         } catch (error) {
           let errorMessage = 'Unknown error when creating booking';
           if (error instanceof Error) {
@@ -167,7 +168,7 @@ export const BookingOnListing = extendType({
 
         // update daySlots to mark them as booked
         try {
-          bookingService.bookDaySlots(daySlotDates, property.id, booking.id);
+          BookingService.bookDaySlots(daySlotDates, property.id, booking.id);
         } catch (error) {
           // if error occurs delete existing booking
           ctx.prisma.booking.delete({
