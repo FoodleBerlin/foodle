@@ -124,7 +124,7 @@ List of Implemented Security features:
 - HTTPS used only
 - Mangement use of (.env) file
 - Dependabot 
-- Heroku view Logs in the future use add on to save logs and get log alerts 
+- Heroku view Logs and use add ons (Expedited WAF—Security, Papertrail—Heroku Logging)
 
 
 Max: SE_22 Web and Mobile Backend Development paths for mentioned parts from the Essay Max: 
