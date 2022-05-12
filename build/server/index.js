@@ -40,7 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.main = exports.router = exports.apollo = exports.app = void 0;
+exports.main = exports.router = exports.apollo = exports.isProduction = exports.app = void 0;
 var apollo_server_express_1 = require("apollo-server-express");
 var schema_1 = __importDefault(require("./schema"));
 var context_1 = require("./context");
@@ -49,9 +49,17 @@ var express_session_1 = __importDefault(require("express-session"));
 var passport_1 = __importDefault(require("./passport"));
 var forgeJWT_1 = __importDefault(require("../utils/forgeJWT"));
 var datasources_1 = __importDefault(require("./singletons/datasources"));
+var helmet_1 = __importDefault(require("helmet"));
 exports.app = (0, express_1.default)();
 exports.app.use(passport_1.default.initialize());
+exports.isProduction = process.env.NEXT_PUBLIC_SERVER_URL !== "http://localhost:5000/";
+if (exports.isProduction) {
+    // Sets CSP header, enforces HTTPS, sets X-Frame-Options Header
+    exports.app.use(helmet_1.default);
+}
 exports.app.use((0, express_session_1.default)({
+    // Default name makes it easier for attackers to fingerprint server
+    name: 'SecureSession',
     secret: (_a = process.env.SERVER_SECRET) !== null && _a !== void 0 ? _a : '',
     resave: false,
     saveUninitialized: false,
@@ -59,12 +67,19 @@ exports.app.use((0, express_session_1.default)({
 exports.apollo = new apollo_server_express_1.ApolloServer({
     // An executable GraphQL schema.
     schema: schema_1.default,
+    // @ts-ignore
+    // Need to check whet
+    csrfPrevention: true,
     // An object (or a function that creates an object) that's passed to every resolver that executes for a particular operation.
-    introspection: true,
+    // Turned off for production to prevent accidentally sharing business secrets
+    introspection: exports.isProduction ? false : true,
     // This enables resolvers to share helpful context, such as a database connection.
     context: context_1.createContext,
     dataSources: function () { return (0, datasources_1.default)(); },
 });
+var corsOptions = {
+    origin: [process.env.CLIENT_URL]
+};
 exports.router = express_1.default.Router();
 var port = process.env.PORT || 5000;
 function main() {
@@ -75,7 +90,7 @@ function main() {
                 case 1:
                     _a.sent();
                     exports.app.use(exports.router);
-                    exports.apollo.applyMiddleware({ app: exports.app });
+                    exports.apollo.applyMiddleware({ app: exports.app, cors: corsOptions });
                     exports.app.listen({
                         port: port,
                     });
@@ -98,9 +113,11 @@ exports.router.get('/api/callback', function (req, res, next) {
                 case 1:
                     token = _a.sent();
                     res.cookie('jwt', token, {
+                        // Is session cookie, expires on client shutdown
                         httpOnly: true,
-                        secure: false,
-                        sameSite: 'lax', // 'strict' in prod,
+                        secure: exports.isProduction ? true : false,
+                        sameSite: exports.isProduction ? 'strict' : 'lax', // Strict=browser will not send the cookie to our website if the request comes from a different domain, 
+                        //Lax= Browser only blocks cookies with unsafe HTTP methods like POST
                     });
                     return [2 /*return*/, res.redirect(process.env.CLIENT_URL)];
             }

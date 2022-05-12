@@ -53,9 +53,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadResource = exports.s3 = void 0;
 var aws_sdk_1 = __importDefault(require("aws-sdk"));
 exports.s3 = new aws_sdk_1.default.S3({
-    accessKeyId: process.env.APP_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.APP_AWS_SECRET_KEY,
-    region: process.env.APP_AWS_REGION,
+    accessKeyId: process.env.NEXT_PUBLIC_APP_AWS_ACCESS_KEY,
+    secretAccessKey: process.env.NEXT_PUBLIC_APP_AWS_SECRET_KEY,
+    region: process.env.NEXT_PUBLIC_APP_AWS_REGION,
 });
 var uploadResource = function (file, filename) { return __awaiter(void 0, void 0, void 0, function () {
     var res, data, formData;
@@ -93,9 +93,8 @@ function handler(req, res, props) {
                 return __generator(this, function (_a) {
                     if (data.Contents.length < 100) {
                         try {
-                            console.log("gettin 'ere");
                             post = exports.s3.createPresignedPost({
-                                Bucket: process.env.AWS_S3_BUCKET_NAME,
+                                Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
                                 Fields: {
                                     key: req.query.file,
                                 },

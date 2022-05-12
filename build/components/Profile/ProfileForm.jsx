@@ -10,7 +10,7 @@ var ProfileButton_1 = __importDefault(require("./ProfileButton"));
 var ProfileForm = function (props) {
     var _a, _b, _c;
     var _d = (0, codegen_1.useUpdateUserMutation)({
-        endpoint: process.env.SERVER_URL + 'graphql',
+        endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
         fetchParams: {
             headers: {
                 'Content-Type': 'application/json',

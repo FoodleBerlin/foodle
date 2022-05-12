@@ -2,7 +2,6 @@ import styles from '../../pages/account/Account.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { useRef, useState } from 'react';
 import Image from 'next';
-import { useWindowDimensions } from '../../utils/hooks';
 import Link from 'next/link';
 
 interface ProfileButtonProps {

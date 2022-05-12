@@ -8,7 +8,7 @@ import {
   ApolloLink
 } from "@apollo/client";
 
-const apolloUri = process.env.SERVER_URL+'graphql';
+const apolloUri = process.env.NEXT_PUBLIC_SERVER_URL+'graphql';
 const apolloHttpLink = createHttpLink({
   uri: apolloUri,
 //   credentials: "include",

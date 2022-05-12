@@ -9,7 +9,6 @@ interface IModalProps {
 }
 
 const Modal = (props: IModalProps) => {
-  console.log('SERVER_URL:' + process.env.SERVER_URL);
   if (!props.show) {
     return null;
   }
@@ -36,13 +35,6 @@ const Modal = (props: IModalProps) => {
             <Link href={'/heroku-auth'} passHref>
               <a className={'primary-btn'}>Continue with google</a>
             </Link>
-            {/* <button
-              className={'primary-btn'}
-              onClick={() => window.location.replace(`${process.env.SERVER_URL}api/auth`)}
-            >
-              Continue with google
-            </button> */}
-            <button className={'primary-btn'}>Continue with facebook</button>
           </div>
         </div>
         <div className={styles['modal__footer']}></div>

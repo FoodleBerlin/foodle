@@ -73,7 +73,7 @@ var Account = function (props) {
     var _a, _b;
     console.log({ props: props });
     var _c = (0, codegen_1.useFindUserQuery)({
-        endpoint: process.env.SERVER_URL + 'graphql',
+        endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
         fetchParams: {
             headers: {
                 'Content-Type': 'application/json',

@@ -8,7 +8,6 @@ var Modal_module_scss_1 = __importDefault(require("./Modal.module.scss"));
 var link_1 = __importDefault(require("next/link"));
 var image_1 = __importDefault(require("next/image"));
 var Modal = function (props) {
-    console.log('SERVER_URL:' + process.env.SERVER_URL);
     if (!props.show) {
         return null;
     }
@@ -29,13 +28,6 @@ var Modal = function (props) {
             <link_1.default href={'/heroku-auth'} passHref>
               <a className={'primary-btn'}>Continue with google</a>
             </link_1.default>
-            {/* <button
-          className={'primary-btn'}
-          onClick={() => window.location.replace(`${process.env.SERVER_URL}api/auth`)}
-        >
-          Continue with google
-        </button> */}
-            <button className={'primary-btn'}>Continue with facebook</button>
           </div>
         </div>
         <div className={Modal_module_scss_1.default['modal__footer']}></div>
