@@ -118,6 +118,7 @@ Alex implemented:
 ![Threat Model](https://user-images.githubusercontent.com/71644512/166215439-5a7a10cd-0d31-462e-806c-2fa3195f5787.jpg)
 
 List of Implemented Security features:
+- Facebook OAuth login with PassportJs
 - Input Validation 
 - Role based access control
 - HTTPS used only
