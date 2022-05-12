@@ -11,9 +11,3 @@ updates:
       interval: "daily"
       time: "08:00"
       timezone: "CET"
-    pull-request-branch-name:
-      separator: "-"
-    labels: 
-      - "dependabot"
-    commit-message:
-      prefix: "(fix) update version"
