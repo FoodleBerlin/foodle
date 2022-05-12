@@ -111,7 +111,7 @@ Alex implemented:
 - Added CSP for NextJS, ExpressJS
 - Added Security Headers to NextJS and Express
 - Made cookies enfore Https and Samesite-strict
-- Turned off introspection for Apollo Server in production and added csrfPrevention to it
+- Turned off introspection for Apollo Server in production and added csrfPrevention and a CORS config to it
 
 ### Threat Model (Max)
 
