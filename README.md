@@ -123,7 +123,7 @@ List of Implemented Security features:
 - Role based access control
 - HTTPS used only
 - Mangement use of (.env) file
-- Dependabot 
+- Dependabot config file
 - Heroku view Logs and use add ons (Expedited WAF—Security, Papertrail—Heroku Logging)
 
 
