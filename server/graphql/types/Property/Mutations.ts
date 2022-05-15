@@ -1,11 +1,11 @@
 import { Property } from '@prisma/client';
 import moment from 'moment';
 import { booleanArg, extendType, intArg, list, nonNull, nullable, objectType, stringArg } from 'nexus';
-import { bookingService } from '../../../singletons/bookingService';
+import { BookingService } from '../../../singletons/bookingService';
+import { ValidatorService } from '../../../singletons/validatorService';
 import { FrequencyEnum } from '../EnumsScalars/Enums';
 import { ClientErrorInvalidInput, ClientErrorUserNotExists, NoAvailableSlots, UnknownError } from '../Error';
-import { createHandle, validateDaySlot } from '../helperFunctions';
-import { checkForEmptyList, validateStartEndDate } from '../validation';
+import { createHandle } from '../helperFunctions';
 import { AvailableDay, DaySlotInterface } from './Objects';
 
 export const CreateListingReturn = objectType({
@@ -55,21 +55,15 @@ export const CreateListing = extendType({
       },
       async resolve(_root, args, ctx) {
         // validate input
-        let id = ctx.user?.id;
-        if (process.env.DEV_LOGIN === 'true') {
-          id = process.env.DEV_USER_ID;
+        if (ctx.user?.id == undefined) {
+          return {
+            ClientErrorUserNotExists: { message: `User needs to log in when requesting bookings.` },
+          };
         }
-        const user = await ctx.prisma.user.findUnique({
-          where: {
-            id: id,
-          },
-        });
-        console.log('user: ' + user?.id);
+        const user = await ValidatorService.userExists(ctx.user?.id);
         if (user === null) {
           return {
-            ClientErrorUserNotExists: {
-              message: `owner for ownerHandle ${args.ownerHandle} does not exist`,
-            },
+            ClientErrorUserNotExists: { message: `User not found.` },
           };
         }
         const invalidInputLengthError = (inputType: string, arg: string, maxLength: number) => {
@@ -79,36 +73,34 @@ export const CreateListing = extendType({
             },
           };
         };
-        const isOverMaxLength = (str: string, maxLength: number) => {
-          return str.length > maxLength;
-        };
-        if (isOverMaxLength(args.zip.toString(), 5)) {
+
+        if (ValidatorService.isOverMaxLength(args.zip.toString(), 5)) {
           return invalidInputLengthError('Zip code', args.zip.toString(), 5);
         }
-        if (isOverMaxLength(args.city, 50)) {
+        if (ValidatorService.isOverMaxLength(args.city, 50)) {
           return invalidInputLengthError('City name', args.city, 50);
         }
-        if (isOverMaxLength(args.street, 50)) {
+        if (ValidatorService.isOverMaxLength(args.street, 50)) {
           return invalidInputLengthError('Street name', args.street, 50);
         }
-        if (isOverMaxLength(args.description, 1000)) {
+        if (ValidatorService.isOverMaxLength(args.description, 1000)) {
           return invalidInputLengthError('Description', args.description, 1000);
         }
-        if (!validateStartEndDate(moment(args.startDate), moment(args.endDate))) {
+        if (!ValidatorService.validateStartEndDate(moment(args.startDate), moment(args.endDate))) {
           return {
             ClientErrorInvalidInput: {
               message: `startDate should be before endDate`,
             },
           };
         }
-        if (!validateStartEndDate(moment(args.startDate), moment(args.endDate))) {
+        if (!ValidatorService.validateStartEndDate(moment(args.startDate), moment(args.endDate))) {
           return {
             ClientErrorInvalidInput: {
               message: `Starttime of daySlot should be before endTime.`,
             },
           };
         }
-        if (checkForEmptyList(args.availableDays.length)) {
+        if (ValidatorService.checkForEmptyList(args.availableDays)) {
           return {
             ClientErrorInvalidInput: {
               message: `List argument availableDays must not be empty.`,
@@ -116,7 +108,7 @@ export const CreateListing = extendType({
           };
         }
         args.availableDays.forEach((day) => {
-          if (validateDaySlot(day)) {
+          if (ValidatorService.validateDaySlot(day)) {
             return {
               ClientErrorInvalidInput: {
                 message: `Invalid input for availableDay ${day.startTime}: startTime can't be after endTime and startTime and endTime have to be on the same day.`,
@@ -128,15 +120,14 @@ export const CreateListing = extendType({
         const startDate = moment(args.startDate);
         const endDate = moment(args.endDate);
         const frequency = args.frequency;
-
+        const a = args.availableDays;
         // calculate concrete dates of propertySlot to create DaySlots
-        const daySlotDates: DaySlotInterface[] = bookingService.calculateDates(
+        const daySlotDates: DaySlotInterface[] = BookingService.calculateDates(
           args.availableDays,
           startDate,
           endDate,
           frequency
         );
-        console.log('finish calculation');
 
         // throw error if more than 100 day slots would be created
         if (daySlotDates.length > 100) {
@@ -171,7 +162,6 @@ export const CreateListing = extendType({
             },
           });
         } catch (error) {
-          console.log({ error });
           let errorMessage = 'Unknown error when creating a property: ';
           if (error instanceof Error) {
             errorMessage = error.message;
@@ -182,14 +172,11 @@ export const CreateListing = extendType({
             },
           };
         }
-        console.log('Craeted property: ' + prop);
-        console.log('Calculated days ' + daySlotDates.length);
 
         // for each entry in daySlotDates[] create a daySlot and save it to the db
         try {
           await Promise.all(
             daySlotDates.map(async (day) => {
-              console.log('loop');
               await ctx.prisma.daySlot.create({
                 data: {
                   startTime: day.startTime.toISOString(),
@@ -200,12 +187,9 @@ export const CreateListing = extendType({
             })
           );
 
-          console.log('done');
-
           // if no error occured so far, listing was succesfully created and property can be returned
           return { Property: prop };
         } catch (error) {
-          console.log({ error });
           let errorMessage = 'Unknown error when creating a daySlots ';
           if (error instanceof Error) {
             errorMessage = error.message;
