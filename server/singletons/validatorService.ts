@@ -29,14 +29,11 @@ export const ValidatorService = {
   isOverMaxLength: function (str: string, maxLength: number): boolean {
     return str.length > maxLength;
   },
-  validateDaySlot: function (day: { endTime: string; startTime: string; weekday: 7 | 4 | 5 | 6 | 3 | 1 | 2 }): boolean {
+  validateDaySlot: function (day: { endTime: string; startTime: string }): boolean {
     if (moment(day.startTime).isAfter(moment(day.endTime))) {
       return false;
     }
     if (moment(day.startTime).date() !== moment(day.endTime).date()) {
-      return false;
-    }
-    if (moment(day.startTime).weekday() != day.weekday) {
       return false;
     }
     if (moment(day.endTime).isAfter(moment(day.startTime))) {

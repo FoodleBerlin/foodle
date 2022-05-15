@@ -2,7 +2,6 @@ import moment from 'moment';
 import { inputObjectType, objectType } from 'nexus';
 import { Booking } from '../Booking';
 import { DaySlot } from '../DaySlot/Objects';
-import { WeekDayEnum } from '../EnumsScalars/Enums';
 
 import { User } from '../User';
 
@@ -68,7 +67,6 @@ export const AvailableDay = inputObjectType({
     t.nonNull.field('endTime', {
       type: 'DateTime',
     });
-    t.nonNull.field('weekday', { type: WeekDayEnum });
   },
 });
 

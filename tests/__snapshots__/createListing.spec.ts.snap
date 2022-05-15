@@ -9,7 +9,7 @@ Object {
       "NoAvailableSlots": null,
       "Property": Object {
         "bookings": Array [],
-        "city": "Germany2",
+        "city": "Germany",
         "deposit": 0,
         "description": "",
         "hourlyPrice": 0,
@@ -54,7 +54,7 @@ Object {
       "NoAvailableSlots": null,
       "Property": Object {
         "bookings": Array [],
-        "city": "Germany2",
+        "city": "Germany",
         "deposit": 0,
         "description": "",
         "hourlyPrice": 0,
@@ -252,7 +252,7 @@ Object {
       "NoAvailableSlots": null,
       "Property": Object {
         "bookings": Array [],
-        "city": "Germany2",
+        "city": "Germany",
         "deposit": 0,
         "description": "",
         "hourlyPrice": 0,
@@ -297,7 +297,7 @@ Object {
       "NoAvailableSlots": null,
       "Property": Object {
         "bookings": Array [],
-        "city": "Germany2",
+        "city": "Germany",
         "deposit": 0,
         "description": "",
         "hourlyPrice": 0,

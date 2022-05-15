@@ -151,17 +151,16 @@ export async function seed() {
       data: [
         /*  
       test weekly, one weekday
-       {
-          "daySlots": {
-            "startTime": "2022-06-27T08:00:00.003Z",
-            "endTime": "2022-06-27T16:00:00.003Z",
-            "weekday": "MON"
-          },
-          "frequency": "NONE",
-          "startDate": "2022-06-27T08:00:00.003Z",
-          "endDate": "2022-07-25T08:00:00.003Z",
-          "propertyHandle": "prop1"
-        } */
+      {
+        daySlots: {
+          startTime: '2022-06-27T08:00:00.003Z',
+          endTime: '2022-06-27T16:00:00.003Z',
+        },
+        frequency: 'NONE',
+        startDate: '2022-06-27T08:00:00.003Z',
+        endDate: '2022-07-25T08:00:00.003Z',
+        propertyHandle: 'prop1',
+      } */
         {
           startTime: '2022-06-27T08:00:00.003Z',
           endTime: '2022-06-27T16:00:00.003Z',
@@ -190,22 +189,25 @@ export async function seed() {
 
         /* 
           test monthly + multiple weekdays + varying day time
-          {
-          "daySlots": {
-            "startTime": "2022-06-27T010:00:00.003Z",
-            "endTime": "2022-06-27T16:00:00.003Z",
-            "weekday": "MON"
-          },
-           {
-            "startTime": "2022-06-27T08:00:00.003Z",
-            "endTime": "2022-06-27T16:00:00.003Z",
-            "weekday": "WED"
-          },
-          "frequency": "NONE",
-          "startDate": "2022-05-25T08:00:00.003Z",
-          "endDate": "2022-07-22T08:00:00.003Z",
-          "propertyHandle": "prop2"
-        } */
+          
+          const bookingVars = {
+            daySlots: [
+              {
+                startTime: '2022-05-23T10:00:00.003Z',
+                endTime: '2022-05-23T16:00:00.003Z',
+              },
+              {
+                startTime: '2022-05-25T08:00:00.003Z',
+                endTime: '2022-05-25T16:00:00.003Z',
+              },
+            ],
+            frequency: 'MONTHLY',
+            startDate: '2022-05-25T08:00:00.003Z',
+            endDate: '2022-07-22T08:00:00.003Z',
+            propertyHandle: 'prop2',
+          };
+        */
+
         {
           startTime: '2022-05-25T08:00:00.003Z',
           endTime: '2022-05-25T16:00:00.003Z',

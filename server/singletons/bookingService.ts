@@ -54,7 +54,6 @@ export const BookingService = {
     daySlots: {
       endTime: moment.Moment;
       startTime: moment.Moment;
-      weekday: 7 | 4 | 5 | 6 | 3 | 1 | 2;
     }[],
     startDate: moment.Moment,
     endDate: moment.Moment,
@@ -64,9 +63,12 @@ export const BookingService = {
 
     // loop through availableDays and get all specific dates for each generic day
     daySlots.forEach((availabeDay) => {
+      // calling isoWeekday, directly on startTime causes error: "TypeError: availabeDay.startTime.isoWeekday is not a function"
+      const weekday: number = moment(availabeDay.startTime.toISOString()).isoWeekday();
+
       let firstConcreteDate = startDate;
       // find first concrete date for generic weekday (Mon, Tue, etc.) as it does not necessarily match with args.startDate ans save it as nextWeekday
-      while (!compareDateWithDayOfWeek(firstConcreteDate, availabeDay.weekday)) {
+      while (!compareDateWithDayOfWeek(firstConcreteDate, weekday)) {
         firstConcreteDate = moment(firstConcreteDate).add(1, 'days');
       }
 
@@ -75,7 +77,7 @@ export const BookingService = {
         firstConcreteDate,
         frequency,
         endDate,
-        availabeDay.weekday,
+        weekday,
         moment(availabeDay.startTime),
         moment(availabeDay.endTime)
       );
@@ -110,7 +112,14 @@ function getAllDatesForWeekday(
       loopDay = moment(loopDay).add(7, 'days');
     } else if (frequency == Frequency.monthly) {
       loopDay = moment(loopDay).add(4, 'weeks');
-      /*  loopDay = moment().endOf('month');
+
+      /*  
+      Instead of defining monthly as a 4 week intervall we could also define monthly as 
+      once a month. As this would lead to irregular 4/5 week intervalls and I think that 
+      landlords and cooks would want constant intervalls I commented it out. But if you 
+      want rather 'actual' monthly intervalls we can change it back.
+      
+      loopDay = moment().endOf('month');
       while (loopDay.day() !== weekday) {
         loopDay.subtract(1, 'day');
       }
@@ -127,7 +136,8 @@ function getAllDatesForWeekday(
         while (loopDay.isoWeekday() !== weekday) {
           loopDay = loopDay.subtract(1, 'days');
         }
-      } */
+      } 
+      */
     }
     if (moment(loopDay).isBefore(endDate) && frequency != Frequency.none) {
       const loopDay1 = moment({ ...loopDay });

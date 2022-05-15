@@ -76,12 +76,10 @@ describe('test isOverMaxLength', () => {
 });
 
 describe('test validateDaySlot', () => {
-  const weekday: 7 | 4 | 5 | 6 | 3 | 1 | 2 = 6;
   it('fails, time of startTime after time of endTime', () => {
     const day = {
       startTime: '2022-08-27T19:00:00.000+0200',
       endTime: '2022-08-27T18:00:00.000+0200',
-      weekday: weekday,
     };
     expect(ValidatorService.validateDaySlot(day)).toBe(false);
   });
@@ -89,7 +87,6 @@ describe('test validateDaySlot', () => {
     const day = {
       startTime: '2022-08-27T10:00:00.000+0200',
       endTime: '2022-08-28T18:00:00.000+0200',
-      weekday: weekday,
     };
     expect(ValidatorService.validateDaySlot(day)).toBe(false);
   });
@@ -97,16 +94,6 @@ describe('test validateDaySlot', () => {
     const day = {
       startTime: '2022-08-27T10:00:00.000+0200',
       endTime: '2022-08-27T10:00:00.000+0200',
-      weekday: weekday,
-    };
-    expect(ValidatorService.validateDaySlot(day)).toBe(false);
-  });
-  it('fails weekday not equal to weekDay of startTime', () => {
-    const weekday: 7 | 4 | 5 | 6 | 3 | 1 | 2 = 5;
-    const day = {
-      startTime: '2022-08-27T10:00:00.000+0200',
-      endTime: '2022-08-27T18:00:00.000+0200',
-      weekday: weekday,
     };
     expect(ValidatorService.validateDaySlot(day)).toBe(false);
   });
@@ -114,7 +101,6 @@ describe('test validateDaySlot', () => {
     const day = {
       startTime: '2022-08-27T10:00:00.000+0200',
       endTime: '2022-08-27T18:00:00.000+0200',
-      weekday: weekday,
     };
     expect(ValidatorService.validateDaySlot(day)).toBe(true);
   });

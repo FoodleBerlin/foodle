@@ -111,9 +111,8 @@ test('test calculateDates() with single daySlot, startDate = weekDay', () => {
   const actualDates = BookingService.calculateDates(
     [
       {
-        startTime: moment('2022-06-27T09:00:00.000+0200'),
-        endTime: moment('2022-06-27T16:00:00.000+0200'),
-        weekday: 3,
+        startTime: moment('2022-10-05T09:00:00.000+0200'),
+        endTime: moment('2022-10-05T16:00:00.000+0200'),
       },
     ],
     moment('2022-10-05T10:00:00.000+0200'),
@@ -148,13 +147,12 @@ test('test calculateDates() with single daySlot, startDate = weekDay', () => {
   expect(JSON.stringify(expectedDates)).toStrictEqual(JSON.stringify(actualDates));
 });
 
-test('test calculateDates() with single daySlot, startDate != weekDay', () => {
+test('test calculateDates() with single daySlot, startDate before weekDay of startTime', () => {
   const actualDates = BookingService.calculateDates(
     [
       {
-        startTime: moment('2022-06-27T09:00:00.000+0200'),
-        endTime: moment('2022-06-27T16:00:00.000+0200'),
-        weekday: 7,
+        startTime: moment('2022-07-10T09:00:00.000+0200'),
+        endTime: moment('2022-07-10T16:00:00.000+0200'),
       },
     ],
     moment('2022-07-04T10:00:00.000+0200'),
@@ -196,14 +194,12 @@ test('test calculateDates() with multiple daySlots', () => {
   const actualDates = BookingService.calculateDates(
     [
       {
-        startTime: moment('2022-06-27T09:00:00.000+0200'),
-        endTime: moment('2022-06-27T16:00:00.000+0200'),
-        weekday: 2,
+        startTime: moment('2022-10-25T09:00:00.000+0200'),
+        endTime: moment('2022-10-25T16:00:00.000+0200'),
       },
       {
-        startTime: moment('2022-06-27T16:00:00.000+0200'),
-        endTime: moment('2022-06-27T23:00:00.000+0200'),
-        weekday: 5,
+        startTime: moment('2022-10-28T16:00:00.000+0200'),
+        endTime: moment('2022-10-28T23:00:00.000+0200'),
       },
     ],
     moment('2022-10-24T09:00:00.000+0200'),

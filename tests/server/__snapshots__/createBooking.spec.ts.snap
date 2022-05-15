@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create Booking on Listing success with  frequency weekly, one weekday, on property prop1 1`] = `
+Object {
+  "data": undefined,
+  "errors": Array [
+    [UserInputError: Variable "$daySlots" of required type "[AvailableDay!]!" was not provided.],
+    [UserInputError: Variable "$frequency" of required type "FrequencyEnum!" was not provided.],
+    [UserInputError: Variable "$endDate" of required type "DateTime!" was not provided.],
+    [UserInputError: Variable "$startDate" of required type "DateTime!" was not provided.],
+    [UserInputError: Variable "$propertyHandle" of required type "String!" was not provided.],
+  ],
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;

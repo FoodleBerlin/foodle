@@ -55,23 +55,20 @@ mutation CreateListing($size: Int!, $title: String!, $ownerHandle: String!, $str
     `;
 
 /*
- all fails tested?
- query property tests
-
  AvailableDays are not tested, as they are retrieved from the db in a different order each time therefore
  snaps are never equal. DaySlot logic is tested separately in unit tests
- missing: test if daySlot get saved to db correctly
+ 
+ Todo: test if daySlots get saved to db correctly => user different owners
 */
 
 const stdVars = {
-  // Todo: how to get context id?
   ownerHandle: 'user4',
   size: 0,
   ownerId: '1',
   street: 'FoodleStreet',
-  streetNumber: 0, //should throw error
-  zip: 0, //should throw error if < 5 digits
-  city: 'Germany2', // Should throw error if city contains number
+  streetNumber: 0,
+  zip: 0,
+  city: 'Germany',
   title: 'titlee',
   description: '',
   rules: [],
@@ -80,14 +77,13 @@ const stdVars = {
   frequency: 'WEEKLY',
   hourlyPrice: 0,
   deposit: 0,
-  images: [''], //Should throw error if less than one or first item is empty string
+  images: [''],
   serviceFee: 0,
   partialSpace: false,
   availableDays: [
     {
-      startTime: '2022-01-01T09:00:00.000Z',
-      endTime: '2022-01-01T12:00:00.000Z', // new Date('2000-01-01T' + time + ':00').toISOString()
-      weekday: 'FRI',
+      startTime: '2022-01-07T09:00:00.000Z',
+      endTime: '2022-01-07T12:00:00.000Z',
     },
   ],
 };
@@ -135,27 +131,13 @@ describe(' Property', () => {
       vars.availableDays = [
         {
           startTime: '2022-01-01T10:00:00.000Z',
-          endTime: '2022-01-01T13:00:00.000Z', // new Date('2000-01-01T' + time + ':00').toISOString()
-          weekday: 'MON',
+          endTime: '2022-01-01T13:00:00.000Z',
         },
         {
           startTime: '2022-01-01T08:00:00.000Z',
-          endTime: '2022-01-01T14:00:00.000Z', // new Date('2000-01-01T' + time + ':00').toISOString()
-          weekday: 'WED',
+          endTime: '2022-01-01T14:00:00.000Z',
         },
       ];
-      const res = await server.executeOperation({
-        query,
-        variables: {
-          ...vars,
-        },
-      });
-      expect(res).toMatchSnapshot();
-    });
-
-    it('can create a listing with optional arg, frequency weekly', async () => {
-      let vars = { ...stdVars, pickup: true };
-
       const res = await server.executeOperation({
         query,
         variables: {
@@ -250,45 +232,5 @@ describe(' Property', () => {
       });
       expect(res).toMatchSnapshot();
     });
-    //Todo with pickup true => seperate mutation query else not testing if set automatically/syntax error
-
-    /*     it('can query a single property by the handle', async () => {
-      const query = `
-    query Query($handle: String) {
-      findProperty(handle: $handle) {
-        ClientErrorInvalidHandle {
-          message
-        }
-        Property {
-          city
-        }
-      }
-    }
-    `;
-      const res = await server.executeOperation({
-        query,
-        variables: { handle: '1' }, //TODO get this from globals
-      });
-      expect(res).toMatchSnapshot();
-    }); */
-
-    /*   it('can query a list of multiple properties', async () => {
-      const query = `
-    query Query {
-      findAllProperties {
-        Properties {
-          city
-        }
-        UnknownError {
-          message
-        }
-      }
-    }
-    `;
-      const res = await server.executeOperation({
-        query,
-      });
-      expect(res).toMatchSnapshot();
-    }); */
   });
 });
