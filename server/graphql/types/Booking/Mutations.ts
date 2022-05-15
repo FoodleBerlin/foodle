@@ -14,7 +14,7 @@ import {
 } from '../Error';
 import { calculatePrice } from '../helperFunctions';
 import { AvailableDay, DaySlotInterface } from '../Property';
-import { Booking as BookingObject } from './objects';
+import { Booking as BookingObject } from './Objects';
 
 export const CreateBookingReturn = objectType({
   name: 'CreateBookingReturn',
@@ -67,7 +67,6 @@ export const BookingOnListing = extendType({
             },
           };
         }
-        console.log('property: ' + property);
         let id = ctx.user?.id;
         if (process.env.DEV_LOGIN === 'true') {
           id = process.env.DEV_USER_ID;
@@ -81,7 +80,7 @@ export const BookingOnListing = extendType({
           if (ValidatorService.validateDaySlot(day)) {
             return {
               ClientErrorInvalidInput: {
-                message: `Invalid input for availableDay ${day.startTime}: startTime can't be after endTime and startTime and endTime have to be on the same day.`,
+                message: `Invalid input for availableDay: startTime can't be after endTime, startTime and endTime have to be on the same day and have to match weekday.`,
               },
             };
           }
@@ -111,7 +110,6 @@ export const BookingOnListing = extendType({
           endDate,
           frequency
         );
-        console.log('Length: ' + daySlotDates[0].startTime.toString() + ' | ' + daySlotDates[0].endTime.toString());
 
         // check availability for every daySlot in daySlotDates
 
@@ -138,9 +136,7 @@ export const BookingOnListing = extendType({
               };
             }
             day.daySlotId = daySlot.id;
-            console.log('Set: ' + JSON.stringify(day));
           } else {
-            console.log('else ' + day.startTime.toString());
             return {
               NoAvailableSlots: {
                 message: `No available daySlot on ${day.startTime} for booking request.`,
@@ -151,7 +147,7 @@ export const BookingOnListing = extendType({
 
         // create Booking
         let booking: Booking;
-        const price = calculatePrice(daySlotDates, property);
+        const price = calculatePrice(daySlotDates, property.hourlyPrice);
         try {
           booking = await BookingService.createBooking(user.id, property.id, price, startDate, endDate, frequency);
         } catch (error) {
