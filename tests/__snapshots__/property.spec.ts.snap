@@ -23,7 +23,7 @@ Object {
           "id": "1",
         },
         "partialSpace": false,
-        "pickup": true,
+        "pickup": false,
         "rules": Array [],
         "serviceFee": 0,
         "size": 0,
@@ -243,7 +243,50 @@ Object {
 }
 `;
 
-exports[` Property can create a listing, frequency monthly 1`] = `undefined`;
+exports[` Property can create a listing, frequency monthly 1`] = `
+Object {
+  "data": Object {
+    "createListing": Object {
+      "ClientErrorInvalidInput": null,
+      "ClientErrorUserNotExists": null,
+      "NoAvailableSlots": null,
+      "Property": Object {
+        "bookings": Array [],
+        "city": "Germany2",
+        "deposit": 0,
+        "description": "",
+        "hourlyPrice": 0,
+        "images": Array [
+          "",
+        ],
+        "isVerified": false,
+        "owner": Object {
+          "email": "user1@gmail.com",
+          "fullName": "User 1",
+          "id": "1",
+        },
+        "partialSpace": false,
+        "pickup": false,
+        "rules": Array [],
+        "serviceFee": 0,
+        "size": 0,
+        "street": "FoodleStreet",
+        "streetNumber": 0,
+        "title": "titlee",
+        "zip": 0,
+      },
+      "UnknownError": null,
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
 
 exports[` Property can create a listing, frequency none 1`] = `
 Object {

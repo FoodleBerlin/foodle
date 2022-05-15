@@ -1,5 +1,7 @@
 import prisma from '../server/singletons/prisma';
+import { clean } from './clean';
 export async function seed() {
+  await clean();
   const [users] = await Promise.all(
     await prisma.$transaction([
       prisma.user.createMany({
@@ -69,48 +71,196 @@ export async function seed() {
     ])
   );
 
-  /* await prisma.property.create({
-    data: {
-      id: '1',
-      size: 30,
-      ownerId: '1',
-      street: 'Turmstrasse',
-      streetNumber: 1233,
-      zip: 10210,
-      city: 'Berlin',
-      description: 'this is the first kitchen on foodle.',
-      facilities: ['Dishwasher', 'Oven', 'Elevator'],
-      rules: ['Hello its me', 'no smoking'],
-      hourlyPrice: 100,
-      serviceFee: 50,
-      deposit: 500,
-      images: ['new image'],
-      partialSpace: false,
-      pickup: false,
-      handle: '1',
-      title: 'Industrial Grade Kitchen in Mitte',
-      isVerified: true,
-      availabilities: {
-        create: {
-          startDate: new Date('2022-03-25').toISOString(),
-          endDate: new Date('2022-04-08').toISOString(),
-          minMonths: 1,
-          frequency: 'weekly',
-          availableDays: {
-            createMany: {
-              data: [
-                {
-                  startTime: new Date('1999-01-01T07:00:00').toISOString(),
-                  endTime: new Date('1999-01-01T19:00:00').toISOString(),
-                  weekday: 'Monday',
-                },
-              ],
-            },
-          },
+  await prisma.$transaction([
+    prisma.property.createMany({
+      data: [
+        {
+          zip: 1355,
+          size: 123,
+          street: 'sample-street',
+          streetNumber: 23,
+          city: 'Berlin',
+          description: 'user1-listing',
+          serviceFee: 5,
+          rules: ['rule-1', 'rule-2'],
+          title: 'prop title',
+          hourlyPrice: 12,
+          deposit: 2,
+          images: ['test-image-url'],
+          partialSpace: false,
+          ownerId: '1',
+          handle: 'prop1',
         },
-      },
-    },
-  }); */
-}
+        {
+          zip: 1355,
+          size: 123,
+          street: 'sample-street',
+          streetNumber: 23,
+          city: 'Berlin',
+          description: 'user1-listing',
+          serviceFee: 5,
+          rules: ['rule-1', 'rule-2'],
+          title: 'prop title',
+          hourlyPrice: 12,
+          deposit: 2,
+          images: ['test-image-url'],
+          partialSpace: false,
+          ownerId: '2',
+          handle: 'prop2',
+        },
+        {
+          zip: 1355,
+          size: 123,
+          street: 'sample-street',
+          streetNumber: 23,
+          city: 'Berlin',
+          description: 'user1-listing',
+          serviceFee: 5,
+          rules: ['rule-1', 'rule-2'],
+          title: 'prop title',
+          hourlyPrice: 12,
+          deposit: 2,
+          images: ['test-image-url'],
+          partialSpace: false,
+          ownerId: '2',
+          handle: 'prop3',
+        },
+      ],
+    }),
+  ]);
 
-export default seed;
+  const prop1 = await prisma.property.findUnique({
+    where: {
+      handle: 'prop1',
+    },
+  });
+  if (prop1 == null) {
+    throw Error('Error while seeding db, property with handle prop1 does not exist.');
+  }
+  const prop2 = await prisma.property.findUnique({
+    where: {
+      handle: 'prop2',
+    },
+  });
+  if (prop2 == null) {
+    throw Error('Error while seeding db, property with handle prop2 does not exist.');
+  }
+  // seeding for booking request
+  await prisma.$transaction([
+    prisma.daySlot.createMany({
+      data: [
+        /*  
+      test weekly, one weekday
+       {
+          "daySlots": {
+            "startTime": "2022-06-27T08:00:00.003Z",
+            "endTime": "2022-06-27T16:00:00.003Z",
+            "weekday": "MON"
+          },
+          "frequency": "NONE",
+          "startDate": "2022-06-27T08:00:00.003Z",
+          "endDate": "2022-07-25T08:00:00.003Z",
+          "propertyHandle": "prop1"
+        } */
+        {
+          startTime: '2022-06-27T08:00:00.003Z',
+          endTime: '2022-06-27T16:00:00.003Z',
+          propertyId: prop1.id,
+        },
+        {
+          startTime: '2022-07-04T08:00:00.003Z',
+          endTime: '2022-07-04T16:00:00.003Z',
+          propertyId: prop1.id,
+        },
+        {
+          startTime: '2022-07-11T08:00:00.003Z',
+          endTime: '2022-07-11T16:00:00.003Z',
+          propertyId: prop1.id,
+        },
+        {
+          startTime: '2022-07-18T08:00:00.003Z',
+          endTime: '2022-07-18T16:00:00.003Z',
+          propertyId: prop1.id,
+        },
+        {
+          startTime: '2022-07-25T08:00:00.003Z',
+          endTime: '2022-07-25T16:00:00.003Z',
+          propertyId: prop1.id,
+        },
+
+        /* 
+          test monthly + multiple weekdays + varying day time
+          {
+          "daySlots": {
+            "startTime": "2022-06-27T010:00:00.003Z",
+            "endTime": "2022-06-27T16:00:00.003Z",
+            "weekday": "MON"
+          },
+           {
+            "startTime": "2022-06-27T08:00:00.003Z",
+            "endTime": "2022-06-27T16:00:00.003Z",
+            "weekday": "WED"
+          },
+          "frequency": "NONE",
+          "startDate": "2022-05-25T08:00:00.003Z",
+          "endDate": "2022-07-22T08:00:00.003Z",
+          "propertyHandle": "prop2"
+        } */
+        {
+          startTime: '2022-05-25T08:00:00.003Z',
+          endTime: '2022-05-25T16:00:00.003Z',
+          propertyId: prop2.id,
+        },
+        {
+          startTime: '2022-05-23T08:00:00.003Z',
+          endTime: '2022-05-23T16:00:00.003Z',
+          propertyId: prop2.id,
+        },
+        {
+          startTime: '2022-06-20T08:30:00.003Z',
+          endTime: '2022-06-20T16:00:00.003Z',
+          propertyId: prop2.id,
+        },
+        {
+          startTime: '2022-06-22T08:00:00.003Z',
+          endTime: '2022-06-22T16:00:00.003Z',
+          propertyId: prop2.id,
+        },
+        {
+          startTime: '2022-07-18T09:00:00.003Z',
+          endTime: '2022-07-18T16:00:00.003Z',
+          propertyId: prop2.id,
+        },
+        {
+          startTime: '2022-07-20T08:00:00.003Z',
+          endTime: '2022-07-20T16:00:00.003Z',
+          propertyId: prop2.id,
+        },
+        /* 
+          test frequency none
+          {
+          "daySlots": {
+            "startTime": "2022-06-27T09:00:00.003Z",
+            "endTime": "2022-06-27T13:00:00.003Z",
+            "weekday": "FRI"
+          },
+           {
+            "startTime": "2022-06-27T08:00:00.003Z",
+            "endTime": "2022-06-27T16:00:00.003Z",
+            "weekday": "WED"
+          },
+          "frequency": "NONE",
+          "startDate": "2022-05-25T08:00:00.003Z",
+          "endDate": "2022-07-22T08:00:00.003Z",
+          "propertyHandle": "prop2"
+        } */
+
+        {
+          startTime: '2022-08-19T08:00:00.003Z',
+          endTime: '2022-08-19T16:00:00.003Z',
+          propertyId: prop2.id,
+        },
+      ],
+    }),
+  ]);
+}

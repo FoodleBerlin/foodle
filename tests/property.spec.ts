@@ -11,9 +11,9 @@ const descriptionToLong =
   'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nsdfsfsfsdfsdf';
 
 const query = `
-mutation Mutation($size: Int!, $title: String!, $ownerHandle: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $hourlyPrice: Int!, $serviceFee: Int!, $rules: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $availableDays: [AvailableDay!]!, $pickup: Boolean) {
-  createListing(size: $size, title: $title, ownerHandle: $ownerHandle, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, rules: $rules, deposit: $deposit, images: $images, partialSpace: $partialSpace, startDate: $startDate, endDate: $endDate, frequency: $frequency, availableDays: $availableDays, pickup: $pickup) {
-    Property {
+mutation CreateListing($size: Int!, $title: String!, $ownerHandle: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $hourlyPrice: Int!, $serviceFee: Int!, $rules: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $availableDays: [AvailableDay!]!) {
+  createListing(size: $size, title: $title, ownerHandle: $ownerHandle, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, rules: $rules, deposit: $deposit, images: $images, partialSpace: $partialSpace, startDate: $startDate, endDate: $endDate, frequency: $frequency, availableDays: $availableDays) {
+     Property {
       title
       size
       owner {
@@ -85,8 +85,8 @@ const stdVars = {
   partialSpace: false,
   availableDays: [
     {
-      dateTime: '2022-01-01T09:00:00',
-      duration: 3, // new Date('2000-01-01T' + time + ':00').toISOString()
+      startTime: '2022-01-01T09:00:00.000Z',
+      endTime: '2022-01-01T12:00:00.000Z', // new Date('2000-01-01T' + time + ':00').toISOString()
       weekday: 'FRI',
     },
   ],
@@ -114,7 +114,7 @@ describe(' Property', () => {
         ...vars,
       },
     });
-    expect(res.data?.availabilites).toMatchSnapshot();
+    expect(res).toMatchSnapshot();
   });
 
   it('can create a listing, frequency none', async () => {
@@ -134,13 +134,13 @@ describe(' Property', () => {
       const vars = { ...stdVars };
       vars.availableDays = [
         {
-          dateTime: '2022-01-01T10:00:00',
-          duration: 3,
+          startTime: '2022-01-01T10:00:00.000Z',
+          endTime: '2022-01-01T13:00:00.000Z', // new Date('2000-01-01T' + time + ':00').toISOString()
           weekday: 'MON',
         },
         {
-          dateTime: '2022-01-01T08:00:00',
-          duration: 6,
+          startTime: '2022-01-01T08:00:00.000Z',
+          endTime: '2022-01-01T14:00:00.000Z', // new Date('2000-01-01T' + time + ':00').toISOString()
           weekday: 'WED',
         },
       ];
@@ -250,6 +250,7 @@ describe(' Property', () => {
       });
       expect(res).toMatchSnapshot();
     });
+    //Todo with pickup true => seperate mutation query else not testing if set automatically/syntax error
 
     /*     it('can query a single property by the handle', async () => {
       const query = `
