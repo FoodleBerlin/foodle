@@ -2,8 +2,8 @@
 ### Do not make changes to this file directly
 
 input AvailableDay {
-  endTime: String!
-  startTime: String!
+  endTime: DateTime!
+  startTime: DateTime!
   weekday: WeekDays!
 }
 
@@ -13,9 +13,9 @@ type Booking {
   endDate: String!
   frequency: FrequencyEnum!
   id: String!
-  property: Property
+  property: Property!
   startDate: String!
-  tenant: User
+  tenant: User!
   totalPrice: Float!
 }
 
@@ -92,7 +92,10 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
 scalar DateTime
 
 type DaySlot {
+  bookedStartTime: DateTime
+  booking: Booking
   endTime: DateTime!
+  property: Property
   startTime: DateTime!
 }
 

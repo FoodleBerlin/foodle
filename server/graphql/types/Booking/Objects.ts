@@ -1,5 +1,5 @@
 import { objectType } from 'nexus';
-import { DaySlot } from '../DaySlot/objects';
+import { DaySlot } from '../DaySlot/Objects';
 import { BookingStatusEnum, FrequencyEnum } from '../EnumsScalars/Enums';
 import { Property } from '../Property';
 
@@ -7,24 +7,34 @@ export const Booking = objectType({
   name: 'Booking',
   definition(t) {
     t.string('id');
-    t.nullable.field('tenant', {
+    t.field('tenant', {
       type: 'User',
       async resolve(parent, args, ctx) {
-        return await ctx.prisma.user.findUnique({
+        const user = await ctx.prisma.user.findUnique({
           where: {
             id: parent.tenantId,
           },
         });
+        if (user !== null) {
+          return user;
+        } else {
+          throw Error('Error when fetching property.');
+        }
       },
     });
-    t.nullable.field('property', {
+    t.field('property', {
       type: Property,
       async resolve(parent, args, ctx) {
-        return await ctx.prisma.property.findUnique({
+        const prop = await ctx.prisma.property.findUnique({
           where: {
             id: parent.propertyId,
           },
         });
+        if (prop !== null) {
+          return prop;
+        } else {
+          throw Error('Error when fetching property.');
+        }
       },
     });
     t.list.field('daySlots', {

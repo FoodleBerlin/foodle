@@ -31,18 +31,16 @@ Table User {
 Table DaySlot {
   kind ModelKind [not null, default: 'daySlot']
   id String [pk]
-  date DateTime [not null]
-  duration Int [not null]
+  startTime DateTime [not null]
+  endTime DateTime [not null]
   bookedStartTime DateTime
   bookedEndTime DateTime
-  propertySlotId String [not null]
-  propertySlot PropertySlot [not null]
+  propertyId String [not null]
+  property Property [not null]
   bookingId String
   booking Booking
-
-  indexes {
-    (date, propertySlotId) [unique]
-  }
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
 }
 
 Table Property {
@@ -69,21 +67,7 @@ Table Property {
   partialSpace Boolean [not null, default: false]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  availabilites PropertySlot [not null]
-}
-
-Table PropertySlot {
-  kind ModelKind [not null, default: 'propertySlot']
-  id String [pk]
-  availableDays DaySlot [not null]
-  frequency Frequency [not null]
-  startDate DateTime [not null]
-  endDate DateTime [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  propertyId String [not null]
-  weekdays WeekDay [not null]
-  property Property [not null]
+  daySlots DaySlot [not null]
 }
 
 Table Booking {
@@ -94,13 +78,19 @@ Table Booking {
   propertyId String [not null]
   property Property [not null]
   bookingStatus BookingStatus [not null]
-  totalPrice Decimal [not null, default: 0]
+  totalPrice Float [not null, default: 0]
   startDate DateTime [not null]
   endDate DateTime [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   daySlots DaySlot [not null]
   frequency Frequency [not null]
+}
+
+Enum Frequency {
+  none
+  weekly
+  monthly
 }
 
 Enum ModelKind {
@@ -111,25 +101,7 @@ Enum ModelKind {
   propertyAvailability
   payment
   paymentMethod
-  bookingSlot
-  propertySlot
   daySlot
-}
-
-Enum Frequency {
-  none
-  weekly
-  monthly
-}
-
-Enum WeekDay {
-  mon
-  tue
-  wed
-  thu
-  fri
-  sat
-  sun
 }
 
 Enum PaymentType {
@@ -156,13 +128,11 @@ Enum BookingStatus {
   rejected
 }
 
-Ref: DaySlot.propertySlotId > PropertySlot.id [delete: Cascade]
+Ref: DaySlot.propertyId > Property.id [delete: Cascade]
 
 Ref: DaySlot.bookingId > Booking.id [delete: Cascade]
 
 Ref: Property.ownerId > User.id [delete: Cascade]
-
-Ref: PropertySlot.propertyId > Property.id [delete: Cascade]
 
 Ref: Booking.tenantId > User.id [delete: Cascade]
 

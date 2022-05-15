@@ -1,3 +1,3 @@
 export * from './Mutations';
-export * from './objects';
+export * from './Objects';
 export * from './Queries';

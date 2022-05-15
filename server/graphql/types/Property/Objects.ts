@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { inputObjectType, objectType } from 'nexus';
 import { Booking } from '../Booking';
-import { DaySlot } from '../DaySlot/objects';
+import { DaySlot } from '../DaySlot/Objects';
 import { WeekDayEnum } from '../EnumsScalars/Enums';
 
 import { User } from '../User';
@@ -62,8 +62,12 @@ export const Property = objectType({
 export const AvailableDay = inputObjectType({
   name: 'AvailableDay',
   definition(t) {
-    t.nonNull.string('startTime');
-    t.nonNull.string('endTime'); // Todo DateTime format
+    t.nonNull.field('startTime', {
+      type: 'DateTime',
+    });
+    t.nonNull.field('endTime', {
+      type: 'DateTime',
+    });
     t.nonNull.field('weekday', { type: WeekDayEnum });
   },
 });

@@ -1,5 +1,6 @@
-import { extendType, objectType, stringArg } from 'nexus';
+import { extendType, nonNull, objectType, stringArg } from 'nexus';
 import { Context } from '../../../context';
+import { ValidatorService } from '../../../singletons/validatorService';
 import { ClientErrorInvalidInput, ClientErrorPropertyNotExists, UnknownError } from '../Error';
 import { Property } from './Objects';
 
@@ -55,37 +56,19 @@ export const FindPropertyById = extendType({
     t.field('findProperty', {
       type: FindPropertyResult,
       description: 'Takes a propertyId and returns the property',
-      args: { handle: stringArg() },
+      args: {
+        handle: nonNull(stringArg()),
+      },
       resolve: async (_, args, ctx: Context) => {
-        if (!args.handle) {
+        const prop = await ValidatorService.propertyExists(args.handle);
+        if (prop === null) {
           return {
-            ClientErrorInvalidHandle: {
-              message: 'handle can not be null',
+            ClientErrorPropertyNotExists: {
+              message: `No property exists with handle ${args.handle}.`,
             },
           };
         } else {
-          try {
-            const property = await ctx.prisma.property.findUnique({
-              where: {
-                id: args.handle,
-              },
-            });
-            if (property) {
-              return { Property: property };
-            } else {
-              return {
-                ClientErrorPropertyNotExists: {
-                  message: `no property exists with handle ${args.handle}`,
-                },
-              };
-            }
-          } catch (e) {
-            return {
-              ClientErrorPropertyNotExists: {
-                message: `no property exists with handle ${args.handle}`,
-              },
-            };
-          }
+          return { Property: prop };
         }
       },
     });
