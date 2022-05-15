@@ -1,10 +1,9 @@
 import { BookingStatus, Frequency } from '@prisma/client';
 import moment from 'moment';
-import { compareDateWithDayOfWeek } from '../graphql/types/helperFunctions';
 import { DaySlotInterface } from '../graphql/types/Property/Objects';
 import prisma from './prisma';
 
-export const bookingService = {
+export const BookingService = {
   // update all daySlots with bookingId to mark them as booked
   bookDaySlots: async function (daySlotDates: DaySlotInterface[], propertyId: string, bookingId: string) {
     await Promise.all(
@@ -14,7 +13,6 @@ export const bookingService = {
         if (day.daySlotId !== undefined) {
           id = day.daySlotId;
         }
-        console.log('ID: ' + id);
         prisma.$transaction([
           prisma.daySlot.update({
             where: {
@@ -54,8 +52,8 @@ export const bookingService = {
 
   calculateDates: function (
     daySlots: {
-      endTime: string;
-      startTime: string;
+      endTime: moment.Moment;
+      startTime: moment.Moment;
       weekday: 7 | 4 | 5 | 6 | 3 | 1 | 2;
     }[],
     startDate: moment.Moment,
@@ -111,7 +109,8 @@ function getAllDatesForWeekday(
     if (frequency == Frequency.weekly) {
       loopDay = moment(loopDay).add(7, 'days');
     } else if (frequency == Frequency.monthly) {
-      loopDay = moment().endOf('month');
+      loopDay = moment(loopDay).add(4, 'weeks');
+      /*  loopDay = moment().endOf('month');
       while (loopDay.day() !== weekday) {
         loopDay.subtract(1, 'day');
       }
@@ -128,7 +127,7 @@ function getAllDatesForWeekday(
         while (loopDay.isoWeekday() !== weekday) {
           loopDay = loopDay.subtract(1, 'days');
         }
-      }
+      } */
     }
     if (moment(loopDay).isBefore(endDate) && frequency != Frequency.none) {
       const loopDay1 = moment({ ...loopDay });
@@ -144,6 +143,16 @@ function getAllDatesForWeekday(
   }
   return allDates;
 }
+function compareDateWithDayOfWeek(date: moment.Moment, weekday: number): boolean {
+  if (date.isoWeekday() === weekday) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 // Only export for unit testing => https://stackoverflow.com/questions/54116070/how-can-i-unit-test-non-exported-functions
-export const exportForTesting = { getAllDatesForWeekday };
+export const TestService = {
+  getAllDatesForWeekday: getAllDatesForWeekday,
+  compareDateWithDayOfWeek: compareDateWithDayOfWeek,
+};
