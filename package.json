@@ -33,6 +33,7 @@
     "@hookform/resolvers": "^2.8.8",
     "@prisma/client": "^3.9.1",
     "@types/graphql-iso-date": "^3.4.0",
+    "@types/helmet": "^4.0.0",
     "apollo-server": "^3.6.2",
     "aws-amplify": "^4.3.14",
     "aws-sdk": "^2.1109.0",
