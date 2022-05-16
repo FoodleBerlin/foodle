@@ -8,7 +8,7 @@ import forgeJWT from '../utils/forgeJWT';
 import { DataSources } from 'apollo-server-core/dist/graphqlOptions';
 import StripeWrapper from './singletons/stripe/endpoints';
 import datasources from './singletons/datasources';
-import helmet from 'helmet'
+import helmet from 'helmet';
 export const app = express();
 app.use(passport.initialize());
 
@@ -43,7 +43,7 @@ export const apollo: ApolloServer = new ApolloServer({
 });
 
 const corsOptions = {
-  origin: [process.env.CLIENT_URL!]
+  origin: [process.env.CLIENT_URL!, "https://studio.apollographql.com"]
 };
 export const router = express.Router();
 const port = process.env.PORT || 5000;
@@ -51,7 +51,7 @@ export async function main() {
   await apollo.start();
   app.use(router);
   apollo.applyMiddleware({ app,
-  cors: corsOptions });
+  cors: corsOptions});
   app.listen({
     port: port,
   });
