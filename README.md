@@ -121,6 +121,7 @@ List of Implemented Security features:
 - Facebook OAuth login with PassportJs
 - Input Validation 
 - Mask Apollo Server errors
+- GraphQL depth limiting
 - HTTPS used only
 - Mangement use of (.env) file
 - Dependabot config file
