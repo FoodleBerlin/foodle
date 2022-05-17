@@ -120,7 +120,7 @@ Alex implemented:
 List of Implemented Security features:
 - Facebook OAuth login with PassportJs
 - Input Validation 
-- Role based access control
+- Mask Apollo Server errors
 - HTTPS used only
 - Mangement use of (.env) file
 - Dependabot config file
