@@ -1,8 +1,6 @@
-import React from 'react';
 import Image from 'next/image';
-import styles from '../Create/wizard/Wizard.module.scss';
 import PriceLine from '../Create/PriceLine';
-import { UploaderImage } from '../Create/wizard/Step4';
+import styles from '../Create/wizard/Wizard.module.scss';
 
 /*
 TO-DO:
@@ -30,7 +28,7 @@ interface ListedKitchenProps {
 }
 
 const ListedKitchen = (props: ListedKitchenProps) => {
-  const month = new Date(props.availability.startDate).toLocaleString('default', { month: 'long' });
+  const month = new Date().toLocaleString('default', { month: 'long' });
   console.log(month);
 
   return (
@@ -105,7 +103,6 @@ const ListedKitchen = (props: ListedKitchenProps) => {
           <div className={styles['step5__availabilityGrid']}>
             <div className={styles['step5__availabilityDate']}>
               <p className="small-text">{month}</p>
-              <p className="small-text">{new Date(props.availability.startDate).getFullYear()}</p>
             </div>
 
             <div className={styles['step5__nextMonthButton']}>

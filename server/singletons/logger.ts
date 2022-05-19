@@ -1,4 +1,4 @@
-const { createLogger, format, transports } = require('winston');
+import { createLogger, transports } from 'winston';
 
 const logLevels = {
   error: 0,

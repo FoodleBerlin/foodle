@@ -1,4 +1,3 @@
-import { BookingSlot, Frequency } from '@prisma/client';
 async function main() {
   console.log('done');
 }
