@@ -6,7 +6,7 @@ import styles from '../../styles/pages/All.module.scss';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { useListingsQuery } from '../../codegen/index';
 import { extractUserFromToken } from '../../server/context';
-import { AuthenticatedProps } from '../account';
+import { AuthenticatedProps } from '../account/payments';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   if (!req.cookies['jwt']) {
