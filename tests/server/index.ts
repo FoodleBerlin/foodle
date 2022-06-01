@@ -123,6 +123,6 @@ router.get('/api/callback', (req: any, res: any, next) => {
       secure: false, // true in prod,
       sameSite: 'lax', // 'strict' in prod,
     });
-    return res.redirect('http://localhost:3000');
+    return res.redirect(process.env.CLIENT_URL);
   })(req, res, next);
 });

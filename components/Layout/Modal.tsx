@@ -12,6 +12,7 @@ const Modal = (props: IModalProps) => {
   if (!props.show) {
     return null;
   }
+
   return (
     <div className={styles['modal']} onClick={props.onClose}>
       <div className={styles['modal__content']} onClick={(e) => e.stopPropagation()}>
@@ -31,10 +32,9 @@ const Modal = (props: IModalProps) => {
               type="number"
               placeholder="Enter your zip code..."
             ></input>
-            <button className={'primary-btn'} onClick={() => window.location.replace('http://localhost:5000/api/auth')}>
-              Continue with google
-            </button>
-            <button className={'primary-btn'}>Continue with facebook</button>
+            <Link href={'/heroku-auth'} passHref>
+              <a className={'primary-btn'}>Continue with google</a>
+            </Link>
           </div>
         </div>
         <div className={styles['modal__footer']}></div>

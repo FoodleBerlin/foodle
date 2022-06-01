@@ -20,9 +20,6 @@ const Home: NextPage = () => {
         kitchen rental portal, Foodle."
         />
         <link rel="icon" href="/foodle_logo.svg" />
-        <style type="text/css">
-          <link href="https://dafonttop.com/wp-data/a/21/8021/file/archia-regular-webfont.ttf" rel="stylesheet" />
-        </style>
       </Head>
       <Navbar />
       <div className={styles['hero']}>
@@ -44,7 +41,7 @@ const Home: NextPage = () => {
         </div>
         <div className={styles['hero__right']}>
           <div className={styles['hero__right']}>
-            <Image alt="programming-image" src={'/programming.png'} width={450} height={350} />
+            <Image alt={'Hero Image'} src={'/programming.png'} width={450} height={350} />
           </div>
         </div>
       </div>

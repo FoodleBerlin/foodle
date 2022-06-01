@@ -1,9 +1,7 @@
-import { UploaderImage } from '../Create/wizard/Step4';
 import styles from '../../pages/account/Account.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { useRef, useState } from 'react';
 import Image from 'next';
-import { useWindowDimensions } from '../../utils/hooks';
 import Link from 'next/link';
 
 interface ProfileButtonProps {
@@ -17,7 +15,12 @@ const convertFiletoUploaderImg = (file: File | null) => {
     return { name: file.name, size: file.size, file: file, s3Id: uuidv4() };
   }
 };
-
+export type UploaderImage = {
+  name: string;
+  size: number;
+  file: any;
+  s3Id: string;
+};
 const ProfileButton = (props: ProfileButtonProps) => {
   const ref = useRef<HTMLImageElement>(null);
   const getSignedUrl = (imageS3Id: string) => {
@@ -34,7 +37,7 @@ const ProfileButton = (props: ProfileButtonProps) => {
       <input
         id="upload"
         type="file"
-        value={props.image?.file}
+        // value={props.image?.file}s
         onChange={(e) => {
           const file = e?.currentTarget.files ? e?.currentTarget?.files[0] : null;
           const image = convertFiletoUploaderImg(file);

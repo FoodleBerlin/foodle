@@ -11,7 +11,7 @@ const Kitchen: NextPage = () => {
   const router = useRouter();
   const { handle } = router.query;
   const { status, data, error, isFetching, isLoading } = useListingsQuery({
-    endpoint: 'http://localhost:5000/graphql',
+    endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
     fetchParams: {
       headers: {
         'Content-Type': 'application/json',

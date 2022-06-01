@@ -1,0 +1,239 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Find user by handle with valid cookie does not return payment data if the user is not me 1`] = `
+Object {
+  "data": Object {
+    "findUser": Object {
+      "ClientErrorInvalidHandle": null,
+      "ClientErrorUserNotExists": null,
+      "User": Object {
+        "charges": Array [],
+        "defaultPayment": null,
+        "email": "user1@gmail.com",
+        "fullName": "User 1",
+        "handle": "user1",
+        "paymentMethods": Array [],
+        "zip": 13000,
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Find user by handle with valid cookie returns payment data if the user is me 1`] = `
+Object {
+  "data": Object {
+    "findUser": Object {
+      "ClientErrorInvalidHandle": null,
+      "ClientErrorUserNotExists": null,
+      "User": Object {
+        "charges": Array [
+          Object {
+            "amount": 1400,
+            "card": "3184",
+            "currency": "eur",
+            "date": 1645356011,
+            "description": "Payment for Invoice",
+            "invoiceId": "in_1KVDEVAM5LkfflpNuzTC0iZK",
+            "status": "succeeded",
+          },
+          Object {
+            "amount": 1400,
+            "card": "3184",
+            "currency": "eur",
+            "date": 1645355141,
+            "description": "Payment for Invoice",
+            "invoiceId": "in_1KVDEVAM5LkfflpNuzTC0iZK",
+            "status": "failed",
+          },
+          Object {
+            "amount": 1400,
+            "card": "4242",
+            "currency": "eur",
+            "date": 1645353898,
+            "description": "Payment for Invoice",
+            "invoiceId": "in_1KVCuTAM5LkfflpNH5DYdiM2",
+            "status": "succeeded",
+          },
+          Object {
+            "amount": 1400,
+            "card": "3155",
+            "currency": "eur",
+            "date": 1642609048,
+            "description": "Payment for Invoice",
+            "invoiceId": "in_1KJgqgAM5LkfflpNk3TDoT7x",
+            "status": "failed",
+          },
+          Object {
+            "amount": 2800,
+            "card": "4242",
+            "currency": "eur",
+            "date": 1642600344,
+            "description": "Payment for Invoice",
+            "invoiceId": "in_1KJeaJAM5LkfflpNTqDz4IPp",
+            "status": "succeeded",
+          },
+          Object {
+            "amount": 2800,
+            "card": "4242",
+            "currency": "eur",
+            "date": 1642595193,
+            "description": "Payment for Invoice",
+            "invoiceId": "in_1KJcHVAM5LkfflpNJFyx2LJx",
+            "status": "succeeded",
+          },
+          Object {
+            "amount": 1400,
+            "card": "4242",
+            "currency": "eur",
+            "date": 1642595026,
+            "description": "Payment for Invoice",
+            "invoiceId": "in_1KJcElAM5LkfflpNP6pStZDV",
+            "status": "succeeded",
+          },
+          Object {
+            "amount": 1400,
+            "card": "4242",
+            "currency": "eur",
+            "date": 1642591597,
+            "description": "Payment for Invoice",
+            "invoiceId": "in_1KJcJDAM5LkfflpN6jxh7f6o",
+            "status": "succeeded",
+          },
+          Object {
+            "amount": 1400,
+            "card": "4242",
+            "currency": "eur",
+            "date": 1642588776,
+            "description": "Payment for Invoice",
+            "invoiceId": "in_1KJbYTAM5LkfflpNYaPILZS9",
+            "status": "succeeded",
+          },
+          Object {
+            "amount": 1400,
+            "card": "4242",
+            "currency": "eur",
+            "date": 1642588705,
+            "description": null,
+            "invoiceId": null,
+            "status": "succeeded",
+          },
+        ],
+        "defaultPayment": Object {
+          "cardNumber": "pm_1KZXKSAM5LkfflpNwqLSrtLa",
+          "expiryMonth": 0,
+          "expiryYear": 7,
+          "type": "notsure yet",
+        },
+        "email": "user1@gmail.com",
+        "fullName": "User 1",
+        "handle": "user1",
+        "paymentMethods": Array [
+          Object {
+            "cardNumber": "4242",
+            "expiryMonth": 4,
+            "expiryYear": 2024,
+            "type": "visa",
+          },
+          Object {
+            "cardNumber": "3155",
+            "expiryMonth": 2,
+            "expiryYear": 2072,
+            "type": "visa",
+          },
+          Object {
+            "cardNumber": "3155",
+            "expiryMonth": 2,
+            "expiryYear": 2072,
+            "type": "visa",
+          },
+          Object {
+            "cardNumber": "3155",
+            "expiryMonth": 2,
+            "expiryYear": 2072,
+            "type": "visa",
+          },
+          Object {
+            "cardNumber": "3155",
+            "expiryMonth": 2,
+            "expiryYear": 2072,
+            "type": "visa",
+          },
+          Object {
+            "cardNumber": "3155",
+            "expiryMonth": 2,
+            "expiryYear": 2072,
+            "type": "visa",
+          },
+          Object {
+            "cardNumber": "3155",
+            "expiryMonth": 2,
+            "expiryYear": 2072,
+            "type": "visa",
+          },
+          Object {
+            "cardNumber": "3155",
+            "expiryMonth": 3,
+            "expiryYear": 2063,
+            "type": "visa",
+          },
+          Object {
+            "cardNumber": "3155",
+            "expiryMonth": 2,
+            "expiryYear": 2033,
+            "type": "visa",
+          },
+          Object {
+            "cardNumber": "3155",
+            "expiryMonth": 7,
+            "expiryYear": 2037,
+            "type": "visa",
+          },
+        ],
+        "zip": 13000,
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Find user by handle without valid cookie does not return payment data if there is no valid cookie 1`] = `
+Object {
+  "data": Object {
+    "findUser": Object {
+      "ClientErrorInvalidHandle": null,
+      "ClientErrorUserNotExists": null,
+      "User": Object {
+        "charges": Array [],
+        "defaultPayment": null,
+        "email": "user1@gmail.com",
+        "fullName": "User 1",
+        "handle": "user1",
+        "paymentMethods": Array [],
+        "zip": 13000,
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
