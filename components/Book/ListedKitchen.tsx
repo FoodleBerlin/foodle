@@ -39,11 +39,17 @@ const ListedKitchen = (props: ListedKitchenProps) => {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
           <div className="gallery__container">
             <div className="gallery">
-              {/*               {props.images.map((image: UploaderImage, index) => (
+              {props.images.map((image, index) => (
                 <div key={index} className={'gallery__item gallery__item--' + index}>
-                  <Image src={image.file} width={460} height={516} className="gallery__img" alt={'Image ' + index} />
+                  <Image
+                    src={`/${image}.jpg`}
+                    width={460}
+                    height={516}
+                    className="gallery__img"
+                    alt={'Image ' + index}
+                  />
                 </div>
-              ))} */}
+              ))}
             </div>
           </div>
 

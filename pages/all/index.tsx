@@ -55,36 +55,83 @@ const All: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
       deposit: 500,
       partialSpace: false,
       pickup: false,
-      handle: 'dummy-kitchen',
+      handle: 'dummy-kitchen-1',
       title: 'Industrial Grade Kitchen in Mitte',
       isVerified: true,
-      images: [
-        {
-          url: 'https://images.unsplash.com/photo-1588795909846-f8f8f8f8f8f8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
-          alt: 'kitchen',
-        },
-        {
-          url: 'https://images.unsplash.com/photo-1588795909846-f8f8f8f8f8f8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
-          alt: 'kitchen',
-        },
-      ],
+      images: ['dummy-kitchen-1', 'kitchen-test-3', 'dummy-kitchen-2', 'dummy-kitchen-3', 'kitchen-test-5'],
       availabilities: {
-        create: {
-          startDate: new Date('2022-03-25').toISOString(),
-          endDate: new Date('2022-04-08').toISOString(),
-          minMonths: 1,
-          frequency: 'weekly',
-          availableDays: {
-            createMany: {
-              data: [
-                {
-                  startTime: new Date('1999-01-01T07:00:00').toISOString(),
-                  endTime: new Date('1999-01-01T19:00:00').toISOString(),
-                  weekday: 'Monday',
-                },
-              ],
-            },
-          },
+        startDate: new Date('2022-03-25').toISOString(),
+        endDate: new Date('2022-04-08').toISOString(),
+        minMonths: 2,
+        frequency: 'weekly',
+        availableDays: {
+          startTime: new Date('1999-01-01T07:00:00').toISOString(),
+          endTime: new Date('1999-01-01T19:00:00').toISOString(),
+          weekday: 'Monday',
+        },
+      },
+    },
+    {
+      id: '2',
+      size: 70,
+      ownerId: '5',
+      street: 'Sonnenallee',
+      streetNumber: 155,
+      zip: 12043,
+      city: 'Berlin',
+      description: 'Very spacious kitchen in Berlin Neukölln',
+      facilities: ['Dishwasher', 'Oven', 'Elevator', 'Parking', 'A/C', 'Heating'],
+      rules: ['no smoking', 'no pets'],
+      hourlyPrice: 200,
+      serviceFee: 100,
+      deposit: 1000,
+      partialSpace: false,
+      pickup: true,
+      handle: 'dummy-kitchen-2',
+      title: 'Spacious Kitchen in Berlin Neukölln',
+      isVerified: true,
+      images: ['dummy-kitchen-1', 'kitchen-test-3', 'dummy-kitchen-2', 'dummy-kitchen-3', 'kitchen-test-5'],
+      availabilities: {
+        startDate: new Date('2022-03-25').toISOString(),
+        endDate: new Date('2022-04-08').toISOString(),
+        minMonths: 2,
+        frequency: 'weekly',
+        availableDays: {
+          startTime: new Date('1999-01-01T07:00:00').toISOString(),
+          endTime: new Date('1999-01-01T19:00:00').toISOString(),
+          weekday: 'Monday',
+        },
+      },
+    },
+    {
+      id: '3',
+      size: 25,
+      ownerId: '100',
+      street: 'Schillerstrasse',
+      streetNumber: 85,
+      zip: 10009,
+      city: 'Berlin',
+      description: 'Beautiful small kitchen in the heart of Berlin.',
+      facilities: ['Oven', 'Parking', 'A/C', 'Heating'],
+      rules: ['no smoking'],
+      hourlyPrice: 35,
+      serviceFee: 50,
+      deposit: 450,
+      partialSpace: false,
+      pickup: false,
+      handle: 'dummy-kitchen-3',
+      title: 'Small Kitchen in Berlin Kreuzberg',
+      isVerified: true,
+      images: ['dummy-kitchen-1', 'kitchen-test-3', 'dummy-kitchen-2', 'dummy-kitchen-3', 'kitchen-test-5'],
+      availabilities: {
+        startDate: new Date('2022-03-25').toISOString(),
+        endDate: new Date('2022-04-08').toISOString(),
+        minMonths: 2,
+        frequency: 'weekly',
+        availableDays: {
+          startTime: new Date('1999-01-01T07:00:00').toISOString(),
+          endTime: new Date('1999-01-01T19:00:00').toISOString(),
+          weekday: 'Monday',
         },
       },
     },
@@ -107,7 +154,7 @@ const All: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
                   <div className="flex-center">
                     <div>
                       <Image
-                        src="/kitchen-test.jpg"
+                        src={`/${property.handle}.jpg`}
                         width={302}
                         height={193}
                         className={styles['step5__overview--img']}
