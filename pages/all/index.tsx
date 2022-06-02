@@ -27,7 +27,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
 }
 
 const All: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
-  console.log(props);
+  /*   console.log(props);
   const { status, data, error, isFetching, isLoading } = useListingsQuery({
     endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
     fetchParams: {
@@ -35,11 +35,44 @@ const All: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
         'Content-Type': 'application/json',
       },
     },
-  });
+  }); */
 
-  const properties = [data?.findAllProperties.Properties][0];
+  //const properties = [data?.findAllProperties.Properties][0];
+  const properties = [
+    {
+      id: '1',
+      size: 30,
+      ownerId: '1',
+      street: 'Turmstrasse',
+      streetNumber: 1233,
+      zip: 10210,
+      city: 'Berlin',
+      description: 'this is the first kitchen on foodle.',
+      facilities: ['Dishwasher', 'Oven', 'Elevator'],
+      rules: ['Hello its me', 'no smoking'],
+      hourlyPrice: 100,
+      serviceFee: 50,
+      deposit: 500,
+      partialSpace: false,
+      pickup: false,
+      handle: '1',
+      title: 'Industrial Grade Kitchen in Mitte',
+      isVerified: true,
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1588795909846-f8f8f8f8f8f8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+          alt: 'kitchen',
+        },
+        {
+          url: 'https://images.unsplash.com/photo-1588795909846-f8f8f8f8f8f8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+          alt: 'kitchen',
+        },
+      ],
+    },
+  ];
 
-  if (isLoading) console.log('is Loading...');
+  //if (isLoading) console.log('is Loading...');
+  const isLoading = false;
 
   return (
     <>
@@ -49,7 +82,7 @@ const All: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
           <p className="body-text-secondary">Loading...</p>
         ) : (
           <ul className="body-text-secondary">
-            {properties?.map((property: any, index) => {
+            {properties?.map((property: any, index: number) => {
               return (
                 <li className={styles['list-wrapper']} key={index + 1}>
                   <div className="flex-center">

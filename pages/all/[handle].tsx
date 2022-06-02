@@ -22,6 +22,7 @@ const Kitchen: NextPage = () => {
   if (isLoading) console.log('is Loading...');
 
   const properties = [data?.findAllProperties.Properties][0];
+  console.log(properties);
 
   return (
     <>
