@@ -49,13 +49,13 @@ const All: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
       city: 'Berlin',
       description: 'this is the first kitchen on foodle.',
       facilities: ['Dishwasher', 'Oven', 'Elevator'],
-      rules: ['Hello its me', 'no smoking'],
+      rules: ['no smoking', 'no pets', 'no parties', 'no loud music'],
       hourlyPrice: 100,
       serviceFee: 50,
       deposit: 500,
       partialSpace: false,
       pickup: false,
-      handle: '1',
+      handle: 'dummy-kitchen',
       title: 'Industrial Grade Kitchen in Mitte',
       isVerified: true,
       images: [
@@ -68,6 +68,25 @@ const All: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
           alt: 'kitchen',
         },
       ],
+      availabilities: {
+        create: {
+          startDate: new Date('2022-03-25').toISOString(),
+          endDate: new Date('2022-04-08').toISOString(),
+          minMonths: 1,
+          frequency: 'weekly',
+          availableDays: {
+            createMany: {
+              data: [
+                {
+                  startTime: new Date('1999-01-01T07:00:00').toISOString(),
+                  endTime: new Date('1999-01-01T19:00:00').toISOString(),
+                  weekday: 'Monday',
+                },
+              ],
+            },
+          },
+        },
+      },
     },
   ];
 
