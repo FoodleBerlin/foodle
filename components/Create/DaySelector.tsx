@@ -1,5 +1,4 @@
 import { useWizardContext } from './wizard/Wizard';
-import styles from '../Create/wizard/Wizard.module.scss';
 import { FormData, touchDirtyValidate } from './wizard/Wizard';
 
 interface DaySelectorProps {
@@ -91,7 +90,7 @@ const DaySelector = (props: DaySelectorProps) => {
         type="checkbox"
         id={'weekday-' + props.short}
         value={registered()?.weekday}
-        className={styles['step3__weekDayCheckbox'] + ' weekday'}
+        className="weekday"
         onChange={(c) => toggleDay(c.target.value)}
       />
       <label className="bold" htmlFor={'weekday-' + props.short}>

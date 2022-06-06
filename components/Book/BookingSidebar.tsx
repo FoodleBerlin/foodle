@@ -44,27 +44,122 @@ export default function BookingSidebar() {
           onChange={(e) => setStartDate(e.target.value)}
         ></input>{' '}
         <br />
-        <label className="label-text">Days of week</label>
-        {/* prettier-ignore */}
-        <div className="mb-one"> 
-          <DaySelector hanleClick={handleDaySelectorChange} checked={bookingInformation['mon'].checked} weekday={'Monday'} short={'mon'} shortest={'M'} />
-          <DaySelector hanleClick={handleDaySelectorChange} checked={bookingInformation['tue'].checked} weekday={'Tuesday'} short={'tue'} shortest={'T'} />
-          <DaySelector hanleClick={handleDaySelectorChange} checked={bookingInformation['wed'].checked} weekday={'Wednesday'} short={'wed'} shortest={'W'} />
-          <DaySelector hanleClick={handleDaySelectorChange} checked={bookingInformation['thu'].checked} weekday={'Thursday'} short={'thu'} shortest={'T'} />
-          <DaySelector hanleClick={handleDaySelectorChange} checked={bookingInformation['fri'].checked} weekday={'Friday'} short={'fri'} shortest={'F'} />
-          <DaySelector hanleClick={handleDaySelectorChange} checked={bookingInformation['sat'].checked} weekday={'Saturday'} short={'sat'} shortest={'S'} />
-          <DaySelector hanleClick={handleDaySelectorChange} checked={bookingInformation['sun'].checked} weekday={'Sunday'} short={'sun'} shortest={'S'} />
+        {/* <--------- DAYS OF WEEK INPUTS ---------> */}
+        <div className="dayselector__container">
+          <div className="dayselector__daysOfWeek">
+            <label className="label-text">Days of week</label>
+            <div>
+              <DaySelector
+                handleClick={handleDaySelectorChange}
+                checked={bookingInformation['mon'].checked}
+                weekday={'Monday'}
+                short={'mon'}
+                shortest={'M'}
+              />
+              <DaySelector
+                handleClick={handleDaySelectorChange}
+                checked={bookingInformation['tue'].checked}
+                weekday={'Tuesday'}
+                short={'tue'}
+                shortest={'T'}
+              />
+              <DaySelector
+                handleClick={handleDaySelectorChange}
+                checked={bookingInformation['wed'].checked}
+                weekday={'Wednesday'}
+                short={'wed'}
+                shortest={'W'}
+              />
+              <DaySelector
+                handleClick={handleDaySelectorChange}
+                checked={bookingInformation['thu'].checked}
+                weekday={'Thursday'}
+                short={'thu'}
+                shortest={'T'}
+              />
+              <DaySelector
+                handleClick={handleDaySelectorChange}
+                checked={bookingInformation['fri'].checked}
+                weekday={'Friday'}
+                short={'fri'}
+                shortest={'F'}
+              />
+              <DaySelector
+                handleClick={handleDaySelectorChange}
+                checked={bookingInformation['sat'].checked}
+                weekday={'Saturday'}
+                short={'sat'}
+                shortest={'S'}
+              />
+              <DaySelector
+                handleClick={handleDaySelectorChange}
+                checked={bookingInformation['sun'].checked}
+                weekday={'Sunday'}
+                short={'sun'}
+                shortest={'S'}
+              />
+            </div>
+          </div>
+
+          <div className="timeinput">
+            {bookingInformation['mon'].checked && (
+              <TimeInput
+                timeValue={bookingInformation['mon'].time}
+                handleChange={handleTimeInputChange}
+                shortest={'M'}
+                short={'mon'}
+              />
+            )}
+            {bookingInformation['tue'].checked && (
+              <TimeInput
+                timeValue={bookingInformation['tue'].time}
+                handleChange={handleTimeInputChange}
+                shortest={'T'}
+                short={'tue'}
+              />
+            )}
+            {bookingInformation['wed'].checked && (
+              <TimeInput
+                timeValue={bookingInformation['wed'].time}
+                handleChange={handleTimeInputChange}
+                shortest={'W'}
+                short={'wed'}
+              />
+            )}
+            {bookingInformation['thu'].checked && (
+              <TimeInput
+                timeValue={bookingInformation['thu'].time}
+                handleChange={handleTimeInputChange}
+                shortest={'T'}
+                short={'thu'}
+              />
+            )}
+            {bookingInformation['fri'].checked && (
+              <TimeInput
+                timeValue={bookingInformation['fri'].time}
+                handleChange={handleTimeInputChange}
+                shortest={'F'}
+                short={'fri'}
+              />
+            )}
+            {bookingInformation['sat'].checked && (
+              <TimeInput
+                timeValue={bookingInformation['sat'].time}
+                handleChange={handleTimeInputChange}
+                shortest={'S'}
+                short={'sat'}
+              />
+            )}
+            {bookingInformation['sun'].checked && (
+              <TimeInput
+                timeValue={bookingInformation['sun'].time}
+                handleChange={handleTimeInputChange}
+                shortest={'S'}
+                short={'sun'}
+              />
+            )}
+          </div>
         </div>
-      </div>
-      {/* prettier-ignore  */}
-      <div>
-        {bookingInformation['mon'].checked && <TimeInput timeValue={bookingInformation['mon'].time} handleChange={handleTimeInputChange} shortest={'M'} short={'mon'} />}
-        {bookingInformation['tue'].checked && <TimeInput timeValue={bookingInformation['tue'].time} handleChange={handleTimeInputChange} shortest={'T'} short={'tue'} />}
-        {bookingInformation['wed'].checked && <TimeInput timeValue={bookingInformation['wed'].time} handleChange={handleTimeInputChange} shortest={'W'} short={'wed'} />}
-        {bookingInformation['thu'].checked && <TimeInput timeValue={bookingInformation['thu'].time} handleChange={handleTimeInputChange} shortest={'T'} short={'thu'} />}
-        {bookingInformation['fri'].checked && <TimeInput timeValue={bookingInformation['fri'].time} handleChange={handleTimeInputChange} shortest={'F'} short={'fri'} />}
-        {bookingInformation['sat'].checked && <TimeInput timeValue={bookingInformation['sat'].time} handleChange={handleTimeInputChange} shortest={'S'} short={'sat'} />}
-        {bookingInformation['sun'].checked && <TimeInput timeValue={bookingInformation['sun'].time} handleChange={handleTimeInputChange} shortest={'S'} short={'sun'} />}
       </div>
       <div>
         <select className="standard-form__selectMedium mb-two-half" onChange={(e) => setFreqency(e.target.value)}>

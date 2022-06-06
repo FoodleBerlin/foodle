@@ -1,6 +1,5 @@
 import { useWizardContext } from './wizard/Wizard';
 import { FormData, touchDirtyValidate } from './wizard/Wizard';
-import styles from '../Create/wizard/Wizard.module.scss';
 interface TimeInputProps {
   shortest: string;
   short: string;
@@ -149,7 +148,7 @@ const TimeInput = (props: TimeInputProps) => {
   };
 
   return (
-    <span className={styles['step3__timeInputWrapper'] + ' mb-one'}>
+    <span className={'timeinput__wrapper' + ' mb-one'}>
       <input type="checkbox" checked id={'time-' + short} className="weekday" />
       <label className="bold" htmlFor={'time-' + short}>
         {shortest}

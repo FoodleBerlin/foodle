@@ -1,13 +1,33 @@
 import react from 'react';
 import Navbar from '../../components/Layout/Navbar';
 import ListedKitchen from '../../components/Book/ListedKitchen';
-import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useListingsQuery } from '../../codegen/index';
 import styles from '../../styles/pages/All.module.scss';
 import BookingSidebar from '../../components/Book/BookingSidebar';
+import { AuthenticatedProps } from '../account/payments';
+import { GetServerSidePropsContext, NextPage } from 'next';
+import { extractUserFromToken } from '../../server/context';
 
-const Kitchen: NextPage = () => {
+export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+  if (!req.cookies['jwt']) {
+    return {
+      props: {},
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    };
+  }
+  return {
+    props: {
+      session: extractUserFromToken(null, req.cookies['jwt']),
+      jwt: req.cookies['jwt'],
+    },
+  };
+}
+
+const Kitchen: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   const router = useRouter();
   const { handle } = router.query;
   /*   const { status, data, error, isFetching, isLoading } = useListingsQuery({
@@ -124,7 +144,7 @@ const Kitchen: NextPage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar user={props.session} />
       <div className={styles['properties-container'] + ' ' + styles['row']}>
         {properties?.map((property: any, index) => {
           if (property.handle === handle) {
