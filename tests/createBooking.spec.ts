@@ -48,8 +48,6 @@ const query = `mutation CreateBooking($daySlots: [AvailableDay!]!, $frequency: F
     }
   }`;
 
-// Todo: test if daySlots get saved to db correctly => user different owners
-
 describe('Create Booking on Listing success with ', () => {
   it('frequency weekly, one weekday, on property proeprty2', async () => {
     const bookingVars = {
@@ -123,6 +121,3 @@ describe('Create Booking on Listing success with ', () => {
     expect(res).toMatchSnapshot();
   });
 });
-
-// Todo different users
-// Todo info message when user already has an existing booking at that time

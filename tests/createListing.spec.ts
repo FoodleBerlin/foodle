@@ -57,8 +57,7 @@ mutation CreateListing($size: Int!, $title: String!, $ownerHandle: String!, $str
 /*
  AvailableDays are not tested, as they are retrieved from the db in a different order each time therefore
  snaps are never equal. DaySlot logic is tested separately in unit tests
- 
- Todo: test if daySlots get saved to db correctly => user different owners
+  Todo: test if daySlots get saved to db correctly => user different owners
 */
 
 const stdVars = {

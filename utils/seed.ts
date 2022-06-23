@@ -146,10 +146,7 @@ export async function seed() {
     throw Error('Error while seeding db, property with handle prop2 does not exist.');
   }
   // seeding for booking request
-  await prisma.$transaction([
-    prisma.daySlot.createMany({
-      data: [
-        /*  
+  /*  
       test weekly, one weekday
       {
         daySlots: {
@@ -161,6 +158,9 @@ export async function seed() {
         endDate: '2022-07-25T08:00:00.003Z',
         propertyHandle: 'prop1',
       } */
+  await prisma.$transaction([
+    prisma.daySlot.createMany({
+      data: [
         {
           startTime: '2022-06-27T08:00:00.003Z',
           endTime: '2022-06-27T16:00:00.003Z',

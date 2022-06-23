@@ -12,7 +12,7 @@ generator dbml {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://foodle:foodle@localhost:5431"
+  url      = env("DATABASE_URL")
 }
 
 enum Frequency {
@@ -86,21 +86,16 @@ model DaySlot {
   kind            ModelKind @default(daySlot)
   id              String    @id @default(cuid())
   startTime       DateTime
-  // Must be the same day as startTime
   endTime         DateTime
-  // booked startTime and endTime always needs to be added manually during
-  // the create booking mutation if booking id is null
   bookedStartTime DateTime?
   bookedEndTime   DateTime?
   propertyId      String
   property        Property  @relation("daySlotToProperty", fields: [propertyId], references: [id], onDelete: Cascade)
-  // Will be null if it is available
-  bookingId       String?
-  booking         Booking?  @relation("daySlotToBooking", fields: [bookingId], references: [id], onDelete: Cascade)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  //  TODO cusotm constraint with just date possible?
-  //  https://www.prisma.io/docs/guides/database/advanced-database-tasks/data-validation/postgresql#8-validate-the-check-constraints-in-a-nodejs-script
+
+  bookingId String?
+  booking   Booking? @relation("daySlotToBooking", fields: [bookingId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([startTime])
   @@index([endTime])
@@ -134,7 +129,7 @@ model Property {
   updatedAt    DateTime  @updatedAt
   daySlots     DaySlot[] @relation("daySlotToProperty")
 
-  @@index([handle])
+  @@index([handle, hourlyPrice])
 }
 
 model Booking {
