@@ -107,7 +107,7 @@ export const CreateListing = extendType({
             },
           };
         }
-        args.availableDays.forEach((day) => {
+        args.availableDays.forEach((day: { endTime: string; startTime: string }) => {
           if (ValidatorService.validateDaySlot(day)) {
             return {
               ClientErrorInvalidInput: {
