@@ -23,4 +23,5 @@ jobs:
       - run: yarn db:up
       - run: yarn
       - run: yarn prisma:migrate:deploy
+      - run: yarn prisma:generate
       - run: yarn test:api
