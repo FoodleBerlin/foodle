@@ -1,55 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Create Booking on Listing success with  frequency monthly, multiple weekdays, varying day time, property 2 1`] = `
-Object {
-  "data": Object {
-    "createBooking": Object {
-      "Booking": null,
-      "ClientErrorInvalidInput": null,
-      "ClientErrorInvalidPropertyInput": null,
-      "ClientErrorPropertyNotExists": null,
-      "ClientErrorUserNotExists": null,
-      "NoAvailableSlots": Object {
-        "message": "No available daySlot on Mon May 30 2022 12:00:00 GMT+0200 for booking request.",
-      },
-      "UnknownError": null,
-    },
-  },
-  "errors": undefined,
-  "extensions": undefined,
-  "http": Object {
-    "headers": Headers {
-      Symbol(map): Object {},
-    },
-  },
-}
-`;
-
-exports[`Create Booking on Listing success with  frequency none, one weekday, second booking on one listing, property 2 1`] = `
-Object {
-  "data": Object {
-    "createBooking": Object {
-      "Booking": null,
-      "ClientErrorInvalidInput": null,
-      "ClientErrorInvalidPropertyInput": null,
-      "ClientErrorPropertyNotExists": null,
-      "ClientErrorUserNotExists": null,
-      "NoAvailableSlots": Object {
-        "message": "No available daySlot on Mon May 30 2022 11:00:00 GMT+0200 for booking request.",
-      },
-      "UnknownError": null,
-    },
-  },
-  "errors": undefined,
-  "extensions": undefined,
-  "http": Object {
-    "headers": Headers {
-      Symbol(map): Object {},
-    },
-  },
-}
-`;
-
 exports[`Create Booking on Listing success with  frequency weekly, one weekday, on property proeprty2 1`] = `
 Object {
   "data": Object {
