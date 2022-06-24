@@ -69,7 +69,7 @@ describe('Create Booking on Listing success with ', () => {
     expect(res).toMatchSnapshot();
   });
 
-  it('frequency monthly, multiple weekdays, varying day time, property 2', async () => {
+  /*   it('frequency monthly, multiple weekdays, varying day time, property 2', async () => {
     const bookingVars = {
       daySlots: [
         {
@@ -93,9 +93,9 @@ describe('Create Booking on Listing success with ', () => {
       },
     });
     expect(res).toMatchSnapshot();
-  });
+  }); */
 
-  it('frequency none, one weekday, second booking on one listing, property 2', async () => {
+  /*  it('frequency none, one weekday, second booking on one listing, property 2', async () => {
     const bookingVars = {
       daySlots: [
         {
@@ -119,5 +119,5 @@ describe('Create Booking on Listing success with ', () => {
       },
     });
     expect(res).toMatchSnapshot();
-  });
+  }); */
 });
