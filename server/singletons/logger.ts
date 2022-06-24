@@ -14,3 +14,5 @@ const logger = createLogger({
   levels: logLevels,
   transports: [new transports.Console()],
 });
+
+export {};
