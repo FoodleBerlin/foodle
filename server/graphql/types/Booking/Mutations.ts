@@ -76,7 +76,7 @@ export const BookingOnListing = extendType({
             id: id,
           },
         });
-        args.daySlots.forEach((day) => {
+        args.daySlots.forEach((day: { endTime: string; startTime: string }) => {
           if (ValidatorService.validateDaySlot(day)) {
             return {
               ClientErrorInvalidInput: {
