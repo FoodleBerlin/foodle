@@ -1,5 +1,5 @@
-import { GetServerSidePropsContext } from 'next';
-import { extractUserFromToken } from '~/server/context';
+import { GetServerSidePropsContext, NextPage } from 'next';
+import { extractUserFromToken } from '../server/context';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   if (!req.cookies['jwt']) {
@@ -18,3 +18,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
     },
   };
 }
+const NullPage: NextPage = () => {
+  return <></>;
+};
+export default NullPage;

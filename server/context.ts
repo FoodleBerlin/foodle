@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
-import { Token } from '~/utils/forgeJWT';
+import { Token } from '../utils/forgeJWT';
 import prisma from './singletons/prisma';
 import StripeWrapper from './singletons/stripe/endpoints';
 export type Context = {

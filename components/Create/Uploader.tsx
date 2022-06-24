@@ -1,45 +1,59 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import styles from './Create.module.scss';
-import { UploaderImage } from './wizard/Step4';
+import { UploaderImg } from './wizard/Step4';
 import { useDropzone } from 'react-dropzone';
-import { FormData, useWizardContext } from './wizard/Wizard';
+import { useWizardContext } from './wizard/Wizard';
 import { v4 as uuidv4 } from 'uuid';
-import { Storage } from 'aws-amplify';
+import { uploadResource } from '../../pages/api/uploadImage';
+import { getResourceUrl } from '../../pages/api/getImage';
 interface UploaderProps {
   idCount: number;
   setIdCount: (idCount: number) => void;
   imageAmount: number;
-  images: UploaderImage[];
-  setImages: (images: UploaderImage[]) => void;
+  images: UploaderImg[];
+  setImages: (images: UploaderImg[]) => void;
 }
 
 const Uploader = (props: UploaderProps) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     maxFiles: 5,
-    onDrop: (acceptedFiles) => {
+    onDrop: async (acceptedFiles) => {
       if (props.images.length + acceptedFiles.length < 6) {
-        let idNumber: number = props.idCount;
-        acceptedFiles.map((file) => {
-          Object.assign(file, {
-            file: URL.createObjectURL(file),
-            id: idNumber,
-            s3Id: uuidv4(),
+        let uuidFileArray: File[] = [];
+        acceptedFiles.forEach((file: File) => {
+          Object.defineProperty(file, 'name', {
+            writable: true,
+            value: uuidv4(),
           });
-          idNumber++;
+          uuidFileArray.push(file);
         });
-
-        const imageArray = [...props.images, ...acceptedFiles];
-        props.setImages(imageArray);
-        props.setIdCount(idNumber);
+        await updateImageArray(uuidFileArray);
       }
     },
   });
 
-  const { register } = useWizardContext();
-  const user = {
-    id: 'ID20',
+  const updateImageArray = async (files: File[]) => {
+    const imageArray: UploaderImg[] = [];
+    let idNumber: number = props.idCount;
+    let count = 0;
+    files.forEach(async (file: File) => {
+      await uploadResource(file, encodeURIComponent(file.name));
+      const newImage: UploaderImg = {
+        fileName: file.name,
+        url: await getResourceUrl(file),
+        id: idNumber,
+      };
+      imageArray.push(newImage);
+      count++;
+      idNumber++;
+      if (count === files.length) {
+        props.setImages([...props.images, ...imageArray]);
+        props.setIdCount(idNumber);
+      }
+    });
   };
+  const { register } = useWizardContext();
 
   return (
     <div className={styles['drag-drop__uploader']} {...getRootProps()}>

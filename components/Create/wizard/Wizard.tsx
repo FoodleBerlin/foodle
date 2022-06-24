@@ -143,11 +143,9 @@ export const formData = z.object({
     .nonempty({ message: 'Rules can not be empty' }),
   images: z
     .object({
-      file: z.string(),
+      fileName: z.string(),
+      url: z.string(),
       id: z.number(),
-      s3Id: z.string(),
-      name: z.string(),
-      size: z.number(),
     })
     .array()
     .min(1)

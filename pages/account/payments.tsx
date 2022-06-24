@@ -32,7 +32,7 @@ const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   console.log({ props });
   const { status, data, error, isFetching } = useFindUserQuery(
     {
-      endpoint: 'http://localhost:5000/graphql',
+      endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
       fetchParams: {
         headers: {
           'Content-Type': 'application/json',
@@ -54,9 +54,9 @@ const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
       <Sidebar></Sidebar>
       <div className={styles['container']}>
         <h2>Payment Methods</h2>
-        {data?.findUser.User?.paymentMethods.map((method) => {
+        {data?.findUser.User?.paymentMethods.map((method, index) => {
           return (
-            <div className={styles['row']}>
+            <div key={index} className={styles['row']}>
               <span>
                 {method.type}....{method.cardNumber}
               </span>
@@ -75,9 +75,9 @@ const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
 
       <h2>Past Payments</h2>
       <div className={styles['container']}>
-        {data?.findUser.User?.charges.map((charge) => {
+        {data?.findUser.User?.charges.map((charge, index) => {
           return (
-            <div className={styles['row']}>
+            <div key={index} className={styles['row']}>
               <span>{new Date(charge.date! * 1000).toUTCString()}</span>
               <span>
                 {charge.currency}
