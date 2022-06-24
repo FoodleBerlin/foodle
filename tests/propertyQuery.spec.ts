@@ -1,3 +1,4 @@
+import { apollo as server } from '../server/index';
 import { clean } from '../utils/clean';
 import { seed } from '../utils/seed';
 
@@ -8,31 +9,46 @@ beforeAll(async () => {
 
 describe(' Property', () => {
   it('can query a single property by the handle', async () => {
-    /*   const query = `
-    query Query($handle: String) {
+    const query = `
+    query FindProperty($handle: String!) {
       findProperty(handle: $handle) {
-        ClientErrorInvalidHandle {
+        Property {
+          handle
+          title
+        }
+        ClientErrorPropertyNotExists {
           message
         }
-        Property {
-          city
+        ClientErrorInvalidInput {
+          message
         }
       }
     }
     `;
     const res = await server.executeOperation({
       query,
-      variables: { handle: '1' }, //TODO get this from globals
+      variables: { handle: 'prop1' }, //TODO get this from globals
     });
-    expect(res).toMatchSnapshot(); */
+    expect(res).toMatchSnapshot();
   });
 
-  /*  it('can query a list of multiple properties', async () => {
+  it('can query a list of multiple properties', async () => {
     const query = `
     query Query {
       findAllProperties {
         Properties {
-          city
+          handle
+          title
+          owner {
+            fullName
+          }
+          bookings {
+            id
+          }
+          daySlots {
+            startTime
+            endTime
+          }
         }
         UnknownError {
           message
@@ -44,5 +60,5 @@ describe(' Property', () => {
       query,
     });
     expect(res).toMatchSnapshot();
-  }); */
+  });
 });

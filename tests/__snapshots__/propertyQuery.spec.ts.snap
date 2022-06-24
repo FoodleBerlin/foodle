@@ -6,7 +6,81 @@ Object {
     "findAllProperties": Object {
       "Properties": Array [
         Object {
-          "city": "Germany2",
+          "bookings": Array [],
+          "daySlots": Array [
+            Object {
+              "endTime": 2022-06-27T16:00:00.003Z,
+              "startTime": 2022-06-27T08:00:00.003Z,
+            },
+            Object {
+              "endTime": 2022-07-04T16:00:00.003Z,
+              "startTime": 2022-07-04T08:00:00.003Z,
+            },
+            Object {
+              "endTime": 2022-07-11T16:00:00.003Z,
+              "startTime": 2022-07-11T08:00:00.003Z,
+            },
+            Object {
+              "endTime": 2022-07-18T16:00:00.003Z,
+              "startTime": 2022-07-18T08:00:00.003Z,
+            },
+            Object {
+              "endTime": 2022-07-25T16:00:00.003Z,
+              "startTime": 2022-07-25T08:00:00.003Z,
+            },
+          ],
+          "handle": "prop1",
+          "owner": Object {
+            "fullName": "User 1",
+          },
+          "title": "prop title",
+        },
+        Object {
+          "bookings": Array [],
+          "daySlots": Array [
+            Object {
+              "endTime": 2022-05-25T16:00:00.003Z,
+              "startTime": 2022-05-25T08:00:00.003Z,
+            },
+            Object {
+              "endTime": 2022-05-23T16:00:00.003Z,
+              "startTime": 2022-05-23T08:00:00.003Z,
+            },
+            Object {
+              "endTime": 2022-06-20T16:00:00.003Z,
+              "startTime": 2022-06-20T08:30:00.003Z,
+            },
+            Object {
+              "endTime": 2022-06-22T16:00:00.003Z,
+              "startTime": 2022-06-22T08:00:00.003Z,
+            },
+            Object {
+              "endTime": 2022-07-18T16:00:00.003Z,
+              "startTime": 2022-07-18T09:00:00.003Z,
+            },
+            Object {
+              "endTime": 2022-07-20T16:00:00.003Z,
+              "startTime": 2022-07-20T08:00:00.003Z,
+            },
+            Object {
+              "endTime": 2022-08-19T16:00:00.003Z,
+              "startTime": 2022-08-19T08:00:00.003Z,
+            },
+          ],
+          "handle": "prop2",
+          "owner": Object {
+            "fullName": "User 2",
+          },
+          "title": "prop title",
+        },
+        Object {
+          "bookings": Array [],
+          "daySlots": Array [],
+          "handle": "prop3",
+          "owner": Object {
+            "fullName": "User 2",
+          },
+          "title": "prop title",
         },
       ],
       "UnknownError": null,
@@ -26,9 +100,11 @@ exports[` Property can query a single property by the handle 1`] = `
 Object {
   "data": Object {
     "findProperty": Object {
-      "ClientErrorInvalidHandle": null,
+      "ClientErrorInvalidInput": null,
+      "ClientErrorPropertyNotExists": null,
       "Property": Object {
-        "city": "Berlin",
+        "handle": "prop1",
+        "title": "prop title",
       },
     },
   },
