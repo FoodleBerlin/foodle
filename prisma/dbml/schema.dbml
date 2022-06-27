@@ -1,0 +1,139 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  kind ModelKind [not null, default: 'user']
+  handle String [unique, not null]
+  fullName String [not null]
+  stripeId String [unique]
+  email String [unique, not null]
+  id String [pk]
+  image String
+  dob DateTime
+  zip Int
+  description String
+  isVerified Boolean [not null, default: false]
+  role Role [not null]
+  bookings Booking [not null]
+  rentingOut Property [not null]
+  superOwner Boolean [not null, default: false]
+  passportS3Id String
+  passportVerified Boolean [not null, default: false]
+  licenseS3Id String
+  licenseVerified Boolean [not null, default: false]
+  solvencyS3Id String
+  solvencyVerified Boolean [not null, default: false]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table DaySlot {
+  kind ModelKind [not null, default: 'daySlot']
+  id String [pk]
+  startTime DateTime [not null]
+  endTime DateTime [not null]
+  bookedStartTime DateTime
+  bookedEndTime DateTime
+  propertyId String [not null]
+  property Property [not null]
+  bookingId String
+  booking Booking
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Property {
+  kind ModelKind [not null, default: 'property']
+  id String [pk]
+  handle String [unique, not null]
+  title String [not null]
+  size Int [not null]
+  ownerId String [not null]
+  owner User [not null]
+  bookings Booking [not null]
+  street String [not null]
+  streetNumber Int [not null]
+  zip Int [not null]
+  city String [not null]
+  description String [not null]
+  pickup Boolean [not null, default: false]
+  isVerified Boolean [not null, default: false]
+  hourlyPrice Int [not null]
+  serviceFee Int [not null]
+  rules String [not null]
+  deposit Int [not null]
+  images String [not null]
+  partialSpace Boolean [not null, default: false]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  daySlots DaySlot [not null]
+}
+
+Table Booking {
+  kind ModelKind [not null, default: 'booking']
+  id String [pk]
+  tenantId String [not null]
+  tenant User [not null]
+  propertyId String [not null]
+  property Property [not null]
+  bookingStatus BookingStatus [not null]
+  totalPrice Float [not null, default: 0]
+  startDate DateTime [not null]
+  endDate DateTime [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  daySlots DaySlot [not null]
+  frequency Frequency [not null]
+}
+
+Enum Frequency {
+  none
+  weekly
+  monthly
+}
+
+Enum ModelKind {
+  user
+  property
+  booking
+  bookingDay
+  propertyAvailability
+  payment
+  paymentMethod
+  daySlot
+}
+
+Enum PaymentType {
+  reservation
+  fee
+  refund
+}
+
+Enum PaymentStatus {
+  pending
+  paid
+  rejected
+}
+
+Enum Role {
+  tenant
+  landlord
+  tenantLandlord
+}
+
+Enum BookingStatus {
+  accepted
+  pending
+  rejected
+}
+
+Ref: DaySlot.propertyId > Property.id [delete: Cascade]
+
+Ref: DaySlot.bookingId > Booking.id [delete: Cascade]
+
+Ref: Property.ownerId > User.id [delete: Cascade]
+
+Ref: Booking.tenantId > User.id [delete: Cascade]
+
+Ref: Booking.propertyId > Property.id [delete: Cascade]

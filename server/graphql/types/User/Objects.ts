@@ -1,7 +1,6 @@
-import { extendType, objectType, stringArg } from 'nexus';
-import { Context } from '../../../context';
-import { ClientErrorUserNotExists, ClientErrorInvalidHandle } from '../Error';
+import { objectType } from 'nexus';
 import Stripe from 'stripe';
+import { Context } from '../../../context';
 
 export const PaymentInformation = objectType({
   name: 'PaymentInformation',
@@ -31,14 +30,7 @@ export const User = objectType({
     t.string('fullName');
     t.string('email');
     t.string('handle');
-    //t.nullable.string('description');
-    t.nullable.int('zip');
-    t.nullable.field('dob', {
-      type: 'DateTime',
-    });
-    t.nullable.string('passportS3Id');
-    t.nullable.string('solvencyS3Id');
-    t.nullable.string('licenseS3Id');
+    t.int('zip');
     t.list.field('charges', {
       type: 'CustomerCharge',
       resolve: async (_, args, ctx: Context) => {
@@ -97,62 +89,3 @@ export const User = objectType({
     });
   },
 });
-
-export const findUserResult = objectType({
-  name: 'findUserResult',
-  definition(t) {
-    t.nullable.field('User', { type: 'User' });
-    t.nullable.field('ClientErrorUserNotExists', {
-      type: ClientErrorUserNotExists,
-    });
-    t.nullable.field('ClientErrorInvalidHandle', {
-      type: ClientErrorInvalidHandle,
-    });
-  },
-});
-
-export const Query = extendType({
-  type: 'Query',
-  definition(t) {
-    t.field('findUser', {
-      type: findUserResult,
-      description: 'Takes a handle and returns the user',
-      args: { handle: stringArg() },
-      resolve: async (_, args, ctx: Context) => {
-        if (!args.handle) {
-          return {
-            ClientErrorInvalidHandle: {
-              message: 'handle is invalid',
-            },
-          };
-        } else {
-          // TODO validate handle
-          try {
-            const user = await ctx.prisma.user.findUnique({
-              where: {
-                handle: args.handle,
-              },
-            });
-            if (user) {
-              return { User: user };
-            } else {
-              return {
-                ClientErrorUserNotExists: {
-                  message: 'no user exists with this handle',
-                },
-              };
-            }
-          } catch (e) {
-            return {
-              ClientErrorUserNotExists: {
-                message: 'no user exists with this handle',
-              },
-            };
-          }
-        }
-      },
-    });
-  },
-});
-
-
