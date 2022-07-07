@@ -110,7 +110,7 @@ type findPropertyResult {
 }
 
 type findUserResult {
-  ClientErrorInvalidHandle: ClientErrorInvalidHandle
+  ClientErrorInvalidInput: ClientErrorInvalidInput
   ClientErrorUserNotExists: ClientErrorUserNotExists
   User: User
 }
@@ -158,6 +158,20 @@ type Mutation {
     title: String!
     zip: Int!
   ): CreateListingReturn!
+
+  """
+  Edit user profile data
+  """
+  updateUser(
+    description: String
+    dob: String
+    fullName: String
+    id: String
+    licenseS3Id: String
+    passportS3Id: String
+    solvencyS3Id: String
+    zip: Int
+  ): findUserResult!
 }
 
 type NoAvailableSlots {
@@ -208,7 +222,7 @@ type Query {
   findProperty(handle: String!): findPropertyResult!
 
   """
-  Takes a handle and returns the user
+  Takes a handle and returns the user.
   """
   findUser(handle: String): findUserResult!
 }
@@ -220,14 +234,10 @@ type UnknownError {
 type User {
   charges: [CustomerCharge!]!
   defaultPayment: PaymentInformation
-  dob: DateTime
   email: String!
   fullName: String!
   handle: String!
   id: String!
-  licenseS3Id: String
-  passportS3Id: String
   paymentMethods: [PaymentInformation!]!
-  solvencyS3Id: String
-  zip: Int
+  zip: Int!
 }

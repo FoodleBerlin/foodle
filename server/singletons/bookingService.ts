@@ -62,9 +62,9 @@ export const BookingService = {
     let daySlotDates: DaySlotInterface[] = [];
 
     // loop through availableDays and get all specific dates for each generic day
-    daySlots.forEach((availabeDay) => {
+    daySlots.forEach((availableDay) => {
       // calling isoWeekday, directly on startTime causes error: "TypeError: availabeDay.startTime.isoWeekday is not a function"
-      const weekday: number = moment(availabeDay.startTime.toISOString()).isoWeekday();
+      const weekday: number = moment(availableDay.startTime.toISOString()).isoWeekday();
 
       let firstConcreteDate = startDate;
       // find first concrete date for generic weekday (Mon, Tue, etc.) as it does not necessarily match with args.startDate ans save it as nextWeekday
@@ -78,8 +78,8 @@ export const BookingService = {
         frequency,
         endDate,
         weekday,
-        moment(availabeDay.startTime),
-        moment(availabeDay.endTime)
+        moment(availableDay.startTime),
+        moment(availableDay.endTime)
       );
       datesForWeekday.forEach((date) => {
         daySlotDates.push(date);
@@ -106,7 +106,6 @@ function getAllDatesForWeekday(
     endTime: copy2.set({ hour: endTime.hour(), minute: endTime.minute() }),
   };
   allDates.push(firstDay);
-  let momentCounter = 1;
   while (moment(loopDay).isBefore(endDate)) {
     if (frequency == Frequency.weekly) {
       loopDay = moment(loopDay).add(7, 'days');
@@ -154,11 +153,7 @@ function getAllDatesForWeekday(
   return allDates;
 }
 function compareDateWithDayOfWeek(date: moment.Moment, weekday: number): boolean {
-  if (date.isoWeekday() === weekday) {
-    return true;
-  } else {
-    return false;
-  }
+  return  date.isoWeekday() === weekday;
 }
 
 // Only export for unit testing => https://stackoverflow.com/questions/54116070/how-can-i-unit-test-non-exported-functions
