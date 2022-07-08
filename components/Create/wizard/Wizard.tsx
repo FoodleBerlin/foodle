@@ -56,7 +56,7 @@ const onlyString = /^[a-zA-Z_ ]*$/;
 
 export const formData = z.object({
   /* STEP 1 */
-  partialSpace: z.enum(['partial', 'full']),
+  partialSpace: z.boolean(),
   size: z.number({ required_error: 'Size is required', invalid_type_error: 'Size can not be empty' }).min(1).max(1000),
   location: z.object({
     street: z
@@ -168,7 +168,7 @@ const WizardContext = React.createContext<WizardContext>({
   step: 1,
   defaults: {
     /* STEP 1 */
-    partialSpace: 'full' as FormData['partialSpace'],
+    partialSpace: false,
     size: 0,
     location: {
       city: 'Berlin',
@@ -242,7 +242,7 @@ export const WizardProvider = ({ children }: any) => {
   const defaults = {
     /* STEP 1 */
     size: 0,
-    partialSpace: 'full',
+    partialSpace: false,
     location: {
       city: 'Berlin',
       country: 'Germany',

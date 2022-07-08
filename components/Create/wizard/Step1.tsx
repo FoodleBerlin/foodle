@@ -1,4 +1,3 @@
-import Footer from './Footer';
 import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 export default function Step1() {
@@ -15,7 +14,7 @@ export default function Step1() {
             className="radio"
             name="kitchen"
             value="full"
-            onChange={(c) => setValue('partialSpace', c.target.value as FormData['partialSpace'], touchDirtyValidate)}
+            onChange={(c) => setValue('partialSpace', false as FormData['partialSpace'], touchDirtyValidate)}
           />
           <label className={styles['labelButton']} htmlFor="full">
             <p className="body-text__small">Entire Kitchen</p>
@@ -28,7 +27,7 @@ export default function Step1() {
             className="radio"
             name="kitchen"
             value="partial"
-            onChange={(c) => setValue('partialSpace', c.target.value as FormData['partialSpace'], touchDirtyValidate)}
+            onChange={(c) => setValue('partialSpace', true as FormData['partialSpace'], touchDirtyValidate)}
           />
           <label className={styles['labelButton']} htmlFor="partial">
             <p className="body-text__small">Part of kitchen</p>

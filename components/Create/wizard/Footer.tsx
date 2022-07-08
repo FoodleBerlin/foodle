@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { mutationObj } from '../../../client';
 import { useCreateListingMutation } from '../../../codegen';
 import { UploaderImg } from './Step4';
@@ -76,18 +76,18 @@ const Footer = (props: FooterProps) => {
       frequency: wiz.repeat, //TODO: fix - rename in wiz
       hourlyPrice: wiz.hourlyPrice,
       endDate: wiz.endDate,
-      partialSpace: wiz.partialSpace === 'partial', // fix - make boolean in wiz
+      partialSpace: wiz.partialSpace,
       zip: wiz.location.zip,
       street: wiz.location.street,
       size: wiz.size,
       title: wiz.description.substring(0, 20), //TODO:fix - add form to frontend create flow
-      images: [''], // fix - get image
+      images: images,
       streetNumber: wiz.location.number, //FIX - rename to streetNumber in frontend
-      ownerHandle: 'user1', // fix - get handle from session? or id?
+      ownerHandle: props.session.email.substring(0, props.session.email.indexOf('@')),
       rules: wiz.rules,
       serviceFee: wiz.deposit ?? 0, //fix - remove from backend
       startDate: wiz.startDate,
-      pickup: true, // TODO:fix - add form to frontend
+      pickup: true, // TODO:fix - add form to frontend // CONSTI
     });
   };
 
