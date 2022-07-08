@@ -30,7 +30,7 @@ export const User = objectType({
     t.string('fullName');
     t.string('email');
     t.string('handle');
-    //t.nullable.string('description');
+    t.nullable.string('description');
     t.nullable.int('zip');
     // t.nullable.int('zip');
     t.nullable.field('dob', {
