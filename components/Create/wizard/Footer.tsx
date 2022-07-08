@@ -73,7 +73,7 @@ const Footer = (props: FooterProps) => {
       city: wiz.location.city,
       deposit: wiz.deposit ?? 0,
       description: wiz.description,
-      frequency: wiz.repeat, //TODO: fix - rename in wiz
+      frequency: wiz.frequency, //TODO: fix - rename in wiz
       hourlyPrice: wiz.hourlyPrice,
       endDate: wiz.endDate,
       partialSpace: wiz.partialSpace === 'partial', // fix - make boolean in wiz
@@ -104,7 +104,7 @@ const Footer = (props: FooterProps) => {
       formState.errors.startDate ||
       formState.errors.endDate ||
       formState.errors.daySlots ||
-      formState.errors.repeat ||
+      formState.errors.frequency ||
       formState.errors.rules ||
       formState.errors.images
     ) {
