@@ -20,7 +20,7 @@ export const checkInvalidInputLength = (inputName: string, arg: string | [], max
     const minMaxLabel = arg.length > maxLength ? 'max' : 'min';
     const minMaxNumberLabel = arg.length > maxLength ? maxLength : minLength;
     return {
-      ClientErrorInvalidInputLength: {
+      ClientErrorInvalidInput: {
         message: `${inputName} ${arg} is invalid, must have a ${minMaxLabel} length of ${minMaxNumberLabel}`,
       },
     };

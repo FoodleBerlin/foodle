@@ -1,4 +1,4 @@
-import { extendType, objectType, inputObjectType, stringArg, intArg, nullable } from 'nexus';
+import { extendType, intArg, nullable, stringArg } from 'nexus';
 import { checkInvalidInputLength } from '../../../../server/validation';
 import { Context } from '../../../context';
 
@@ -24,7 +24,7 @@ export const updateUser = extendType({
           }
         } catch(e){
           return {
-            ClientErrorUserNotFound: {
+            ClientErrorUserNotExists: {
               message: "Couldn't find the user",
             },
           };
@@ -43,7 +43,7 @@ export const updateUser = extendType({
 
         if (!userData)
           return {
-            ClientErrorUserNotFound: {
+            ClientErrorUserNotExists: {
               message: "Couldn't find the user",
             },
           };
@@ -66,7 +66,7 @@ export const updateUser = extendType({
           return { User: user };
         } else {
           return {
-            ClientErrorUnknown: {
+            UnknownError: {
               message:
                 'Something went wrong while editing your profile details. Please contact our technical support',
             },
