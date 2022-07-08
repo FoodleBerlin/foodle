@@ -110,8 +110,10 @@ type findPropertyResult {
 }
 
 type findUserResult {
+  ClientErrorInvalidHandle: ClientErrorInvalidHandle
   ClientErrorInvalidInput: ClientErrorInvalidInput
   ClientErrorUserNotExists: ClientErrorUserNotExists
+  UnknownError: UnknownError
   User: User
 }
 
@@ -234,10 +236,14 @@ type UnknownError {
 type User {
   charges: [CustomerCharge!]!
   defaultPayment: PaymentInformation
+  dob: DateTime
   email: String!
   fullName: String!
   handle: String!
   id: String!
+  licenseS3Id: String
+  passportS3Id: String
   paymentMethods: [PaymentInformation!]!
-  zip: Int!
+  solvencyS3Id: String
+  zip: Int
 }
