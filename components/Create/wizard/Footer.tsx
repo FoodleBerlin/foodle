@@ -73,7 +73,7 @@ const Footer = (props: FooterProps) => {
       city: wiz.location.city,
       deposit: wiz.deposit ?? 0,
       description: wiz.description,
-      frequency: wiz.repeat, //TODO: fix - rename in wiz
+      frequency: wiz.frequency, //TODO: fix - rename in wiz
       hourlyPrice: wiz.hourlyPrice,
       endDate: wiz.endDate,
       partialSpace: wiz.partialSpace,
@@ -82,10 +82,10 @@ const Footer = (props: FooterProps) => {
       size: wiz.size,
       title: wiz.description.substring(0, 20), //TODO:fix - add form to frontend create flow
       images: images,
-      streetNumber: wiz.location.number, //FIX - rename to streetNumber in frontend
+      streetNumber: wiz.location.streetNumber, //FIX - rename to streetNumber in frontend
       ownerHandle: props.session.email.substring(0, props.session.email.indexOf('@')),
       rules: wiz.rules,
-      serviceFee: wiz.deposit ?? 0, //fix - remove from backend
+      serviceFee: 0, //HARDCODED for now
       startDate: wiz.startDate,
       pickup: true, // TODO:fix - add form to frontend // CONSTI
     });
@@ -104,7 +104,7 @@ const Footer = (props: FooterProps) => {
       formState.errors.startDate ||
       formState.errors.endDate ||
       formState.errors.daySlots ||
-      formState.errors.repeat ||
+      formState.errors.frequency ||
       formState.errors.rules ||
       formState.errors.images
     ) {
