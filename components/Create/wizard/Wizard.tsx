@@ -89,52 +89,50 @@ export const formData = z.object({
     .number({ required_error: 'Rent per hour is required', invalid_type_error: 'Rent per hour can not be empty' })
     .min(1, { message: 'Rent must be greater than or equal to 1' }),
   deposit: z.number().min(0, { message: 'Deposit must be greater than or equal to 1' }).optional(),
-  availability: z.object({
-    startDate: z.preprocess((arg) => {
-      if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
-    }, z.date()),
-    daySlots: z.object({
-      monday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      tuesday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      wednesday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      thursday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      friday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      saturday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      sunday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
+  startDate: z.preprocess((arg) => {
+    if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
+  }, z.date()),
+  daySlots: z.object({
+    monday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
     }),
-    repeat: z.enum([FrequencyEnum.None, FrequencyEnum.Weekly, FrequencyEnum.Monthly]),
-    endDate: z.preprocess((arg) => {
-      if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
-    }, z.date()),
+    tuesday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
+    wednesday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
+    thursday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
+    friday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
+    saturday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
+    sunday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
   }),
+  repeat: z.enum([FrequencyEnum.None, FrequencyEnum.Weekly, FrequencyEnum.Monthly]),
+  endDate: z.preprocess((arg) => {
+    if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
+  }, z.date()),
 
   minMonths: z.number({ required_error: 'Minimum stay is required, e.g. 1 month' }),
   rules: z
@@ -185,48 +183,46 @@ const WizardContext = React.createContext<WizardContext>({
     /* STEP 3 */
     hourlyPrice: 0,
     deposit: 0,
-    availability: {
-      startDate: new Date('2015-03-25'),
-      daySlots: {
-        monday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        tuesday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        wednesday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        thursday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        friday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        saturday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        sunday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
+    startDate: new Date('2015-03-25'),
+    daySlots: {
+      monday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
       },
-      repeat: FrequencyEnum.Weekly,
-      endDate: new Date(),
+      tuesday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      wednesday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      thursday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      friday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      saturday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      sunday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
     },
+    repeat: FrequencyEnum.Weekly,
+    endDate: new Date(),
 
     minMonths: 1,
     rules: '',
@@ -265,50 +261,48 @@ export const WizardProvider = ({ children }: any) => {
     /* STEP 3 */
     hourlyPrice: 0,
     deposit: 0,
-    availability: {
-      startDate: new Date(),
-      daySlots: {
-        monday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        tuesday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        wednesday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        thursday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        friday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        saturday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        sunday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
+    startDate: new Date(),
+    daySlots: {
+      monday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
       },
-      // startingTimes: ['', '', '', '', '', '', ''],
-      // endingTimes: ['', '', '', '', '', '', ''],
-      repeat: FrequencyEnum.Weekly,
-      endDate: new Date(),
+      tuesday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      wednesday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      thursday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      friday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      saturday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      sunday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
     },
+    // startingTimes: ['', '', '', '', '', '', ''],
+    // endingTimes: ['', '', '', '', '', '', ''],
+    repeat: FrequencyEnum.Weekly,
+    endDate: new Date(),
     minMonths: 1,
     rules: '',
     /* STEP 4 */

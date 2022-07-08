@@ -22,51 +22,43 @@ const Footer = (props: FooterProps) => {
     return new Date('2000-01-01T' + time + ':00').toISOString();
   };
   const wiz = getValues();
-  const session = props.session;
 
   const selectedDaySlots: { startTime: string; endTime: string }[] = [];
   useEffect(() => {
-    const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = wiz.availability.daySlots;
+    const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = wiz.daySlots;
     if (monday.selected) {
       let startTime = isoString(monday.startingTime),
-        endTime = isoString(monday.endingTime),
-        weekday = 'Monday';
+        endTime = isoString(monday.endingTime);
       selectedDaySlots.push({ startTime, endTime });
     }
     if (tuesday.selected) {
       let startTime = isoString(tuesday.startingTime),
-        endTime = isoString(tuesday.endingTime),
-        weekday = 'Tuesday';
+        endTime = isoString(tuesday.endingTime);
       selectedDaySlots.push({ startTime, endTime });
     }
     if (wednesday.selected) {
       let startTime = isoString(wednesday.startingTime),
-        endTime = isoString(wednesday.endingTime),
-        weekday = 'Wednesday';
+        endTime = isoString(wednesday.endingTime);
       selectedDaySlots.push({ startTime, endTime });
     }
     if (thursday.selected) {
       let startTime = isoString(thursday.startingTime),
-        endTime = isoString(thursday.endingTime),
-        weekday = 'Thursday';
+        endTime = isoString(thursday.endingTime);
       selectedDaySlots.push({ startTime, endTime });
     }
     if (friday.selected) {
       let startTime = isoString(friday.startingTime),
-        endTime = isoString(friday.endingTime),
-        weekday = 'Friday';
+        endTime = isoString(friday.endingTime);
       selectedDaySlots.push({ startTime, endTime });
     }
     if (saturday.selected) {
       let startTime = isoString(saturday.startingTime),
-        endTime = isoString(saturday.endingTime),
-        weekday = 'Saturday';
+        endTime = isoString(saturday.endingTime);
       selectedDaySlots.push({ startTime, endTime });
     }
     if (sunday.selected) {
       let startTime = isoString(sunday.startingTime),
-        endTime = isoString(sunday.endingTime),
-        weekday = 'Saturday';
+        endTime = isoString(sunday.endingTime);
       selectedDaySlots.push({ startTime, endTime });
     }
   });
@@ -81,9 +73,9 @@ const Footer = (props: FooterProps) => {
       city: wiz.location.city,
       deposit: wiz.deposit ?? 0,
       description: wiz.description,
-      frequency: wiz.availability.repeat, //TODO: fix - rename in wiz
+      frequency: wiz.repeat, //TODO: fix - rename in wiz
       hourlyPrice: wiz.hourlyPrice,
-      endDate: wiz.availability.endDate,
+      endDate: wiz.endDate,
       partialSpace: wiz.partialSpace === 'partial', // fix - make boolean in wiz
       zip: wiz.location.zip,
       street: wiz.location.street,
@@ -94,7 +86,7 @@ const Footer = (props: FooterProps) => {
       ownerHandle: 'user1', // fix - get handle from session? or id?
       rules: wiz.rules,
       serviceFee: wiz.deposit ?? 0, //fix - remove from backend
-      startDate: wiz.availability.startDate,
+      startDate: wiz.startDate,
       pickup: true, // TODO:fix - add form to frontend
     });
   };
@@ -109,7 +101,10 @@ const Footer = (props: FooterProps) => {
       formState.errors.minMonths ||
       formState.errors.hourlyPrice ||
       formState.errors.deposit ||
-      formState.errors.availability ||
+      formState.errors.startDate ||
+      formState.errors.endDate ||
+      formState.errors.daySlots ||
+      formState.errors.repeat ||
       formState.errors.rules ||
       formState.errors.images
     ) {
@@ -162,7 +157,7 @@ export default Footer;
 //     serviceFee: Number(0),
 //     partialSpace: wiz.partialSpace === 'partial' ? true : false,
 //     availabilities: {
-//       startDate: new Date(wiz.availability.startDate).toISOString(),
+//       startDate: new Date(wiz.startDate).toISOString(),
 //       endDate: new Date(wiz.availability.endDate).toISOString(),
 //       genericDaySlots: selectedDaySlots,
 //       minMonths: Number(wiz.minMonths),

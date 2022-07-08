@@ -1,6 +1,6 @@
 import DaySelector from '../DaySelector';
 import TimeInput from '../TimeInput';
-import { FormData, useWizardContext, touchDirtyValidate } from './Wizard';
+import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 
 export type DaySlot = {
@@ -11,8 +11,7 @@ export type DaySlot = {
 
 export default function Step3() {
   const { formState, nextStep, register, setValue } = useWizardContext();
-  const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } =
-    useWizardContext().getValues().availability.daySlots;
+  const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = useWizardContext().getValues().daySlots;
 
   return (
     <div className={styles['step3']}>
@@ -56,15 +55,13 @@ export default function Step3() {
         <input
           className="standard-form"
           type="date"
-          {...register('availability.startDate')}
+          {...register('startDate')}
           onChange={(c) => {
             console.log(c.target.value);
-            setValue('availability.startDate', c.target.value as any, touchDirtyValidate);
+            setValue('startDate', c.target.value as any, touchDirtyValidate);
           }}
         ></input>
-        {formState.errors.availability?.startDate && (
-          <span className={styles['error']}>{formState.errors.availability?.startDate.message}</span>
-        )}
+        {formState.errors.startDate && <span className={styles['error']}>{formState.errors.startDate.message}</span>}
         {/* <--------- DAYS OF WEEK INPUTS ---------> */}
         <div className={styles['step3__weekDaysSelector']}>
           <div className={styles['step3__daysOfWeek']}>
@@ -79,8 +76,8 @@ export default function Step3() {
               <DaySelector weekday={'Sunday'} short={'sun'} shortest={'S'} />
             </div>
             {/* TODO: Add validation and error messages for all day inputs  */}
-            {/* {formState.errors.availability?.days && (
-              <span className={styles['error']}>{formState.errors.availability.days.map((e) => e.message)}</span>
+            {/* {formState.errors.days && (
+              <span className={styles['error']}>{formState.errors.days.map((e) => e.message)}</span>
             )} */}
           </div>
           <div className={styles['step3__timeInput']}>
@@ -96,13 +93,9 @@ export default function Step3() {
           <div className={styles['step3__weekRepeatSelect']}>
             <select
               className="standard-form__selectMedium"
-              {...register('availability.repeat')}
+              {...register('repeat')}
               onChange={(c) => {
-                setValue(
-                  'availability.repeat',
-                  c.target.value as FormData['availability']['repeat'],
-                  touchDirtyValidate
-                );
+                setValue('repeat', c.target.value as FormData['repeat'], touchDirtyValidate);
               }}
             >
               {' '}
@@ -114,20 +107,16 @@ export default function Step3() {
               <input
                 className="standard-form"
                 type="date"
-                {...register('availability.endDate')}
+                {...register('endDate')}
                 onChange={(c) => {
-                  setValue('availability.endDate', c.target.value as any, touchDirtyValidate);
+                  setValue('endDate', c.target.value as any, touchDirtyValidate);
                 }}
               ></input>
-              {formState.errors.availability?.endDate && (
-                <span className={styles['error']}>{formState.errors.availability?.endDate.message}</span>
-              )}
+              {formState.errors.endDate && <span className={styles['error']}>{formState.errors.endDate.message}</span>}
             </div>
           </div>
 
-          {formState.errors.availability?.repeat && (
-            <span className={styles['error']}>{formState.errors.availability?.repeat.message}</span>
-          )}
+          {formState.errors.repeat && <span className={styles['error']}>{formState.errors.repeat.message}</span>}
         </div>
       </div>
       <div className={styles['formItem']}>
