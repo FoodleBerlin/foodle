@@ -90,12 +90,12 @@ export default function Step3() {
             {sunday.selected && <TimeInput shortest={'S'} short={'sun'} />}
           </div>
 
-          <div className={styles['step3__weekRepeatSelect']}>
+          <div className={styles['step3__weekFrequencySelect']}>
             <select
               className="standard-form__selectMedium"
-              {...register('repeat')}
+              {...register('frequency')}
               onChange={(c) => {
-                setValue('repeat', c.target.value as FormData['repeat'], touchDirtyValidate);
+                setValue('frequency', c.target.value as FormData['frequency'], touchDirtyValidate);
               }}
             >
               {' '}
@@ -116,7 +116,7 @@ export default function Step3() {
             </div>
           </div>
 
-          {formState.errors.repeat && <span className={styles['error']}>{formState.errors.repeat.message}</span>}
+          {formState.errors.frequency && <span className={styles['error']}>{formState.errors.frequency.message}</span>}
         </div>
       </div>
       <div className={styles['formItem']}>

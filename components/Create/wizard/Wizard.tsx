@@ -129,7 +129,7 @@ export const formData = z.object({
       endingTime: z.string({ required_error: 'A starting time is required for each day' }),
     }),
   }),
-  repeat: z.enum([FrequencyEnum.None, FrequencyEnum.Weekly, FrequencyEnum.Monthly]),
+  frequency: z.enum([FrequencyEnum.None, FrequencyEnum.Weekly, FrequencyEnum.Monthly]),
   endDate: z.preprocess((arg) => {
     if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
   }, z.date()),
@@ -221,9 +221,8 @@ const WizardContext = React.createContext<WizardContext>({
         endingTime: '',
       },
     },
-    repeat: FrequencyEnum.Weekly,
+    frequency: FrequencyEnum.Weekly,
     endDate: new Date(),
-
     minMonths: 1,
     rules: '',
     /* STEP 4 */
@@ -301,7 +300,7 @@ export const WizardProvider = ({ children }: any) => {
     },
     // startingTimes: ['', '', '', '', '', '', ''],
     // endingTimes: ['', '', '', '', '', '', ''],
-    repeat: FrequencyEnum.Weekly,
+    frequency: FrequencyEnum.Weekly,
     endDate: new Date(),
     minMonths: 1,
     rules: '',

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
+import { mutationObj } from '../../../client';
 import { useCreateListingMutation } from '../../../codegen';
-import { mutationObj } from '../../../components/Profile/ProfileForm';
 import { UploaderImg } from './Step4';
 import { useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
