@@ -82,10 +82,10 @@ const Footer = (props: FooterProps) => {
       size: wiz.size,
       title: wiz.description.substring(0, 20), //TODO:fix - add form to frontend create flow
       images: [''], // fix - get image
-      streetNumber: wiz.location.number, //FIX - rename to streetNumber in frontend
+      streetNumber: wiz.location.streetNumber, //FIX - rename to streetNumber in frontend
       ownerHandle: 'user1', // fix - get handle from session? or id?
       rules: wiz.rules,
-      serviceFee: wiz.deposit ?? 0, //fix - remove from backend
+      serviceFee: 0, //HARDCODED for now
       startDate: wiz.startDate,
       pickup: true, // TODO:fix - add form to frontend
     });

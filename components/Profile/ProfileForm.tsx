@@ -1,10 +1,9 @@
-import { ChangeEvent, MutableRefObject, useEffect, useRef, useState } from 'react';
-import { FindUserQuery, FindUserResult, User, useUpdateUserMutation } from '../../codegen';
-import { UploaderImg } from '../Create/wizard/Step4';
+import { ChangeEvent, MutableRefObject, useState } from 'react';
+import { mutationObj } from '../../client';
+import { FindUserQuery, useUpdateUserMutation } from '../../codegen';
 import styles from '../../pages/account/Account.module.scss';
-import ProfileButton, { UploaderImage } from './ProfileButton';
 import { Token } from '../../utils/forgeJWT';
-import { urlSafeEncode } from '@aws-amplify/core';
+import ProfileButton, { UploaderImage } from './ProfileButton';
 interface ProfileFormProps {
   session: Token['user'];
   jwt: string;
@@ -13,15 +12,7 @@ interface ProfileFormProps {
 }
 
 const ProfileForm = (props: ProfileFormProps) => {
-  const { mutate, data } = useUpdateUserMutation({
-    endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
-    fetchParams: {
-      headers: {
-        'Content-Type': 'application/json',
-        jwt: props.jwt,
-      },
-    },
-  });
+  const { mutate, data } = useUpdateUserMutation(mutationObj(props.jwt));
 
   const checkExists = (image: UploaderImage | null | undefined) => {
     return image ? true : false;

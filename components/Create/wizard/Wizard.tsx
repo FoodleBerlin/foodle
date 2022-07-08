@@ -63,7 +63,7 @@ export const formData = z.object({
       .string({ required_error: 'Street is required', invalid_type_error: 'Street must be string' })
       .nonempty({ message: "Street can't be empty" })
       .refine((val) => onlyString.test(val), { message: "Address can't contain numbers" }),
-    number: z.number({ required_error: 'Number is required', invalid_type_error: "Number can't be empty" }),
+    streetNumber: z.number({ required_error: 'Number is required', invalid_type_error: "Number can't be empty" }),
     zip: z.number({ required_error: 'Zip is required', invalid_type_error: "Zip can't be empty" }),
     city: z
       .string({ required_error: 'City is required' })
@@ -173,7 +173,7 @@ const WizardContext = React.createContext<WizardContext>({
     location: {
       city: 'Berlin',
       country: 'Germany',
-      number: 0,
+      streetNumber: 0,
       street: 'Foodlestreet',
       zip: 0,
     },
@@ -246,7 +246,7 @@ export const WizardProvider = ({ children }: any) => {
     location: {
       city: 'Berlin',
       country: 'Germany',
-      number: 0,
+      streetNumber: 0,
       street: 'Foodlestreet',
       zip: 0,
     },
