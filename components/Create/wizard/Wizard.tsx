@@ -1,16 +1,17 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useContext, useState } from 'react';
+import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { z } from 'zod';
+import { FrequencyEnum } from '../../../codegen';
+import { AuthenticatedProps } from '../../../pages/account/payments';
+import Sidebar from '../../Layout/Sidebar';
+import Footer from './Footer';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
 import Step4 from './Step4';
 import Step5 from './Step5';
 import styles from './Wizard.module.scss';
-import { z } from 'zod';
-import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Sidebar from '../../Layout/Sidebar';
-import Footer from './Footer';
-import { AuthenticatedProps } from '../../../pages/account/payments';
 
 export default function Wizard(props: AuthenticatedProps) {
   const wizardContext = useWizardContext();
@@ -40,7 +41,7 @@ export default function Wizard(props: AuthenticatedProps) {
         {wizardContext.step == 4 && <Step4></Step4>}
         {wizardContext.step == 5 && <Step5></Step5>}
       </div>
-      <Footer session={props.session} step={wizardContext.step} />
+      <Footer jwt={props.jwt} session={props.session} step={wizardContext.step} />
     </div>
   );
 }
@@ -129,7 +130,7 @@ export const formData = z.object({
         endingTime: z.string({ required_error: 'A starting time is required for each day' }),
       }),
     }),
-    repeat: z.enum(['none', 'weekly']),
+    repeat: z.enum([FrequencyEnum.None, FrequencyEnum.Weekly, FrequencyEnum.Monthly]),
     endDate: z.preprocess((arg) => {
       if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
     }, z.date()),
@@ -223,7 +224,7 @@ const WizardContext = React.createContext<WizardContext>({
           endingTime: '',
         },
       },
-      repeat: 'weekly',
+      repeat: FrequencyEnum.Weekly,
       endDate: new Date(),
     },
 
@@ -305,7 +306,7 @@ export const WizardProvider = ({ children }: any) => {
       },
       // startingTimes: ['', '', '', '', '', '', ''],
       // endingTimes: ['', '', '', '', '', '', ''],
-      repeat: 'weekly',
+      repeat: FrequencyEnum.Weekly,
       endDate: new Date(),
     },
     minMonths: 1,
