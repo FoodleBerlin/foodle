@@ -29,7 +29,7 @@
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "^2.4.5",
     "@graphql-codegen/typescript-operations": "^2.3.2",
-    "@graphql-codegen/typescript-react-query": "^3.5.5",
+    "@graphql-codegen/typescript-react-query": "^3.6.2",
     "@hookform/resolvers": "^2.8.8",
     "@prisma/client": "^3.9.1",
     "@types/graphql-iso-date": "^3.4.0",
