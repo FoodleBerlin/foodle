@@ -99,8 +99,9 @@ export default function Step3() {
               }}
             >
               {' '}
-              <option value="weekly">weekly</option>
-              <option value="none">none</option>
+              <option value="NONE">none</option>
+              <option value="WEEKLY">weekly</option>
+              <option value="MONTHLY">monthly</option>
             </select>
             <div className={styles['step3__untilDatePicker']}>
               <label className="label-text">Until</label> <br />
