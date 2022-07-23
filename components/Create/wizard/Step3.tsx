@@ -49,6 +49,22 @@ export default function Step3() {
         </div>
         {formState.errors.deposit && <span className={styles['error']}>{formState.errors.deposit.message}</span>}
       </div>
+      <div className={styles['formItem']}>
+        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Is there a service fee?</h2>
+        <p className="body-text-secondary">
+          This is a one time payment that will be charged to the tenant. If there is no service fee just type in 0.
+        </p>
+        <div className={styles['step3__flexWrapper']}>
+          <input
+            className={styles['step3__shortInput'] + ' standard-form'}
+            type="number"
+            {...register('serviceFee')}
+            onChange={(c) => setValue('serviceFee', parseInt(c.target.value), touchDirtyValidate)}
+          ></input>
+          <label className="body-text-secondary">€</label>
+        </div>
+        {formState.errors.serviceFee && <span className={styles['error']}>{formState.errors.serviceFee.message}</span>}
+      </div>
       <div className={styles['formItem time-container']}>
         <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>When is it available?</h2>
         <label className="label-text">Starting</label> <br />

@@ -85,7 +85,7 @@ const Footer = (props: FooterProps) => {
       streetNumber: wiz.location.streetNumber,
       ownerHandle: props.session.email.substring(0, props.session.email.indexOf('@')),
       rules: wiz.rules,
-      serviceFee: 0, //HARDCODED for now
+      serviceFee: wiz.serviceFee ?? 0, //HARDCODED for now
       startDate: wiz.startDate,
       pickup: true, // TODO:fix - add form to frontend // CONSTI
     });

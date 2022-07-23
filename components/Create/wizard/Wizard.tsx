@@ -94,6 +94,7 @@ export const formData = z.object({
     .number({ required_error: 'Rent per hour is required', invalid_type_error: 'Rent per hour can not be empty' })
     .min(1, { message: 'Rent must be greater than or equal to 1' }),
   deposit: z.number().min(0, { message: 'Deposit must be greater than or equal to 1' }).optional(),
+  serviceFee: z.number().min(0, { message: 'Service fee must be greater than or equal to 1' }).optional(),
   startDate: z.preprocess((arg) => {
     if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
   }, z.date()),
@@ -145,6 +146,8 @@ export const formData = z.object({
     .min(10, { message: 'Must be 10 or more characters long' })
     .max(7000, { message: 'You reached the maximum amount of characters' })
     .nonempty({ message: 'Rules can not be empty' }),
+
+  /* STEP 4 */
   images: z
     .object({
       fileName: z.string(),
@@ -189,6 +192,7 @@ const WizardContext = React.createContext<WizardContext>({
     /* STEP 3 */
     hourlyPrice: 0,
     deposit: 0,
+    serviceFee: 0,
     startDate: new Date('2015-03-25'),
     daySlots: {
       monday: {
@@ -267,6 +271,7 @@ export const WizardProvider = ({ children }: any) => {
     /* STEP 3 */
     hourlyPrice: 0,
     deposit: 0,
+    serviceFee: 0,
     startDate: new Date(),
     daySlots: {
       monday: {

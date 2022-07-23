@@ -1,6 +1,9 @@
 import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 export default function Step1() {
+  const wiz = useWizardContext().getValues();
+  console.log(JSON.stringify(wiz));
+
   const { formState, nextStep, register, setValue } = useWizardContext();
   return (
     <div className={styles['step1']}>
@@ -14,7 +17,7 @@ export default function Step1() {
             className="radio"
             name="kitchen"
             value="full"
-            onChange={(c) => setValue('partialSpace', false as FormData['partialSpace'], touchDirtyValidate)}
+            onChange={() => setValue('partialSpace', true as FormData['partialSpace'], touchDirtyValidate)}
           />
           <label className={styles['labelButton']} htmlFor="full">
             <p className="body-text__small">Entire Kitchen</p>
@@ -27,7 +30,7 @@ export default function Step1() {
             className="radio"
             name="kitchen"
             value="partial"
-            onChange={(c) => setValue('partialSpace', true as FormData['partialSpace'], touchDirtyValidate)}
+            onChange={() => setValue('partialSpace', true as FormData['partialSpace'], touchDirtyValidate)}
           />
           <label className={styles['labelButton']} htmlFor="partial">
             <p className="body-text__small">Part of kitchen</p>
@@ -73,7 +76,7 @@ export default function Step1() {
             {...register('location.streetNumber')}
             onChange={(c) => setValue('location.streetNumber', parseInt(c.target.value), touchDirtyValidate)}
           ></input>
-         {formState.errors.location?.streetNumber && (
+          {formState.errors.location?.streetNumber && (
             <span className={styles['error'] + ' ' + styles['step1__validationSpan--number']}>
               {formState.errors.location?.streetNumber.message}
             </span>
