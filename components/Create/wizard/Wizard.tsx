@@ -75,6 +75,11 @@ export const formData = z.object({
       .refine((val) => onlyString.test(val), { message: "Country can't contain numbers" }),
   }),
   /* STEP 2 */
+  title: z
+    .string({ required_error: 'Title is required', invalid_type_error: 'Title must be string' })
+    .min(10, { message: 'Must be 10 or more characters long' })
+    .max(70, { message: 'You reached the maximum amount of characters' })
+    .nonempty({ message: "Title can't be empty" }),
   description: z
     .string({ required_error: 'Description is required' })
     .min(20, { message: 'Must be 20 or more characters long' })
@@ -178,6 +183,7 @@ const WizardContext = React.createContext<WizardContext>({
       zip: 0,
     },
     /* STEP 2 */
+    title: '',
     description: '',
     facilities: ['Unfurnished'],
     /* STEP 3 */
@@ -251,6 +257,7 @@ export const WizardProvider = ({ children }: any) => {
       zip: 0,
     },
     /* STEP 2 */
+    title: '',
     description: '',
     facilities: ['Unfurnished'],
     stay: {

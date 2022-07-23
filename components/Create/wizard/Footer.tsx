@@ -73,16 +73,16 @@ const Footer = (props: FooterProps) => {
       city: wiz.location.city,
       deposit: wiz.deposit ?? 0,
       description: wiz.description,
-      frequency: wiz.frequency, //TODO: fix - rename in wiz
+      frequency: wiz.frequency,
       hourlyPrice: wiz.hourlyPrice,
       endDate: wiz.endDate,
       partialSpace: wiz.partialSpace,
       zip: wiz.location.zip,
       street: wiz.location.street,
       size: wiz.size,
-      title: wiz.description.substring(0, 20), //TODO:fix - add form to frontend create flow
+      title: wiz.title,
       images: images,
-      streetNumber: wiz.location.streetNumber, //FIX - rename to streetNumber in frontend
+      streetNumber: wiz.location.streetNumber,
       ownerHandle: props.session.email.substring(0, props.session.email.indexOf('@')),
       rules: wiz.rules,
       serviceFee: 0, //HARDCODED for now
