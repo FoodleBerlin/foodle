@@ -103,32 +103,12 @@ This flow looks roughly as above (from [The Net Ninja](https://www.youtube.com/w
 
 ### Threat Model (Alex) 
 ![FoodleThreatModel](https://user-images.githubusercontent.com/50741293/166244358-31aa031f-1634-44c8-97ac-9adbcbb97e54.jpg)
-Alex implemented:
+Foodle's Security Protections:
 - Google OAuth login with PassportJs
-- Input Validation
+- Input Validation in Backend Requests
 - Check for JWT on several Next.Js pages
 - Security Policy for AWS S3 bucket
 - Added CSP for NextJS, ExpressJS
 - Added Security Headers to NextJS and Express
 - Made cookies enfore Https and Samesite-strict
 - Turned off introspection for Apollo Server in production and added csrfPrevention and a CORS config to it
-
-### Threat Model (Max)
-
-![Threat Model](https://user-images.githubusercontent.com/71644512/166215439-5a7a10cd-0d31-462e-806c-2fa3195f5787.jpg)
-
-List of Implemented Security features:
-- Facebook OAuth login with PassportJs
-- Input Validation 
-- Mask Apollo Server errors
-- GraphQL depth limiting
-- HTTPS used only
-- Mangement use of (.env) file
-- Dependabot config file
-- Heroku view Logs and use add ons (Expedited WAF—Security, Papertrail—Heroku Logging)
-
-
-Max: SE_22 Web and Mobile Backend Development paths for mentioned parts from the Essay Max: 
-- Facebook Login with passport.js file: passport.js (Branch: create-Facebook-Login)
-- Validation for XSS in the file: "validation.ts" (Branch: xss_backend_validation)
-- The rest mentioned in the Essay like: Mutation, Query, Test, and Error Handling can be found in the master
