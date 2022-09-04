@@ -1,8 +1,8 @@
 import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 export default function Step1() {
-  const wiz = useWizardContext().getValues();
-  console.log(JSON.stringify(wiz));
+  //const wiz = useWizardContext().getValues();
+  //console.log(JSON.stringify(wiz));
 
   const { formState, nextStep, register, setValue } = useWizardContext();
   return (
@@ -17,7 +17,7 @@ export default function Step1() {
             className="radio"
             name="kitchen"
             value="full"
-            onChange={() => setValue('partialSpace', true as FormData['partialSpace'], touchDirtyValidate)}
+            onChange={() => setValue('partialSpace', false as FormData['partialSpace'], touchDirtyValidate)}
           />
           <label className={styles['labelButton']} htmlFor="full">
             <p className="body-text__small">Entire Kitchen</p>

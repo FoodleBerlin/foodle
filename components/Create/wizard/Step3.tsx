@@ -12,6 +12,8 @@ export type DaySlot = {
 export default function Step3() {
   const { formState, nextStep, register, setValue } = useWizardContext();
   const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = useWizardContext().getValues().daySlots;
+  //const wiz = useWizardContext().getValues();
+  //console.log(JSON.stringify(wiz));
 
   return (
     <div className={styles['step3']}>
@@ -65,6 +67,37 @@ export default function Step3() {
         </div>
         {formState.errors.serviceFee && <span className={styles['error']}>{formState.errors.serviceFee.message}</span>}
       </div>
+      <div className={styles['formItem']}>
+        <h2 className="header-tertiary">Will pickup be possible?</h2>
+        <div className={styles['step1__buttonWrapper']}>
+          <input
+            {...register('pickup')}
+            type="radio"
+            id="pickup-no"
+            className="radio"
+            name="pickup"
+            value="pickup-no"
+            onChange={() => setValue('pickup', false as FormData['pickup'], touchDirtyValidate)}
+          />
+          <label className={styles['labelButton']} htmlFor="pickup-no">
+            <p className="body-text__small">No pickup</p>
+          </label>
+
+          <input
+            {...register('pickup')}
+            type="radio"
+            id="pickup-yes"
+            className="radio"
+            name="pickup"
+            value="pickup-yes"
+            onChange={() => setValue('pickup', true as FormData['pickup'], touchDirtyValidate)}
+          />
+          <label className={styles['labelButton']} htmlFor="pickup-yes">
+            <p className="body-text__small">Pickup</p>
+          </label>
+          {formState.errors.pickup && <span className={styles['error']}>{formState.errors.pickup.message}</span>}
+        </div>
+      </div>
       <div className={styles['formItem time-container']}>
         <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>When is it available?</h2>
         <label className="label-text">Starting</label> <br />
@@ -73,7 +106,6 @@ export default function Step3() {
           type="date"
           {...register('startDate')}
           onChange={(c) => {
-            console.log(c.target.value);
             setValue('startDate', c.target.value as any, touchDirtyValidate);
           }}
         ></input>
@@ -150,23 +182,6 @@ export default function Step3() {
           }}
         ></textarea>
         {formState.errors.rules && <span className={styles['error']}>{formState.errors.rules.message}</span>}
-      </div>
-      <div className={styles['step2__formWrapper']}>
-        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>What’s the minimum stay?</h2>
-        <div className={styles['step2__flexWrapper']}>
-          <input
-            className="standard-form__inputSmall"
-            placeholder="0"
-            type="number"
-            id="months"
-            {...register('minMonths')}
-            onChange={(c) => setValue('minMonths', parseInt(c.target.value), touchDirtyValidate)}
-          ></input>
-          <label htmlFor="months" className={styles['step2__label'] + ' body-text-secondary'}>
-            Recurring months
-          </label>
-        </div>
-        {formState.errors.minMonths && <span className={styles['error']}>{formState.errors.minMonths.message}</span>}
       </div>
     </div>
   );

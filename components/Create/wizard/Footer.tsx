@@ -21,6 +21,7 @@ const Footer = (props: FooterProps) => {
     }
     return new Date('2000-01-01T' + time + ':00').toISOString();
   };
+
   const wiz = getValues();
 
   const selectedDaySlots: { startTime: string; endTime: string }[] = [];
@@ -85,9 +86,9 @@ const Footer = (props: FooterProps) => {
       streetNumber: wiz.location.streetNumber,
       ownerHandle: props.session.email.substring(0, props.session.email.indexOf('@')),
       rules: wiz.rules,
-      serviceFee: wiz.serviceFee ?? 0, //HARDCODED for now
+      serviceFee: wiz.serviceFee ?? 0,
       startDate: wiz.startDate,
-      pickup: true, // TODO:fix - add form to frontend // CONSTI
+      pickup: wiz.pickup, // TODO:fix - add form to frontend // CONSTI
     });
   };
 
@@ -124,7 +125,7 @@ const Footer = (props: FooterProps) => {
 
         <button
           className={styles['primary-btn-small']}
-          disabled={error() ? true : false}
+          //disabled={error() ? true : false}
           onClick={() => {
             nextStep(props.step);
             props.step === 5 ? handleSubmit() : console.log(getValues());

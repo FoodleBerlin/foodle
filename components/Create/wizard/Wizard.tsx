@@ -95,6 +95,7 @@ export const formData = z.object({
     .min(1, { message: 'Rent must be greater than or equal to 1' }),
   deposit: z.number().min(0, { message: 'Deposit must be greater than or equal to 1' }).optional(),
   serviceFee: z.number().min(0, { message: 'Service fee must be greater than or equal to 1' }).optional(),
+  pickup: z.boolean(),
   startDate: z.preprocess((arg) => {
     if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
   }, z.date()),
@@ -193,6 +194,7 @@ const WizardContext = React.createContext<WizardContext>({
     hourlyPrice: 0,
     deposit: 0,
     serviceFee: 0,
+    pickup: false,
     startDate: new Date('2015-03-25'),
     daySlots: {
       monday: {
@@ -272,6 +274,7 @@ export const WizardProvider = ({ children }: any) => {
     hourlyPrice: 0,
     deposit: 0,
     serviceFee: 0,
+    pickup: false,
     startDate: new Date(),
     daySlots: {
       monday: {
