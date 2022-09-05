@@ -56,7 +56,7 @@ const onlyString = /^[a-zA-Z_ ]*$/;
 
 export const formData = z.object({
   /* STEP 1 */
-  partialSpace: z.boolean(),
+  partialSpace: z.string(),
   size: z.number({ required_error: 'Size is required', invalid_type_error: 'Size can not be empty' }).min(1).max(1000),
   location: z.object({
     street: z
@@ -95,7 +95,7 @@ export const formData = z.object({
     .min(1, { message: 'Rent must be greater than or equal to 1' }),
   deposit: z.number().min(0, { message: 'Deposit must be greater than or equal to 1' }).optional(),
   serviceFee: z.number().min(0, { message: 'Service fee must be greater than or equal to 1' }).optional(),
-  pickup: z.boolean(),
+  pickup: z.string(),
   startDate: z.preprocess((arg) => {
     if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
   }, z.date()),
@@ -177,7 +177,7 @@ const WizardContext = React.createContext<WizardContext>({
   step: 1,
   defaults: {
     /* STEP 1 */
-    partialSpace: false,
+    partialSpace: 'full',
     size: 0,
     location: {
       city: 'Berlin',
@@ -194,7 +194,7 @@ const WizardContext = React.createContext<WizardContext>({
     hourlyPrice: 0,
     deposit: 0,
     serviceFee: 0,
-    pickup: false,
+    pickup: 'pickup-no',
     startDate: new Date('2015-03-25'),
     daySlots: {
       monday: {
@@ -254,7 +254,7 @@ export const WizardProvider = ({ children }: any) => {
   const defaults = {
     /* STEP 1 */
     size: 0,
-    partialSpace: false,
+    partialSpace: 'full',
     location: {
       city: 'Berlin',
       country: 'Germany',
@@ -274,7 +274,7 @@ export const WizardProvider = ({ children }: any) => {
     hourlyPrice: 0,
     deposit: 0,
     serviceFee: 0,
-    pickup: false,
+    pickup: 'pickup-no',
     startDate: new Date(),
     daySlots: {
       monday: {

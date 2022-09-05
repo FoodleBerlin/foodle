@@ -77,7 +77,7 @@ export default function Step3() {
             className="radio"
             name="pickup"
             value="pickup-no"
-            onChange={() => setValue('pickup', false as FormData['pickup'], touchDirtyValidate)}
+            onChange={(c) => setValue('pickup', c.target.value as FormData['pickup'], touchDirtyValidate)}
           />
           <label className={styles['labelButton']} htmlFor="pickup-no">
             <p className="body-text__small">No pickup</p>
@@ -90,7 +90,7 @@ export default function Step3() {
             className="radio"
             name="pickup"
             value="pickup-yes"
-            onChange={() => setValue('pickup', true as FormData['pickup'], touchDirtyValidate)}
+            onChange={(c) => setValue('pickup', c.target.value as FormData['pickup'], touchDirtyValidate)}
           />
           <label className={styles['labelButton']} htmlFor="pickup-yes">
             <p className="body-text__small">Pickup</p>

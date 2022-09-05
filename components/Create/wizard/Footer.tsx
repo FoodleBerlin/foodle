@@ -70,25 +70,25 @@ const Footer = (props: FooterProps) => {
   });
   const handleSubmit = async () => {
     mutate({
-      availableDays: selectedDaySlots,
-      city: wiz.location.city,
-      deposit: wiz.deposit ?? 0,
-      description: wiz.description,
-      frequency: wiz.frequency,
-      hourlyPrice: wiz.hourlyPrice,
-      endDate: wiz.endDate,
-      partialSpace: wiz.partialSpace,
-      zip: wiz.location.zip,
-      street: wiz.location.street,
-      size: wiz.size,
+      size: Number(wiz.size),
       title: wiz.title,
-      images: images,
-      streetNumber: wiz.location.streetNumber,
       ownerHandle: props.session.email.substring(0, props.session.email.indexOf('@')),
+      street: wiz.location.street,
+      streetNumber: Number(wiz.location.streetNumber),
+      zip: Number(wiz.location.zip),
+      city: wiz.location.city,
+      description: wiz.description,
+      pickup: wiz.pickup === 'pickup-yes' ? true : false,
+      hourlyPrice: Number(wiz.hourlyPrice),
+      serviceFee: Number(wiz.serviceFee) ?? 0,
       rules: wiz.rules,
-      serviceFee: wiz.serviceFee ?? 0,
-      startDate: wiz.startDate,
-      pickup: wiz.pickup, // TODO:fix - add form to frontend // CONSTI
+      deposit: Number(wiz.deposit) ?? 0,
+      images: images,
+      partialSpace: wiz.partialSpace === 'partial' ? true : false,
+      startDate: new Date(wiz.startDate).toISOString(),
+      endDate: new Date(wiz.endDate).toISOString(),
+      frequency: wiz.frequency,
+      availableDays: selectedDaySlots,
     });
   };
 
