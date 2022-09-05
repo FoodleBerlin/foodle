@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { mutationObj } from '../../../client';
 import { useCreateListingMutation } from '../../../codegen';
@@ -23,6 +24,8 @@ const Footer = (props: FooterProps) => {
   };
 
   const wiz = getValues();
+
+  const router = useRouter();
 
   const selectedDaySlots: { startTime: string; endTime: string }[] = [];
   useEffect(() => {
@@ -90,6 +93,7 @@ const Footer = (props: FooterProps) => {
       frequency: wiz.frequency,
       availableDays: selectedDaySlots,
     });
+    router.push('/create-listing-success');
   };
 
   const error = () => {
@@ -125,7 +129,7 @@ const Footer = (props: FooterProps) => {
 
         <button
           className={styles['primary-btn-small']}
-          //disabled={error() ? true : false}
+          disabled={error() ? true : false}
           onClick={() => {
             nextStep(props.step);
             props.step === 5 ? handleSubmit() : console.log(getValues());
@@ -139,30 +143,3 @@ const Footer = (props: FooterProps) => {
 };
 
 export default Footer;
-// const res = await client.mutate({
-//   mutation: CreateListing,
-//   variables: {
-//     size: Number(wiz.size),
-//     ownerId: props.session.id,
-//     street: wiz.location.street,
-//     streetNumber: Number(wiz.location.number),
-//     zip: Number(wiz.location.zip),
-//     city: wiz.location.city,
-//     description: wiz.description,
-//     rules: wiz.rules.split('.'),
-//     hourlyPrice: Number(wiz.hourlyPrice),
-//     facilities: wiz.facilities,
-//     deposit: Number(wiz.deposit),
-//     images: images,
-//     pickup: false,
-//     serviceFee: Number(0),
-//     partialSpace: wiz.partialSpace === 'partial' ? true : false,
-//     availabilities: {
-//       startDate: new Date(wiz.startDate).toISOString(),
-//       endDate: new Date(wiz.availability.endDate).toISOString(),
-//       genericDaySlots: selectedDaySlots,
-//       minMonths: Number(wiz.minMonths),
-//       frequency: wiz.availability.repeat,
-//     },
-//   },
-// });
