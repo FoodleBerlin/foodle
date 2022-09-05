@@ -1,16 +1,17 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useContext, useState } from 'react';
+import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { z } from 'zod';
+import { FrequencyEnum } from '../../../codegen';
+import { AuthenticatedProps } from '../../../pages/account/payments';
+import Sidebar from '../../Layout/Sidebar';
+import Footer from './Footer';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
 import Step4 from './Step4';
 import Step5 from './Step5';
 import styles from './Wizard.module.scss';
-import { z } from 'zod';
-import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Sidebar from '../../Layout/Sidebar';
-import Footer from './Footer';
-import { AuthenticatedProps } from '../../../pages/account/payments';
 
 export default function Wizard(props: AuthenticatedProps) {
   const wizardContext = useWizardContext();
@@ -40,7 +41,7 @@ export default function Wizard(props: AuthenticatedProps) {
         {wizardContext.step == 4 && <Step4></Step4>}
         {wizardContext.step == 5 && <Step5></Step5>}
       </div>
-      <Footer session={props.session} step={wizardContext.step} />
+      <Footer jwt={props.jwt} session={props.session} step={wizardContext.step} />
     </div>
   );
 }
@@ -55,14 +56,14 @@ const onlyString = /^[a-zA-Z_ ]*$/;
 
 export const formData = z.object({
   /* STEP 1 */
-  partialSpace: z.enum(['partial', 'full']),
+  partialSpace: z.string(),
   size: z.number({ required_error: 'Size is required', invalid_type_error: 'Size can not be empty' }).min(1).max(1000),
   location: z.object({
     street: z
       .string({ required_error: 'Street is required', invalid_type_error: 'Street must be string' })
       .nonempty({ message: "Street can't be empty" })
       .refine((val) => onlyString.test(val), { message: "Address can't contain numbers" }),
-    number: z.number({ required_error: 'Number is required', invalid_type_error: "Number can't be empty" }),
+    streetNumber: z.number({ required_error: 'Number is required', invalid_type_error: "Number can't be empty" }),
     zip: z.number({ required_error: 'Zip is required', invalid_type_error: "Zip can't be empty" }),
     city: z
       .string({ required_error: 'City is required' })
@@ -74,6 +75,11 @@ export const formData = z.object({
       .refine((val) => onlyString.test(val), { message: "Country can't contain numbers" }),
   }),
   /* STEP 2 */
+  title: z
+    .string({ required_error: 'Title is required', invalid_type_error: 'Title must be string' })
+    .min(10, { message: 'Must be 10 or more characters long' })
+    .max(70, { message: 'You reached the maximum amount of characters' })
+    .nonempty({ message: "Title can't be empty" }),
   description: z
     .string({ required_error: 'Description is required' })
     .min(20, { message: 'Must be 20 or more characters long' })
@@ -88,52 +94,52 @@ export const formData = z.object({
     .number({ required_error: 'Rent per hour is required', invalid_type_error: 'Rent per hour can not be empty' })
     .min(1, { message: 'Rent must be greater than or equal to 1' }),
   deposit: z.number().min(0, { message: 'Deposit must be greater than or equal to 1' }).optional(),
-  availability: z.object({
-    startDate: z.preprocess((arg) => {
-      if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
-    }, z.date()),
-    daySlots: z.object({
-      monday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      tuesday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      wednesday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      thursday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      friday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      saturday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
-      sunday: z.object({
-        selected: z.boolean(),
-        startingTime: z.string({ required_error: 'A starting time is required for each day' }),
-        endingTime: z.string({ required_error: 'A starting time is required for each day' }),
-      }),
+  serviceFee: z.number().min(0, { message: 'Service fee must be greater than or equal to 1' }).optional(),
+  pickup: z.string(),
+  startDate: z.preprocess((arg) => {
+    if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
+  }, z.date()),
+  daySlots: z.object({
+    monday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
     }),
-    repeat: z.enum(['none', 'weekly']),
-    endDate: z.preprocess((arg) => {
-      if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
-    }, z.date()),
+    tuesday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
+    wednesday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
+    thursday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
+    friday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
+    saturday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
+    sunday: z.object({
+      selected: z.boolean(),
+      startingTime: z.string({ required_error: 'A starting time is required for each day' }),
+      endingTime: z.string({ required_error: 'A starting time is required for each day' }),
+    }),
   }),
+  frequency: z.enum([FrequencyEnum.None, FrequencyEnum.Weekly, FrequencyEnum.Monthly]),
+  endDate: z.preprocess((arg) => {
+    if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
+  }, z.date()),
 
   minMonths: z.number({ required_error: 'Minimum stay is required, e.g. 1 month' }),
   rules: z
@@ -141,6 +147,8 @@ export const formData = z.object({
     .min(10, { message: 'Must be 10 or more characters long' })
     .max(7000, { message: 'You reached the maximum amount of characters' })
     .nonempty({ message: 'Rules can not be empty' }),
+
+  /* STEP 4 */
   images: z
     .object({
       fileName: z.string(),
@@ -169,64 +177,64 @@ const WizardContext = React.createContext<WizardContext>({
   step: 1,
   defaults: {
     /* STEP 1 */
-    partialSpace: 'full' as FormData['partialSpace'],
+    partialSpace: 'full',
     size: 0,
     location: {
       city: 'Berlin',
       country: 'Germany',
-      number: 0,
+      streetNumber: 0,
       street: 'Foodlestreet',
       zip: 0,
     },
     /* STEP 2 */
+    title: '',
     description: '',
     facilities: ['Unfurnished'],
     /* STEP 3 */
     hourlyPrice: 0,
     deposit: 0,
-    availability: {
-      startDate: new Date('2015-03-25'),
-      daySlots: {
-        monday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        tuesday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        wednesday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        thursday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        friday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        saturday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        sunday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
+    serviceFee: 0,
+    pickup: 'pickup-no',
+    startDate: new Date('2015-03-25'),
+    daySlots: {
+      monday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
       },
-      repeat: 'weekly',
-      endDate: new Date(),
+      tuesday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      wednesday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      thursday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      friday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      saturday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      sunday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
     },
-
+    frequency: FrequencyEnum.Weekly,
+    endDate: new Date(),
     minMonths: 1,
     rules: '',
     /* STEP 4 */
@@ -250,11 +258,12 @@ export const WizardProvider = ({ children }: any) => {
     location: {
       city: 'Berlin',
       country: 'Germany',
-      number: 0,
+      streetNumber: 0,
       street: 'Foodlestreet',
       zip: 0,
     },
     /* STEP 2 */
+    title: '',
     description: '',
     facilities: ['Unfurnished'],
     stay: {
@@ -264,50 +273,50 @@ export const WizardProvider = ({ children }: any) => {
     /* STEP 3 */
     hourlyPrice: 0,
     deposit: 0,
-    availability: {
-      startDate: new Date(),
-      daySlots: {
-        monday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        tuesday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        wednesday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        thursday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        friday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        saturday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
-        sunday: {
-          selected: false,
-          startingTime: '',
-          endingTime: '',
-        },
+    serviceFee: 0,
+    pickup: 'pickup-no',
+    startDate: new Date(),
+    daySlots: {
+      monday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
       },
-      // startingTimes: ['', '', '', '', '', '', ''],
-      // endingTimes: ['', '', '', '', '', '', ''],
-      repeat: 'weekly',
-      endDate: new Date(),
+      tuesday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      wednesday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      thursday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      friday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      saturday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
+      sunday: {
+        selected: false,
+        startingTime: '',
+        endingTime: '',
+      },
     },
+    // startingTimes: ['', '', '', '', '', '', ''],
+    // endingTimes: ['', '', '', '', '', '', ''],
+    frequency: FrequencyEnum.Weekly,
+    endDate: new Date(),
     minMonths: 1,
     rules: '',
     /* STEP 4 */

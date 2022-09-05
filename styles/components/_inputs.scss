@@ -19,6 +19,9 @@ input[type='checkbox']::before {
   &__inputMedium {
     @include input(8rem);
   }
+  &__inputLarge {
+    @include input(100%);
+  }
   &__textarea {
     @include input(750px);
     resize: none;

@@ -1,91 +1,46 @@
 import gql from 'graphql-tag';
 
 export const CreateListing = gql`
-  mutation CreateListing(
-    $size: Int!
-    $ownerId: String!
-    $street: String!
-    $streetNumber: Int!
-    $zip: Int!
-    $city: String!
-    $description: String!
-    $pickup: Boolean!
-    $rules: [String!]!
-    $title: String!
-    $hourlyPrice: Int!
-    $serviceFee: Int!
-    $facilities: [String!]!
-    $deposit: Int!
-    $images: [String!]!
-    $partialSpace: Boolean!
-    $availabilities: PropertySlotInput!
-  ) {
-    createListing(
-      size: $size
-      ownerId: $ownerId
-      street: $street
-      streetNumber: $streetNumber
-      zip: $zip
-      city: $city
-      description: $description
-      pickup: $pickup
-      rules: $rules
-      title: $title
-      hourlyPrice: $hourlyPrice
-      serviceFee: $serviceFee
-      facilities: $facilities
-      deposit: $deposit
-      images: $images
-      partialSpace: $partialSpace
-      availabilities: $availabilities
-    ) {
-      Property {
-        size
-        owner {
-          id
-          fullName
-          email
-        }
-        kind
-        bookings {
-          id
-        }
-        street
-        streetNumber
-        zip
-        city
-        description
-        pickup
-        facilities
-        isVerified
-        hourlyPrice
-        serviceFee
-        deposit
-        rules
-        availabilities {
-          startDate
-          endDate
-          minMonths
-          frequency
-          availableDays {
-            weekday
-            startTime
-            endTime
-          }
-        }
+  mutation CreateListing($size: Int!, $title: String!, $ownerHandle: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $hourlyPrice: Int!, $serviceFee: Int!, $rules: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $availableDays: [AvailableDay!]!, $pickup: Boolean) {
+  createListing(size: $size, title: $title, ownerHandle: $ownerHandle, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, rules: $rules, deposit: $deposit, images: $images, partialSpace: $partialSpace, startDate: $startDate, endDate: $endDate, frequency: $frequency, availableDays: $availableDays, pickup: $pickup) {
+    Property {
+      kind
+      rules
+      handle
+      daySlots {
+        startTime
+        endTime
       }
-      ClientErrorUserNotExists {
-        message
+      title
+      size
+      owner {
+        dob
       }
-      ClientErrorInvalidHandle {
-        message
-      }
-      ClientErrorInvalidPropertyInput {
-        message
-      }
-      UnknownError {
-        message
-      }
+      street
+      streetNumber
+      zip
+      city
+      description
+      images
+      partialSpace
+      deposit
+      pickup
+      isVerified
+      hourlyPrice
+      serviceFee
+    }
+    ClientErrorUserNotExists {
+      message
+    }
+    ClientErrorInvalidInput {
+      message
+    }
+    NoAvailableSlots {
+      message
+    }
+    UnknownError {
+      message
     }
   }
+}
 `;

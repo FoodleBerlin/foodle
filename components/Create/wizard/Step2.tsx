@@ -1,7 +1,6 @@
-import { FormData, useWizardContext, touchDirtyValidate } from './Wizard';
-import styles from './Wizard.module.scss';
 import Facility from '../Facility';
-import { FieldError } from 'react-hook-form';
+import { touchDirtyValidate, useWizardContext } from './Wizard';
+import styles from './Wizard.module.scss';
 
 export default function Step2() {
   const { formState, nextStep, register, setValue } = useWizardContext();
@@ -9,6 +8,22 @@ export default function Step2() {
   return (
     <div className={styles['step2']}>
       <div className={styles['step2__formWrapper']}>
+        <div className={styles['formItem']}>
+          <h2 className="header-tertiary">What is the name of your property?</h2>
+          <p className="body-text-secondary">
+            This is what users will see as the title of your property on the listings page.
+          </p>
+          <div className={styles['step1__flexWrapper']}>
+            <input
+              className="standard-form__inputLarge"
+              placeholder="Industrial Grade Kitchen in Mitte"
+              type="text"
+              {...register('title')}
+              onChange={(c) => setValue('title', c.target.value, touchDirtyValidate)}
+            ></input>
+          </div>
+          {formState.errors.title && <span className={styles['error']}>{formState.errors.title.message}</span>}
+        </div>
         <div className={styles['formItem']}>
           <h2 className={' header-tertiary'}>How would you describe the space?</h2>
           <p className="body-text-secondary">

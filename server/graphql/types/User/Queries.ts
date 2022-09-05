@@ -1,6 +1,6 @@
 import { extendType, objectType, stringArg } from 'nexus';
 import { Context } from '~/server/context';
-import { ClientErrorInvalidInput, ClientErrorUserNotExists } from '../Error';
+import { ClientErrorInvalidHandle, ClientErrorInvalidInput, ClientErrorUserNotExists, UnknownError } from '../Error';
 
 /**
  * Example apollo studio query
@@ -33,7 +33,12 @@ export const findUserResult = objectType({
     t.nullable.field('ClientErrorInvalidInput', {
       type: ClientErrorInvalidInput,
     });
-  },
+    t.nullable.field('ClientErrorInvalidHandle', {
+      type: ClientErrorInvalidHandle,
+    });
+    t.nullable.field('UnknownError', {
+      type: UnknownError,
+    })  },
 });
 
 export const Query = extendType({

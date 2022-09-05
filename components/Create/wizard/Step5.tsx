@@ -1,13 +1,12 @@
-import React from 'react';
 import Image from 'next/image';
-import { useWizardContext } from './Wizard';
-import styles from './Wizard.module.scss';
 import PriceLine from '../PriceLine';
 import { UploaderImg } from './Step4';
+import { useWizardContext } from './Wizard';
+import styles from './Wizard.module.scss';
 
 export default function Step5() {
   const wiz = useWizardContext().getValues();
-  console.log(JSON.stringify(wiz));
+  //console.log(JSON.stringify(wiz));
 
   return (
     <div>
@@ -63,7 +62,7 @@ export default function Step5() {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Pricing</h2>
           <PriceLine label="Rental Fee" text={wiz.hourlyPrice + '€ / hr'} />
           <PriceLine label="Booking Fee" text={wiz.hourlyPrice + '€ / hr'} />
-          <PriceLine label="Service Fee" text="0€" />
+          <PriceLine label="Service Fee" text={wiz.serviceFee + '€'} />
           <PriceLine label="Deposit" text={wiz.deposit + '€'} />
           <PriceLine label="Cancellation Type" text="Full Refund 2 weeks before, partial after." />
         </div>

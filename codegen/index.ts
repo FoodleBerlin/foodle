@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions, useMutation, UseMutationOptions } from 'react-query';
+import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -31,22 +31,23 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any;
 };
 
 export type Query = {
   __typename?: 'Query';
   findAllProperties: FindAllPropertiesReturn;
+  /** Takes user handle and returns all bookings of user */
+  findBookingsOfUser: GetBookingsOfUser;
   /** Takes a propertyId and returns the property */
   findProperty: FindPropertyResult;
-  /** Takes a handle and returns the user */
+  /** Takes a handle and returns the user.  */
   findUser: FindUserResult;
 };
 
 
 export type QueryFindPropertyArgs = {
-  handle?: InputMaybe<Scalars['String']>;
+  handle: Scalars['String'];
 };
 
 
@@ -62,12 +63,11 @@ export type FindAllPropertiesReturn = {
 
 export type Property = {
   __typename?: 'Property';
-  availabilities?: Maybe<PropertySlot>;
   bookings: Array<Booking>;
   city: Scalars['String'];
+  daySlots: Array<DaySlot>;
   deposit: Scalars['Int'];
   description: Scalars['String'];
-  facilities: Array<Scalars['String']>;
   handle: Scalars['String'];
   hourlyPrice: Scalars['Int'];
   images: Array<Scalars['String']>;
@@ -85,38 +85,41 @@ export type Property = {
   zip: Scalars['Int'];
 };
 
-export type PropertySlot = {
-  __typename?: 'PropertySlot';
-  availableDays: Array<GenericDaySlot>;
-  endDate: Scalars['DateTime'];
-  frequency: Frequency;
-  minMonths: Scalars['Int'];
-  property?: Maybe<Property>;
-  propertyId: Scalars['String'];
-  startDate: Scalars['DateTime'];
-};
-
-export type GenericDaySlot = {
-  __typename?: 'GenericDaySlot';
-  endTime: Scalars['DateTime'];
-  id: Scalars['String'];
-  propertySlot?: Maybe<PropertySlot>;
-  propertySlotId: Scalars['String'];
-  startTime: Scalars['DateTime'];
-  weekday: Scalars['String'];
-};
-
-export enum Frequency {
-  Biweekly = 'biweekly',
-  None = 'none',
-  Triweekly = 'triweekly',
-  Weekly = 'weekly'
-}
-
 export type Booking = {
   __typename?: 'Booking';
+  bookingStatus: BookingStatus;
+  daySlots: Array<DaySlot>;
+  endDate: Scalars['String'];
+  frequency: FrequencyEnum;
   id: Scalars['String'];
+  property: Property;
+  startDate: Scalars['String'];
+  tenant: User;
+  totalPrice: Scalars['Float'];
 };
+
+/** map nexus BookingStatus to prisma enum */
+export enum BookingStatus {
+  Accepted = 'ACCEPTED',
+  Pending = 'PENDING',
+  Rejected = 'REJECTED'
+}
+
+export type DaySlot = {
+  __typename?: 'DaySlot';
+  bookedStartTime?: Maybe<Scalars['DateTime']>;
+  booking?: Maybe<Booking>;
+  endTime: Scalars['DateTime'];
+  property?: Maybe<Property>;
+  startTime: Scalars['DateTime'];
+};
+
+/** map nexus frequency to prisma enum */
+export enum FrequencyEnum {
+  Monthly = 'MONTHLY',
+  None = 'NONE',
+  Weekly = 'WEEKLY'
+}
 
 export type User = {
   __typename?: 'User';
@@ -159,15 +162,26 @@ export type UnknownError = {
   message: Scalars['String'];
 };
 
+export type GetBookingsOfUser = {
+  __typename?: 'GetBookingsOfUser';
+  Bookings?: Maybe<Array<Booking>>;
+  ClientErrorUserNotExists?: Maybe<ClientErrorUserNotExists>;
+};
+
+export type ClientErrorUserNotExists = {
+  __typename?: 'ClientErrorUserNotExists';
+  message: Scalars['String'];
+};
+
 export type FindPropertyResult = {
   __typename?: 'findPropertyResult';
-  ClientErrorInvalidHandle?: Maybe<ClientErrorInvalidHandle>;
+  ClientErrorInvalidInput?: Maybe<ClientErrorInvalidInput>;
   ClientErrorPropertyNotExists?: Maybe<ClientErrorPropertyNotExists>;
   Property?: Maybe<Property>;
 };
 
-export type ClientErrorInvalidHandle = {
-  __typename?: 'ClientErrorInvalidHandle';
+export type ClientErrorInvalidInput = {
+  __typename?: 'ClientErrorInvalidInput';
   message: Scalars['String'];
 };
 
@@ -179,44 +193,51 @@ export type ClientErrorPropertyNotExists = {
 export type FindUserResult = {
   __typename?: 'findUserResult';
   ClientErrorInvalidHandle?: Maybe<ClientErrorInvalidHandle>;
-  ClientErrorInvalidInputLength?: Maybe<ClientErrorInvalidInputLength>;
+  ClientErrorInvalidInput?: Maybe<ClientErrorInvalidInput>;
   ClientErrorUserNotExists?: Maybe<ClientErrorUserNotExists>;
+  UnknownError?: Maybe<UnknownError>;
   User?: Maybe<User>;
 };
 
-export type ClientErrorInvalidInputLength = {
-  __typename?: 'ClientErrorInvalidInputLength';
-  message: Scalars['String'];
-};
-
-export type ClientErrorUserNotExists = {
-  __typename?: 'ClientErrorUserNotExists';
+export type ClientErrorInvalidHandle = {
+  __typename?: 'ClientErrorInvalidHandle';
   message: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createListing: CreatePropertyReturn;
-  createUser: Scalars['Boolean'];
+  createBooking: CreateBookingReturn;
+  createListing: CreateListingReturn;
   /** Edit user profile data */
   updateUser: FindUserResult;
 };
 
 
+export type MutationCreateBookingArgs = {
+  daySlots: Array<AvailableDay>;
+  endDate: Scalars['DateTime'];
+  frequency: FrequencyEnum;
+  propertyHandle: Scalars['String'];
+  startDate: Scalars['DateTime'];
+};
+
+
 export type MutationCreateListingArgs = {
-  availabilities: PropertySlotInput;
+  availableDays: Array<AvailableDay>;
   city: Scalars['String'];
   deposit: Scalars['Int'];
   description: Scalars['String'];
-  facilities: Array<Scalars['String']>;
+  endDate: Scalars['DateTime'];
+  frequency: FrequencyEnum;
   hourlyPrice: Scalars['Int'];
   images: Array<Scalars['String']>;
-  ownerId: Scalars['String'];
+  ownerHandle: Scalars['String'];
   partialSpace: Scalars['Boolean'];
   pickup?: InputMaybe<Scalars['Boolean']>;
   rules: Array<Scalars['String']>;
   serviceFee: Scalars['Int'];
   size: Scalars['Int'];
+  startDate: Scalars['DateTime'];
   street: Scalars['String'];
   streetNumber: Scalars['Int'];
   title: Scalars['String'];
@@ -235,29 +256,19 @@ export type MutationUpdateUserArgs = {
   zip?: InputMaybe<Scalars['Int']>;
 };
 
-/** PropertySlot input */
-export type PropertySlotInput = {
-  availableDays: Array<InputMaybe<GenericDaySlotInput>>;
-  endDate: Scalars['DateTime'];
-  frequency: Frequency;
-  minMonths: Scalars['Int'];
-  startDate: Scalars['DateTime'];
-};
-
-/** GenericDaySlot input */
-export type GenericDaySlotInput = {
+export type AvailableDay = {
   endTime: Scalars['DateTime'];
   startTime: Scalars['DateTime'];
-  weekday: Scalars['String'];
 };
 
-export type CreatePropertyReturn = {
-  __typename?: 'createPropertyReturn';
-  ClientErrorInvalidHandle?: Maybe<ClientErrorInvalidHandle>;
-  ClientErrorInvalidInputLength?: Maybe<ClientErrorInvalidInputLength>;
+export type CreateBookingReturn = {
+  __typename?: 'CreateBookingReturn';
+  Booking?: Maybe<Booking>;
+  ClientErrorInvalidInput?: Maybe<ClientErrorInvalidInput>;
   ClientErrorInvalidPropertyInput?: Maybe<ClientErrorInvalidPropertyInput>;
+  ClientErrorPropertyNotExists?: Maybe<ClientErrorPropertyNotExists>;
   ClientErrorUserNotExists?: Maybe<ClientErrorUserNotExists>;
-  Property?: Maybe<Property>;
+  NoAvailableSlots?: Maybe<NoAvailableSlots>;
   UnknownError?: Maybe<UnknownError>;
 };
 
@@ -266,9 +277,18 @@ export type ClientErrorInvalidPropertyInput = {
   message: Scalars['String'];
 };
 
-export type BookingSlot = {
-  __typename?: 'BookingSlot';
-  id: Scalars['String'];
+export type NoAvailableSlots = {
+  __typename?: 'NoAvailableSlots';
+  message: Scalars['String'];
+};
+
+export type CreateListingReturn = {
+  __typename?: 'CreateListingReturn';
+  ClientErrorInvalidInput?: Maybe<ClientErrorInvalidInput>;
+  ClientErrorUserNotExists?: Maybe<ClientErrorUserNotExists>;
+  NoAvailableSlots?: Maybe<NoAvailableSlots>;
+  Property?: Maybe<Property>;
+  UnknownError?: Maybe<UnknownError>;
 };
 
 export type ClientErrorInvalidGenericDaySlotInput = {
@@ -286,10 +306,10 @@ export type FindUserQueryVariables = Exact<{
 }>;
 
 
-export type FindUserQuery = { __typename?: 'Query', findUser: { __typename: 'findUserResult', User?: { __typename: 'User', email: string, handle: string, fullName: string, description?: string | null, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle', message: string } | null } };
+export type FindUserQuery = { __typename?: 'Query', findUser: { __typename: 'findUserResult', User?: { __typename: 'User', email: string, handle: string, fullName: string, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle', message: string } | null } };
 
 export type UpdateUserMutationVariables = Exact<{
-  id?: InputMaybe<Scalars['String']>;
+  updateUserId?: InputMaybe<Scalars['String']>;
   fullName?: InputMaybe<Scalars['String']>;
   zip?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
@@ -300,35 +320,48 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'findUserResult', User?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, description?: string | null, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidInputLength?: { __typename?: 'ClientErrorInvalidInputLength', message: string } | null, ClientErrorInvalidHandle?: { __typename?: 'ClientErrorInvalidHandle', message: string } | null } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'findUserResult', User?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, currency?: string | null, invoiceId?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryYear?: number | null, expiryMonth?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
+
+export type CreateBookingMutationVariables = Exact<{
+  propertyHandle: Scalars['String'];
+  startDate: Scalars['DateTime'];
+  endDate: Scalars['DateTime'];
+  frequency: FrequencyEnum;
+  daySlots: Array<AvailableDay> | AvailableDay;
+}>;
+
+
+export type CreateBookingMutation = { __typename?: 'Mutation', createBooking: { __typename?: 'CreateBookingReturn', Booking?: { __typename?: 'Booking', id: string, bookingStatus: BookingStatus, frequency: FrequencyEnum, totalPrice: number, startDate: string, endDate: string, tenant: { __typename?: 'User', fullName: string }, property: { __typename?: 'Property', handle: string }, daySlots: Array<{ __typename?: 'DaySlot', startTime: any, endTime: any, bookedStartTime?: any | null, booking?: { __typename?: 'Booking', id: string } | null }> } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorPropertyNotExists?: { __typename?: 'ClientErrorPropertyNotExists', message: string } | null, ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput', message: string } | null, NoAvailableSlots?: { __typename?: 'NoAvailableSlots', message: string } | null, ClientErrorInvalidPropertyInput?: { __typename?: 'ClientErrorInvalidPropertyInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
 
 export type CreateListingMutationVariables = Exact<{
   size: Scalars['Int'];
   title: Scalars['String'];
-  ownerId: Scalars['String'];
+  ownerHandle: Scalars['String'];
   street: Scalars['String'];
   streetNumber: Scalars['Int'];
   zip: Scalars['Int'];
   city: Scalars['String'];
   description: Scalars['String'];
-  pickup: Scalars['Boolean'];
-  rules: Array<Scalars['String']> | Scalars['String'];
   hourlyPrice: Scalars['Int'];
   serviceFee: Scalars['Int'];
-  facilities: Array<Scalars['String']> | Scalars['String'];
+  rules: Array<Scalars['String']> | Scalars['String'];
   deposit: Scalars['Int'];
   images: Array<Scalars['String']> | Scalars['String'];
   partialSpace: Scalars['Boolean'];
-  availabilities: PropertySlotInput;
+  startDate: Scalars['DateTime'];
+  endDate: Scalars['DateTime'];
+  frequency: FrequencyEnum;
+  availableDays: Array<AvailableDay> | AvailableDay;
+  pickup?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
-export type CreateListingMutation = { __typename?: 'Mutation', createListing: { __typename?: 'createPropertyReturn', Property?: { __typename?: 'Property', size: number, title: string, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, isVerified: boolean, hourlyPrice: number, serviceFee: number, deposit: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, minMonths: number, frequency: Frequency, availableDays: Array<{ __typename?: 'GenericDaySlot', weekday: string, startTime: any, endTime: any }> } | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename?: 'ClientErrorInvalidHandle', message: string } | null, ClientErrorInvalidPropertyInput?: { __typename?: 'ClientErrorInvalidPropertyInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
+export type CreateListingMutation = { __typename?: 'Mutation', createListing: { __typename?: 'CreateListingReturn', Property?: { __typename?: 'Property', kind: string, rules: Array<string>, handle: string, title: string, size: number, street: string, streetNumber: number, zip: number, city: string, description: string, images: Array<string>, partialSpace: boolean, deposit: number, pickup?: boolean | null, isVerified: boolean, hourlyPrice: number, serviceFee: number, daySlots: Array<{ __typename?: 'DaySlot', startTime: any, endTime: any }>, owner?: { __typename?: 'User', dob?: any | null } | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput', message: string } | null, NoAvailableSlots?: { __typename?: 'NoAvailableSlots', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
 
-export type ListingsQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindAllPropertiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListingsQuery = { __typename?: 'Query', findAllProperties: { __typename?: 'findAllPropertiesReturn', Properties?: Array<{ __typename?: 'Property', handle: string, title: string, size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, deposit: number, images: Array<string>, partialSpace: boolean, isVerified: boolean, hourlyPrice: number, serviceFee: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, zip: number, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, minMonths: number, propertyId: string, property?: { __typename?: 'Property', handle: string, title: string, size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, deposit: number, images: Array<string>, partialSpace: boolean, isVerified: boolean, hourlyPrice: number, serviceFee: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, zip: number, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, minMonths: number, propertyId: string, property?: { __typename?: 'Property', handle: string, title: string, size: number, kind: string, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, facilities: Array<string>, deposit: number, images: Array<string>, partialSpace: boolean, isVerified: boolean, hourlyPrice: number, serviceFee: number, rules: Array<string>, owner?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, zip: number, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, bookings: Array<{ __typename?: 'Booking', id: string }>, availabilities?: { __typename?: 'PropertySlot', startDate: any, endDate: any, minMonths: number, propertyId: string, frequency: Frequency, property?: { __typename?: 'Property', handle: string, title: string, size: number } | null, availableDays: Array<{ __typename?: 'GenericDaySlot', id: string, propertySlotId: string, startTime: any, endTime: any, weekday: string, propertySlot?: { __typename?: 'PropertySlot', startDate: any } | null }> } | null } | null } | null } | null } | null }> | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
+export type FindAllPropertiesQuery = { __typename?: 'Query', findAllProperties: { __typename?: 'findAllPropertiesReturn', Properties?: Array<{ __typename?: 'Property', kind: string, handle: string, title: string, size: number, street: string, streetNumber: number, zip: number, city: string, description: string, pickup?: boolean | null, deposit: number, images: Array<string>, partialSpace: boolean, isVerified: boolean, hourlyPrice: number, serviceFee: number, rules: Array<string>, owner?: { __typename?: 'User', fullName: string } | null, bookings: Array<{ __typename?: 'Booking', tenant: { __typename?: 'User', fullName: string } }>, daySlots: Array<{ __typename?: 'DaySlot', startTime: any, endTime: any }> }> | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
 
 
 export const FindUserDocument = `
@@ -340,7 +373,6 @@ export const FindUserDocument = `
       email
       handle
       fullName
-      description
       zip
       dob
       passportS3Id
@@ -393,27 +425,47 @@ export const useFindUserQuery = <
       options
     );
 export const UpdateUserDocument = `
-    mutation UpdateUser($id: String, $fullName: String, $zip: Int, $description: String, $dob: String, $passportS3Id: String, $solvencyS3Id: String, $licenseS3Id: String) {
-  updateUser(id: $id, fullName: $fullName, zip: $zip, description: $description, dob: $dob, passportS3Id: $passportS3Id, solvencyS3Id: $solvencyS3Id, licenseS3Id: $licenseS3Id) {
+    mutation UpdateUser($updateUserId: String, $fullName: String, $zip: Int, $description: String, $dob: String, $passportS3Id: String, $solvencyS3Id: String, $licenseS3Id: String) {
+  updateUser(id: $updateUserId, fullName: $fullName, zip: $zip, description: $description, dob: $dob, passportS3Id: $passportS3Id, solvencyS3Id: $solvencyS3Id, licenseS3Id: $licenseS3Id) {
     User {
       id
       fullName
       email
       handle
-      description
       zip
       dob
       passportS3Id
       solvencyS3Id
       licenseS3Id
+      charges {
+        amount
+        date
+        card
+        status
+        description
+        currency
+        invoiceId
+      }
+      paymentMethods {
+        cardNumber
+        expiryMonth
+        expiryYear
+        type
+      }
+      defaultPayment {
+        cardNumber
+        expiryYear
+        expiryMonth
+        type
+      }
     }
     ClientErrorUserNotExists {
       message
     }
-    ClientErrorInvalidInputLength {
+    ClientErrorInvalidInput {
       message
     }
-    ClientErrorInvalidHandle {
+    UnknownError {
       message
     }
   }
@@ -431,52 +483,100 @@ export const useUpdateUserMutation = <
       (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdateUserDocument, variables)(),
       options
     );
-export const CreateListingDocument = `
-    mutation CreateListing($size: Int!, $ownerId: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $pickup: Boolean!, $rules: [String!]!, $title: String!, $hourlyPrice: Int!, $serviceFee: Int!, $facilities: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $availabilities: PropertySlotInput!) {
-  createListing(size: $size, ownerId: $ownerId, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, pickup: $pickup, rules: $rules, title: $title, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, facilities: $facilities, deposit: $deposit, images: $images, partialSpace: $partialSpace, availabilities: $availabilities) {
-    Property {
-      size
-      owner {
-        id
+export const CreateBookingDocument = `
+    mutation CreateBooking($propertyHandle: String!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $daySlots: [AvailableDay!]!) {
+  createBooking(propertyHandle: $propertyHandle, startDate: $startDate, endDate: $endDate, frequency: $frequency, daySlots: $daySlots) {
+    Booking {
+      id
+      tenant {
         fullName
-        email
+      }
+      property {
+        handle
+      }
+      daySlots {
+        startTime
+        endTime
+        bookedStartTime
+        booking {
+          id
+        }
+      }
+      bookingStatus
+      frequency
+      totalPrice
+      startDate
+      endDate
+    }
+    ClientErrorUserNotExists {
+      message
+    }
+    ClientErrorPropertyNotExists {
+      message
+    }
+    ClientErrorInvalidInput {
+      message
+    }
+    NoAvailableSlots {
+      message
+    }
+    ClientErrorInvalidPropertyInput {
+      message
+    }
+    UnknownError {
+      message
+    }
+  }
+}
+    `;
+export const useCreateBookingMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<CreateBookingMutation, TError, CreateBookingMutationVariables, TContext>
+    ) =>
+    useMutation<CreateBookingMutation, TError, CreateBookingMutationVariables, TContext>(
+      ['CreateBooking'],
+      (variables?: CreateBookingMutationVariables) => fetcher<CreateBookingMutation, CreateBookingMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateBookingDocument, variables)(),
+      options
+    );
+export const CreateListingDocument = `
+    mutation CreateListing($size: Int!, $title: String!, $ownerHandle: String!, $street: String!, $streetNumber: Int!, $zip: Int!, $city: String!, $description: String!, $hourlyPrice: Int!, $serviceFee: Int!, $rules: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $availableDays: [AvailableDay!]!, $pickup: Boolean) {
+  createListing(size: $size, title: $title, ownerHandle: $ownerHandle, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, rules: $rules, deposit: $deposit, images: $images, partialSpace: $partialSpace, startDate: $startDate, endDate: $endDate, frequency: $frequency, availableDays: $availableDays, pickup: $pickup) {
+    Property {
+      kind
+      rules
+      handle
+      daySlots {
+        startTime
+        endTime
       }
       title
-      kind
-      bookings {
-        id
+      size
+      owner {
+        dob
       }
       street
       streetNumber
       zip
       city
       description
+      images
+      partialSpace
+      deposit
       pickup
-      facilities
       isVerified
       hourlyPrice
       serviceFee
-      deposit
-      rules
-      availabilities {
-        startDate
-        endDate
-        minMonths
-        frequency
-        availableDays {
-          weekday
-          startTime
-          endTime
-        }
-      }
     }
     ClientErrorUserNotExists {
       message
     }
-    ClientErrorInvalidHandle {
+    ClientErrorInvalidInput {
       message
     }
-    ClientErrorInvalidPropertyInput {
+    NoAvailableSlots {
       message
     }
     UnknownError {
@@ -497,44 +597,25 @@ export const useCreateListingMutation = <
       (variables?: CreateListingMutationVariables) => fetcher<CreateListingMutation, CreateListingMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateListingDocument, variables)(),
       options
     );
-export const ListingsDocument = `
-    query Listings {
+export const FindAllPropertiesDocument = `
+    query FindAllProperties {
   findAllProperties {
     Properties {
+      kind
       handle
       title
-      size
       owner {
-        id
         fullName
-        email
-        handle
-        zip
-        charges {
-          amount
-          date
-          card
-          status
-          description
-          invoiceId
-          currency
-        }
-        paymentMethods {
-          cardNumber
-          expiryMonth
-          expiryYear
-          type
-        }
-        defaultPayment {
-          cardNumber
-          expiryMonth
-          expiryYear
-          type
+      }
+      size
+      bookings {
+        tenant {
+          fullName
         }
       }
-      kind
-      bookings {
-        id
+      daySlots {
+        startTime
+        endTime
       }
       street
       streetNumber
@@ -542,7 +623,6 @@ export const ListingsDocument = `
       city
       description
       pickup
-      facilities
       deposit
       images
       partialSpace
@@ -550,142 +630,6 @@ export const ListingsDocument = `
       hourlyPrice
       serviceFee
       rules
-      availabilities {
-        startDate
-        endDate
-        minMonths
-        propertyId
-        property {
-          handle
-          title
-          size
-          owner {
-            id
-            fullName
-            email
-            handle
-            zip
-            charges {
-              amount
-              date
-              card
-              status
-              description
-              invoiceId
-              currency
-            }
-            paymentMethods {
-              cardNumber
-              expiryMonth
-              expiryYear
-              type
-            }
-            defaultPayment {
-              cardNumber
-              expiryMonth
-              expiryYear
-              type
-            }
-          }
-          kind
-          bookings {
-            id
-          }
-          street
-          streetNumber
-          zip
-          city
-          description
-          pickup
-          facilities
-          deposit
-          images
-          partialSpace
-          isVerified
-          hourlyPrice
-          serviceFee
-          rules
-          availabilities {
-            startDate
-            endDate
-            minMonths
-            propertyId
-            property {
-              handle
-              title
-              size
-              owner {
-                id
-                fullName
-                email
-                handle
-                zip
-                charges {
-                  amount
-                  date
-                  card
-                  status
-                  description
-                  invoiceId
-                  currency
-                }
-                paymentMethods {
-                  cardNumber
-                  expiryMonth
-                  expiryYear
-                  type
-                }
-                defaultPayment {
-                  cardNumber
-                  expiryMonth
-                  expiryYear
-                  type
-                }
-              }
-              kind
-              bookings {
-                id
-              }
-              street
-              streetNumber
-              zip
-              city
-              description
-              pickup
-              facilities
-              deposit
-              images
-              partialSpace
-              isVerified
-              hourlyPrice
-              serviceFee
-              rules
-              availabilities {
-                startDate
-                endDate
-                minMonths
-                propertyId
-                property {
-                  handle
-                  title
-                  size
-                }
-                availableDays {
-                  id
-                  propertySlotId
-                  startTime
-                  endTime
-                  weekday
-                  propertySlot {
-                    startDate
-                  }
-                }
-                frequency
-              }
-            }
-          }
-        }
-      }
     }
     UnknownError {
       message
@@ -693,16 +637,16 @@ export const ListingsDocument = `
   }
 }
     `;
-export const useListingsQuery = <
-      TData = ListingsQuery,
+export const useFindAllPropertiesQuery = <
+      TData = FindAllPropertiesQuery,
       TError = unknown
     >(
       dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables?: ListingsQueryVariables,
-      options?: UseQueryOptions<ListingsQuery, TError, TData>
+      variables?: FindAllPropertiesQueryVariables,
+      options?: UseQueryOptions<FindAllPropertiesQuery, TError, TData>
     ) =>
-    useQuery<ListingsQuery, TError, TData>(
-      variables === undefined ? ['Listings'] : ['Listings', variables],
-      fetcher<ListingsQuery, ListingsQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, ListingsDocument, variables),
+    useQuery<FindAllPropertiesQuery, TError, TData>(
+      variables === undefined ? ['FindAllProperties'] : ['FindAllProperties', variables],
+      fetcher<FindAllPropertiesQuery, FindAllPropertiesQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindAllPropertiesDocument, variables),
       options
     );

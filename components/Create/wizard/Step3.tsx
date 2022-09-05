@@ -1,6 +1,6 @@
 import DaySelector from '../DaySelector';
 import TimeInput from '../TimeInput';
-import { FormData, useWizardContext, touchDirtyValidate } from './Wizard';
+import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 
 export type DaySlot = {
@@ -11,8 +11,9 @@ export type DaySlot = {
 
 export default function Step3() {
   const { formState, nextStep, register, setValue } = useWizardContext();
-  const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } =
-    useWizardContext().getValues().availability.daySlots;
+  const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = useWizardContext().getValues().daySlots;
+  //const wiz = useWizardContext().getValues();
+  //console.log(JSON.stringify(wiz));
 
   return (
     <div className={styles['step3']}>
@@ -50,21 +51,65 @@ export default function Step3() {
         </div>
         {formState.errors.deposit && <span className={styles['error']}>{formState.errors.deposit.message}</span>}
       </div>
+      <div className={styles['formItem']}>
+        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Is there a service fee?</h2>
+        <p className="body-text-secondary">
+          This is a one time payment that will be charged to the tenant. If there is no service fee just type in 0.
+        </p>
+        <div className={styles['step3__flexWrapper']}>
+          <input
+            className={styles['step3__shortInput'] + ' standard-form'}
+            type="number"
+            {...register('serviceFee')}
+            onChange={(c) => setValue('serviceFee', parseInt(c.target.value), touchDirtyValidate)}
+          ></input>
+          <label className="body-text-secondary">€</label>
+        </div>
+        {formState.errors.serviceFee && <span className={styles['error']}>{formState.errors.serviceFee.message}</span>}
+      </div>
+      <div className={styles['formItem']}>
+        <h2 className="header-tertiary">Will pickup be possible?</h2>
+        <div className={styles['step1__buttonWrapper']}>
+          <input
+            {...register('pickup')}
+            type="radio"
+            id="pickup-no"
+            className="radio"
+            name="pickup"
+            value="pickup-no"
+            onChange={(c) => setValue('pickup', c.target.value as FormData['pickup'], touchDirtyValidate)}
+          />
+          <label className={styles['labelButton']} htmlFor="pickup-no">
+            <p className="body-text__small">No pickup</p>
+          </label>
+
+          <input
+            {...register('pickup')}
+            type="radio"
+            id="pickup-yes"
+            className="radio"
+            name="pickup"
+            value="pickup-yes"
+            onChange={(c) => setValue('pickup', c.target.value as FormData['pickup'], touchDirtyValidate)}
+          />
+          <label className={styles['labelButton']} htmlFor="pickup-yes">
+            <p className="body-text__small">Pickup</p>
+          </label>
+          {formState.errors.pickup && <span className={styles['error']}>{formState.errors.pickup.message}</span>}
+        </div>
+      </div>
       <div className={styles['formItem time-container']}>
         <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>When is it available?</h2>
         <label className="label-text">Starting</label> <br />
         <input
           className="standard-form"
           type="date"
-          {...register('availability.startDate')}
+          {...register('startDate')}
           onChange={(c) => {
-            console.log(c.target.value);
-            setValue('availability.startDate', c.target.value as any, touchDirtyValidate);
+            setValue('startDate', c.target.value as any, touchDirtyValidate);
           }}
         ></input>
-        {formState.errors.availability?.startDate && (
-          <span className={styles['error']}>{formState.errors.availability?.startDate.message}</span>
-        )}
+        {formState.errors.startDate && <span className={styles['error']}>{formState.errors.startDate.message}</span>}
         {/* <--------- DAYS OF WEEK INPUTS ---------> */}
         <div className={styles['step3__weekDaysSelector']}>
           <div className={styles['step3__daysOfWeek']}>
@@ -79,8 +124,8 @@ export default function Step3() {
               <DaySelector weekday={'Sunday'} short={'sun'} shortest={'S'} />
             </div>
             {/* TODO: Add validation and error messages for all day inputs  */}
-            {/* {formState.errors.availability?.days && (
-              <span className={styles['error']}>{formState.errors.availability.days.map((e) => e.message)}</span>
+            {/* {formState.errors.days && (
+              <span className={styles['error']}>{formState.errors.days.map((e) => e.message)}</span>
             )} */}
           </div>
           <div className={styles['step3__timeInput']}>
@@ -93,41 +138,34 @@ export default function Step3() {
             {sunday.selected && <TimeInput shortest={'S'} short={'sun'} />}
           </div>
 
-          <div className={styles['step3__weekRepeatSelect']}>
+          <div className={styles['step3__weekFrequencySelect']}>
             <select
               className="standard-form__selectMedium"
-              {...register('availability.repeat')}
+              {...register('frequency')}
               onChange={(c) => {
-                setValue(
-                  'availability.repeat',
-                  c.target.value as FormData['availability']['repeat'],
-                  touchDirtyValidate
-                );
+                setValue('frequency', c.target.value as FormData['frequency'], touchDirtyValidate);
               }}
             >
               {' '}
-              <option value="weekly">weekly</option>
-              <option value="none">none</option>
+              <option value="NONE">none</option>
+              <option value="WEEKLY">weekly</option>
+              <option value="MONTHLY">monthly</option>
             </select>
             <div className={styles['step3__untilDatePicker']}>
               <label className="label-text">Until</label> <br />
               <input
                 className="standard-form"
                 type="date"
-                {...register('availability.endDate')}
+                {...register('endDate')}
                 onChange={(c) => {
-                  setValue('availability.endDate', c.target.value as any, touchDirtyValidate);
+                  setValue('endDate', c.target.value as any, touchDirtyValidate);
                 }}
               ></input>
-              {formState.errors.availability?.endDate && (
-                <span className={styles['error']}>{formState.errors.availability?.endDate.message}</span>
-              )}
+              {formState.errors.endDate && <span className={styles['error']}>{formState.errors.endDate.message}</span>}
             </div>
           </div>
 
-          {formState.errors.availability?.repeat && (
-            <span className={styles['error']}>{formState.errors.availability?.repeat.message}</span>
-          )}
+          {formState.errors.frequency && <span className={styles['error']}>{formState.errors.frequency.message}</span>}
         </div>
       </div>
       <div className={styles['formItem']}>
@@ -144,23 +182,6 @@ export default function Step3() {
           }}
         ></textarea>
         {formState.errors.rules && <span className={styles['error']}>{formState.errors.rules.message}</span>}
-      </div>
-      <div className={styles['step2__formWrapper']}>
-        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>What’s the minimum stay?</h2>
-        <div className={styles['step2__flexWrapper']}>
-          <input
-            className="standard-form__inputSmall"
-            placeholder="0"
-            type="number"
-            id="months"
-            {...register('minMonths')}
-            onChange={(c) => setValue('minMonths', parseInt(c.target.value), touchDirtyValidate)}
-          ></input>
-          <label htmlFor="months" className={styles['step2__label'] + ' body-text-secondary'}>
-            Recurring months
-          </label>
-        </div>
-        {formState.errors.minMonths && <span className={styles['error']}>{formState.errors.minMonths.message}</span>}
       </div>
     </div>
   );
