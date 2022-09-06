@@ -10,7 +10,7 @@ import {
   ClientErrorPropertyNotExists,
   ClientErrorUserNotExists,
   NoAvailableSlots,
-  UnknownError,
+  UnknownError
 } from '../Error';
 import { calculatePrice } from '../helperFunctions';
 import { AvailableDay, DaySlotInterface } from '../Property';
