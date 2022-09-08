@@ -6,7 +6,7 @@ import styles from './Wizard.module.scss';
 
 export default function Step5() {
   const wiz = useWizardContext().getValues();
-  console.log(JSON.stringify(wiz));
+  //console.log(JSON.stringify(wiz));
 
   return (
     <div>
