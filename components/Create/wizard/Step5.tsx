@@ -84,91 +84,19 @@ export default function Step5() {
             <div className={styles['step5__availabilityDate']}>
               <p className="small-text">{new Date(wiz.startDate).toLocaleDateString("default", { month: "long" })}</p>
               <p className="small-text">{new Date(wiz.startDate).toLocaleDateString("default", { year: "numeric" })}</p>
+              <p className='small-text'>to</p>
+              <p className="small-text">{new Date(wiz.endDate).toLocaleDateString("default", { month: "long" })}</p>
+              <p className="small-text">{new Date(wiz.endDate).toLocaleDateString("default", { year: "numeric" })}</p>
             </div>
-
-            <div className={styles['step5__nextMonthButton']}>
-              <button className="flat-btn">&lt; PREVIOUS MONTH</button>
-              <button className="flat-btn">NEXT MONTH &gt;</button>
+            <div className={styles['step5__bookingFrequency']}>
+              <p className='small-text'>Frequency: {wiz.frequency.toString()}</p>
             </div>
             <div className={styles['step5__weekDayCheckboxWrapper--week1'] + ' ' + styles['weekDays__container']}>
-              <input type="checkbox" id="1-weekday-mon" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="1-weekday-mon">M</label>
-              <input type="checkbox" id="1-weekday-tue" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="1-weekday-tue">T</label>
-              <input type="checkbox" id="1-weekday-wed" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="1-weekday-wed">W</label>
-              <input type="checkbox" id="1-weekday-thu" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="1-weekday-thu">T</label>
-              <input type="checkbox" id="1-weekday-fri" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="1-weekday-fri">F</label>
-              <input type="checkbox" id="1-weekday-sat" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="1-weekday-sat">S</label>
-              <input type="checkbox" id="1-weekday-sun" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="1-weekday-sun">S</label>
-            </div>
-            <div className={styles['step5__weekDayCheckboxWrapper--week2'] + ' ' + styles['weekDays__container']}>
-              <input type="checkbox" id="2-weekday-mon" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="2-weekday-mon">M</label>
-              <input type="checkbox" id="2-weekday-tue" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="2-weekday-tue">T</label>
-              <input type="checkbox" id="2-weekday-wed" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="2-weekday-wed">W</label>
-              <input type="checkbox" id="2-weekday-thu" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="2-weekday-thu">T</label>
-              <input type="checkbox" id="2-weekday-fri" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="2-weekday-fri">F</label>
-              <input type="checkbox" id="2-weekday-sat" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="2-weekday-sat">S</label>
-              <input type="checkbox" id="2-weekday-sun" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="2-weekday-sun">S</label>
-            </div>
-            <div className={styles['step5__weekDayCheckboxWrapper--week3'] + ' ' + styles['weekDays__container']}>
-              <input type="checkbox" id="3-weekday-mon" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="3-weekday-mon">M</label>
-              <input type="checkbox" id="3-weekday-tue" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="3-weekday-tue">T</label>
-              <input type="checkbox" id="3-weekday-wed" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="3-weekday-wed">W</label>
-              <input type="checkbox" id="3-weekday-thu" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="3-weekday-thu">T</label>
-              <input type="checkbox" id="3-weekday-fri" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="3-weekday-fri">F</label>
-              <input type="checkbox" id="3-weekday-sat" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="3-weekday-sat">S</label>
-              <input type="checkbox" id="3-weekday-sun" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="3-weekday-sun">S</label>
-            </div>
-            <div className={styles['step5__weekDayCheckboxWrapper--week4'] + ' ' + styles['weekDays__container']}>
-              <input type="checkbox" id="4-weekday-mon" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="4-weekday-mon">M</label>
-              <input type="checkbox" id="4-weekday-tue" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="4-weekday-tue">T</label>
-              <input type="checkbox" id="4-weekday-wed" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="4-weekday-wed">W</label>
-              <input type="checkbox" id="4-weekday-thu" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="4-weekday-thu">T</label>
-              <input type="checkbox" id="4-weekday-fri" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="4-weekday-fri">F</label>
-              <input type="checkbox" id="4-weekday-sat" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="4-weekday-sat">S</label>
-              <input type="checkbox" id="4-weekday-sun" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="4-weekday-sun">S</label>
-            </div>
-            <div className={styles['step5__weekDayCheckboxWrapper--week5'] + ' ' + styles['weekDays__container']}>
-              <input type="checkbox" id="5-weekday-mon" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-mon">M</label>
-              <input type="checkbox" id="5-weekday-tue" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-tue">T</label>
-              <input type="checkbox" id="5-weekday-wed" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-wed">W</label>
-              <input type="checkbox" id="5-weekday-thu" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-thu">T</label>
-              <input type="checkbox" id="5-weekday-fri" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-fri">F</label>
-              <input type="checkbox" id="5-weekday-sat" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-sat">S</label>
-              <input type="checkbox" id="5-weekday-sun" className={styles['weekDays__checkbox'] + ' weekday'} />
-              <label htmlFor="5-weekday-sun">S</label>
+              <>{Object.keys(wiz.daySlots).map((day, index) =>
+                <>
+                  <input type="checkbox" id={"1-weekday-" + day.slice(0, 2)} className={styles['weekDays__checkbox'] + ' weekday'} checked={Object.values(wiz.daySlots)[index].selected} readOnly />
+                  <label htmlFor={"1-weekday-" + day.slice(0, 2)}>{day[0].toUpperCase()}</label></>)
+              }</>
             </div>
           </div>
         </div>
