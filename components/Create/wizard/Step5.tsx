@@ -6,7 +6,7 @@ import styles from './Wizard.module.scss';
 
 export default function Step5() {
   const wiz = useWizardContext().getValues();
-  //console.log(JSON.stringify(wiz));
+  console.log(JSON.stringify(wiz));
 
   return (
     <div>
@@ -24,7 +24,7 @@ export default function Step5() {
           </div>
 
           <div className={styles['step5__titleWrapper'] + ' ' + styles['step2__marginHeadline']}>
-            <h3 className="header-tertiary">Industrial Grade Kitchen in Mitte</h3>
+            <h3 className="header-tertiary">{wiz.title}</h3>
             <div className={styles['step5__flexWrapper']}>
               <p className="body-text">{wiz.hourlyPrice}</p>
               <p className="body-text">€/h</p>
