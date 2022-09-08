@@ -69,11 +69,7 @@ export default function Step5() {
         <div className={styles['formItem']}>
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Rules</h2>
           <p className="small-text">
-            No smoking on property. <br /> <br />
-            Multiple people allowed. <br /> <br />
-            Cleaning after mandatory. <br /> <br />
-            Full day book only. <br /> <br />
-            Pick up spot offered. <br />
+            {wiz.rules}
           </p>
         </div>
         <div className={styles['formItem']}>
