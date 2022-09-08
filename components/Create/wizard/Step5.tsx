@@ -39,6 +39,12 @@ export default function Step5() {
             <p className="body-text-secondary">&nbsp;square meters</p>
           </div>
           <br />
+          <div className={styles['formItem']}>
+            <div className={styles['step5__flexWrapper']}>
+              <p className='body-text-secondary'>Pickup: - &nbsp;</p>
+              <p className="body-text-secondary">{wiz.pickup == "pickup-no" ? "No" : "Yes"}</p>
+            </div>
+          </div>
           <div className={styles['step5__featureTagWrapper']}>
             {wiz.facilities.map((feature: string) => (
               <span key={feature} className="feature-tag">
