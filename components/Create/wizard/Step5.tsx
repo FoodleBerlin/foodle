@@ -7,6 +7,8 @@ import styles from './Wizard.module.scss';
 export default function Step5() {
   const wiz = useWizardContext().getValues();
   //console.log(JSON.stringify(wiz));
+  const startDate = new Date(wiz.startDate);
+  const endDate = new Date(wiz.endDate);
 
   return (
     <div>
@@ -82,11 +84,13 @@ export default function Step5() {
           <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Availability</h2>
           <div className={styles['step5__availabilityGrid']}>
             <div className={styles['step5__availabilityDate']}>
-              <p className="small-text">{new Date(wiz.startDate).toLocaleDateString("default", { month: "long" })}</p>
-              <p className="small-text">{new Date(wiz.startDate).toLocaleDateString("default", { year: "numeric" })}</p>
-              <p className='small-text'>to</p>
-              <p className="small-text">{new Date(wiz.endDate).toLocaleDateString("default", { month: "long" })}</p>
-              <p className="small-text">{new Date(wiz.endDate).toLocaleDateString("default", { year: "numeric" })}</p>
+              <p className='small-text'>{startDate.getDay()}</p>
+              <p className="small-text">{startDate.toLocaleDateString("default", { month: "long" })}</p>
+              <p className="small-text">{startDate.toLocaleDateString("default", { year: "numeric" })}</p>
+              <p className='small-text bold'>to</p>
+              <p className='small-text'>{endDate.getDay()}</p>
+              <p className="small-text">{endDate.toLocaleDateString("default", { month: "long" })}</p>
+              <p className="small-text">{endDate.toLocaleDateString("default", { year: "numeric" })}</p>
             </div>
             <div className={styles['step5__bookingFrequency']}>
               <p className='small-text'>Frequency: {wiz.frequency.toString()}</p>
