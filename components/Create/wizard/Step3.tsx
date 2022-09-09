@@ -14,6 +14,7 @@ export default function Step3() {
   const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = useWizardContext().getValues().daySlots;
   //const wiz = useWizardContext().getValues();
   //console.log(JSON.stringify(wiz));
+  window.scrollTo(0, 0);
 
   return (
     <div className={styles['step3']}>
