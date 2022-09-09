@@ -72,7 +72,7 @@ export default function Step1() {
           <input
             className={styles['step1__input--number'] + ' standard-form'}
             placeholder="12"
-            type="streetNumber"
+            type="number"
             {...register('location.streetNumber')}
             onChange={(c) => setValue('location.streetNumber', parseInt(c.target.value), touchDirtyValidate)}
           ></input>
