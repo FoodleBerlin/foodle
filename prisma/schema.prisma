@@ -113,7 +113,7 @@ model Property {
   owner        User      @relation(name: "owner", fields: [ownerId], references: [id], onDelete: Cascade)
   bookings     Booking[] @relation("property")
   street       String
-  streetNumber Int
+  streetNumber String
   zip          Int
   city         String
   description  String

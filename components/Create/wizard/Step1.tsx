@@ -72,9 +72,9 @@ export default function Step1() {
           <input
             className={styles['step1__input--number'] + ' standard-form'}
             placeholder="12"
-            type="number"
+            type="text"
             {...register('location.streetNumber')}
-            onChange={(c) => setValue('location.streetNumber', parseInt(c.target.value), touchDirtyValidate)}
+            onChange={(c) => setValue('location.streetNumber', c.target.value, touchDirtyValidate)}
           ></input>
           {formState.errors.location?.streetNumber && (
             <span className={styles['error'] + ' ' + styles['step1__validationSpan--number']}>
