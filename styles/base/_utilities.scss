@@ -1,6 +1,33 @@
 
 @use './colors';
 
+.width-seventy{
+  width: 70%;
+}
+
+.position-relative{
+  position: relative;
+}
+
+.onehalf-from-top{
+  top:1.5em;
+}
+
+.display-block{
+  display: block
+}
+
+
+.color-light-purple{
+  //border-color: colors.$color-light-purple;
+  color: colors.$color-light-purple;
+  background-color:colors.$color-light-purple;
+  clear: both;
+  border: 0;
+  display: block;
+  height: 3px;
+}
+
 .bg-color-light-mint{
   background-color: colors.$color-light-mint;
 }
@@ -23,11 +50,12 @@
 }
 
 .align-left{
-  justify-content: flex-start;
+  text-align: left;
+  
 }
 
 .padding-tb{
-  padding: 50px 0;
+  padding: 110px 0;
 }
 
 .padding-lr{
@@ -47,8 +75,8 @@
   font-size: 3rem;
 }
 
-.font-size-two{
-  font-size: 2rem;
+.font-size-one-seventy{
+  font-size: 1.7rem;
 }
 
 .font-size-one-half{
@@ -91,6 +119,8 @@
   display: flex;
   justify-content: space-between;
 }
+
+
 
 // Top Margin
 .mt-half {

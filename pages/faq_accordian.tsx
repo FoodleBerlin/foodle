@@ -14,10 +14,13 @@ const Accordion=(props: AccordinProps) => {
     return (
       <div className="accordion-item">
         <div className="flex flex-direction-row" onClick={() => setIsActive(!isActive)}>
-          <div className="font-size-two mb-three">{props.title}</div>
-          <div>{isActive ? <Image alt={'xmark'} src={'/xmark.svg'} width={20} height={20} /> : <Image alt={'plus'} src={'/plus.svg'} width={20} height={20} />}</div>
+          <div className="font-size-one-seventy mb-three mt-one">{props.title}</div>
+          <div className="ml-two position-relative onehalf-from-top">{isActive ? <Image alt={'xmark'} src={'/xmark.svg'} width={15} height={15} /> : <Image alt={'plus'} src={'/plus.svg'} width={15} height={15} />}</div>
         </div>
         {isActive && <div className="font-size-one-half mb-three font-color-dark-grey">{props.content}</div>}
+     
+          <hr className="color-light-purple mb-two"/>
+
       </div>
     );
   };
