@@ -4,10 +4,11 @@ import React, { useState } from 'react';
 import Navbar from '../components/Layout/Navbar';
 import Head from 'next/head';
 import styles from '../styles/pages/faq.scss';
+import Accordion from './faq_accordian';
 
 const Faq: NextPage =() => {
 
-    const faqData = [
+    const faqData: { title: string, content: string }[] = [
         {
         title: 'hic temporibus velit dicta earum suscipit commodi eum enim atque at?',
         content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.`
@@ -32,11 +33,7 @@ const Faq: NextPage =() => {
         title: 'hic temporibus velit dicta earum suscipit commodi eum enim atque at?',
         content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.`
       }
-    ]
-
-    const Accordian =({title, content}) =>{
-        const [isActive, setIsActive] = React.useState<boolean>(false);
-    }
+    ];
 
     return(
         <div>
@@ -62,20 +59,17 @@ const Faq: NextPage =() => {
                     </div>
                     <div className="">
                         <div className="accordion-item">
-                            <div className="accordion-title" onClick={() => setIsActive(!isActive)}>
-                                <div>{title}</div>
-                                <div>{isActive ? <Image alt={'xmark'} src={'/xmark.svg'} width={50} height={50} /> : <Image alt={'plus'} src={'/plus.svg'} width={50} height={50} />}</div>
-                                
-                            </div>
-                            {isActive && <div className="accordion-content">{content}</div>}
+                            {faqData.map(({title, content}) => (
+                                <Accordion title={title} content={content} />
+                            ))}
                         </div>
                     </div>
                 </div>
             </div>
 
         </div>
-    )
+    );
 
-}
+};
 
 export default Faq;
