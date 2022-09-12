@@ -3,7 +3,6 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import Navbar from '../components/Layout/Navbar';
 import Head from 'next/head';
-import styles from '../styles/pages/faq.scss';
 import Accordion from './faq_accordian';
 
 const Faq: NextPage =() => {
@@ -46,26 +45,29 @@ const Faq: NextPage =() => {
                 <link rel="icon" href="/foodle_logo.svg" />
             </Head>
             <Navbar />
-            <div className="">
-                <h1>F.A.Q</h1>
-            </div>
-            <div className="">
-                <div className="">
-                    <Image alt={'FAQ Image'} src={'/eggsFAQ.svg'} width={450} height={350} />
+            <div className="flex flex-center center-vertically mt-ten font-family flex-direction-column mb-three">
+                <div className="flex font-size-six align-left mb-one">
+                    <h1>F.A.Q</h1>
                 </div>
-                <div className="">
+                <div className="flex flex-row bg-color-light-mint padding-tb padding-lr border-radius ">
                     <div className="">
-                        <h2>Discover the most common questions</h2>
+                        <Image alt={'FAQ Image'} src={'/eggsFAQ.svg'} width={450} height={350} />
                     </div>
-                    <div className="">
-                        <div className="accordion-item">
-                            {faqData.map(({title, content}) => (
-                                <Accordion title={title} content={content} />
-                            ))}
+                    <div className="ml-two">
+                        <div className="mt-three mb-three font-size-three">
+                            <h2>Discover the most common questions</h2>
+                        </div>
+                        <div className="mb-three">
+                            <div className="mb-three">
+                                {faqData.map(({title, content}) => (
+                                    <Accordion title={title} content={content} />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
         </div>
     );

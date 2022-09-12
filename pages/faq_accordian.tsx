@@ -13,11 +13,11 @@ const Accordion=(props: AccordinProps) => {
   
     return (
       <div className="accordion-item">
-        <div className="accordion-title" onClick={() => setIsActive(!isActive)}>
-          <div>{props.title}</div>
-          <div>{isActive ? <Image alt={'xmark'} src={'/xmark.svg'} width={50} height={50} /> : <Image alt={'plus'} src={'/plus.svg'} width={50} height={50} />}</div>
+        <div className="flex flex-direction-row" onClick={() => setIsActive(!isActive)}>
+          <div className="font-size-two mb-three">{props.title}</div>
+          <div>{isActive ? <Image alt={'xmark'} src={'/xmark.svg'} width={20} height={20} /> : <Image alt={'plus'} src={'/plus.svg'} width={20} height={20} />}</div>
         </div>
-        {isActive && <div className="accordion-content">{props.content}</div>}
+        {isActive && <div className="font-size-one-half mb-three font-color-dark-grey">{props.content}</div>}
       </div>
     );
   };

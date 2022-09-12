@@ -1,3 +1,68 @@
+
+@use './colors';
+
+.bg-color-light-mint{
+  background-color: colors.$color-light-mint;
+}
+
+.margin-auto{
+  margin: auto;
+}
+
+.center-vertically{
+  align-items: center;
+  padding: 50px 0;
+}
+
+.flex-direction-column{
+  flex-direction: column;
+}
+
+.flex-direction-row{
+  flex-direction: row;
+}
+
+.align-left{
+  justify-content: flex-start;
+}
+
+.padding-tb{
+  padding: 50px 0;
+}
+
+.padding-lr{
+  padding: 0 100px
+}
+
+.font-family{
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 300;
+}
+
+.font-size-six{
+  font-size: 6rem;
+}
+
+.font-size-three{
+  font-size: 3rem;
+}
+
+.font-size-two{
+  font-size: 2rem;
+}
+
+.font-size-one-half{
+  font-size: 1.5rem;
+}
+
+.font-color-dark-grey{
+  color: colors.$color-dark-grey;
+}
+
+.border-radius{
+  border-radius: 25px;
+}
+
 .flex-center {
   display: flex;
   justify-content: center;
@@ -60,6 +125,10 @@
 }
 .mt-three {
   margin-top: 3rem !important;
+}
+
+.mt-ten {
+  margin-top: 10rem !important;
 }
 
 .mr-one {
