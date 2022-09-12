@@ -489,3 +489,13 @@
 .sidebar-container {
   width: 50%;
 }
+
+@media screen and(max-width: 800px) {
+  .wizard {
+    min-width: min-content;
+  }
+
+  .step1 {
+    padding: 5rem;
+  }
+}
