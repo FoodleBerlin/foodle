@@ -53,7 +53,7 @@ Table Property {
   owner User [not null]
   bookings Booking [not null]
   street String [not null]
-  streetNumber Int [not null]
+  streetNumber String [not null]
   zip Int [not null]
   city String [not null]
   description String [not null]
