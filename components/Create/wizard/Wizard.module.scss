@@ -498,4 +498,28 @@
   .step1 {
     padding: 5rem;
   }
+
+  .step3 {
+    padding: 5rem;
+  }
+
+  .step5 {
+    padding: 3.5rem;
+    max-width: min-content;
+
+    &__availabilityGrid {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    &__availabilityDate {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      grid-column: 1/2;
+      grid-row: 1/2;
+    }
+  }
+
 }
