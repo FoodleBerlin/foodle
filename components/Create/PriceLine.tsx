@@ -1,15 +1,15 @@
-import styles from '../Create/wizard/Wizard.module.scss';
+import styles from '../Listing/ListingOverview.module.scss';
 interface PriceLineProps {
   label: string;
   text: string;
 }
 const PriceLine = (props: PriceLineProps) => {
   return (
-    <div className={styles['step5__priceLinesContainer']}>
-      <div className={styles['step5__priceLineLeft']}>
+    <div className={styles['listingoverview__priceLinesContainer']}>
+      <div className={styles['listingoverview__priceLineLeft']}>
         <p className="small-text">{props.label}</p>
       </div>
-      <div className={styles['step5__priceLineRight']}>
+      <div className={styles['listingoverview__priceLineRight']}>
         <p className="small-text">{props.text}</p>
       </div>
     </div>

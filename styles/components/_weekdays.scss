@@ -1,0 +1,35 @@
+@use "../base/colors";
+
+.weekDays {
+    &__container {
+        white-space: nowrap;
+
+        input[type='checkbox'] {
+            display: none !important;
+        }
+
+        input[type='checkbox']+label {
+            display: inline-block;
+            border-radius: 3px;
+            background: #ecf4f1;
+            font-weight: 500;
+            font-size: 1.5rem;
+            color: black;
+            height: 30px;
+            width: 30px;
+            margin-right: 6px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        input[type='checkbox']:checked+label {
+            background: colors.$color-primary-light;
+            color: #ffffff;
+        }
+    }
+
+    &__checkbox {
+        display: inline-block;
+    }
+}
