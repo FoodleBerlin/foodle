@@ -45,16 +45,16 @@ const Faq: NextPage =() => {
                 <link rel="icon" href="/foodle_logo.svg" />
             </Head>
             <Navbar />
-            <div className="flex center-vertically mt-ten font-family flex-direction-column mb-three">
+            <div style={{padding: "50px"}}className="flex center-vertically mt-ten font-family flex-direction-column mb-three">
                 <div className="font-size-six align-self-left mb-one onehalf-from-left position-relative">
                     <h1 className='align-self-left'>F.A.Q</h1>
                 </div>
-                <div className="flex flex-row bg-color-light-mint padding-tb padding-lr border-radius">
+                <div style={{width: '100%', alignItems: 'flex-start', paddingTop: '50px'}} className="flex flex-row bg-color-light-mint padding-tb padding-lr border-radius gap-ten">
                     <div className="">
                         <Image alt={'FAQ Image'} src={'/eggsFAQ.svg'} width={650} height={450} />
                     </div>
-                    <div className="ml-two width-seventy">
-                        <div className="mt-three mb-three font-size-twohalf">
+                    <div className="ml-two">
+                        <div className="mt-one mb-three font-size-twohalf">
                             <h2>Discover the most common questions</h2>
                         </div>
            
