@@ -9,28 +9,28 @@ const Faq: NextPage =() => {
 
     const faqData: { title: string, content: string }[] = [
         {
-        title: 'hic temporibus velit dicta earum suscipit commodi eum enim atque at?',
-        content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.`
+        title: 'hic temporibus velit dicta earu?',
+        content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nibh quisque suscipit fermentum netus nulla cras porttitor euismod nulla. Orci, dictumst nec aliquet id ullamcorper venenatis.`
+      },
+      {
+        title: 'hic temporibus velit dicta earum suscipit commodi eu?',
+        content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.euismod nulla. Orci, dictumst nec aliquet id ullamcorper venenatis.`
       },
       {
         title: 'hic temporibus velit dicta earum suscipit commodi eum enim atque at?',
         content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.`
       },
       {
-        title: 'hic temporibus velit dicta earum suscipit commodi eum enim atque at?',
+        title: 'hic temporibus velit dicta earum susc?',
+        content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.euismod nulla. Orci, dictumst nec aliquet id ullamcorper venenatis.`
+      },
+      {
+        title: 'hic temporibus velit dicta earum suscipit commodi eum?',
         content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.`
       },
       {
         title: 'hic temporibus velit dicta earum suscipit commodi eum enim atque at?',
-        content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.`
-      },
-      {
-        title: 'hic temporibus velit dicta earum suscipit commodi eum enim atque at?',
-        content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.`
-      },
-      {
-        title: 'hic temporibus velit dicta earum suscipit commodi eum enim atque at?',
-        content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.`
+        content: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.euismod nulla. Orci, dictumst nec aliquet id ullamcorper venenatis.`
       }
     ];
 
@@ -46,15 +46,15 @@ const Faq: NextPage =() => {
             </Head>
             <Navbar />
             <div className="flex center-vertically mt-ten font-family flex-direction-column mb-three">
-                <div className="flex font-size-six align-left mb-one">
-                    <h1>F.A.Q</h1>
+                <div className="font-size-six align-self-left mb-one onehalf-from-left position-relative">
+                    <h1 className='align-self-left'>F.A.Q</h1>
                 </div>
                 <div className="flex flex-row bg-color-light-mint padding-tb padding-lr border-radius">
                     <div className="">
-                        <Image alt={'FAQ Image'} src={'/eggsFAQ.svg'} width={450} height={350} />
+                        <Image alt={'FAQ Image'} src={'/eggsFAQ.svg'} width={650} height={450} />
                     </div>
                     <div className="ml-two width-seventy">
-                        <div className="mt-three mb-three font-size-three">
+                        <div className="mt-three mb-three font-size-twohalf">
                             <h2>Discover the most common questions</h2>
                         </div>
            

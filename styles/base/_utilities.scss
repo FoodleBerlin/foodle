@@ -1,8 +1,28 @@
 
 @use './colors';
 
+.rotate{
+  transform: rotate(90deg);
+}
+
+.accordion-icon{
+  transition: transform 0.6s ease;
+}
+
+.accordion-content{
+  overflow: hidden;
+  transition: max-height 0.6s ease;
+  //max-height: 100%;
+}
+
+//experiment for accordion
+.cursor-pointer{
+  cursor: pointer;
+}
+
 .width-seventy{
-  width: 70%;
+  width: 65%;
+  margin: auto;
 }
 
 .position-relative{
@@ -12,6 +32,13 @@
 .onehalf-from-top{
   top:1.5em;
 }
+.align-self-left{
+  align-self: flex-start;
+}
+
+.onehalf-from-left{
+  left: 1.5em;
+}
 
 .display-block{
   display: block
@@ -19,7 +46,7 @@
 
 
 .color-light-purple{
-  //border-color: colors.$color-light-purple;
+  
   color: colors.$color-light-purple;
   background-color:colors.$color-light-purple;
   clear: both;
@@ -59,7 +86,7 @@
 }
 
 .padding-lr{
-  padding: 0 100px
+  padding: 0 60px
 }
 
 .font-family{
@@ -71,8 +98,8 @@
   font-size: 6rem;
 }
 
-.font-size-three{
-  font-size: 3rem;
+.font-size-twohalf{
+  font-size: 2.5rem;
 }
 
 .font-size-one-seventy{
@@ -116,7 +143,7 @@
   display: flex;
 }
 .flex-space-between {
-  display: flex;
+  
   justify-content: space-between;
 }
 
