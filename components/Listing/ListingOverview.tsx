@@ -82,11 +82,11 @@ function ListingOverview({ listingsData }: { listingsData: FormData }) {
                     <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Availability</h2>
                     <div className={styles['listingoverview__availabilityGrid']}>
                         <div className={styles['listingoverview__availabilityDate']}>
-                            <p className='small-text'>{startDate.getDay()}</p>
+                            <p className='small-text'>{startDate.toLocaleDateString("default", { day: "2-digit" })}</p>
                             <p className="small-text">{startDate.toLocaleDateString("default", { month: "long" })}</p>
                             <p className="small-text">{startDate.toLocaleDateString("default", { year: "numeric" })}</p>
                             <p className='small-text bold'>to</p>
-                            <p className='small-text'>{endDate.getDay()}</p>
+                            <p className='small-text'>{endDate.toLocaleDateString("default", { day: "2-digit" })}</p>
                             <p className="small-text">{endDate.toLocaleDateString("default", { month: "long" })}</p>
                             <p className="small-text">{endDate.toLocaleDateString("default", { year: "numeric" })}</p>
                         </div>
