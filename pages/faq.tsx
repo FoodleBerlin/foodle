@@ -46,8 +46,8 @@ const Faq: NextPage =() => {
             </Head>
             <Navbar />
             <div style={{padding: "50px"}}className="flex center-vertically mt-ten font-family flex-direction-column mb-three">
-                <div className="font-size-six align-self-left mb-one onehalf-from-left position-relative">
-                    <h1 className='align-self-left'>F.A.Q</h1>
+                <div className="font-size-six mb-one align-self-left">
+                    <h1>F.A.Q</h1>
                 </div>
                 <div style={{width: '100%', alignItems: 'flex-start', paddingTop: '50px'}} className="flex flex-row bg-color-light-mint padding-tb padding-lr border-radius gap-ten">
                     <div className="">

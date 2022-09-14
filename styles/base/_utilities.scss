@@ -1,5 +1,9 @@
 @use './colors';
 
+.align-self-left{
+  align-self: flex-start;
+}
+
 .gap-ten{
   gap: 10px;
 }
@@ -24,9 +28,7 @@
 .onehalf-from-top{
   top:1.5em;
 }
-.align-self-left{
-  align-self: flex-start;
-}
+
 
 .onehalf-from-left{
   left: 1.5em;
