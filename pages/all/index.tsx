@@ -1,13 +1,12 @@
-import React from 'react';
-import Navbar from '../../components/Layout/Navbar';
-import Link from 'next/link';
-import Image from 'next/image';
-import styles from '../../styles/pages/All.module.scss';
 import { NextPage } from 'next';
-import { useListingsQuery } from '../../codegen/index';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useFindAllPropertiesQuery } from '../../codegen/index';
+import Navbar from '../../components/Layout/Navbar';
+import styles from '../../styles/pages/All.module.scss';
 
 const All: NextPage = () => {
-  const { status, data, error, isFetching, isLoading } = useListingsQuery({
+  const { data, isLoading } = useFindAllPropertiesQuery({
     endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
     fetchParams: {
       headers: {
