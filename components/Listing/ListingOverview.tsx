@@ -3,6 +3,7 @@ import PriceLine from '../Create/PriceLine';
 import { UploaderImg } from "../Create/wizard/Step4";
 import { FormData } from "../Create/wizard/Wizard";
 import styles from "./ListingOverview.module.scss";
+import ListingSideBar from './ListingSideBar';
 
 
 function ListingOverview({ listingsData }: { listingsData: FormData }) {
@@ -11,6 +12,7 @@ function ListingOverview({ listingsData }: { listingsData: FormData }) {
     return (
         <div>
             <div className={styles['listingoverview']}>
+                <ListingSideBar listingsData={listingsData} />
                 <div className={styles['formItem']}>
                     <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
                     <div className="gallery__container">
