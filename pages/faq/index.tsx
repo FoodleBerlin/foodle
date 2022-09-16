@@ -46,15 +46,15 @@ const Faq: NextPage =() => {
                 <link rel="icon" href="/foodle_logo.svg" />
             </Head>
             <Navbar />
-            <div className={styles['main']}>
-                <div className={styles['main__title']}>
+            <div className={styles['faq']}>
+                <div className={styles['faq__title']}>
                     <h1>F.A.Q</h1>
                 </div>
-                <div className={styles['main__box']}>
-                    <div className={styles['main__box__img']}>
+                <div className={styles['faqWrapper']}>
+                    <div className={styles['faqWrapper__imgWrapper']}>
                         <Image alt={'FAQ Image'} src={'/eggsFAQ.svg'} width={650} height={450} />
                     </div>
-                    <div className={styles['main__box__questions']}>
+                    <div className={styles['faqWrapper__questions']}>
                         
                         <h2>Discover the most common questions</h2>
                         <hr/>
