@@ -29,25 +29,25 @@ const myBookings: NextPage=()=>{
                     <h1>My bookings</h1>
                     <h2>A list of all bookings made, requested, rejected, cancelled and confirmed</h2>
                     <div className="requested">
-
+                        <p>Requested</p>
 
 
                         <hr />
                     </div>
                     <div className="confirmed">
-
+                        <p>Confirmed</p>
 
 
                         <hr />
                     </div>
                     <div className="cancelled">
-
+                        <p>Cancelled</p>
 
 
                         <hr />
                     </div>
                     <div className="rejected">
-
+                        <p>Rejected</p>
 
 
                         <hr />
