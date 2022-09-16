@@ -1,7 +1,7 @@
 @use '../../styles/base/colors';
 
 
-.main {
+.faq {
     display: flex;
     flex-direction: column;
     
@@ -22,48 +22,48 @@
         align-self: flex-start;
     }
 
-    &__box{
+}
+
+.faqWrapper{
         
-        display: flex ;
-        align-items: center flex-start ;
-        justify-content: column ;
+    display: flex ;
+    align-items: center flex-start ;
+    justify-content: column ;
 
-        padding-top: 120px 60px 110px 60px ;
-        gap: 10px ;
-        border-radius: 25px ;
+    padding-top: 120px 60px 110px 60px ;
+    gap: 10px ;
+    border-radius: 25px ;
 
-        width: 100% ;
+    width: 100% ;
 
-        background-color: colors.$color-light-mint ;
+    background-color: colors.$color-light-mint ;
 
-        &__img{
-            margin-top: 3rem;
-            margin-left: 2rem;
-        }
+    &__imgWrapper{
+        margin-top: 3rem;
+        margin-left: 2rem;
+    }
 
-        &__questions{
-            margin-left: 2rem !important;
+    &__questions{
+        margin-left: 2rem !important;
+        margin-top: 1rem;
+        width: 43%;
+
+        h2{
             margin-top: 1rem;
-            width: 43%;
-
-            h2{
-                margin-top: 1rem;
-                margin-bottom: 3rem;
-                font-size: 2.5rem;
-            }
-
-            hr{
-                color: colors.$color-light-purple;
-                background-color:colors.$color-light-purple;
-                clear: both;
-                border: 0;
-                display: block;
-                height: 3px;
-
-                margin-bottom: 2rem;
-            }
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
         }
 
+        hr{
+            color: colors.$color-light-purple;
+            background-color:colors.$color-light-purple;
+            clear: both;
+            border: 0;
+            display: block;
+            height: 3px;
+
+            margin-bottom: 2rem;
+        }
     }
 
 }
