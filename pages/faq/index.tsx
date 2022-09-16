@@ -1,9 +1,10 @@
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import Navbar from '../components/Layout/Navbar';
+import Navbar from '../../components/Layout/Navbar';
 import Head from 'next/head';
-import Accordion from './faq_accordian';
+import Accordion from '../../components/FaqAccordion/index';
+import styles from './Faq.module.scss';
 
 const Faq: NextPage =() => {
 
@@ -45,29 +46,25 @@ const Faq: NextPage =() => {
                 <link rel="icon" href="/foodle_logo.svg" />
             </Head>
             <Navbar />
-            <div style={{padding: "50px"}}className="flex center-vertically mt-ten font-family flex-direction-column mb-three">
-                <div className="font-size-six mb-one align-self-left">
+            <div className={styles['main']}>
+                <div className={styles['main__title']}>
                     <h1>F.A.Q</h1>
                 </div>
-                <div style={{width: '100%', alignItems: 'flex-start', paddingTop: '50px'}} className="flex flex-row bg-color-light-mint padding-tb padding-lr border-radius gap-ten">
-                    <div className="">
+                <div className={styles['main__box']}>
+                    <div className={styles['main__box__img']}>
                         <Image alt={'FAQ Image'} src={'/eggsFAQ.svg'} width={650} height={450} />
                     </div>
-                    <div className="ml-two">
-                        <div className="mt-one mb-three font-size-twohalf">
-                            <h2>Discover the most common questions</h2>
-                        </div>
-           
-                        <hr className="color-light-purple mb-two"/>
-                
+                    <div className={styles['main__box__questions']}>
                         
+                        <h2>Discover the most common questions</h2>
+                        <hr/>
+
                         <div className="">
-                            <div className="">
-                                {faqData.map(({title, content}) => (
-                                    <Accordion title={title} content={content} />
-                                ))}
-                            </div>
+                            {faqData.map(({title, content}) => (
+                                <Accordion title={title} content={content} />
+                            ))}
                         </div>
+                        
                     </div>
                 </div>
             </div>

@@ -1,0 +1,69 @@
+@use '../../styles/base/colors';
+
+
+.main {
+    display: flex;
+    flex-direction: column;
+    
+    padding: 50px;
+    margin-bottom: 3rem !important;
+    margin-top: 10rem !important;
+    
+    align-items: center;
+
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 300;
+
+    &__title{
+        font-size: 6rem;
+        margin-bottom: 1rem;
+
+        display: flex;
+        align-self: flex-start;
+    }
+
+    &__box{
+        
+        display: flex ;
+        align-items: center flex-start ;
+        justify-content: column ;
+
+        padding-top: 120px 60px 110px 60px ;
+        gap: 10px ;
+        border-radius: 25px ;
+
+        width: 100% ;
+
+        background-color: colors.$color-light-mint ;
+
+        &__img{
+            margin-top: 3rem;
+            margin-left: 2rem;
+        }
+
+        &__questions{
+            margin-left: 2rem !important;
+            margin-top: 1rem;
+            width: 43%;
+
+            h2{
+                margin-top: 1rem;
+                margin-bottom: 3rem;
+                font-size: 2.5rem;
+            }
+
+            hr{
+                color: colors.$color-light-purple;
+                background-color:colors.$color-light-purple;
+                clear: both;
+                border: 0;
+                display: block;
+                height: 3px;
+
+                margin-bottom: 2rem;
+            }
+        }
+
+    }
+
+}
