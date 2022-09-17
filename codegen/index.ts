@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions, useMutation, UseMutationOptions } from 'react-query';
+import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -31,7 +31,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any;
 };
 
@@ -332,7 +331,7 @@ export type CreateBookingMutationVariables = Exact<{
 }>;
 
 
-export type CreateBookingMutation = { __typename?: 'Mutation', createBooking: { __typename?: 'CreateBookingReturn', Booking?: { __typename?: 'Booking', id: string, bookingStatus: BookingStatus, frequency: FrequencyEnum, totalPrice: number, startDate: string, endDate: string, tenant: { __typename?: 'User', fullName: string }, property: { __typename?: 'Property', handle: string }, daySlots: Array<{ __typename?: 'DaySlot', startTime: any, endTime: any, bookedStartTime?: any | null, booking?: { __typename?: 'Booking', id: string } | null }> } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorPropertyNotExists?: { __typename?: 'ClientErrorPropertyNotExists', message: string } | null, ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput', message: string } | null, NoAvailableSlots?: { __typename?: 'NoAvailableSlots', message: string } | null, ClientErrorInvalidPropertyInput?: { __typename?: 'ClientErrorInvalidPropertyInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
+export type CreateBookingMutation = { __typename?: 'Mutation', createBooking: { __typename?: 'CreateBookingReturn', Booking?: { __typename?: 'Booking', bookingStatus: BookingStatus, frequency: FrequencyEnum, totalPrice: number, startDate: string, endDate: string, tenant: { __typename?: 'User', fullName: string, handle: string, zip?: number | null }, property: { __typename?: 'Property', handle: string, title: string, size: number } } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorPropertyNotExists?: { __typename?: 'ClientErrorPropertyNotExists', message: string } | null, ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput', message: string } | null, NoAvailableSlots?: { __typename?: 'NoAvailableSlots', message: string } | null, ClientErrorInvalidPropertyInput?: { __typename?: 'ClientErrorInvalidPropertyInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
 
 export type CreateListingMutationVariables = Exact<{
   size: Scalars['Int'];
@@ -488,20 +487,15 @@ export const CreateBookingDocument = `
     mutation CreateBooking($propertyHandle: String!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $daySlots: [AvailableDay!]!) {
   createBooking(propertyHandle: $propertyHandle, startDate: $startDate, endDate: $endDate, frequency: $frequency, daySlots: $daySlots) {
     Booking {
-      id
       tenant {
         fullName
+        handle
+        zip
       }
       property {
         handle
-      }
-      daySlots {
-        startTime
-        endTime
-        bookedStartTime
-        booking {
-          id
-        }
+        title
+        size
       }
       bookingStatus
       frequency
