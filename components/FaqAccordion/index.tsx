@@ -3,13 +3,13 @@ import Image from 'next/image';
 import React from 'react';
 import styles from './FaqAccordion.module.scss';
 
-export type FaqAccordinProps = {
+export type FaqAccordionProps = {
   title: string,
   content: string
 }
 
 
-const FaqAccordion = (props: FaqAccordinProps) => {
+const FaqAccordion = (props: FaqAccordionProps) => {
   const [isActive, setIsActive] = React.useState<boolean>(false);
 
 
