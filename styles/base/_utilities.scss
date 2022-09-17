@@ -1,3 +1,5 @@
+@use './colors';
+
 .flex-center {
   display: flex;
   justify-content: center;
@@ -23,9 +25,11 @@
   display: flex;
 }
 .flex-space-between {
-  display: flex;
+  
   justify-content: space-between;
 }
+
+
 
 // Top Margin
 .mt-half {
@@ -60,6 +64,10 @@
 }
 .mt-three {
   margin-top: 3rem !important;
+}
+
+.mt-ten {
+  margin-top: 10rem !important;
 }
 
 .mr-one {
