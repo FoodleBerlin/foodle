@@ -13,23 +13,27 @@
   // border-bottom: 0.1rem solid #b3b3b3; CHANGED THIS
   padding-right: 20px;
   padding-left: 20px;
+
   .avatar {
     width: 40px;
     height: 40px;
     background: linear-gradient(226.46deg, colors.$color-secondary-light 9.5%, rgba(244, 143, 177, 0.25) 87.45%);
     border-radius: 100%;
   }
+
   &__logo {
     top: 0.2rem;
     left: 2vw;
     margin-top: 1rem;
     padding: 0.3rem 0 0 0;
+
     &:hover {
       cursor: pointer;
       opacity: 0.5;
       transition: all 0.2s;
     }
   }
+
   &__auth-btns {
     right: 1vw;
     display: flex;
@@ -41,14 +45,18 @@
     display: flex;
     justify-content: center;
     flex-grow: 1;
+
     @media screen and (max-width: 768px) {
       display: none;
     }
+
     &--underline {
       display: inline-block;
+
       &:hover::after {
         width: 100%;
       }
+
       &::after {
         content: '';
         width: 0px;
@@ -58,6 +66,7 @@
         transition: 300ms;
       }
     }
+
     &--link {
       color: black;
       cursor: pointer;
@@ -68,4 +77,19 @@
       padding: 1rem 1rem;
     }
   }
+}
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    & __logo {
+      margin-left: 0;
+      margin-right: auto;
+    }
+
+    .avatar {
+      margin-left: auto;
+      margin-right: 0;
+    }
+  }
+
 }

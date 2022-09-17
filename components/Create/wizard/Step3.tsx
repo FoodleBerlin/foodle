@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import DaySelector from '../DaySelector';
 import TimeInput from '../TimeInput';
 import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
@@ -12,9 +13,13 @@ export type DaySlot = {
 export default function Step3() {
   const { formState, nextStep, register, setValue } = useWizardContext();
   const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = useWizardContext().getValues().daySlots;
+  const [isUp, changeUp] = useState(false);
   //const wiz = useWizardContext().getValues();
   //console.log(JSON.stringify(wiz));
-  window.scrollTo(0, 0);
+  if (!isUp) {
+    window.scrollTo(0, 0);
+    changeUp(true);
+  }
 
   return (
     <div className={styles['step3']}>
