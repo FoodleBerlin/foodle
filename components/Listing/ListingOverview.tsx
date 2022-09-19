@@ -2,6 +2,7 @@ import Image from 'next/image';
 import PriceLine from '../Create/PriceLine';
 import { UploaderImg } from "../Create/wizard/Step4";
 import { FormData } from "../Create/wizard/Wizard";
+import { BookingProvider } from './BookingContext';
 import styles from "./ListingOverview.module.scss";
 import ListingSideBar from './ListingSideBar';
 
@@ -10,9 +11,13 @@ function ListingOverview({ listingsData }: { listingsData: FormData }) {
     const startDate = new Date(listingsData.startDate);
     const endDate = new Date(listingsData.endDate);
     return (
-        <div>
+        <div className={styles["grid"]}>
+            <BookingProvider>
+                <div className={styles["sidebar__container"]}>
+                    <ListingSideBar listingsData={listingsData} />
+                </div>
+            </BookingProvider>
             <div className={styles['listingoverview']}>
-                <ListingSideBar listingsData={listingsData} />
                 <div className={styles['formItem']}>
                     <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
                     <div className="gallery__container">

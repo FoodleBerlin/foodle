@@ -1,9 +1,25 @@
 @use '../../styles/base/colors';
 @use '../../styles/components/weekdays';
 
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+}
 
+.sidebar__container {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    justify-self: end;
+    position: sticky;
+    top: 0px;
+}
 
 .listingoverview {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
     width: 100%;
     padding: 0 10rem;
 

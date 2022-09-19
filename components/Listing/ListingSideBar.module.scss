@@ -1,6 +1,94 @@
 @use "./ListingOverview.module.scss";
+@use '../../styles/base/colors';
 
-.sidebarcontainer {
-    float: right;
+.sidebar {
+    display: grid;
+    grid-template-columns: 1 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    border: 2px solid colors.$color-grey;
+    row-gap: .5em;
+    height: 100em;
+    width: 40em;
+    justify-content: start;
+
+    &__startDate {
+        height: fit-content;
+        grid-row: 1/2;
+    }
+
+    &__weekDayMargin {
+        margin: 20px
+    }
+
+    &__bookingbutton {
+        outline: none;
+        box-shadow: none;
+        border-radius: 8px;
+        width: 15em;
+        height: 4em;
+        color: white;
+        font-weight: bold;
+        background-color: colors.$color-primary-light;
+        margin: 16px;
+    }
+
+    &__dateInputField {
+        border-radius: 8px;
+        border: 1px solid colors.$color-grey;
+        width: 10em;
+        height: 3em;
+        font-size: 16.0px;
+        margin: 16px;
+    }
+
+    &__repetition {
+        border-radius: 8px;
+        border: 1px solid colors.$color-grey;
+        background-color: white;
+        outline: none;
+        width: 11em;
+        align-self: center;
+        justify-self: start;
+        height: 3em;
+        font-size: 16.0px;
+        margin: 16px;
+    }
+
+    &__smallheading {
+        align-self: flex-start;
+        font-size: 15.0px;
+        font-weight: bold;
+        margin: 16px;
+    }
+
+    &__dateTimeSelection {
+        grid-column: 1/1;
+        grid-row: 2/3;
+        padding: 8px;
+    }
+
+}
+
+
+.ownercard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    border: 2px solid colors.$color-grey;
+    width: 40em;
+    height: 15em;
+    justify-items: center;
+    align-items: center;
+
+    &__avatar {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(226.46deg, colors.$color-secondary-light 9.5%, rgba(244, 143, 177, 0.25) 87.45%);
+        border-radius: 100%;
+    }
+
+    &__profileinfo {
+        justify-self: start;
+    }
 
 }

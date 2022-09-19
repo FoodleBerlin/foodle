@@ -173,7 +173,7 @@ type WizardContext = {
   getValues: UseFormGetValues<FormData>;
 };
 
-const WizardContext = React.createContext<WizardContext>({
+export const WizardContext = React.createContext<WizardContext>({
   step: 1,
   defaults: {
     /* STEP 1 */
