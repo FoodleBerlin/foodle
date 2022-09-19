@@ -76,7 +76,7 @@ const Footer = (props: FooterProps) => {
       frequency: wiz.frequency,
       hourlyPrice: wiz.hourlyPrice,
       endDate: wiz.endDate,
-      partialSpace: wiz.partialSpace,
+      partialSpace: wiz.partialSpace === 'partialSpace',
       zip: wiz.location.zip,
       street: wiz.location.street,
       size: wiz.size,

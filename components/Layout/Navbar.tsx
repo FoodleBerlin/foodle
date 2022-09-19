@@ -29,7 +29,7 @@ const Navbar = (props: NavbarProps) => {
       </div>
       <div className={styles['navbar__menu']}>
         <Tab href="/" iconSrc="/world-icon.svg" title="EN" burger={false} />
-        <Tab href="/" title="F.A.Q." />
+        <Tab href="/faq" title="F.A.Q." />
         <Tab href="/" title={findKitchen} />
         <Tab href="/create" title={listKitchen} />
         <Tab href="/" title={contact} />

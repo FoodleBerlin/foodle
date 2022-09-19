@@ -1,14 +1,14 @@
 import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 export default function Step1() {
-  const wiz = useWizardContext().getValues();
-  console.log(JSON.stringify(wiz));
+  // const wiz = useWizardContext().getValues();
+  // console.log(JSON.stringify(wiz));
 
   const { formState, nextStep, register, setValue } = useWizardContext();
   return (
     <div className={styles['step1']}>
       <div className={styles['formItem']}>
-        <h2 className="header-tertiary">What kind of property do you own?</h2>
+        <h2 className="header-secondary">What kind of property do you own?</h2>
         <div className={styles['step1__buttonWrapper']}>
           <input
             {...register('partialSpace')}
@@ -17,7 +17,7 @@ export default function Step1() {
             className="radio"
             name="kitchen"
             value="full"
-            onChange={() => setValue('partialSpace', true as FormData['partialSpace'], touchDirtyValidate)}
+            onChange={(c) => setValue('partialSpace', c.target.value as FormData['partialSpace'], touchDirtyValidate)}
           />
           <label className={styles['labelButton']} htmlFor="full">
             <p className="body-text__small">Entire Kitchen</p>
@@ -30,7 +30,7 @@ export default function Step1() {
             className="radio"
             name="kitchen"
             value="partial"
-            onChange={() => setValue('partialSpace', true as FormData['partialSpace'], touchDirtyValidate)}
+            onChange={(c) => setValue('partialSpace', c.target.value as FormData['partialSpace'], touchDirtyValidate)}
           />
           <label className={styles['labelButton']} htmlFor="partial">
             <p className="body-text__small">Part of kitchen</p>
@@ -41,7 +41,7 @@ export default function Step1() {
         </div>
       </div>
       <div className={styles['formItem']}>
-        <h2 className="header-tertiary">How big is the kitchen?</h2>
+        <h2 className="header-secondary">How big is the kitchen?</h2>
         <div className={styles['step1__flexWrapper']}>
           <input
             className={'standard-form__inputMedium'}
@@ -55,7 +55,7 @@ export default function Step1() {
         {formState.errors.size && <span className={styles['error']}>{formState.errors.size.message}</span>}
       </div>
       <div className={styles['formItem']}>
-        <h2 className={styles['step1__addressHeader'] + ' header-tertiary'}>Where is it located?</h2>
+        <h2 className={styles['step1__addressHeader'] + ' header-secondary'}>Where is it located?</h2>
         <label className="label-text">Address</label>
         <div className={styles['step1__addressGridWrapper']}>
           <input

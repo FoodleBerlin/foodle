@@ -11,10 +11,10 @@ import { useIntl } from 'react-intl';
 import Carousel from '../components/Landing/Carousel';
 import LandingInfo from '../components/Landing/LandingInfo';
 import StoryCarousel from '../components/Landing/StoryCarousel';
-import Sidebar from '../components/Layout/BurgerMenu';
 import Footer from '../components/Layout/Footer';
 import Modal from '../components/Layout/Modal';
 import Navbar from '../components/Layout/Navbar';
+import Sidebar from '../components/Layout/Sidebar';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import styles from '../styles/pages/Home.module.scss';
 import { kitchenCards } from '../utils/kitchenCards';
@@ -140,7 +140,7 @@ const Home: NextPage = () => {
         </div>
         <div className={styles['hero__right']}>
           <div className={styles['hero__right']}>
-            <Image alt={'Hero Image'} src={'/programming.png'} width={600} height={450} />
+            <Image alt={'Hero Image'} src={'/hero.png'} width={500} height={550} />
           </div>
         </div>
       </div>
@@ -193,8 +193,7 @@ export default Home;
 //   }
 // };
 
-{
-  /* <form onSubmit={subscribe}>
+/* <form onSubmit={subscribe}>
               <div>
                 <input
                   className="standard-form__inputMedium"
@@ -227,4 +226,3 @@ export default Home;
                 <></>
               )}
             </form> */
-}

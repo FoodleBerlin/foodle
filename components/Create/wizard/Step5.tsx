@@ -1,9 +1,8 @@
-import React from 'react';
 import Image from 'next/image';
-import { useWizardContext } from './Wizard';
-import styles from './Wizard.module.scss';
 import PriceLine from '../PriceLine';
 import { UploaderImg } from './Step4';
+import { useWizardContext } from './Wizard';
+import styles from './Wizard.module.scss';
 
 export default function Step5() {
   const wiz = useWizardContext().getValues();
@@ -13,7 +12,7 @@ export default function Step5() {
     <div>
       <div className={styles['step5']}>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
+          <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Summary</h2>
           <div className="gallery__container">
             <div className="gallery">
               {wiz.images.map((image: UploaderImg, index) => (
@@ -25,7 +24,7 @@ export default function Step5() {
           </div>
 
           <div className={styles['step5__titleWrapper'] + ' ' + styles['step2__marginHeadline']}>
-            <h3 className="header-tertiary">Industrial Grade Kitchen in Mitte</h3>
+            <h3 className="header-secondary">Industrial Grade Kitchen in Mitte</h3>
             <div className={styles['step5__flexWrapper']}>
               <p className="body-text">{wiz.hourlyPrice}</p>
               <p className="body-text">€/h</p>
@@ -33,7 +32,7 @@ export default function Step5() {
           </div>
         </div>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Overview</h2>
+          <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Overview</h2>
           <div className={styles['step5__flexWrapper']}>
             <p className="body-text-secondary">Size -&nbsp; </p>
             <p className="body-text-secondary">{wiz.size}</p>
@@ -60,7 +59,7 @@ export default function Step5() {
           </div>
         </div>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Pricing</h2>
+          <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Pricing</h2>
           <PriceLine label="Rental Fee" text={wiz.hourlyPrice + '€ / hr'} />
           <PriceLine label="Booking Fee" text={wiz.hourlyPrice + '€ / hr'} />
           <PriceLine label="Service Fee" text="0€" />
@@ -68,7 +67,7 @@ export default function Step5() {
           <PriceLine label="Cancellation Type" text="Full Refund 2 weeks before, partial after." />
         </div>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Rules</h2>
+          <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Rules</h2>
           <p className="small-text">
             No smoking on property. <br /> <br />
             Multiple people allowed. <br /> <br />
@@ -78,7 +77,7 @@ export default function Step5() {
           </p>
         </div>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Availability</h2>
+          <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Availability</h2>
           <div className={styles['step5__availabilityGrid']}>
             <div className={styles['step5__availabilityDate']}>
               <p className="small-text">March</p>
