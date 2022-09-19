@@ -9,7 +9,7 @@ export default function Step2() {
     <div className={styles['step2']}>
       <div className={styles['step2__formWrapper']}>
         <div className={styles['formItem']}>
-          <h2 className="header-tertiary">What is the name of your property?</h2>
+          <h2 className="header-secondary">What is the name of your property?</h2>
           <p className="body-text-secondary">
             This is what users will see as the title of your property on the listings page.
           </p>
@@ -25,7 +25,7 @@ export default function Step2() {
           {formState.errors.title && <span className={styles['error']}>{formState.errors.title.message}</span>}
         </div>
         <div className={styles['formItem']}>
-          <h2 className={' header-tertiary'}>How would you describe the space?</h2>
+          <h2 className={' header-secondary'}>How would you describe the space?</h2>
           <p className="body-text-secondary">
             This is what users will see as the description under the overview tab on the listing page.
           </p>
@@ -42,7 +42,7 @@ export default function Step2() {
           )}
         </div>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary mb-two'}>
+          <h2 className={styles['step2__marginHeadline'] + ' header-secondary mb-two'}>
             What features does your kitchen offer?
           </h2>
 
@@ -60,7 +60,7 @@ export default function Step2() {
       </div>
 
       <div className={styles['step2__formWrapper']}>
-        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>What’s the minimum stay?</h2>
+        <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>What’s the minimum stay?</h2>
         <div className={styles['step2__flexWrapper']}>
           <input
             className="standard-form__inputSmall"

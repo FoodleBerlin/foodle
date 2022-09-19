@@ -24,7 +24,7 @@ export default function Step3() {
   return (
     <div className={styles['step3']}>
       <div className={styles['formItem']}>
-        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>How much is rent?</h2>
+        <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>How much is rent?</h2>
         <div className={styles['step3__flexWrapper']}>
           <input
             className={styles['step3__shortInput'] + ' standard-form'}
@@ -42,7 +42,7 @@ export default function Step3() {
         )}
       </div>
       <div className={styles['formItem']}>
-        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Is there a deposit?</h2>
+        <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Is there a deposit?</h2>
         <p className="body-text-secondary">
           This one time payment will be refunded at the end of the lease. If there is no deposit just type in 0.
         </p>
@@ -58,7 +58,7 @@ export default function Step3() {
         {formState.errors.deposit && <span className={styles['error']}>{formState.errors.deposit.message}</span>}
       </div>
       <div className={styles['formItem']}>
-        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Is there a service fee?</h2>
+        <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Is there a service fee?</h2>
         <p className="body-text-secondary">
           This is a one time payment that will be charged to the tenant. If there is no service fee just type in 0.
         </p>
@@ -105,7 +105,7 @@ export default function Step3() {
         </div>
       </div>
       <div className={styles['formItem time-container']}>
-        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>When is it available?</h2>
+        <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>When is it available?</h2>
         <label className="label-text">Starting</label> <br />
         <input
           className="standard-form"
@@ -175,7 +175,7 @@ export default function Step3() {
         </div>
       </div>
       <div className={styles['formItem']}>
-        <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>What are the rules?</h2>
+        <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>What are the rules?</h2>
         <p className="body-text-secondary mb-two">
           Please let the prospective booker know about cleanliness standards, key pick up and drop off processes, and
           anything else they should know.
