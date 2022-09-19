@@ -101,19 +101,21 @@ const myBookings: NextPage=()=>{
                 <link rel="icon" href="/foodle_logo.svg" />
             </Head>
             <Navbar />
-            <div className="main">
-                <div className="menubar">
-                    <a href="/" className="">Profile</a>
-                    <a href="/" className="">My bookings</a>
-                    <a href="/" className="">My payments</a>
-                    <a href="/" className="">CONTACT SUPPORT</a>
+
+            <div className={styles['myBookings']}>
+                <div className={styles['menubar']}>
+                    <a href="/" className={styles['menubar__profile']}>Profile</a>
+                    <a href="/" className={styles['menubar__bp']}>My bookings</a>
+                    <a href="/" className={styles['menubar__bp']}>My payments</a>
+                    <a href="/" className={styles['menubar__support']}>CONTACT SUPPORT</a>
                 </div>
-                <div className="my bookings">
+
+                <div className={styles['bookingList']}>
                     <h1>My bookings</h1>
                     <h2>A list of all bookings made, requested, rejected, cancelled and confirmed</h2>
                    
 
-                    <div className="requested">
+                    <div className={styles['bookingList_requested']}>
                         <h3>Requested</h3>
                         
                         {/* for(var i in bookingData){
@@ -126,6 +128,7 @@ const myBookings: NextPage=()=>{
                                         <h5>{bookingData[i].availableDays} <br /> {bookingData[i].startDate}-{bookingData[i].endDate}({bookingData[i].duration})</h5>
                                         <h6>Booking ref: <br />{bookingData[i].id}</h6>
                                     </div>
+                                    <button className="delete">DELETE</button>
                                 </div>
                                 
                             };
@@ -135,21 +138,21 @@ const myBookings: NextPage=()=>{
                         <hr />
                     </div>
 
-                    <div className="confirmed">
+                    <div className={styles['bookingList_confirmed']}>
                         <h3>Confirmed</h3>
 
 
                         <hr />
                     </div>
 
-                    <div className="cancelled">
-                        <h3>Cancelled</h3>
+                    <div className={styles['bookingList_canceled']}>
+                        <h3>Canceled</h3>
 
 
                         <hr />
                     </div>
 
-                    <div className="rejected">
+                    <div className={styles['bookingList_rejected']}>
                         <h3>Rejected</h3>
 
 
