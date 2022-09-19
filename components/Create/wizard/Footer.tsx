@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { mutationObj } from '../../../client';
 import { useCreateListingMutation } from '../../../codegen';
@@ -21,7 +22,10 @@ const Footer = (props: FooterProps) => {
     }
     return new Date('2000-01-01T' + time + ':00').toISOString();
   };
+
   const wiz = getValues();
+
+  const router = useRouter();
 
   const selectedDaySlots: { startTime: string; endTime: string }[] = [];
   useEffect(() => {
@@ -69,26 +73,27 @@ const Footer = (props: FooterProps) => {
   });
   const handleSubmit = async () => {
     mutate({
-      availableDays: selectedDaySlots,
-      city: wiz.location.city,
-      deposit: wiz.deposit ?? 0,
-      description: wiz.description,
-      frequency: wiz.frequency,
-      hourlyPrice: wiz.hourlyPrice,
-      endDate: wiz.endDate,
-      partialSpace: wiz.partialSpace === 'partialSpace',
-      zip: wiz.location.zip,
-      street: wiz.location.street,
-      size: wiz.size,
+      size: Number(wiz.size),
       title: wiz.title,
-      images: images,
-      streetNumber: wiz.location.streetNumber,
       ownerHandle: props.session.email.substring(0, props.session.email.indexOf('@')),
+      street: wiz.location.street,
+      streetNumber: Number(wiz.location.streetNumber),
+      zip: Number(wiz.location.zip),
+      city: wiz.location.city,
+      description: wiz.description,
+      pickup: wiz.pickup === 'pickup-yes' ? true : false,
+      hourlyPrice: Number(wiz.hourlyPrice),
+      serviceFee: Number(wiz.serviceFee) ?? 0,
       rules: wiz.rules,
-      serviceFee: wiz.serviceFee ?? 0, //HARDCODED for now
-      startDate: wiz.startDate,
-      pickup: true, // TODO:fix - add form to frontend // CONSTI
+      deposit: Number(wiz.deposit) ?? 0,
+      images: images,
+      partialSpace: wiz.partialSpace === 'partial' ? true : false,
+      startDate: new Date(wiz.startDate).toISOString(),
+      endDate: new Date(wiz.endDate).toISOString(),
+      frequency: wiz.frequency,
+      availableDays: selectedDaySlots,
     });
+    router.push('/create-listing-success');
   };
 
   const error = () => {
@@ -138,30 +143,3 @@ const Footer = (props: FooterProps) => {
 };
 
 export default Footer;
-// const res = await client.mutate({
-//   mutation: CreateListing,
-//   variables: {
-//     size: Number(wiz.size),
-//     ownerId: props.session.id,
-//     street: wiz.location.street,
-//     streetNumber: Number(wiz.location.number),
-//     zip: Number(wiz.location.zip),
-//     city: wiz.location.city,
-//     description: wiz.description,
-//     rules: wiz.rules.split('.'),
-//     hourlyPrice: Number(wiz.hourlyPrice),
-//     facilities: wiz.facilities,
-//     deposit: Number(wiz.deposit),
-//     images: images,
-//     pickup: false,
-//     serviceFee: Number(0),
-//     partialSpace: wiz.partialSpace === 'partial' ? true : false,
-//     availabilities: {
-//       startDate: new Date(wiz.startDate).toISOString(),
-//       endDate: new Date(wiz.availability.endDate).toISOString(),
-//       genericDaySlots: selectedDaySlots,
-//       minMonths: Number(wiz.minMonths),
-//       frequency: wiz.availability.repeat,
-//     },
-//   },
-// });

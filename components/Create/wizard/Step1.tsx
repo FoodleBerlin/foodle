@@ -1,9 +1,6 @@
 import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 export default function Step1() {
-  // const wiz = useWizardContext().getValues();
-  // console.log(JSON.stringify(wiz));
-
   const { formState, nextStep, register, setValue } = useWizardContext();
   return (
     <div className={styles['step1']}>
@@ -72,9 +69,9 @@ export default function Step1() {
           <input
             className={styles['step1__input--number'] + ' standard-form'}
             placeholder="12"
-            type="streetNumber"
+            type="text"
             {...register('location.streetNumber')}
-            onChange={(c) => setValue('location.streetNumber', parseInt(c.target.value), touchDirtyValidate)}
+            onChange={(c) => setValue('location.streetNumber', c.target.value, touchDirtyValidate)}
           ></input>
           {formState.errors.location?.streetNumber && (
             <span className={styles['error'] + ' ' + styles['step1__validationSpan--number']}>

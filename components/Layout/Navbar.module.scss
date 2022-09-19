@@ -66,6 +66,12 @@
     gap: 4vw;
     flex-grow: 1;
 
+    //ACCEPTED BOTH
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+    //
+
     &--underline {
       display: inline-block;
 
@@ -101,4 +107,19 @@
       }
     }
   }
+}
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    & __logo {
+      margin-left: 0;
+      margin-right: auto;
+    }
+
+    .avatar {
+      margin-left: auto;
+      margin-right: 0;
+    }
+  }
+
 }

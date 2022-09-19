@@ -63,7 +63,7 @@ export const formData = z.object({
       .string({ required_error: 'Street is required', invalid_type_error: 'Street must be string' })
       .nonempty({ message: "Street can't be empty" })
       .refine((val) => onlyString.test(val), { message: "Address can't contain numbers" }),
-    streetNumber: z.number({ required_error: 'Number is required', invalid_type_error: "Number can't be empty" }),
+    streetNumber: z.string({ required_error: 'Number is required', invalid_type_error: "Number can't be empty" }),
     zip: z.number({ required_error: 'Zip is required', invalid_type_error: "Zip can't be empty" }),
     city: z
       .string({ required_error: 'City is required' })
@@ -95,6 +95,7 @@ export const formData = z.object({
     .min(1, { message: 'Rent must be greater than or equal to 1' }),
   deposit: z.number().min(0, { message: 'Deposit must be greater than or equal to 1' }).optional(),
   serviceFee: z.number().min(0, { message: 'Service fee must be greater than or equal to 1' }).optional(),
+  pickup: z.string(),
   startDate: z.preprocess((arg) => {
     if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
   }, z.date()),
@@ -140,7 +141,7 @@ export const formData = z.object({
     if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
   }, z.date()),
 
-  minMonths: z.number({ required_error: 'Minimum stay is required, e.g. 1 month' }),
+  minMonths: z.number({ required_error: 'Minimum stay is required, e.g. 1 month' }).min(1, { message: 'Minimum stay needs to be bigger or equal to 1' }),
   rules: z
     .string({ required_error: 'Rules are required' })
     .min(10, { message: 'Must be 10 or more characters long' })
@@ -181,7 +182,7 @@ const WizardContext = React.createContext<WizardContext>({
     location: {
       city: 'Berlin',
       country: 'Germany',
-      streetNumber: 0,
+      streetNumber: "0",
       street: 'Foodlestreet',
       zip: 0,
     },
@@ -193,6 +194,7 @@ const WizardContext = React.createContext<WizardContext>({
     hourlyPrice: 0,
     deposit: 0,
     serviceFee: 0,
+    pickup: 'pickup-no',
     startDate: new Date('2015-03-25'),
     daySlots: {
       monday: {
@@ -239,9 +241,9 @@ const WizardContext = React.createContext<WizardContext>({
     images: [],
   },
   formState: {} as FormState<FormData>,
-  nextStep: () => {},
-  previousStep: () => {},
-  submitForm: () => {},
+  nextStep: () => { },
+  previousStep: () => { },
+  submitForm: () => { },
   register: {} as UseFormRegister<FormData>,
   setValue: {} as UseFormSetValue<FormData>,
   getValues: {} as UseFormGetValues<FormData>,
@@ -256,7 +258,7 @@ export const WizardProvider = ({ children }: any) => {
     location: {
       city: 'Berlin',
       country: 'Germany',
-      streetNumber: 0,
+      streetNumber: "0",
       street: 'Foodlestreet',
       zip: 0,
     },
@@ -272,6 +274,7 @@ export const WizardProvider = ({ children }: any) => {
     hourlyPrice: 0,
     deposit: 0,
     serviceFee: 0,
+    pickup: 'pickup-no',
     startDate: new Date(),
     daySlots: {
       monday: {

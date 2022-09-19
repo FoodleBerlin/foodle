@@ -64,7 +64,6 @@ const DaySelector = (props: DaySelectorProps) => {
     }
   };
   const registered: any = () => {
-    console.log(props.weekday);
     switch (props.short) {
       case 'mon':
         return { selectedRegister: { ...register('daySlots.monday.selected') }, weekday: 'Monday' };

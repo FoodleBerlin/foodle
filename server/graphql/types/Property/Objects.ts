@@ -43,7 +43,7 @@ export const Property = objectType({
       },
     });
     p.string('street');
-    p.int('streetNumber');
+    p.string('streetNumber');
     p.int('zip');
     p.string('city');
     p.string('description');

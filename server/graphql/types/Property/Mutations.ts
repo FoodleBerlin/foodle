@@ -37,7 +37,7 @@ export const CreateListing = extendType({
         title: nonNull(stringArg()),
         ownerHandle: nonNull(stringArg()),
         street: nonNull(stringArg()),
-        streetNumber: nonNull(intArg()),
+        streetNumber: nonNull(stringArg()),
         zip: nonNull(intArg()),
         city: nonNull(stringArg()),
         description: nonNull(stringArg()),
