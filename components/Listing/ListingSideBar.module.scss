@@ -3,7 +3,7 @@
 
 .sidebar {
     display: grid;
-    grid-template-columns: 1 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: repeat(5, 1fr);
     border: 2px solid colors.$color-grey;
     row-gap: .5em;

@@ -13,7 +13,7 @@ function ListingOverview({ listingsData }: { listingsData: FormData }) {
     return (
         <div className={styles["grid"]}>
             <BookingProvider>
-                <div className={styles["sidebar__container"]}>
+                <div className={styles["sidebarContainer"]}>
                     <ListingSideBar listingsData={listingsData} />
                 </div>
             </BookingProvider>
