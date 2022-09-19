@@ -1,10 +1,7 @@
-import React from 'react';
-import styles from '../../styles/pages/Home.module.scss';
+import SwiperCore, { FreeMode, Mousewheel, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation, Pagination, Autoplay, Scrollbar, FreeMode, Mousewheel } from 'swiper';
-import { Recoverable } from 'repl';
-import SwiperCard, { KitchenCardInfo } from './SwiperCard';
-import { kitchenCards } from '../../pages';
+import { kitchenCards } from '../../utils/kitchenCards';
+import SwiperCard from './SwiperCard';
 
 SwiperCore.use([Navigation]);
 export type CarouselProps = {

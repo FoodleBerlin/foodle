@@ -1,7 +1,6 @@
 import Stories, { WithSeeMore } from 'react-insta-stories';
 import { useIntl } from 'react-intl';
 import styles from '../../styles/pages/Home.module.scss';
-import ConstructionPopup from './ConstructionPopup';
 import SwiperCard, { KitchenCardInfo } from './SwiperCard';
 
 export type StoryCarouselProps = {
@@ -10,13 +9,14 @@ export type StoryCarouselProps = {
 };
 const StoryCarousel = (props: StoryCarouselProps) => {
   const intl = useIntl();
-  const seeMoreObj = ({ close }: { close: () => void }) => {
-    return (
-      <>
-        <ConstructionPopup screenWidth={props.width} close={close} />
-      </>
-    );
-  };
+  // const seeMoreObj = ({ close }: { close: () => void }) => {
+  //   return (
+  //     <>
+  //     ONLY FOR LANDING PAGE
+  //       {/* <ConstructionPopup screenWidth={props.width} close={close} /> */}
+  //     </>
+  //   );
+  // };
   const contentObj = (index: number, card: KitchenCardInfo) => {
     return {
       content: ({ action, story }: { action: any; story: any }) => {
@@ -37,7 +37,7 @@ const StoryCarousel = (props: StoryCarouselProps) => {
           profileImage: props.cardInfo[i].cityRegion,
           subheading: props.cardInfo[i].cityRegion,
         },
-        seeMore: seeMoreObj,
+        // seeMore: seeMoreObj,
         content: contentObj(i, props.cardInfo[i]).content,
       });
     }

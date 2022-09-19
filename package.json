@@ -33,6 +33,7 @@
     "@hookform/resolvers": "^2.8.8",
     "@prisma/client": "^3.9.1",
     "@types/graphql-iso-date": "^3.4.0",
+    "@types/swiper": "^6.0.0",
     "@types/helmet": "^4.0.0",
     "apollo-server": "^3.6.2",
     "aws-amplify": "^4.3.14",
@@ -62,6 +63,7 @@
     "react-insta-stories": "^2.4.2",
     "react-intl": "^6.1.1",
     "react-query": "^3.34.16",
+    
     "sass": "^1.49.7",
     "stripe": "^8.207.0",
     "swiper": "^8.4.2",
@@ -80,6 +82,7 @@
     "@types/react": "17.0.38",
     "@types/react-burger-menu": "^2.8.3",
     "@types/stripe-v3": "^3.1.26",
+    "@types/swiper": "^6.0.0",
     "@types/uuid": "^8.3.4",
     "cross-env": "^7.0.3",
     "dotenv-cli": "^4.1.1",

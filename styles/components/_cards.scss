@@ -17,13 +17,6 @@
   top: calc(50% - 30px);
 }
 
-// width: 100px;
-// height: 50px;
-// background-image: $url;
-// background-repeat: no-repeat;
-// background-size: 100% 100%;
-// background-position: center;
-// content: "";
 #swiper-replace {
 
   .swiper-button-next {
@@ -84,11 +77,9 @@
     font-family: "Inter", "Helvetica", "Arial", sans-serif;
     visibility: visible;
     color: white;
-    // border: 2px solid white;
     max-width: 30rem;
     display: block;
     opacity: 1;
-    // margin-left: -10rem;
     content: "Hello";
 
     @include mixins.small-mobile {
@@ -157,7 +148,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
-    gap: 1.5rem;
+    gap: 0.5rem;
 
     @include mixins.small-mobile {
       display: none !important;
@@ -166,7 +157,7 @@
 
   &__badge {
     h3 {
-      font-weight: 800;
+      font-size: 18px !important;
 
       @include mixins.small-mobile {
         font-size: 14px;
@@ -191,8 +182,7 @@
     }
 
     h4 {
-      font-weight: 700;
-
+      font-size: 18px;
       @include mixins.small-mobile {
         color: black;
         font-size: 14px;

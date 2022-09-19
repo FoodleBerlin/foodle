@@ -63,7 +63,6 @@ const LandingInfo = (props: LandingInfoProps) => {
 
   const wrapperRef = useRef(null);
   useEffect(() => {
-    // if (!isSafari) {
     if (props.width > 1000) {
       const recipesRightSlideAnim = getSlideInAnim(recipesRef, 'right');
       const findingLeftSlideAnim = getSlideInAnim(findingRef, 'left');
@@ -78,7 +77,6 @@ const LandingInfo = (props: LandingInfoProps) => {
         wrapperSlideUpAnim.kill();
       };
     }
-    // }
   });
 
   const recipes = intl.formatMessage({ id: 'page.home.recipes' });
