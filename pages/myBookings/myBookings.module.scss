@@ -12,9 +12,9 @@
 
     display: flex;
     flex-direction: column;
-    border-right: 2px solid colors.$color-light-grey;
-    margin: 1rem 1rem;
-    padding:3rem 3rem;
+
+    margin: 1rem 0 1rem 1rem;
+    padding:3rem 2rem;
     cursor: pointer;
     height: 100%;
 
@@ -25,7 +25,7 @@
 
     &__profile{
         color: colors.$color-primary-light;
-        font-size: 2rem;
+        font-size: 1.7rem;
         transition: 500ms;
         margin: 1.5rem 0;
 
@@ -36,7 +36,7 @@
 
     &__bp{
         color: colors.$color-black;
-        font-size: 2.3rem;
+        font-size: 1.7rem;
         margin: 1.5rem 0;
 
         &::after{
@@ -60,7 +60,7 @@
     &__support{
         background: colors.$color-primary-light;
         border-radius: 1rem;
-        font-size: 2rem;
+        font-size: 1.5rem;
         padding: 1rem 2rem;
         margin: 1.5rem 0;
         transition: 500ms;
@@ -77,6 +77,9 @@
 
 .bookingList{
     margin: 2rem 4rem;
+    width: 70%;
+    padding-left: 5rem;
+    border-left: 1px solid colors.$color-light-grey;
 
     h1{
         font-size: 3.5rem;
@@ -102,7 +105,66 @@
     }
 
     h3{
+        font-size: 2rem;
+        margin: 3rem 0;
+    }
+
+    p{
         font-size: 1.7rem;
-        margin: 2rem 0;
+        color: colors.$color-grey;
+    }
+
+    &__info{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 3rem;
+
+        &__box{
+            display: flex;
+            flex-direction: row;
+
+            &__text{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+
+                font-size: 1.7rem;
+                margin-left: 2rem;
+            }
+        }
+
+        h5{
+   
+            color: colors.$color-subtle;
+        }
+
+        h6{
+   
+            color: colors.$color-subtle;
+        }
+
+    }
+
+    &__btn{
+        border-radius: 1.5rem;
+        border: 1px solid colors.$color-secondary;
+        color: colors.$color-secondary;
+        background-color: transparent;
+        height: 5rem;
+        width: 10rem;
+
+        position: relative;
+        right: 6rem;
+
+       align-self: center;
+
+       transition: 500ms;
+
+        &:hover{
+            color: colors.$color-white;
+            border: 1px solid colors.$color-primary-light;
+            background: colors.$color-secondary;
+        }
     }
 }

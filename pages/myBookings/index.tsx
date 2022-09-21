@@ -91,23 +91,26 @@ const myBookings: NextPage=()=>{
                     <h2>A list of all bookings made, requested, rejected, cancelled and confirmed</h2>
                    
 
-                    <div className={styles['bookingList_requested']}>
+                    <div className="">
                         <h3>Requested</h3>
                         
-                        <div>
-                            <Image alt={'Kitchen Image'} src={bookingData[0].img} width={350} height={250} />
-                            <div>
-                                <h4>{bookingData[0].name} in {bookingData[0].area}</h4>
-                                <h5>{bookingData[0].availableDays} <br /> {bookingData[0].startDate}-{bookingData[0].endDate}({bookingData[0].duration})</h5>
-                                <h6>Booking ref: <br />{bookingData[0].id}</h6>
+                        <div className={styles['bookingList__info']}>
+                            <div className={styles['bookingList__info__box']}>
+                                <Image alt={'Kitchen Image'} src={bookingData[0].img} width={350} height={250} />
+                                <div className={styles['bookingList__info__box__text']}>
+                                    <h4>{bookingData[0].name} in {bookingData[0].area}</h4>
+                                    <h5>{bookingData[0].availableDays.join(", ")} <br /> {bookingData[0].startDate}-{bookingData[0].endDate} ({bookingData[0].duration})</h5>
+                                    <h6>Booking ref: <br />{bookingData[0].id}</h6>
+                                </div>
                             </div>
-                            <button className="delete">DELETE</button>
+                            
+                            <button className={styles['bookingList__btn']}>DELETE</button>
                         </div>
 
                         <hr />
                     </div>
 
-                    <div className={styles['bookingList_confirmed']}>
+                    <div className="">
                         <h3>Confirmed</h3>
 
                         <p>No confirmed bookings yet.</p>
@@ -115,43 +118,52 @@ const myBookings: NextPage=()=>{
                         <hr />
                     </div>
 
-                    <div className={styles['bookingList_canceled']}>
+                    <div className="">
                         <h3>Canceled</h3>
 
-                        <div>
-                            <Image alt={'Kitchen Image'} src={bookingData[1].img} width={350} height={250} />
-                            <div>
-                                <h4>{bookingData[1].name} in {bookingData[1].area}</h4>
-                                <h5>{bookingData[1].availableDays} <br /> {bookingData[1].startDate}-{bookingData[1].endDate}({bookingData[1].duration})</h5>
-                                <h6>Booking ref: <br />{bookingData[1].id}</h6>
+                        <div className={styles['bookingList__info']}>
+                            <div className={styles['bookingList__info__box']}>
+                                <Image alt={'Kitchen Image'} src={bookingData[1].img} width={350} height={250} />
+                                <div className={styles['bookingList__info__box__text']}>
+                                    <h4>{bookingData[1].name} in {bookingData[1].area}</h4>
+                                    <h5>{bookingData[1].availableDays.join(", ")} <br /> {bookingData[1].startDate}-{bookingData[1].endDate} ({bookingData[1].duration})</h5>
+                                    <h6>Booking ref: <br />{bookingData[1].id}</h6>
+                                </div>
                             </div>
-                            <button className="delete">DELETE</button>
+                            
+                            <button className={styles['bookingList__btn']}>DELETE</button>
                         </div>
 
                         <hr />
                     </div>
 
-                    <div className={styles['bookingList_rejected']}>
+                    <div className="">
                         <h3>Rejected</h3>
 
-                        <div>
-                            <Image alt={'Kitchen Image'} src={bookingData[2].img} width={350} height={250} />
-                            <div>
-                                <h4>{bookingData[2].name} in {bookingData[2].area}</h4>
-                                <h5>{bookingData[2].availableDays} <br /> {bookingData[2].startDate}-{bookingData[2].endDate}({bookingData[2].duration})</h5>
-                                <h6>Booking ref: <br />{bookingData[2].id}</h6>
+                        <div className={styles['bookingList__info']}>
+                            <div className={styles['bookingList__info__box']}>
+                                <Image alt={'Kitchen Image'} src={bookingData[2].img} width={350} height={250} />
+                                <div className={styles['bookingList__info__box__text']}>
+                                    <h4>{bookingData[2].name} in {bookingData[2].area}</h4>
+                                    <h5>{bookingData[2].availableDays.join(", ")} <br /> {bookingData[2].startDate}-{bookingData[2].endDate} ({bookingData[2].duration})</h5>
+                                    <h6>Booking ref: <br />{bookingData[2].id}</h6>
+                                </div>
                             </div>
-                            <button className="delete">DELETE</button>
+                            
+                            <button className={styles['bookingList__btn']}>DELETE</button>
                         </div>
 
-                        <div>
-                            <Image alt={'Kitchen Image'} src={bookingData[3].img} width={350} height={250} />
-                            <div>
-                                <h4>{bookingData[3].name} in {bookingData[3].area}</h4>
-                                <h5>{bookingData[3].availableDays} <br /> {bookingData[3].startDate}-{bookingData[3].endDate}({bookingData[3].duration})</h5>
-                                <h6>Booking ref: <br />{bookingData[3].id}</h6>
+                        <div className={styles['bookingList__info']}>
+                            <div className={styles['bookingList__info__box']}>
+                                <Image alt={'Kitchen Image'} src={bookingData[3].img} width={350} height={250} />
+                                <div className={styles['bookingList__info__box__text']}>
+                                    <h4>{bookingData[3].name} in {bookingData[3].area}</h4>
+                                    <h5>{bookingData[3].availableDays.join(", ")} <br /> {bookingData[3].startDate}-{bookingData[3].endDate} ({bookingData[3].duration})</h5>
+                                    <h6>Booking ref: <br />{bookingData[3].id}</h6>
+                                </div>
                             </div>
-                            <button className="delete">DELETE</button>
+                            
+                            <button className={styles['bookingList__btn']}>DELETE</button>
                         </div>
 
                         <hr />
