@@ -28,7 +28,7 @@ const myBookings: NextPage=()=>{
         availableDays: ['Monday','Tuesday'],
         duration: '3 Months',
         startDate: 'Feb 5',
-        img: 'public/kitchen-image.svg'
+        img: '/kitchen-image-1.png'
     },
     {
         id: '3857976752',
@@ -39,7 +39,7 @@ const myBookings: NextPage=()=>{
         duration: '1 Month',
         startDate: 'Feb 5',
       
-        img: 'public/kitchen-image.svg'
+        img: '/kitchen-image-2.png'
     },
     {
         id: '103832352',
@@ -50,7 +50,7 @@ const myBookings: NextPage=()=>{
         duration: '4 Months',
         startDate: 'Jan 5',
     
-        img: '../../public/unsplash_MtqG1lWcUw0.svg'
+        img: '/kitchen-image-3.png'
     },
     {
         id: '7493492948',
@@ -61,7 +61,7 @@ const myBookings: NextPage=()=>{
         duration: '3 Months',
         startDate: 'Jan 5',
      
-        img: '../../public/unsplash_MtqG1lWcUw0.svg'
+        img: '/kitchen-image-4.png'
     }
     ];
 
@@ -95,7 +95,7 @@ const myBookings: NextPage=()=>{
                         <h3>Requested</h3>
                         
                         <div>
-                            <img src={bookingData[0].img} alt="kitchen picture" />
+                            <Image alt={'Kitchen Image'} src={bookingData[0].img} width={350} height={250} />
                             <div>
                                 <h4>{bookingData[0].name} in {bookingData[0].area}</h4>
                                 <h5>{bookingData[0].availableDays} <br /> {bookingData[0].startDate}-{bookingData[0].endDate}({bookingData[0].duration})</h5>
@@ -110,6 +110,7 @@ const myBookings: NextPage=()=>{
                     <div className={styles['bookingList_confirmed']}>
                         <h3>Confirmed</h3>
 
+                        <p>No confirmed bookings yet.</p>
 
                         <hr />
                     </div>
@@ -117,6 +118,15 @@ const myBookings: NextPage=()=>{
                     <div className={styles['bookingList_canceled']}>
                         <h3>Canceled</h3>
 
+                        <div>
+                            <Image alt={'Kitchen Image'} src={bookingData[1].img} width={350} height={250} />
+                            <div>
+                                <h4>{bookingData[1].name} in {bookingData[1].area}</h4>
+                                <h5>{bookingData[1].availableDays} <br /> {bookingData[1].startDate}-{bookingData[1].endDate}({bookingData[1].duration})</h5>
+                                <h6>Booking ref: <br />{bookingData[1].id}</h6>
+                            </div>
+                            <button className="delete">DELETE</button>
+                        </div>
 
                         <hr />
                     </div>
@@ -124,6 +134,25 @@ const myBookings: NextPage=()=>{
                     <div className={styles['bookingList_rejected']}>
                         <h3>Rejected</h3>
 
+                        <div>
+                            <Image alt={'Kitchen Image'} src={bookingData[2].img} width={350} height={250} />
+                            <div>
+                                <h4>{bookingData[2].name} in {bookingData[2].area}</h4>
+                                <h5>{bookingData[2].availableDays} <br /> {bookingData[2].startDate}-{bookingData[2].endDate}({bookingData[2].duration})</h5>
+                                <h6>Booking ref: <br />{bookingData[2].id}</h6>
+                            </div>
+                            <button className="delete">DELETE</button>
+                        </div>
+
+                        <div>
+                            <Image alt={'Kitchen Image'} src={bookingData[3].img} width={350} height={250} />
+                            <div>
+                                <h4>{bookingData[3].name} in {bookingData[3].area}</h4>
+                                <h5>{bookingData[3].availableDays} <br /> {bookingData[3].startDate}-{bookingData[3].endDate}({bookingData[3].duration})</h5>
+                                <h6>Booking ref: <br />{bookingData[3].id}</h6>
+                            </div>
+                            <button className="delete">DELETE</button>
+                        </div>
 
                         <hr />
                     </div>
