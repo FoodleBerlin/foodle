@@ -16,7 +16,6 @@ const myBookings: NextPage=()=>{
         availableDays: Array<string>;
         duration: string;
         startDate: string;
-        status: string;
         img: string;
     };
 
@@ -29,7 +28,6 @@ const myBookings: NextPage=()=>{
         availableDays: ['Monday','Tuesday'],
         duration: '3 Months',
         startDate: 'Feb 5',
-        status: 'ACCEPTED',
         img: '../../public/unsplash_MtqG1lWcUw0.svg'
     },
     {
@@ -40,7 +38,7 @@ const myBookings: NextPage=()=>{
         availableDays: ['Monday','Thursday'],
         duration: '1 Month',
         startDate: 'Feb 5',
-        status: 'REJECTED',
+      
         img: '../../public/unsplash_MtqG1lWcUw0.svg'
     },
     {
@@ -51,7 +49,7 @@ const myBookings: NextPage=()=>{
         availableDays: ['Tuesday','Friday'],
         duration: '4 Months',
         startDate: 'Jan 5',
-        status: 'REJECTED',
+    
         img: '../../public/unsplash_MtqG1lWcUw0.svg'
     },
     {
@@ -62,7 +60,7 @@ const myBookings: NextPage=()=>{
         availableDays: ['Saturday','Sunday'],
         duration: '3 Months',
         startDate: 'Jan 5',
-        status: 'PENDING',
+     
         img: '../../public/unsplash_MtqG1lWcUw0.svg'
     },
     {
@@ -73,7 +71,7 @@ const myBookings: NextPage=()=>{
         availableDays: ['Monday','Sunday'],
         duration: '3 Months',
         startDate: 'Jan 5',
-        status: 'PENDING',
+       
         img: '../../public/unsplash_MtqG1lWcUw0.svg'
     },
     {
@@ -84,7 +82,7 @@ const myBookings: NextPage=()=>{
         availableDays: ['Monday','Sunday'],
         duration: '3 Months',
         startDate: 'Jan 5',
-        status: 'CANCELED',
+      
         img: '../../public/unsplash_MtqG1lWcUw0.svg'
     }
     ];
@@ -118,22 +116,15 @@ const myBookings: NextPage=()=>{
                     <div className={styles['bookingList_requested']}>
                         <h3>Requested</h3>
                         
-                        {/* for(var i in bookingData){
-
-                            if(bookingData[i].status=='PENDING'){
+                        <div>
+                                <img src={bookingData[i].img} alt="kitchen picture" />
                                 <div>
-                                    <img src={bookingData[i].img} alt="kitchen picture" />
-                                    <div>
-                                        <h4>{bookingData[i].name} in {bookingData[i].area}</h4>
-                                        <h5>{bookingData[i].availableDays} <br /> {bookingData[i].startDate}-{bookingData[i].endDate}({bookingData[i].duration})</h5>
-                                        <h6>Booking ref: <br />{bookingData[i].id}</h6>
-                                    </div>
-                                    <button className="delete">DELETE</button>
-                                </div>
-                                
-                            };
-                         
-                        }; */}
+                                <h4>{bookingData[i].name} in {bookingData[i].area}</h4>
+                                <h5>{bookingData[i].availableDays} <br /> {bookingData[i].startDate}-{bookingData[i].endDate}({bookingData[i].duration})</h5>
+                                <h6>Booking ref: <br />{bookingData[i].id}</h6>
+                            </div>
+                            <button className="delete">DELETE</button>
+                        </div>
 
                         <hr />
                     </div>
