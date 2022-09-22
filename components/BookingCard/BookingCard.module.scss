@@ -1,0 +1,81 @@
+@use '../../styles/base/colors';
+
+
+
+.bookingCard{
+    margin: 2rem 4rem;
+    width: 80%;
+    padding-left: 5rem;
+    border-left: 1px solid colors.$color-light-grey;
+
+    hr{
+        color: colors.$color-grey;
+        background-color:colors.$color-grey;
+        clear: both;
+        border: 0;
+        display: block;
+        height: 1px;
+
+        margin: 2rem 0;
+    }
+
+    h4{
+        font-size: 2rem;
+        margin: 3rem 0;
+    }
+
+    p{
+        font-size: 1.7rem;
+        color: colors.$color-grey;
+    }
+
+    h6{
+
+        color: colors.$color-subtle;
+    }
+
+    button{
+        border-radius: 1.5rem;
+        border: 1px solid colors.$color-secondary;
+        color: colors.$color-secondary;
+        background-color: transparent;
+        height: 5rem;
+        width: 10rem;
+
+        position: relative;
+        right: 6rem;
+
+        align-self: center;
+
+        transition: 500ms;
+
+        &:hover{
+            color: colors.$color-white;
+            border: 1px solid colors.$color-primary-light;
+            background: colors.$color-secondary;
+        }
+    }
+}
+
+
+// &__info{
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: space-between;
+//     margin-bottom: 3rem;
+
+//     &__box{
+//         display: flex;
+//         flex-direction: row;
+
+//         &__text{
+//             display: flex;
+//             flex-direction: column;
+//             justify-content: space-around;
+
+//             font-size: 1.7rem;
+//             margin-left: 2rem;
+//         }
+//     }
+
+// }
