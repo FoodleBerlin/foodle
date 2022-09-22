@@ -2,9 +2,10 @@ import type { NextPage } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import Navbar from '../../components/Layout/Navbar';
+import Sidebar from '../../components/Layout/Sidebar'
 import Head from 'next/head';
 import styles from './myBookings.module.scss';
-//import type {Booking} from '../../codegen/index'
+
 
 const myBookings: NextPage=()=>{
 
@@ -79,12 +80,8 @@ const myBookings: NextPage=()=>{
             <Navbar />
 
             <div className={styles['myBookings']}>
-                <div className={styles['menubar']}>
-                    <a href="/" className={styles['menubar__profile']}>Profile</a>
-                    <a href="/" className={styles['menubar__bp']}>My bookings</a>
-                    <a href="/" className={styles['menubar__bp']}>My payments</a>
-                    <a href="/" className={styles['menubar__support']}>CONTACT SUPPORT</a>
-                </div>
+               
+                <Sidebar/>
 
                 <div className={styles['bookingList']}>
                     <h1>My bookings</h1>
