@@ -1,13 +1,12 @@
 
 import Image from 'next/image';
-import React from 'react';
-import styles from './BookingCard.module.scss'
+import styles from './BookingCard.module.scss';
 
 
-export type Booking ={
+export type Booking = {
     id: string;
     area: string;
-    name:string;
+    name: string;
     endDate: string;
     availableDays: Array<string>;
     duration: string;
@@ -16,8 +15,13 @@ export type Booking ={
     status: string;
 };
 
-const BookingCard=(props: Booking)=> {
-    
+const BookingCard = (props: { bookingData: Booking[] }) => {
+
+    const rejected=props.bookingData.filter((booking)=> booking.status==="REJECTED");
+    const requested=props.bookingData.filter((booking)=> booking.status==="REQUESTED");
+    const canceled=props.bookingData.filter((booking)=> booking.status==="CANCELED");
+    const confirmed=props.bookingData.filter((booking)=> booking.status==="CONFIRMED");
+
     return (
 
         <div className={styles['bookingCard']}>
@@ -25,39 +29,52 @@ const BookingCard=(props: Booking)=> {
             <div className="requested">
                 <h4>Requested</h4>
 
-                if({props.status}=='REQUESTED'){
-                    <div className=''>
-                        <div className=''>
-                            <Image alt={'Kitchen Image'} src={props.img} width={350} height={250} />
-                            <div className=''>
-                                <h5>{props.name} in {props.area}</h5>
-                                <h6>{props.availableDays.join(", ")} <br /> {props.startDate}-{props.endDate} ({props.duration})</h6>
-                                <h6>Booking ref: <br />{props.id}</h6>
+                {requested.length === 0 ?(
+                    <p>No confirmed bookings yet.</p>
+                ):(
+                    requested.map(({id, area, name, endDate, availableDays,duration,startDate,img})=>
+                        <div className={styles['bookingBlock']}>
+                            <div className={styles['bookingBlock__imgtext']}>
+                                <Image alt={'Kitchen Image'} src={img} width={350} height={250} />
+                                <div className={styles['bookingBlock__text']}>
+                                    <h5>{name} in {area}</h5>
+                                    <h6>{availableDays.join(", ")} <br /> {startDate}-{endDate} ({duration})</h6>
+                                    <h6>Booking ref: <br />{id}</h6>
+                                </div>
                             </div>
+                            <button>DELETE</button>
                         </div>
-                        <button>DELETE</button>
-                    </div>
-                }
-                 <hr />
+                    )
+                    
+                )}
+
+                <hr />
             </div>
 
             <div className="confirmed">
                 <h4>Confirmed</h4>
 
-                if({props.status}=='CONFIRMED'){
-                    <div className=''>
-                        <div className=''>
-                            <Image alt={'Kitchen Image'} src={props.img} width={350} height={250} />
-                            <div className=''>
-                                <h5>{props.name} in {props.area}</h5>
-                                <h6>{props.availableDays.join(", ")} <br /> {props.startDate}-{props.endDate} ({props.duration})</h6>
-                                <h6>Booking ref: <br />{props.id}</h6>
+                {confirmed.length === 0 ?(
+                    <p>No confirmed bookings yet.</p>
+                ):(
+                    confirmed.map(({id, area, name, endDate, availableDays,duration,startDate,img})=>
+                        <div className={styles['bookingBlock']}>
+                            <div className={styles['bookingBlock__imgtext']}>
+                                <Image alt={'Kitchen Image'} src={img} width={350} height={250} />
+                                <div className={styles['bookingBlock__text']}>
+                                    <h5>{name} in {area}</h5>
+                                    <h6>{availableDays.join(", ")} <br /> {startDate}-{endDate} ({duration})</h6>
+                                    <h6>Booking ref: <br />{id}</h6>
+                                </div>
                             </div>
+                            <button>DELETE</button>
                         </div>
-                        <button>DELETE</button>
-                    </div>
-                }
-                 <hr />
+                    )
+                    
+                )}
+         
+
+                <hr />
 
 
             </div>
@@ -65,20 +82,26 @@ const BookingCard=(props: Booking)=> {
             <div className="canceled">
                 <h4>Canceled</h4>
 
-                if({props.status}=='CANCELED'){
-                    <div className=''>
-                        <div className=''>
-                            <Image alt={'Kitchen Image'} src={props.img} width={350} height={250} />
-                            <div className=''>
-                                <h5>{props.name} in {props.area}</h5>
-                                <h6>{props.availableDays.join(", ")} <br /> {props.startDate}-{props.endDate} ({props.duration})</h6>
-                                <h6>Booking ref: <br />{props.id}</h6>
+                {canceled.length === 0 ?(
+                    <p>No confirmed bookings yet.</p>
+                ):(
+                    canceled.map(({id, area, name, endDate, availableDays,duration,startDate,img})=>
+                        <div className={styles['bookingBlock']}>
+                            <div className={styles['bookingBlock__imgtext']}>
+                                <Image alt={'Kitchen Image'} src={img} width={350} height={250} />
+                                <div className={styles['bookingBlock__text']}>
+                                    <h5>{name} in {area}</h5>
+                                    <h6>{availableDays.join(", ")} <br /> {startDate}-{endDate} ({duration})</h6>
+                                    <h6>Booking ref: <br />{id}</h6>
+                                </div>
                             </div>
+                            <button>DELETE</button>
                         </div>
-                        <button>DELETE</button>
-                    </div>
-                }
-                 <hr />
+                    )
+                    
+                )}
+
+                <hr />
 
 
             </div>
@@ -86,22 +109,26 @@ const BookingCard=(props: Booking)=> {
             <div className="rejected">
                 <h4>Rejected</h4>
 
-                if({props.status}=='REJECTED'){
-                    <div className=''>
-                        <div className=''>
-                            <Image alt={'Kitchen Image'} src={props.img} width={350} height={250} />
-                            <div className=''>
-                                <h5>{props.name} in {props.area}</h5>
-                                <h6>{props.availableDays.join(", ")} <br /> {props.startDate}-{props.endDate} ({props.duration})</h6>
-                                <h6>Booking ref: <br />{props.id}</h6>
+                {rejected.length === 0 ?(
+                    <p>No confirmed bookings yet.</p>
+                ):(
+                    rejected.map(({id, area, name, endDate, availableDays,duration,startDate,img})=>
+                        <div className={styles['bookingBlock']}>
+                            <div className={styles['bookingBlock__imgtext']}>
+                                <Image alt={'Kitchen Image'} src={img} width={350} height={250} />
+                                <div className={styles['bookingBlock__text']}>
+                                    <h5>{name} in {area}</h5>
+                                    <h6>{availableDays.join(", ")} <br /> {startDate}-{endDate} ({duration})</h6>
+                                    <h6>Booking ref: <br />{id}</h6>
+                                </div>
                             </div>
+                            <button>DELETE</button>
                         </div>
-                        <button>DELETE</button>
-                    </div>
-                }
-                 <hr />
+                    )
+                    
+                )}
 
-
+                <hr />
             </div>
 
         </div>
