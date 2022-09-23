@@ -3,10 +3,9 @@
 
 
 .bookingCard{
-    margin: 2rem 4rem;
-    width: 80%;
-    padding-left: 5rem;
-    border-left: 1px solid colors.$color-light-grey;
+    margin: 2rem 0;
+    width: 90%;
+    
 
     hr{
         color: colors.$color-grey;
@@ -57,25 +56,24 @@
     }
 }
 
+.bookingBlock{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  
+    &__imgtext{
+        display: flex;
+        flex-direction: row;
+    }
 
-// &__info{
-//     display: flex;
-//     flex-direction: row;
-//     justify-content: space-between;
-//     margin-bottom: 3rem;
+    &__text{
 
-//     &__box{
-//         display: flex;
-//         flex-direction: row;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
 
-//         &__text{
-//             display: flex;
-//             flex-direction: column;
-//             justify-content: space-around;
-
-//             font-size: 1.7rem;
-//             margin-left: 2rem;
-//         }
-//     }
-
-// }
+        font-size: 1.7rem;
+        margin-left: 2rem;
+    }
+}
