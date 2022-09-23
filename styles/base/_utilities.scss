@@ -1,9 +1,16 @@
 @use './colors';
 
 .flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  &__column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
 }
 .display-none {
   display: none !important;
@@ -49,6 +56,7 @@
     transition: 300ms;
   }
 }
+
 
 .mt-one {
   margin-top: 1rem !important;
@@ -143,3 +151,45 @@
 .mb-two-half {
   margin-bottom: 2.5rem !important;
 }
+.flex-center {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  &__column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+.display-none {
+  display: none !important;
+}
+
+.flex-column {
+  display: flex;
+  justify-content: column !important;
+  align-items: column;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: column;
+  align-items: center;
+}
+
+.spacer {
+  height: 20rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+

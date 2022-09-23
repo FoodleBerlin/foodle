@@ -6,10 +6,10 @@ const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval'; 
   child-src ${process.env.CLIENT_URL};
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com ; 
+  style-src 'self' 'unsafe-inline' https://db.onlinewebfonts.com https://fonts.googleapis.com ; 
   img-src 'self' data:;
   connect-src 'self' ${process.env.NEXT_PUBLIC_SERVER_URL} https://s3.eu-central-1.amazonaws.com;
-  font-src 'self' https://fonts.gstatic.com;  
+  font-src 'self' data: http://db.onlinewebfonts.com https://db.onlinewebfonts.com https://fonts.gstatic.com;  
 `
 const securityHeaders = [
   // { 
@@ -53,6 +53,11 @@ const nextConfig = {
   images: {
     domains: ["foodle-bucket.s3.eu-central-1.amazonaws.com"]
   },
+  
+  i18n: {
+   locales: ["en", "de"],
+   defaultLocale: "de",
+ },
   async headers() {
     return [
       {
