@@ -91,10 +91,9 @@ const myBookings: NextPage=()=>{
                     <h4>My bookings</h4>
                     <h5>A list of all bookings made, requested, rejected, cancelled and confirmed</h5>
                    
-                    <div className="">
-                        {bookingData.map(({ id, area, name, endDate, availableDays, duration, startDate, img, status }) => (
-                            <BookingCard id={id} area={area} name={name} endDate={endDate} availableDays={availableDays} duration={duration} startDate={startDate} img={img} status={status} />
-                        ))}
+                    <div className={styles['bookingCard']}>
+                        
+                        <BookingCard bookingData={bookingData}/>
               
                     </div>
                 </div>
