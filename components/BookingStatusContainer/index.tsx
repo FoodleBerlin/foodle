@@ -16,7 +16,7 @@ const BookingStatusContainer = (props: BookingStatusContainerProps) => {
       {props.bookings.length === 0 ? (
         <p>No {props.status} bookings yet.</p>
       ) : (
-        props.bookings.map(({ id, area, name, endDate, availableDays, duration, startDate, img }) => (
+        props.bookings.map(({ id, area, name, endDate, availableDays, duration, startDate, img }, index) => (
           <BookingCard
             id={id}
             area={area}
@@ -27,6 +27,7 @@ const BookingStatusContainer = (props: BookingStatusContainerProps) => {
             startDate={startDate}
             img={img}
             status={''}
+            key={index}
           />
         ))
       )}
