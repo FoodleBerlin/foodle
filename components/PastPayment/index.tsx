@@ -17,7 +17,7 @@ return(
             props.payments.map(({date, amount, id, status, type})=>(
                 <div className={styles["pastPayment__info"]}>
                     <div>{date}</div>
-                    <div>{amount}</div>
+                    <div>{amount}€</div>
                     <div>{type}</div>
                     <div>{status}</div>
                     <div>{id}</div>
