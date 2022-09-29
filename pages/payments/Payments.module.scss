@@ -1,0 +1,42 @@
+@use '../../styles/base/colors';
+
+.payments{
+    display: flex;
+    flex-direction: row !important;
+    font-family: 'Inter', sans-serif !important;
+
+}
+
+.mypayments{
+    margin-top: 9rem;
+    width: 90%;
+    border-left: 1px solid colors.$color-grey;
+    padding-left: 6rem;
+    padding-right: 6rem;
+
+    h4{
+        margin-bottom: 1rem;
+    }
+
+    h5{
+        margin-bottom: 6rem;
+        letter-spacing: 0.5em;
+    }
+
+    h6{
+        margin-bottom: 2rem;
+    }
+}
+
+.namebox{
+    display: flex;
+    flex-direction: row;
+    font-size: 2rem;
+    justify-content: space-around;
+    margin-bottom: 1.5rem;
+    
+}
+
+.pastPayment{
+    margin: 5rem 0;
+}
