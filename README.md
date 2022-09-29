@@ -12,8 +12,8 @@ A licensed kitchen rental service.
 ### Server
 
 1. `yarn db:up` to start the database
-2. `yarn prisma:generate` to generate the prisma client
-3. `yarn prisma:migrate:deploy` to project the generated migration from prisma.schema onto your database
+2. `yarn prisma:migrate:deploy` to project the generated migration from prisma.schema onto your database
+3. `yarn prisma:generate` to generate the prisma client
 4. `yarn nexus:watch` to generate the graphql.schema
 5. `yarn dev` to start the server in development
 6. navigate to "localhost:5000/graphql" for the apollo interface where you can manually test queries/mutations
