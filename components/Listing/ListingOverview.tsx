@@ -12,19 +12,19 @@ function ListingOverview({ listingsData }: { listingsData: FormData }) {
     const endDate = new Date(listingsData.endDate);
     return (
         <div className={styles["grid"]}>
-            <BookingProvider>
-                <div className={styles["sidebarContainer"]}>
+            <div className={styles["sidebarContainer"]}>
+                <BookingProvider>
                     <ListingSideBar listingsData={listingsData} />
-                </div>
-            </BookingProvider>
+                </BookingProvider>
+            </div>
             <div className={styles['listingoverview']}>
                 <div className={styles['formItem']}>
                     <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
                     <div className="gallery__container">
                         <div className="gallery">
                             {listingsData.images.map((image: UploaderImg, index) => (
-                                <div key={index} className={'gallery__item gallery__item--' + index}>
-                                    <Image src={image.url} width={460} height={516} className="gallery__img" alt={'Image ' + index} />
+                                <div key={"key-image-" + image.fileName} className={'gallery__item gallery__item--' + index}>
+                                    <Image src={image.url} width={460} height={516} className="gallery__img" alt={'Image ' + index} key={"image--" + index.toString()} />
                                 </div>
                             ))}
                         </div>
@@ -54,8 +54,8 @@ function ListingOverview({ listingsData }: { listingsData: FormData }) {
                     </div>
                     <div className={styles['listingoverview__featureTagWrapper']}>
                         {listingsData.facilities.map((feature: string) => (
-                            <span key={feature} className="feature-tag">
-                                <p>{feature.toUpperCase()}</p>
+                            <span key={"span-key-" + feature} className="feature-tag">
+                                <p key={"p-feature-" + feature}>{feature.toUpperCase()}</p>
                             </span>
                         ))}
                     </div>
@@ -101,17 +101,19 @@ function ListingOverview({ listingsData }: { listingsData: FormData }) {
                             <p className='small-text'>Frequency: {listingsData.frequency.toString()}</p>
                         </div>
                         <div className={styles['listingoverview__weekDayCheckboxWrapper--week1'] + ' ' + styles['weekDays__container']}>
-                            <>{Object.keys(listingsData.daySlots).map((day, index) =>
-                                <>
+                            {Object.keys(listingsData.daySlots).map((day, index) =>
+                                <div key={"key-input-" + day.toString()}>
                                     <input type="checkbox" id={"1-weekday-" + day.slice(0, 2)} className={styles['weekDays__checkbox'] + ' weekday'} checked={Object.values(listingsData.daySlots)[index].selected} readOnly />
-                                    <label htmlFor={"1-weekday-" + day.slice(0, 2)}>{day[0].toUpperCase()}</label></>)
-                            }</>
+                                    <label htmlFor={"1-weekday-" + day.slice(0, 2)}>{day[0].toUpperCase()}</label>
+                                </div>
+                            )
+                            }
                         </div>
                     </div>
                 </div>
                 <div className={styles['listingoverview__thingsToKnowContainer']}></div>
             </div>
-        </div>
+        </div >
     );
 }
 
