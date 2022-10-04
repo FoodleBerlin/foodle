@@ -10,6 +10,7 @@ export type DaySlot = {
 };
 
 export default function Step3() {
+  const context = useWizardContext();
   const { formState, nextStep, register, setValue } = useWizardContext();
   const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = useWizardContext().getValues().daySlots;
   const daySlots = useWizardContext().getValues().daySlots
@@ -117,13 +118,13 @@ export default function Step3() {
           <div className={styles['weekDays__daysOfWeek']}>
             <label className="label-text">Days of week</label>
             <div className={styles['weekDays__weekDayCheckboxWrapper']}>
-              <DaySelector weekday={'Monday'} short={'mon'} shortest={'M'} register={register} setValue={setValue} weekdays={daySlots} />
-              <DaySelector weekday={'Tuesday'} short={'tue'} shortest={'T'} register={register} setValue={setValue} weekdays={daySlots} />
-              <DaySelector weekday={'Wednesday'} short={'wed'} shortest={'W'} register={register} setValue={setValue} weekdays={daySlots} />
-              <DaySelector weekday={'Thursday'} short={'thu'} shortest={'T'} register={register} setValue={setValue} weekdays={daySlots} />
-              <DaySelector weekday={'Friday'} short={'fri'} shortest={'F'} register={register} setValue={setValue} weekdays={daySlots} />
-              <DaySelector weekday={'Saturday'} short={'sat'} shortest={'S'} register={register} setValue={setValue} weekdays={daySlots} />
-              <DaySelector weekday={'Sunday'} short={'sun'} shortest={'S'} register={register} setValue={setValue} weekdays={daySlots} />
+              <DaySelector weekday={'Monday'} short={'mon'} shortest={'M'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Tuesday'} short={'tue'} shortest={'T'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Wednesday'} short={'wed'} shortest={'W'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Thursday'} short={'thu'} shortest={'T'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Friday'} short={'fri'} shortest={'F'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Saturday'} short={'sat'} shortest={'S'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Sunday'} short={'sun'} shortest={'S'} register={register} setValue={setValue} context={context} />
             </div>
             {/* TODO: Add validation and error messages for all day inputs  */}
             {/* {formState.errors.days && (

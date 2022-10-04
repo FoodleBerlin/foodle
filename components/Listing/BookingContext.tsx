@@ -1,11 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useContext } from "react";
-import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
-import { z } from "zod";
-import { FrequencyEnum } from "../../codegen";
+import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useContext, useState } from 'react';
+import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { z } from 'zod';
+import { FrequencyEnum } from '../../codegen';
 
 const formData = z.object({
-    propertyHandle: z.string().nonempty({ message: "Property handle is required" }),
+    propertyHandle: z.string().nonempty({ message: 'Property handle is required' }),
     startDate: z.preprocess((arg) => {
         if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
     }, z.date()),
@@ -51,24 +51,25 @@ const formData = z.object({
     }),
     frequency: z.enum([FrequencyEnum.None, FrequencyEnum.Weekly, FrequencyEnum.Monthly]),
 
-    minMonths: z.number({ required_error: 'Minimum stay is required, e.g. 1 month' })
+    minMonths: z.number({ required_error: 'Minimum stay is required, e.g. 1 month' }),
 });
 
 export type BookingFormData = z.infer<typeof formData>;
 
-type BookingContext = {
+export type BookingContext = {
     defaults: BookingFormData;
     formState: FormState<BookingFormData>;
     submitForm: (formData: any) => void;
     register: UseFormRegister<BookingFormData>;
     setValue: UseFormSetValue<BookingFormData>;
     getValues: UseFormGetValues<BookingFormData>;
-
-}
+    setF: () => void;
+    f: boolean;
+};
 
 export const BookingContext = React.createContext<BookingContext>({
     defaults: {
-        propertyHandle: "",
+        propertyHandle: '',
         startDate: new Date('2015-03-25'),
         daySlots: {
             monday: {
@@ -116,11 +117,14 @@ export const BookingContext = React.createContext<BookingContext>({
     register: {} as UseFormRegister<BookingFormData>,
     setValue: {} as UseFormSetValue<BookingFormData>,
     getValues: {} as UseFormGetValues<BookingFormData>,
+    setF: () => { },
+    f: false,
 });
 
 export const BookingProvider = ({ children }: any) => {
+    const [f, setFrequency] = useState<boolean>(false);
     const defaults = {
-        propertyHandle: "",
+        propertyHandle: '',
         startDate: new Date(),
         daySlots: {
             monday: {
@@ -167,13 +171,15 @@ export const BookingProvider = ({ children }: any) => {
         resolver: zodResolver(formData),
         defaultValues: defaults,
     });
+    const setF = () => {
+        setFrequency(!f);
+    };
     const submitForm = (formData: any) => {
         console.log(formData);
     };
+    console.log('rerendering booking context');
     return (
-        <BookingContext.Provider
-            value={{ submitForm, defaults, register, setValue, formState, getValues }}
-        >
+        <BookingContext.Provider value={{ f, setF, submitForm, defaults, register, setValue, formState, getValues }}>
             {children}
         </BookingContext.Provider>
     );

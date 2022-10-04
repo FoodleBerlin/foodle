@@ -10,6 +10,7 @@ function ListingSideBar(props: { listingsData: FormData }) {
     const { register, setValue } = useBookingContext();
     const weekDays = useBookingContext().getValues().daySlots;
     const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = useBookingContext().getValues().daySlots;
+    const bookingContext = useBookingContext();
 
     console.log(weekDays)
     return (
@@ -24,13 +25,13 @@ function ListingSideBar(props: { listingsData: FormData }) {
                     <div className={styles['listingoverview__weekDayCheckboxWrapper--week1'] + ' ' + styles['weekDays__container'] + ' ' + styles["sidebar__weekDayMargin"]}>
                         <div className={styles['weekDays__daysOfWeek']}>
                             <div className={styles['weekDays__weekDayCheckboxWrapper']}>
-                                <DaySelector weekday={'Monday'} short={'mon'} shortest={'M'} register={register} setValue={setValue} weekdays={weekDays} />
-                                <DaySelector weekday={'Tuesday'} short={'tue'} shortest={'T'} register={register} setValue={setValue} weekdays={weekDays} />
-                                <DaySelector weekday={'Wednesday'} short={'wed'} shortest={'W'} register={register} setValue={setValue} weekdays={weekDays} />
-                                <DaySelector weekday={'Thursday'} short={'thu'} shortest={'T'} register={register} setValue={setValue} weekdays={weekDays} />
-                                <DaySelector weekday={'Friday'} short={'fri'} shortest={'F'} register={register} setValue={setValue} weekdays={weekDays} />
-                                <DaySelector weekday={'Saturday'} short={'sat'} shortest={'S'} register={register} setValue={setValue} weekdays={weekDays} />
-                                <DaySelector weekday={'Sunday'} short={'sun'} shortest={'S'} register={register} setValue={setValue} weekdays={weekDays} />
+                                <DaySelector weekday={'Monday'} short={'mon'} shortest={'M'} register={register} setValue={setValue} context={bookingContext} />
+                                <DaySelector weekday={'Tuesday'} short={'tue'} shortest={'T'} register={register} setValue={setValue} context={bookingContext} />
+                                <DaySelector weekday={'Wednesday'} short={'wed'} shortest={'W'} register={register} setValue={setValue} context={bookingContext} />
+                                <DaySelector weekday={'Thursday'} short={'thu'} shortest={'T'} register={register} setValue={setValue} context={bookingContext} />
+                                <DaySelector weekday={'Friday'} short={'fri'} shortest={'F'} register={register} setValue={setValue} context={bookingContext} />
+                                <DaySelector weekday={'Saturday'} short={'sat'} shortest={'S'} register={register} setValue={setValue} context={bookingContext} />
+                                <DaySelector weekday={'Sunday'} short={'sun'} shortest={'S'} register={register} setValue={setValue} context={bookingContext} />
                             </div>
 
                             {<div className={styles['sidebar__timeInput']}>

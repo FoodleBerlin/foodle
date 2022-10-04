@@ -161,7 +161,7 @@ export const formData = z.object({
 });
 
 export type FormData = z.infer<typeof formData>;
-type WizardContext = {
+export type WizardContext = {
   step: number;
   defaults: FormData;
   formState: FormState<FormData>;
