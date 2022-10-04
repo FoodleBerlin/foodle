@@ -141,7 +141,7 @@ export const formData = z.object({
     if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
   }, z.date()),
 
-  minMonths: z.number({ required_error: 'Minimum stay is required, e.g. 1 month' }),
+  minMonths: z.number({ required_error: 'Minimum stay is required, e.g. 1 month' }).min(1, { message: 'Minimum stay needs to be bigger or equal to 1' }),
   rules: z
     .string({ required_error: 'Rules are required' })
     .min(10, { message: 'Must be 10 or more characters long' })

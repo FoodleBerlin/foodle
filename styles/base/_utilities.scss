@@ -1,7 +1,16 @@
+@use './colors';
+
 .flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  &__column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
 }
 .display-none {
   display: none !important;
@@ -23,9 +32,11 @@
   display: flex;
 }
 .flex-space-between {
-  display: flex;
+  
   justify-content: space-between;
 }
+
+
 
 // Top Margin
 .mt-half {
@@ -46,6 +57,7 @@
   }
 }
 
+
 .mt-one {
   margin-top: 1rem !important;
 }
@@ -60,6 +72,10 @@
 }
 .mt-three {
   margin-top: 3rem !important;
+}
+
+.mt-ten {
+  margin-top: 10rem !important;
 }
 
 .mr-one {
@@ -135,3 +151,45 @@
 .mb-two-half {
   margin-bottom: 2.5rem !important;
 }
+.flex-center {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  &__column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+.display-none {
+  display: none !important;
+}
+
+.flex-column {
+  display: flex;
+  justify-content: column !important;
+  align-items: column;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: column;
+  align-items: center;
+}
+
+.spacer {
+  height: 20rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+

@@ -77,7 +77,7 @@ const Footer = (props: FooterProps) => {
       title: wiz.title,
       ownerHandle: props.session.email.substring(0, props.session.email.indexOf('@')),
       street: wiz.location.street,
-      streetNumber: String(wiz.location.streetNumber),
+      streetNumber: Number(wiz.location.streetNumber),
       zip: Number(wiz.location.zip),
       city: wiz.location.city,
       description: wiz.description,

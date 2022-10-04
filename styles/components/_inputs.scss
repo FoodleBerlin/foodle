@@ -17,6 +17,7 @@ input[type='checkbox']::before {}
     @include input(6rem);
   }
 
+
   &__inputMedium {
     @include input(8rem);
   }
