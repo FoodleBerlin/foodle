@@ -1,7 +1,7 @@
 //TODO: Refactor FormData out from Wizard.tsx
 import DaySelector from "../Create/DaySelector";
 import TimeInput from "../Create/TimeInput";
-import { FormData } from "../Create/wizard/Wizard";
+import { FormData, touchDirtyValidate } from "../Create/wizard/Wizard";
 import { useBookingContext } from "./BookingContext";
 import styles from "./ListingSideBar.module.scss";
 
@@ -18,7 +18,11 @@ function ListingSideBar(props: { listingsData: FormData }) {
             <div className={styles["sidebar"]}>
                 <div className={styles["sidebar__startDate"]}>
                     <h3 className={styles["sidebar__smallheading"]}>Starting week of</h3>
-                    <input type="date" name="date" className={styles["sidebar__dateInputField"]} />
+                    <input type="date" className={styles["sidebar__dateInputField"]} {...register('startDate')}
+                        onChange={(c) => {
+                            setValue('startDate', c.target.value as any, touchDirtyValidate);
+                            bookingContext.setF();
+                        }} />
                 </div>
                 <div className={styles["sidebar__dateTimeSelection"]}>
                     <h3 className={styles["sidebar__smallheading"]}>Days of the week</h3>
@@ -48,13 +52,22 @@ function ListingSideBar(props: { listingsData: FormData }) {
                 </div>
 
                 {/* Add hidden label*/}
-                <select name="repetition" id="repetition" className={styles["sidebar__repetition"]}>
+                {console.log(bookingContext.getValues())}
+                <select id="repetition" className={styles["sidebar__repetition"]} {...register('frequency')}
+                    onChange={(c) => {
+                        setValue('frequency', c.target.value as FormData['frequency'], touchDirtyValidate);
+                        bookingContext.setF();
+                    }}>
                     <option value="weekly">Every week</option>
                     <option value="monthly">Every Month</option>
                 </select>
                 <div>
                     <h3 className={styles["sidebar__smallheading"]}>Until</h3>
-                    <input type="date" className={styles["sidebar__dateInputField"]} />
+                    <input type="date" className={styles["sidebar__dateInputField"]} {...register('endDate')}
+                        onChange={(c) => {
+                            setValue('endDate', c.target.value as any, touchDirtyValidate);
+                            bookingContext.setF();
+                        }} />
                 </div>
                 <button className={styles["sidebar__bookingbutton"]}>REQUEST TO BOOK</button>
             </div>
