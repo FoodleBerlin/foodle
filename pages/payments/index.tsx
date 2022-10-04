@@ -14,6 +14,13 @@ export type Payment ={
     id: number;
 }
 
+export type Method ={
+    type: string;
+    date: string;
+    number: number;
+    default: boolean;
+}
+
 const payments: NextPage= ()=>{
 
     const paymentData: Payment[] =[
@@ -40,6 +47,21 @@ const payments: NextPage= ()=>{
         }
     ]
 
+    const methodData: Method[]=[
+        {
+            type: 'MasterCard',
+            date: '21/01/2022',
+            number: 23456789,
+            default: true
+        },
+        {
+            type: 'MasterCard',
+            date: '21/01/2022',
+            number: 23456789,
+            default: false
+        }
+    ]
+
 return(
 
     <div>
@@ -59,7 +81,7 @@ return(
                 <h5 className="subtitle-text subtle-text">PAYMENTS PENDING, PAID, REFUNDED.</h5>
                 <div className={styles['paymentMethod']}>
                     <h6 className='header-tertiary'>Payment methods</h6>
-                    <PaymentMethod />
+                    <PaymentMethod methods={methodData}/>
 
                 </div>
                 <div className={styles['pastPayment']}>
