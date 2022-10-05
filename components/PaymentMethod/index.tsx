@@ -1,8 +1,8 @@
 import styles from './PaymentMethod.module.scss'
 import {Method} from '../../pages/payments/index'
-import DefaultButton from '../DefaultButton/index'
+import DefaultButton from '../DefaultButton'
 
-export type PaymentMethodProps={
+interface PaymentMethodProps {
     methods: Method[];
 }
 
@@ -13,11 +13,11 @@ return(
        {props.methods.length===0?(
         <p>No payment method added yet.</p>
        ):(
-        props.methods.map(({date,type,number,default})=>(
+        props.methods.map((method)=>(
             <div className="">
-                <div>{type} {number}</div>
-                <div>Expiry {date}</div>
-                <DefaultButton default={default}/>
+                <div>{method.type} {method.number}</div>
+                <div>Expiry {method.date}</div>
+                <DefaultButton default={method.default}/>
             </div>
         ))
        )
