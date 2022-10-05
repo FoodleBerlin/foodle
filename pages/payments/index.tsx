@@ -21,7 +21,7 @@ export type Method ={
     default: boolean;
 }
 
-const payments: NextPage= ()=>{
+const Payments: NextPage= ()=>{
 
     const paymentData: Payment[] =[
         {
@@ -106,4 +106,4 @@ return(
 
 };
 
-export default payments;
+export default Payments;
