@@ -322,6 +322,11 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'findUserResult', User?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, currency?: string | null, invoiceId?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryYear?: number | null, expiryMonth?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
 
+export type FindBookingsOfUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindBookingsOfUserQuery = { __typename?: 'Query', findBookingsOfUser: { __typename?: 'GetBookingsOfUser', Bookings?: Array<{ __typename?: 'Booking', id: string, bookingStatus: BookingStatus, frequency: FrequencyEnum, totalPrice: number, startDate: string, endDate: string, property: { __typename?: 'Property', handle: string, title: string }, daySlots: Array<{ __typename?: 'DaySlot', startTime: any, endTime: any }> }> | null } };
+
 export type CreateBookingMutationVariables = Exact<{
   propertyHandle: Scalars['String'];
   startDate: Scalars['DateTime'];
@@ -481,6 +486,41 @@ export const useUpdateUserMutation = <
     useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
       ['UpdateUser'],
       (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdateUserDocument, variables)(),
+      options
+    );
+export const FindBookingsOfUserDocument = `
+    query FindBookingsOfUser {
+  findBookingsOfUser {
+    Bookings {
+      id
+      property {
+        handle
+        title
+      }
+      daySlots {
+        startTime
+        endTime
+      }
+      bookingStatus
+      frequency
+      totalPrice
+      startDate
+      endDate
+    }
+  }
+}
+    `;
+export const useFindBookingsOfUserQuery = <
+      TData = FindBookingsOfUserQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: FindBookingsOfUserQueryVariables,
+      options?: UseQueryOptions<FindBookingsOfUserQuery, TError, TData>
+    ) =>
+    useQuery<FindBookingsOfUserQuery, TError, TData>(
+      variables === undefined ? ['FindBookingsOfUser'] : ['FindBookingsOfUser', variables],
+      fetcher<FindBookingsOfUserQuery, FindBookingsOfUserQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindBookingsOfUserDocument, variables),
       options
     );
 export const CreateBookingDocument = `
