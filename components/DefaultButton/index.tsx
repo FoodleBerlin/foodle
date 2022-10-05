@@ -1,10 +1,14 @@
 import Image from 'next/image';
 import styles from './DefaultButton.module.scss'
 
-const DefaultButton=(props: boolean)=>{
+interface DefaultButtonProps {
+    default: boolean;
+}
+
+const DefaultButton=(props: DefaultButtonProps)=>{
     return(
         <div className=''>
-            {props?(
+            {props.default?(
                 <div className="">DEFAULT</div>
             ):(
                 <div className=''>
