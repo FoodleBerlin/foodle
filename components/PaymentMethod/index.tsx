@@ -14,9 +14,12 @@ return(
         <p>No payment method added yet.</p>
        ):(
         props.methods.map((method)=>(
-            <div className="">
-                <div>{method.type} {method.number}</div>
-                <div>Expiry {method.date}</div>
+            <div className={styles['paymentMethod__block']}>
+                <div>
+                    <div>{method.type} {method.number}</div>
+                    <div className={styles['greytext']}>Expiry {method.date}</div>
+                </div>
+                
                 <DefaultButton default={method.default}/>
             </div>
         ))
