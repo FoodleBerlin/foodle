@@ -8,7 +8,7 @@ import styles from '../../styles/pages/All.module.scss';
 const Kitchen: NextPage = () => {
   const router = useRouter();
   const { handle } = router.query;
-  const { status, data, error, isFetching, isLoading } = useFindAllPropertiesQuery({
+  const { data, isLoading } = useFindAllPropertiesQuery({
     endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
     fetchParams: {
       headers: {
@@ -20,7 +20,6 @@ const Kitchen: NextPage = () => {
   if (isLoading) console.log('is Loading...');
 
   const properties = [data?.findAllProperties.Properties][0];
-  console.log(properties);
   return (
     <>
       <Navbar />
@@ -34,7 +33,7 @@ const Kitchen: NextPage = () => {
             property.images = [{ url: "/kitchen-test.jpg", id: 1, description: "description" }]
 
             return (
-              <ListingOverview handle={property.handle} listingsData={property} />
+              <ListingOverview handle={property.handle} listingsData={property} owner={property.owner} />
             );
           }
         })}

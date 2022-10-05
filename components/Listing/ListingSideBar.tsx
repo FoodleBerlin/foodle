@@ -7,7 +7,7 @@ import { useBookingContext } from "./BookingContext";
 import styles from "./ListingSideBar.module.scss";
 
 
-function ListingSideBar(props: { listingsData: FormData, handle: string }) {
+function ListingSideBar(props: { listingsData: FormData, handle: string, owner: any }) {
     //TODO: REFACTOR
     const { register, setValue } = useBookingContext();
     const weekDays = useBookingContext().getValues().daySlots;
@@ -89,8 +89,9 @@ function ListingSideBar(props: { listingsData: FormData, handle: string }) {
             <div className={styles["ownercard"]}>
                 <div className={styles["ownercard__avatar"]}></div>
                 <div className={styles["ownercard__profileinfo"]}>
-                    <p className="bold">Mrs. Landloard</p>
-                    <p>Since 2022</p>
+                    {/*TODO: Extend owner properties! */}
+                    <p className="bold">{props.owner.fullName}</p>
+                    <p>Long time owner</p>
                     <p className="bold">Super owner</p>
                 </div>
             </div>

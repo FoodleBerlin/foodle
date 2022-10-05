@@ -7,14 +7,14 @@ import styles from "./ListingOverview.module.scss";
 import ListingSideBar from './ListingSideBar';
 
 
-function ListingOverview({ listingsData, handle }: { listingsData: FormData, handle: string }) {
+function ListingOverview({ listingsData, handle, owner }: { listingsData: FormData, handle: string, owner: any }) {
     const startDate = new Date(listingsData.startDate);
     const endDate = new Date(listingsData.endDate);
     return (
         <div className={styles["grid"]}>
             <div className={styles["sidebarContainer"]}>
                 <BookingProvider>
-                    <ListingSideBar listingsData={listingsData} handle={handle} />
+                    <ListingSideBar listingsData={listingsData} handle={handle} owner={owner} />
                 </BookingProvider>
             </div>
             <div className={styles['listingoverview']}>
