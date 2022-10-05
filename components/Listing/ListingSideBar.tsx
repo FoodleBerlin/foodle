@@ -1,4 +1,5 @@
 //TODO: Refactor FormData out from Wizard.tsx
+import { AvailableDay, FrequencyEnum, useCreateBookingMutation } from "../../codegen";
 import DaySelector from "../Create/DaySelector";
 import TimeInput from "../Create/TimeInput";
 import { FormData, touchDirtyValidate } from "../Create/wizard/Wizard";
@@ -6,13 +7,26 @@ import { useBookingContext } from "./BookingContext";
 import styles from "./ListingSideBar.module.scss";
 
 
-function ListingSideBar(props: { listingsData: FormData }) {
+function ListingSideBar(props: { listingsData: FormData, handle: string }) {
+    //TODO: REFACTOR
     const { register, setValue } = useBookingContext();
     const weekDays = useBookingContext().getValues().daySlots;
     const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = useBookingContext().getValues().daySlots;
     const bookingContext = useBookingContext();
+    const values = bookingContext.getValues();
+    register("propertyHandle");
+    setValue("propertyHandle", props.handle, touchDirtyValidate);
 
-    console.log(weekDays)
+    const { mutate, data } = useCreateBookingMutation({
+        endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
+        fetchParams: {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }
+    });
+
+
     return (
         <>
             <div className={styles["sidebar"]}>
@@ -52,7 +66,6 @@ function ListingSideBar(props: { listingsData: FormData }) {
                 </div>
 
                 {/* Add hidden label*/}
-                {console.log(bookingContext.getValues())}
                 <select id="repetition" className={styles["sidebar__repetition"]} {...register('frequency')}
                     onChange={(c) => {
                         setValue('frequency', c.target.value as FormData['frequency'], touchDirtyValidate);
@@ -69,7 +82,9 @@ function ListingSideBar(props: { listingsData: FormData }) {
                             bookingContext.setF();
                         }} />
                 </div>
-                <button className={styles["sidebar__bookingbutton"]}>REQUEST TO BOOK</button>
+                {/*TODO: For what ever reason all types need to be manually converted to their type again, if not the input will not be accepted*/}
+                <button onClick={() => mutate({ propertyHandle: values.propertyHandle, startDate: new Date(values.startDate), endDate: new Date(values.endDate), frequency: values.frequency == FrequencyEnum.Monthly ? FrequencyEnum.Monthly : FrequencyEnum.Weekly, daySlots: convertToAvailableDays(values) })
+                } className={styles["sidebar__bookingbutton"]}>REQUEST TO BOOK</button>
             </div>
             <div className={styles["ownercard"]}>
                 <div className={styles["ownercard__avatar"]}></div>
@@ -82,6 +97,16 @@ function ListingSideBar(props: { listingsData: FormData }) {
 
         </>
     );
+    function convertToAvailableDays(values: any) {
+        let availableDays = Object.values(values.daySlots).map((value: any, index) => value.selected ? ({ startTime: parseTimeAsDateTime(value.startingTime), endTime: parseTimeAsDateTime(value.endingTime) } as AvailableDay) : null).filter((value: any) => value != null) as AvailableDay[];
+        return availableDays;
+    }
+    function parseTimeAsDateTime(time: string) {
+        let date = new Date("0000");//Set it to 0000 as we dont care for the date
+        date.setHours(Number.parseInt(time.split(":")[0]))
+        date.setMinutes(Number.parseInt(time.split(":")[1]))
+        return date;
+    }
 }
 
 export default ListingSideBar;
