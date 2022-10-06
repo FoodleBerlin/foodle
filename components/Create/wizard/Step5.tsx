@@ -14,7 +14,7 @@ export default function Step5() {
     <div>
       <div className={styles['step5']}>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
+          <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Summary</h2>
           <div className="gallery__container">
             <div className="gallery">
               {wiz.images.map((image: UploaderImg, index) => (
@@ -26,7 +26,7 @@ export default function Step5() {
           </div>
 
           <div className={styles['step5__titleWrapper'] + ' ' + styles['step2__marginHeadline']}>
-            <h3 className="header-tertiary">{wiz.title}</h3>
+            <h3 className="header-secondary">{wiz.title}</h3>
             <div className={styles['step5__flexWrapper']}>
               <p className="body-text">{wiz.hourlyPrice}</p>
               <p className="body-text">€/h</p>
@@ -34,7 +34,7 @@ export default function Step5() {
           </div>
         </div>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Overview</h2>
+          <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Overview</h2>
           <div className={styles['step5__flexWrapper']}>
             <p className="body-text-secondary">Size -&nbsp; </p>
             <p className="body-text-secondary">{wiz.size}</p>
@@ -43,8 +43,8 @@ export default function Step5() {
           <br />
           <div className={styles['formItem']}>
             <div className={styles['step5__flexWrapper']}>
-              <p className='body-text-secondary'>Pickup: - &nbsp;</p>
-              <p className="body-text-secondary">{wiz.pickup == "pickup-no" ? "No" : "Yes"}</p>
+              <p className="body-text-secondary">Pickup: - &nbsp;</p>
+              <p className="body-text-secondary">{wiz.pickup == 'pickup-no' ? 'No' : 'Yes'}</p>
             </div>
           </div>
           <div className={styles['step5__featureTagWrapper']}>
@@ -67,7 +67,7 @@ export default function Step5() {
           </div>
         </div>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Pricing</h2>
+          <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Pricing</h2>
           <PriceLine label="Rental Fee" text={wiz.hourlyPrice + '€ / hr'} />
           <PriceLine label="Booking Fee" text={wiz.hourlyPrice + '€ / hr'} />
           <PriceLine label="Service Fee" text={wiz.serviceFee + '€'} />
@@ -75,32 +75,39 @@ export default function Step5() {
           <PriceLine label="Cancellation Type" text="Full Refund 2 weeks before, partial after." />
         </div>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Rules</h2>
-          <p className="small-text">
-            {wiz.rules}
-          </p>
+          <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Rules</h2>
+          <p className="small-text">{wiz.rules}</p>
         </div>
         <div className={styles['formItem']}>
-          <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Availability</h2>
+          <h2 className={styles['step2__marginHeadline'] + ' header-secondary'}>Availability</h2>
           <div className={styles['step5__availabilityGrid']}>
             <div className={styles['step5__availabilityDate']}>
-              <p className='small-text'>{startDate.getDay()}</p>
-              <p className="small-text">{startDate.toLocaleDateString("default", { month: "long" })}</p>
-              <p className="small-text">{startDate.toLocaleDateString("default", { year: "numeric" })}</p>
-              <p className='small-text bold'>to</p>
-              <p className='small-text'>{endDate.getDay()}</p>
-              <p className="small-text">{endDate.toLocaleDateString("default", { month: "long" })}</p>
-              <p className="small-text">{endDate.toLocaleDateString("default", { year: "numeric" })}</p>
+              <p className="small-text">{startDate.getDay()}</p>
+              <p className="small-text">{startDate.toLocaleDateString('default', { month: 'long' })}</p>
+              <p className="small-text">{startDate.toLocaleDateString('default', { year: 'numeric' })}</p>
+              <p className="small-text bold">to</p>
+              <p className="small-text">{endDate.getDay()}</p>
+              <p className="small-text">{endDate.toLocaleDateString('default', { month: 'long' })}</p>
+              <p className="small-text">{endDate.toLocaleDateString('default', { year: 'numeric' })}</p>
             </div>
             <div className={styles['step5__bookingFrequency']}>
-              <p className='small-text'>Frequency: {wiz.frequency.toString()}</p>
+              <p className="small-text">Frequency: {wiz.frequency.toString()}</p>
             </div>
             <div className={styles['step5__weekDayCheckboxWrapper--week1'] + ' ' + styles['weekDays__container']}>
-              <>{Object.keys(wiz.daySlots).map((day, index) =>
-                <>
-                  <input type="checkbox" id={"1-weekday-" + day.slice(0, 2)} className={styles['weekDays__checkbox'] + ' weekday'} checked={Object.values(wiz.daySlots)[index].selected} readOnly />
-                  <label htmlFor={"1-weekday-" + day.slice(0, 2)}>{day[0].toUpperCase()}</label></>)
-              }</>
+              <>
+                {Object.keys(wiz.daySlots).map((day, index) => (
+                  <>
+                    <input
+                      type="checkbox"
+                      id={'1-weekday-' + day.slice(0, 2)}
+                      className={styles['weekDays__checkbox'] + ' weekday'}
+                      checked={Object.values(wiz.daySlots)[index].selected}
+                      readOnly
+                    />
+                    <label htmlFor={'1-weekday-' + day.slice(0, 2)}>{day[0].toUpperCase()}</label>
+                  </>
+                ))}
+              </>
             </div>
           </div>
         </div>
