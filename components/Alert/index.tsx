@@ -1,5 +1,5 @@
+import styles from "./Alert.module.scss";
 import { useAlertContext } from "./AlertContext";
-import styles from "./ErrorAlert.module.scss";
 
 
 type AlertProps = {
