@@ -1,0 +1,14 @@
+@use "../../styles/base/colors";
+@use "../../styles/abstracts/mixins";
+
+.errorAlert {
+    @include mixins.alert(colors.$color-error-dialog);
+}
+
+.infoAlert {
+    @include mixins.alert(colors.$color-info-dialog);
+}
+
+.successAlert {
+    @include mixins.alert(colors.$color-success-dialog);
+}
