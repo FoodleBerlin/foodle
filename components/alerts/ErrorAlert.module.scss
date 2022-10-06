@@ -1,0 +1,12 @@
+@use "../../styles/base/colors";
+
+.errorAlert {
+    background-color: colors.$color-error-dialog;
+    width: 100%;
+    left: 20px;
+    top: 15px;
+    height: fit-content;
+    padding: 15px 20px 15px 20px;
+    font-size: 15px;
+    font-weight: 500;
+}
