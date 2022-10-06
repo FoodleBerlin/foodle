@@ -1,8 +1,8 @@
 const GoogleStrategy = require('passport-google-oauth20');
 import passport from 'passport';
+import { v4 as uuidv4 } from 'uuid';
 import prisma from '../server/singletons/prisma';
 import datasources from './singletons/datasources';
-import { v4 as uuidv4 } from 'uuid';
 
 const { stripeWrapper } = datasources();
 
@@ -29,6 +29,7 @@ passport.use(
           const res = await prisma.user.create({
             data: {
               kind: 'user',
+              zip: 0, // Should not be mandatory
               stripeId: uuidv4(),  // Needs to be 'cus_Kza1oi2OTlvcpb' to get datastripeId.response.success?.body.id,
               handle: profile.emails[0].value,
               fullName: profile.displayName,
