@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Navbar from '../components/Layout/Navbar';
-import { extractUserFromToken } from '../server/context';
+import { extractUserFromToken } from '../utils/context';
 import { AuthenticatedProps } from './account/payments';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
