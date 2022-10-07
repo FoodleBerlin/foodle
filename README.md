@@ -2,22 +2,20 @@
 
 A licensed kitchen rental service.
 
-## Setup
-
-1. `yarn` to install deps.
-2. Add a `.env.local` file to the root, all the environment variables will be sent to you by one of the teammates over a private Slack message.
-
-## Development
+## Setup Development
 
 ### Server
 
-1. `yarn db:up` to start the database
-2. `yarn prisma:migrate:deploy` to project the generated migration from prisma.schema onto your database
-3. `yarn prisma:generate` to generate the prisma client
-4. `yarn nexus:watch` to generate the graphql.schema
-5. `yarn dev` to start the server in development
-6. navigate to "localhost:5000/graphql" for the apollo interface where you can manually test queries/mutations
-7. `yarn db:seed` to seed the database.
+1. `cd server`
+2. Add a `.env.local` file to the root of /server, all the environment variables will be sent to you by one of the teammates over a private Slack message.
+3. `yarn` to install deps.
+4. `yarn db:up` to start the database
+5. `yarn prisma:migrate:deploy` to project the generated migration from prisma.schema onto your database
+6. `yarn prisma:generate` to generate the prisma client
+7. `yarn nexus:watch` to generate the graphql.schema
+8. `yarn dev` to start the server in development
+9. navigate to "localhost:5000/graphql" for the apollo interface where you can manually test queries/mutations
+10. `yarn db:seed` to seed the database.
 
 Logging
 
@@ -25,8 +23,11 @@ Default setting is 'none'. By chaning the LOG_LEVEL environment variable to info
 
 ### Client
 
-1. Ensure the dev server is on and run `yarn codegen:generate`
-2. `yarn next:dev` to run the file watcher. front end should be accessible at localhost:3000
+1. Ensure the dev server is on
+2. `cd client`
+3. Add a `.env.local` file to the root of /clinet, all the environment variables will be sent to you by one of the teammates over a private Slack message.
+4. `yarn codegen:generate`
+5. `yarn next:dev` to run the file watcher. front end should be accessible at localhost:3000
    NOTE: when you change front end queries or mutations to the backend you need to manually run step 1 again.
 
 ## Api Tests
