@@ -29,7 +29,7 @@
       display: none !important;
     }
 
-    input[type='checkbox']+label {
+    input[type='checkbox'] + label {
       display: inline-block;
       border-radius: 3px;
       background: #ecf4f1;
@@ -44,7 +44,7 @@
       cursor: pointer;
     }
 
-    input[type='checkbox']:checked+label {
+    input[type='checkbox']:checked + label {
       background: colors.$color-primary-light;
       color: #ffffff;
     }
@@ -247,7 +247,7 @@
     display: none !important;
   }
 
-  &__weekDaysSelector input[type='checkbox']+label {
+  &__weekDaysSelector input[type='checkbox'] + label {
     display: inline-block;
     border-radius: 6px;
     background: #ecf4f1;
@@ -260,7 +260,7 @@
     cursor: pointer;
   }
 
-  &__weekDaysSelector input[type='checkbox']:checked+label {
+  &__weekDaysSelector input[type='checkbox']:checked + label {
     background: colors.$color-primary-light;
     color: #ffffff;
   }
@@ -490,7 +490,7 @@
   width: 50%;
 }
 
-@media screen and(max-width: 800px) {
+@media screen and (max-width: 800px) {
   .wizard {
     min-width: min-content;
   }
@@ -538,5 +538,4 @@
       grid-row: 1/2;
     }
   }
-
 }
