@@ -12,3 +12,12 @@
 .successAlert {
     @include mixins.alert(colors.$color-success-dialog);
 }
+
+.imageWrapper {
+    display: flex;
+    position: absolute;
+    top: 1.5rem;
+    right: 1rem;
+    filter: brightness(0) invert(1);
+
+}
