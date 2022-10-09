@@ -124,3 +124,6 @@ Foodle's Security Protections:
 - Added Security Headers to NextJS and Express
 - Made cookies enfore Https and Samesite-strict
 - Turned off introspection for Apollo Server in production and added csrfPrevention and a CORS config to it
+
+### Attribution:
+<a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by ariefstudio - Flaticon</a>

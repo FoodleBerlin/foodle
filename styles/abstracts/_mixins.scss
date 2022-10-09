@@ -7,10 +7,12 @@
   font-size: 1.8rem;
   background-color: $bg-color;
   color: $color;
+
   &:hover {
     background-color: $hover-bg-color;
   }
 }
+
 @mixin submit-msg {
   width: fit-content;
   padding: 1rem;
@@ -43,3 +45,25 @@
   }
 }
 
+@mixin alert($color) {
+  position: fixed;
+  background-color: $color;
+  width: 100%;
+  top: 7rem;
+  height: fit-content;
+  padding: 15px 20px 15px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  z-index: 1000;
+  animation: fadeIn .5s;
+}
+
+@keyframes fadeIn {
+  0% {
+    top: 0rem
+  }
+
+  100% {
+    top: 7rem
+  }
+}
