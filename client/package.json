@@ -11,7 +11,12 @@
     "next:dev": "next dev",
     "next:build": "next build",
     "next:start": "next start",
-    "next:lint": "next lint"
+    "next:lint": "next lint",
+    "cy:open-only": "cypress open",
+    "cy:run-only": "cypress run",
+    "dev": "dotenv -e .env.local -- ts-node-dev --no-notify --respawn --transpile-only ../server/index.ts",
+    "cy:open": "cy:open-only",
+    "cy:run": "start-server-and-test dev 3000 cy:run-only"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
@@ -23,6 +28,7 @@
     "@prisma/client": "^3.9.1",
     "aws-amplify": "^4.3.14",
     "aws-sdk": "^2.1109.0",
+    "cypress": "^9.5.3",
     "jsonwebtoken": "^8.5.1",
     "next": "12.1.0",
     "next-use-posthog": "^1.16.0",
@@ -39,6 +45,7 @@
     "react-intl": "^6.1.1",
     "react-query": "^3.34.16",
     "sass": "^1.49.7",
+    "start-server-and-test": "^1.14.0",
     "stripe": "^8.207.0",
     "swiper": "^8.4.2",
     "uuid": "^8.3.2",

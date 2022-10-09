@@ -39,7 +39,8 @@ Default setting is 'none'. By chaning the LOG_LEVEL environment variable to info
 
 Frontend and end-to-end test are currently developed in the branch "frontend-tests" and will be merged to master shortly.
 
-`yarn cy:run` to run the tests
+Add NEXT_PUBLIC_GOOGLE_REFRESH_TOKEN env variable to run these.
+`yarn cy:run-only` to run the tests after starting both the client and server.
 
 ### Foodle's Architecture
 
@@ -127,4 +128,5 @@ Foodle's Security Protections:
 - Turned off introspection for Apollo Server in production and added csrfPrevention and a CORS config to it
 
 ### Attribution:
+
 <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by ariefstudio - Flaticon</a>
