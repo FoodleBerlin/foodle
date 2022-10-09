@@ -123,8 +123,9 @@
 //     max-width: 250px;
 //   }
 // }
-@use '../base/colors';
-@use '../abstracts/mixins';
+
+@use '../../styles/base/colors';
+@use '../../styles/abstracts/mixins';
 
 .rainbow-multi {
   background: linear-gradient(61.54deg, colors.$color-tertiary-light 15%, colors.$color-secondary-light 74.15%);
@@ -208,8 +209,6 @@
   &__right {
     flex: 1 1 45%;
 
-
-
     img {
       border: 1px transparent;
       border-radius: 1rem;
@@ -264,7 +263,6 @@
     padding: 15rem 1rem 20rem 1rem;
     font-size: 34px;
     margin-bottom: 30rem !important;
-
   }
 
   @include mixins.tablet {
@@ -308,14 +306,13 @@
       margin-top: 0.5rem;
       opacity: 0.8;
       text-align: left;
-      content: "click on restaurants to see more" !important;
+      content: 'click on restaurants to see more' !important;
     }
 
     h2 {
       text-align: left;
     }
   }
-
 }
 
 .landing-info {
@@ -362,11 +359,9 @@
       height: 5.2rem;
       padding: 1rem 2rem;
     }
-
   }
 
   @include mixins.mobile {
-
     // height: 10rem;
     &__wrapper {
       margin: 0;
@@ -416,7 +411,6 @@
 
   @include mixins.tablet {
     &__wrapper {
-
       margin: 20rem 0 20rem 0;
       flex-direction: column;
       gap: 6rem;

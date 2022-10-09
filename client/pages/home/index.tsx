@@ -8,16 +8,16 @@ import Link from 'next/link';
 import posthog from 'posthog-js';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import Carousel from '../components/Landing/Carousel';
-import LandingInfo from '../components/Landing/LandingInfo';
-import StoryCarousel from '../components/Landing/StoryCarousel';
-import Footer from '../components/Layout/Footer';
-import Modal from '../components/Layout/Modal';
-import Navbar from '../components/Layout/Navbar';
-import Sidebar from '../components/Layout/Sidebar';
-import useWindowDimensions from '../hooks/useWindowDimensions';
-import styles from '../styles/pages/Home.module.scss';
-import { kitchenCards } from '../utils/kitchenCards';
+import Carousel from '../../components/Landing/Carousel';
+import LandingInfo from '../../components/Landing/LandingInfo';
+import StoryCarousel from '../../components/Landing/StoryCarousel';
+import Footer from '../../components/Layout/Footer';
+import Modal from '../../components/Layout/Modal';
+import Navbar from '../../components/Layout/Navbar';
+import Sidebar from '../../components/Layout/Sidebar';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+import { kitchenCards } from '../../utils/kitchenCards';
+import styles from './Home.module.scss';
 
 const Home: NextPage = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);

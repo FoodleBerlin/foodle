@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import React, { useRef } from 'react';
-import styles from '../../styles/pages/Home.module.scss';
+import styles from '../../pages/home/Home.module.scss';
 
 import { useIntl } from 'react-intl';
 

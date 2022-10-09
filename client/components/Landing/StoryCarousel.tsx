@@ -1,6 +1,6 @@
 import Stories, { WithSeeMore } from 'react-insta-stories';
 import { useIntl } from 'react-intl';
-import styles from '../../styles/pages/Home.module.scss';
+import styles from '../../pages/home/Home.module.scss';
 import SwiperCard, { KitchenCardInfo } from './SwiperCard';
 
 export type StoryCarouselProps = {
