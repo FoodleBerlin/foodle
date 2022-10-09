@@ -1,14 +1,15 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useListingsQuery } from '../../client/codegen/index';
+import { useFindAllPropertiesQuery } from '../../codegen/index';
+
 import ListedKitchen from '../../components/Book/ListedKitchen';
 import Navbar from '../../components/Layout/Navbar';
-import styles from '../../styles/pages/All.module.scss';
+import styles from './All.module.scss';
 
 const Kitchen: NextPage = () => {
   const router = useRouter();
   const { handle } = router.query;
-  const { status, data, error, isFetching, isLoading } = useListingsQuery({
+  const { status, data, error, isFetching, isLoading } = useFindAllPropertiesQuery({
     endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
     fetchParams: {
       headers: {
