@@ -1,0 +1,26 @@
+@use "../../styles/base/colors";
+@use "../../styles/abstracts/mixins";
+
+.errorAlert {
+    @include mixins.alert(colors.$color-error-dialog);
+}
+
+.infoAlert {
+    @include mixins.alert(colors.$color-info-dialog);
+}
+
+.successAlert {
+    @include mixins.alert(colors.$color-success-dialog);
+}
+
+.imageWrapper {
+    display: flex;
+    position: absolute;
+    top: 2rem;
+    right: 1rem;
+    padding-right: 20px;
+
+    &--filterWhite {
+        filter: brightness(0) invert(1);
+    }
+}

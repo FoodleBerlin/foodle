@@ -1,8 +1,8 @@
 const GoogleStrategy = require('passport-google-oauth20');
 import passport from 'passport';
+import { v4 as uuidv4 } from 'uuid';
 import prisma from '../server/singletons/prisma';
 import datasources from './singletons/datasources';
-import { v4 as uuidv4 } from 'uuid';
 
 const { stripeWrapper } = datasources();
 
@@ -11,7 +11,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.NEXT_PUBLIC_SERVER_URL+'api/callback',
+      callbackURL: process.env.NEXT_PUBLIC_SERVER_URL + 'api/callback',
       state: true,
     },
     async function (accessToken: unknown, refreshToken: unknown, profile: any, cb: any) {
@@ -29,7 +29,8 @@ passport.use(
           const res = await prisma.user.create({
             data: {
               kind: 'user',
-              stripeId: uuidv4(),  // Needs to be 'cus_Kza1oi2OTlvcpb' to get datastripeId.response.success?.body.id,
+              zip: 0, // Should not be mandatory
+              stripeId: uuidv4(), // Needs to be 'cus_Kza1oi2OTlvcpb' to get datastripeId.response.success?.body.id,
               handle: profile.emails[0].value,
               fullName: profile.displayName,
               email: profile.emails[0].value,

@@ -1,5 +1,5 @@
 import { extendType, objectType, stringArg } from 'nexus';
-import { Context } from '~/server/context';
+import { Context } from '../../../context';
 import { ClientErrorInvalidHandle, ClientErrorInvalidInput, ClientErrorUserNotExists, UnknownError } from '../Error';
 
 /**
@@ -38,7 +38,8 @@ export const findUserResult = objectType({
     });
     t.nullable.field('UnknownError', {
       type: UnknownError,
-    })  },
+    });
+  },
 });
 
 export const Query = extendType({
