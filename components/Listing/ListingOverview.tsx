@@ -100,15 +100,6 @@ function ListingOverview({ listingsData, handle, owner }: { listingsData: FormDa
                         <div className={styles['listingoverview__bookingFrequency']}>
                             <p className='small-text'>Frequency: {listingsData.frequency.toString()}</p>
                         </div>
-                        <div className={styles['listingoverview__weekDayCheckboxWrapper--week1'] + ' ' + styles['weekDays__container']}>
-                            {Object.keys(listingsData.daySlots).map((day, index) =>
-                                <div key={"key-input-" + day.toString()}>
-                                    <input type="checkbox" id={"1-weekday-" + day.slice(0, 2)} className={styles['weekDays__checkbox'] + ' weekday'} checked={Object.values(listingsData.daySlots)[index].selected} readOnly />
-                                    <label htmlFor={"1-weekday-" + day.slice(0, 2)}>{day[0].toUpperCase()}</label>
-                                </div>
-                            )
-                            }
-                        </div>
                     </div>
                 </div>
                 <div className={styles['listingoverview__thingsToKnowContainer']}></div>
