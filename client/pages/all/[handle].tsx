@@ -33,7 +33,7 @@ const Kitchen: NextPage = () => {
             property.images = [{ url: "/kitchen-test.jpg", id: 1, description: "description" }]
 
             return (
-              <ListingOverview key={index + "-key"} handle={property.handle} listingsData={property} owner={property.owner} />
+              <ListingOverview hideSidebar={false} key={index + "-key"} handle={property.handle} listingsData={property} owner={property.owner} />
             );
           }
         })}

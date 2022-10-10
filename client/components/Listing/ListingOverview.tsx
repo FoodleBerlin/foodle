@@ -7,16 +7,17 @@ import styles from "./ListingOverview.module.scss";
 import ListingSideBar from './ListingSideBar';
 
 
-function ListingOverview({ listingsData, handle, owner }: { listingsData: FormData, handle: string, owner: any }) {
+function ListingOverview({ listingsData, handle, owner, hideSidebar = false }: { listingsData: FormData, handle: string, owner: any, hideSidebar: boolean }) {
     const startDate = new Date(listingsData.startDate);
     const endDate = new Date(listingsData.endDate);
     return (
         <div className={styles["grid"]}>
-            <div className={styles["sidebarContainer"]}>
+            {hideSidebar ? <p></p> : <div className={styles["sidebarContainer"]}>
                 <BookingProvider>
                     <ListingSideBar listingsData={listingsData} handle={handle} owner={owner} />
                 </BookingProvider>
-            </div>
+            </div>}
+
             <div className={styles['listingoverview']}>
                 <div className={styles['formItem']}>
                     <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
