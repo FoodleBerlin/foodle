@@ -1,6 +1,8 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { Token } from '../../../server/utils/forgeJWT';
 import { useFindUserQuery } from '../../codegen';
+import Alert from '../../components/Alert';
+import { useAlertContext } from '../../components/Alert/AlertContext';
 import Navbar from '../../components/Layout/Navbar';
 import Sidebar from '../../components/Layout/Sidebar';
 import { extractUserFromToken } from '../../utils/context';
@@ -28,8 +30,9 @@ export type AuthenticatedProps = {
   jwt: string;
 };
 const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
+  const alertContext = useAlertContext();
   console.log({ props });
-  const { status, data, error, isFetching } = useFindUserQuery(
+  const { status, data, error, isFetching, isError } = useFindUserQuery(
     {
       endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
       fetchParams: {
@@ -45,11 +48,17 @@ const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   );
   console.log({ data });
   console.log({ error });
+  console.log(alertContext.isHidden)
+  if (isError) {
+    alertContext.setMessage((error ?? "error" as any).toString())
+    alertContext.shouldHide(false)
+  }
 
   // TODO show default
   return (
     <div className={styles['account']}>
       <Navbar user={props.session}></Navbar>
+      <Alert type={'error'}></Alert>
       <Sidebar></Sidebar>
       <div className={styles['container']}>
         <h2>Payment Methods</h2>
