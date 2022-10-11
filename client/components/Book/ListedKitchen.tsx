@@ -1,8 +1,6 @@
-import React from 'react';
 import Image from 'next/image';
-import styles from '../Create/wizard/Wizard.module.scss';
 import PriceLine from '../Create/PriceLine';
-import { UploaderImg } from '../Create/wizard/Step4';
+import styles from '../Create/wizard/Wizard.module.scss';
 
 /*
 TO-DO:
@@ -66,7 +64,7 @@ const ListedKitchen = (props: ListedKitchenProps) => {
           <br />
           <div className={styles['step5__featureTagWrapper']}>
             {props.facilities.map((feature: string) => (
-              <span key={feature} className="feature-tag">
+              <span key={feature} className={styles['feature-tag']}>
                 <p>{feature.toUpperCase()}</p>
               </span>
             ))}

@@ -1,0 +1,18 @@
+@use '../../../styles/base/colors';
+.priceLine {
+    padding: 2rem 0;
+    border-bottom: 1px solid colors.$color-grey;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    &:last-of-type {
+        border: none;
+    }
+    &__left {
+        grid-column: 1/2;
+    }
+    &__right {
+        grid-column: 2/3;
+    }
+}
+

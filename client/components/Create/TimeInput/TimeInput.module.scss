@@ -1,0 +1,12 @@
+
+@use '../../../styles/abstracts/mixins';
+.timeInput {
+    display: flex;
+    gap: 2.8rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+// &__inputTime {
+//     @include mixins.input(12rem,
+//         1.4rem);
+// }

@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Wizard, { WizardProvider } from '../components/Create/wizard/Wizard';
-import Navbar from '../components/Layout/Navbar';
+import Navbar from '../components/Layout/Navbar/Navbar';
 import { extractUserFromToken } from '../utils/context';
 import { AuthenticatedProps } from './account/payments';
 

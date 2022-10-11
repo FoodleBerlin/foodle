@@ -1,10 +1,10 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useFindAllPropertiesQuery } from '../../codegen/index';
-
-import ListedKitchen from '../../components/Book/ListedKitchen';
 import Navbar from '../../components/Layout/Navbar';
 import styles from './All.module.scss';
+
+import ListedKitchen ../../components/Layout/Navbar/NavbaristedKitchen';
 
 const Kitchen: NextPage = () => {
   const router = useRouter();

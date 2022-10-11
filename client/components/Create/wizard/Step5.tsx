@@ -49,7 +49,7 @@ export default function Step5() {
           </div>
           <div className={styles['step5__featureTagWrapper']}>
             {wiz.facilities.map((feature: string) => (
-              <span key={feature} className="feature-tag">
+              <span key={feature} className={styles['feature-tag']}>
                 <p>{feature.toUpperCase()}</p>
               </span>
             ))}

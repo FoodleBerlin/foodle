@@ -11,10 +11,10 @@ import { useIntl } from 'react-intl';
 import Carousel from '../../components/Landing/Carousel';
 import LandingInfo from '../../components/Landing/LandingInfo';
 import StoryCarousel from '../../components/Landing/StoryCarousel';
+import BurgerMenu from '../../components/Layout/BurgerMenu';
 import Footer from '../../components/Layout/Footer';
 import Modal from '../../components/Layout/Modal';
-import Navbar from '../../components/Layout/Navbar';
-import Sidebar from '../../components/Layout/Sidebar';
+import Navbar from '../../components/Layout/Navbar/Navbar';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { kitchenCards } from '../../utils/kitchenCards';
 import styles from './Home.module.scss';
@@ -115,7 +115,7 @@ const Home: NextPage = () => {
       </Head>
       <Navbar />
       <div className={styles['sidebar']}>
-        <Sidebar />
+        <BurgerMenu />
       </div>
       <div className={styles['hero']}>
         <div className={styles['hero__left']}>

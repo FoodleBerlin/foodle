@@ -1,0 +1,19 @@
+
+.socials {
+    gap: 2rem;
+    margin-right: 2rem;
+a {
+        font-size: 10px;
+    }
+
+    img {
+        background-color: #00695c;
+    }
+
+    img:hover {
+        opacity: 50%;
+    }
+    &__image {
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,19 @@
+// .step4 {
+//     width: 100%;
+//     padding: 0 10rem;
+// }
+.step4 {
+    width: 100%;
+    padding: 0 10rem;
+}
+
+
+.drag-drop {
+    background-color: white;
+    height: 80vh;
+
+    &__error-msg {
+        color: salmon;
+    }
+
+}

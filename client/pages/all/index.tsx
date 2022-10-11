@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useFindAllPropertiesQuery } from '../../codegen/index';
-import Navbar from '../../components/Layout/Navbar';
+import Navbar from '../../components/Layout/Navbar/Navbar';
 import styles from '../../styles/pages/All.module.scss';
 
 const All: NextPage = () => {
@@ -51,9 +51,9 @@ const All: NextPage = () => {
                       </div>
                       <div className={styles['list-wrapper__verification'] + ' flex-column'}>
                         {property.isVerified ? (
-                          <span className="feature-tag">VERIFIED</span>
+                          <span className={styles['feature-tag']}>VERIFIED</span>
                         ) : (
-                          <span className="feature-tag__not-verified">NOT VERIFIED</span>
+                          <span className={styles['feature-tag__not-verified']}>NOT VERIFIED</span>
                         )}
                         <p className={styles['list-wrapper__price'] + ' body-text__small'}>
                           €{property.hourlyPrice * 8}/Day

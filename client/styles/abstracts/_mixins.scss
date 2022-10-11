@@ -12,6 +12,27 @@
     background-color: $hover-bg-color;
   }
 }
+@mixin input($width: auto, $font-size: 1.8rem) {
+  font-size: $font-size;
+  outline: $color-grey;
+  border: 1px solid $color-grey;
+  border-radius: 1.8rem;
+  padding: 1rem 1rem;
+  margin-right: -2rem;
+  width: $width;
+}
+@mixin labelButton(){
+      height: 90px;
+      width: 200px;
+      border: 1px solid #00695c;
+      position: relative;
+      margin: auto;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+}
 
 @mixin submit-msg {
   width: fit-content;
