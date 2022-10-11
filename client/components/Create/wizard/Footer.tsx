@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { mutationObj } from '../../..';
 import { useCreateListingMutation } from '../../../codegen';
+import { useAlertContext } from '../../Alert/AlertContext';
 import { UploaderImg } from './Step4';
 import { useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
@@ -14,8 +15,8 @@ type FooterProps = {
 
 const Footer = (props: FooterProps) => {
   const { formState, nextStep, register, setValue, previousStep, getValues } = useWizardContext();
-  const { mutate, data } = useCreateListingMutation(mutationObj(props.jwt));
-
+  const { mutate, data, isError, error } = useCreateListingMutation(mutationObj(props.jwt));
+  const { shouldHide, setMessage } = useAlertContext();
   const isoString = (time: string) => {
     if (time == '') {
       return new Date('1900-01-01T01:00:00').toISOString();
@@ -93,10 +94,15 @@ const Footer = (props: FooterProps) => {
       frequency: wiz.frequency,
       availableDays: selectedDaySlots,
     });
-    router.push('/create-listing-success');
+    if (!isError)
+      router.push('/create-listing-success');
+    else {
+      setMessage((error ?? "Could not submitt your resturant!" as any).toString())
+      shouldHide(false)
+    }
   };
 
-  const error = () => {
+  const hasError = () => {
     if (
       formState.errors.partialSpace ||
       formState.errors.size ||
@@ -129,7 +135,7 @@ const Footer = (props: FooterProps) => {
 
         <button
           className={styles['primary-btn-small']}
-          disabled={error() ? true : false}
+          disabled={hasError() ? true : false}
           onClick={() => {
             nextStep(props.step);
             props.step === 5 ? handleSubmit() : console.log(getValues());

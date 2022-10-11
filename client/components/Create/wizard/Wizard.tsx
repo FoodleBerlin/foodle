@@ -4,6 +4,7 @@ import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue 
 import { z } from 'zod';
 import { FrequencyEnum } from '../../../codegen';
 import { AuthenticatedProps } from '../../../pages/account/payments';
+import Alert from '../../Alert';
 import Sidebar from '../../Layout/Sidebar';
 import Footer from './Footer';
 import Step1 from './Step1';
@@ -15,8 +16,9 @@ import styles from './Wizard.module.scss';
 
 export default function Wizard(props: AuthenticatedProps) {
   const wizardContext = useWizardContext();
-  return (
-    <div className="flex">
+  return (<>
+    <Alert type='error'></Alert>
+    < div className="flex" >
       <Sidebar user={props.session}>
         <div className={styles['sidebar-container']}>
           {/* <div> */}
@@ -42,7 +44,7 @@ export default function Wizard(props: AuthenticatedProps) {
         {wizardContext.step == 5 && <Step5></Step5>}
       </div>
       <Footer jwt={props.jwt} session={props.session} step={wizardContext.step} />
-    </div>
+    </div ></>
   );
 }
 export const touchDirtyValidate = {
@@ -243,9 +245,9 @@ const WizardContext = React.createContext<WizardContext>({
     images: [],
   },
   formState: {} as FormState<FormData>,
-  nextStep: () => {},
-  previousStep: () => {},
-  submitForm: () => {},
+  nextStep: () => { },
+  previousStep: () => { },
+  submitForm: () => { },
   register: {} as UseFormRegister<FormData>,
   setValue: {} as UseFormSetValue<FormData>,
   getValues: {} as UseFormGetValues<FormData>,
