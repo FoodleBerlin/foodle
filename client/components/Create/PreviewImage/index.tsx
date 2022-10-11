@@ -8,23 +8,19 @@ type PreviewImageProps = {
   style: string;
   image: UploaderImg;
   index: number;
-  onMouseEnter: (event: React.MouseEvent<HTMLDivElement>) => void;
-  onMouseLeave: (event: React.MouseEvent<HTMLDivElement>) => void;
   handleOver: (event: React.DragEvent<HTMLDivElement>) => void;
   handleDrag: (event: React.DragEvent<HTMLDivElement>) => void;
   handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
-  isIdHovered: () => boolean | undefined;
   deleteImage: (id: number) => void;
-  //   isHovered: (id: number) => boolean;
 };
 const PreviewImage = (props: PreviewImageProps) => {
   const id = props.image.id ? props.image.id : -1;
 
   const [isHovered, setIsHovered] = useState(false);
-  const onMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
+  const onMouseEnter = () => {
     setIsHovered(true);
   };
-  const onMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
+  const onMouseLeave = () => {
     setIsHovered(false);
   };
   return (
@@ -33,8 +29,8 @@ const PreviewImage = (props: PreviewImageProps) => {
       id={id.toString()}
       draggable
       key={id}
-      onMouseEnter={(e) => onMouseEnter(e)}
-      onMouseLeave={(e) => onMouseLeave(e)}
+      onMouseEnter={() => onMouseEnter()}
+      onMouseLeave={() => onMouseLeave()}
       onDragOver={(e) => props.handleOver(e)}
       onDragStart={(e) => props.handleDrag(e)}
       onDrop={(e) => props.handleDrop(e)}

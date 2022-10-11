@@ -5,6 +5,24 @@
   margin-top: 15vh;
   margin-bottom: 15vh;
 }
+// DUPLICATED FROM OLD.WIZARD.MODULE.SCSS
+.feature-tag {
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-radius: 3rem;
+  background-color: $color-light-green;
+  padding: 0rem 1.5rem;
+  color: $color-primary;
+
+  &__not-verified {
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-radius: 3rem;
+    background-color: $color-secondary-light;
+    padding: 0rem 1.5rem;
+    color: $color-secondary;
+  }
+}
 
 .list-wrapper {
   display: flex;
