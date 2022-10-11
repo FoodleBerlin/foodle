@@ -9,11 +9,12 @@ const DefaultButton=(props: DefaultButtonProps)=>{
     return(
         <div className=''>
             {props.default?(
-                <div className="">DEFAULT</div>
+
+                <div className={styles['default']}>DEFAULT</div>
             ):(
-                <div className=''>
-                    <div className="">MAKE DEFAULT</div>
-                    <Image className='' alt={'xmark'} src={'/xmark.svg'} width={15} height={15} />
+                <div className={styles['organizing']}>
+                    <div className={styles['makeDefault']}>MAKE DEFAULT</div>
+                    <Image className='' alt={'xmark'} src={'/xmark.svg'} width={18} height={18} />
                 </div>
                 
             )}
