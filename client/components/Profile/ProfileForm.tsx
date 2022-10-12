@@ -21,7 +21,7 @@ const ProfileForm = (props: ProfileFormProps) => {
     const dobChecked = !isNaN(Date.parse(dob ? dob : '')) ? dob + 'T00:00:00Z' : null;
     const zipChecked = zip && zip !== '' ? parseInt(zip) : null;
     mutate({
-      id: props.session.id,
+      updateUserId: props.session.id,
       fullName: fullName,
       zip: zipChecked,
       description: description,
@@ -42,7 +42,6 @@ const ProfileForm = (props: ProfileFormProps) => {
   const [fullName, setFullName] = useState<string>(user ? user.fullName : '');
   const [zip, setZip] = useState<string>(user && user.zip ? user.zip?.toString() : '');
   const [description, setDescription] = useState<string>(user && user.description ? user?.description : '');
-
   const text = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     return e?.target?.value ? e?.target?.value : '';
   };
