@@ -1,37 +1,30 @@
-import styles from './PaymentMethod.module.scss'
-import {Method} from '../../pages/payments/index'
-import DefaultButton from '../DefaultButton'
+import { Method } from '../../pages/payments/index';
+import Payment from '../Payment';
+import styles from './PaymentMethod.module.scss';
 
 interface PaymentMethodProps {
     methods: Method[];
 }
 
-const PaymentMethod=(props: PaymentMethodProps)=>{
+const PaymentMethod = (props: PaymentMethodProps) => {
 
-return(
-    <div className={styles['paymentMethod']}>
-       {props.methods.length===0?(
-        <p>No payment method added yet.</p>
-       ):(
-        props.methods.map((method)=>(
-            <div className={styles['paymentMethod__block']}>
-                <div>
-                    <div>{method.type} {method.number}</div>
-                    <div className={styles['greytext']}>Expiry {method.date}</div>
-                </div>
-                
-                <DefaultButton default={method.default}/>
-            </div>
-        ))
-       )
-       }
+    return (
+        <div className={styles['paymentMethod']}>
+            {props.methods.length === 0 ? (
+                <p>No payment method added yet.</p>
+            ) : (
+                props.methods.map((method) => (
+                    <div className={styles['paymentMethod__block']}>
+                        <Payment method={method} />
+                    </div>
+                ))
+            )
+            }
 
+            <div className={styles['button']}><button>ADD PAYMENT METHOD</button></div>
 
-
-        <div className={styles['button']}><button>ADD PAYMENT METHOD</button></div>
-        
-    </div>
-);
+        </div>
+    );
 
 };
 
