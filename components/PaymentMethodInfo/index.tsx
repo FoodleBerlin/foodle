@@ -1,4 +1,4 @@
-import styles from './Payment.module.scss';
+import styles from './PaymentMethodInfo.module.scss';
 import { Method } from '../../pages/payments/index';
 
 
