@@ -1,6 +1,10 @@
 @use '../../styles/base/colors';
 
 .button{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
     
     button{
         
@@ -24,24 +28,17 @@
             color: colors.$color-primary-light;
         }
     }
+
 }
 
 .paymentMethod{
 
 
     &__block{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
         border: 1px solid colors.$color-grey;
         border-radius: 1.5rem;
-        padding: 1.2rem 4rem;
 
         font-size: 2rem;
         margin: 1.5rem 0;
     }
-}
-
-.greytext{
-    color: colors.$color-subtle;
 }
