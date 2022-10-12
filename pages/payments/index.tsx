@@ -45,7 +45,7 @@ const Payments: NextPage= ()=>{
             status: 'Paid',
             id: 385792352
         }
-    ]
+    ];
 
     const methodData: Method[]=[
         {
@@ -57,22 +57,22 @@ const Payments: NextPage= ()=>{
         {
             type: 'VisaCard',
             date: '29/10/2021',
-            number: 999999,
+            number: 99999999,
+            default: false
+        },
+        {
+            type: 'MasterCard',
+            date: '01/07/2019',
+            number: 22222222,
             default: false
         },
         {
             type: 'VisaCard',
-            date: '29/10/2021',
-            number: 999999,
-            default: false
-        },
-        {
-            type: 'VisaCard',
-            date: '29/10/2021',
-            number: 999999,
+            date: '17/05/2018',
+            number: 55555555,
             default: false
         }
-    ]
+    ];
 
 return(
 
