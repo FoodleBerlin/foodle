@@ -55,9 +55,9 @@ const Payments: NextPage= ()=>{
             default: true
         },
         {
-            type: 'MasterCard',
-            date: '21/01/2022',
-            number: 23456789,
+            type: 'VisaCard',
+            date: '29/10/2021',
+            number: 999999,
             default: false
         }
     ]
