@@ -28,6 +28,13 @@ const PaymentMethod = (props: PaymentMethodProps) => {
        
     };
 
+    const removeMethod=(method:Method)=>{
+        let methods=[...paymentMethods];
+
+        methods=methods.filter(obj=> obj!==method);
+        setPaymentMethods(methods);
+    };
+
     return (
         <div className={styles['paymentMethod']}>
             {paymentMethods.length === 0 ? (
@@ -35,7 +42,7 @@ const PaymentMethod = (props: PaymentMethodProps) => {
             ) : (
                 paymentMethods.map((method) => (
                     <div className={styles['paymentMethod__block']}>
-                        <Payment method={method} makeDefault={makeDefault} />
+                        <Payment method={method} makeDefault={makeDefault} removeMethod={removeMethod} />
                     </div>
                 ))
             )

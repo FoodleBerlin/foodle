@@ -6,6 +6,7 @@ import PaymentMethodInfo from '../PaymentMethodInfo/index';
 interface PaymentProps {
     method: Method;
     makeDefault: (method: Method)=> void;
+    removeMethod: (method: Method)=> void;
 }
 
 const Payment = (props: PaymentProps) => {
@@ -23,7 +24,7 @@ const Payment = (props: PaymentProps) => {
                     <PaymentMethodInfo method={props.method}/>
                     <div className="">
                         <div className={styles['makeDefault']} onClick={()=> props.makeDefault(props.method)}>MAKE DEFAULT</div>
-                        <Image className='' alt={'xmark'} src={'/xmark.svg'} width={18} height={18} />
+                        <Image className='' alt={'xmark'} src={'/xmark.svg'} width={18} height={18} onClick={()=>props.removeMethod(props.method)}/>
                     </div>
                 </div>
                 
