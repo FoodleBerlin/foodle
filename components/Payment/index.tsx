@@ -1,7 +1,7 @@
 import { Method } from '../../pages/payments/index';
 import Image from 'next/image';
 import styles from './Payment.module.scss';
-import {useState} from 'react';
+import PaymentMethodInfo from '../PaymentMethodInfo/index';
 
 interface PaymentProps {
     method: Method;
@@ -14,19 +14,13 @@ const Payment = (props: PaymentProps) => {
         <div className=''>
             {props.method.default ? (
                 <div>
-                    <div>
-                        <div> {props.method.type} {props.method.number}</div>
-                        <div className={styles['greytext']}>Expiry {props.method.date}</div>
-                    </div>
+                    <PaymentMethodInfo method={props.method}/>
                     <div className={styles['default']}>DEFAULT</div>
                 </div>
                 
             ) : (
                 <div>
-                    <div>
-                        <div> {props.method.type} {props.method.number}</div>
-                        <div className={styles['greytext']}>Expiry {props.method.date}</div>
-                    </div>
+                    <PaymentMethodInfo method={props.method}/>
                     <div className="">
                         <div className={styles['makeDefault']} onClick={()=> props.makeDefault(props.method)}>MAKE DEFAULT</div>
                         <Image className='' alt={'xmark'} src={'/xmark.svg'} width={18} height={18} />
