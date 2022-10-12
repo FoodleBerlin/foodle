@@ -1,21 +1,41 @@
 import { Method } from '../../pages/payments/index';
 import Payment from '../Payment';
 import styles from './PaymentMethod.module.scss';
+import {useState} from 'react';
 
 interface PaymentMethodProps {
     methods: Method[];
 }
 
 const PaymentMethod = (props: PaymentMethodProps) => {
+    const [paymentMethods, setPaymentMethods]= useState<Method[]>(props.methods);
+
+    const makeDefault= (method: Method)=>{
+
+        let methods= [...paymentMethods];
+        
+        methods.map(object=>{
+            if(method===object){
+                object.default= true;
+                methods=methods.filter(obj=>obj!==object);
+                methods.unshift(object);
+            }else{
+                object.default= false;
+            }
+        })
+
+        setPaymentMethods(methods);
+       
+    };
 
     return (
         <div className={styles['paymentMethod']}>
-            {props.methods.length === 0 ? (
+            {paymentMethods.length === 0 ? (
                 <p>No payment method added yet.</p>
             ) : (
-                props.methods.map((method) => (
+                paymentMethods.map((method) => (
                     <div className={styles['paymentMethod__block']}>
-                        <Payment method={method} />
+                        <Payment method={method} makeDefault={makeDefault} />
                     </div>
                 ))
             )
