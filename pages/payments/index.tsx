@@ -59,6 +59,18 @@ const Payments: NextPage= ()=>{
             date: '29/10/2021',
             number: 999999,
             default: false
+        },
+        {
+            type: 'VisaCard',
+            date: '29/10/2021',
+            number: 999999,
+            default: false
+        },
+        {
+            type: 'VisaCard',
+            date: '29/10/2021',
+            number: 999999,
+            default: false
         }
     ]
 
