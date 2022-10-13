@@ -1,0 +1,44 @@
+@use '../../styles/base/colors';
+
+.button{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    
+    button{
+        
+        font-size: 2rem;
+        margin-left: -1vw;
+        margin-top: 1rem;
+        border-radius: 2rem !important;
+        padding: 1.5rem 1.5rem !important;
+        width: 30%;
+
+        border: 1px solid colors.$color-primary-light;
+
+        background-color: colors.$color-primary-light;
+
+        color: colors.$color-white;
+
+        transition: 500ms;
+
+        &:hover{
+            background: transparent;
+            color: colors.$color-primary-light;
+        }
+    }
+
+}
+
+.paymentMethod{
+
+
+    &__block{
+        border: 1px solid colors.$color-grey;
+        border-radius: 1.5rem;
+
+        font-size: 2rem;
+        margin: 1.5rem 0;
+    }
+}

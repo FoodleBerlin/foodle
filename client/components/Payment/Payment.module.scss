@@ -1,0 +1,56 @@
+@use '../../styles/base/colors';
+
+.default{
+    background-color: colors.$color-primary-light2;
+    width:fit-content;
+    height: fit-content;
+
+    padding: 0.2rem 2rem;
+    border-radius: 3rem;
+    font-size: 1.7rem;
+    color: colors.$color-primary;
+    
+    margin-top: 1.5rem;
+}
+
+.makeDefault{
+
+    display: flex;
+    flex-direction: row;
+    gap: 4rem;
+
+    &__btn{
+        background-color: transparent;
+        padding: 0 2rem;
+        border-radius: 3rem;
+
+        border: 1px solid colors.$color-primary;
+        font-size: 1.7rem;
+        color: colors.$color-primary;
+        height: fit-content;
+
+        align-self: center;
+
+        transition: 500ms;
+
+        &:hover{
+            background-color: colors.$color-primary-light;
+            color: colors.$color-white;
+        }
+    }
+
+    img{
+        transition: 500ms;
+
+        &:hover{
+            transform: translateY(-1rem);
+        }
+    }
+}
+
+.organizing{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1.3rem 5rem;
+}
