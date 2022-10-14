@@ -20,7 +20,6 @@ interface DaySelectorProps {
 }
 const DaySelector = (props: DaySelectorProps) => {
   const context = props.context;
-  // const reg = props.context.setValue;
   const toggleDay = (day: string) => {
     switch (day) {
       case 'Monday':
