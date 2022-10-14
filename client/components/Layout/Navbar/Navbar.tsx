@@ -16,16 +16,14 @@ const Navbar = (props: NavbarProps) => {
   return (
     <nav className={styles['navbar']}>
       <div className={styles['navbar__logo']}>
-        {/* <div className="flex-center"> */}
         <Link href="/" passHref>
-          <div className="flex-center">
+          <div className={styles['navbar__logo-wrapper']}>
             <a>
               <Image src="/foodle_logo.svg" width={45} height={27} alt="Foodle Logo" />
             </a>
             <h1 className="logo-text green-text">Foodle</h1>
           </div>
         </Link>
-        {/* </div> */}
       </div>
       <div className={styles['navbar__menu']}>
         <Tab href="/home" iconSrc="/world-icon.svg" title="EN" burger={false} />

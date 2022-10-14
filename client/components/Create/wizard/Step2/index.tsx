@@ -42,7 +42,7 @@ export default function Step2() {
           )}
         </div>
         <div className={styles['formItem']}>
-          <h2 className={'header-secondary mb-two'}>What features does your kitchen offer?</h2>
+          <h2 className={'header-secondary'}>What features does your kitchen offer?</h2>
 
           <div className={styles['step2__buttonsGridWrapper']}>
             {['Unfurnished', 'A/C', 'Elevator', 'Storefront', 'Parking', 'Dishwasher', 'Heating', 'Water', 'Oven'].map(

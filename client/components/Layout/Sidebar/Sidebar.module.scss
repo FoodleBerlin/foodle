@@ -4,6 +4,9 @@
   min-width: 29rem;
   height: 100%;
   background-color: white;
+  button{
+    margin-top:2rem;
+  }
 
   .menu {
     color: green;
@@ -15,6 +18,9 @@
       position: sticky;
       top: 0rem;
     }
+    &__link{
+      margin-top:3rem;
+    }
 
     button {
       font-size: 2rem;
@@ -23,6 +29,7 @@
       border-radius: 2rem !important;
       padding: 1.5rem 2.5rem !important;
       width: 100%;
+      margin-top:2rem;
 
       transition: 500ms;
     }
@@ -33,5 +40,19 @@
   .sidebar {
     display: none;
     visibility: collapse;
+  }
+}
+.underline-link {
+  display: inline-block;
+  &:hover::after {
+    width: 100%;
+  }
+  &::after {
+    content: '';
+    width: 0px;
+    height: 0.6px;
+    display: block;
+    background: #b3b3b3;
+    transition: 300ms;
   }
 }

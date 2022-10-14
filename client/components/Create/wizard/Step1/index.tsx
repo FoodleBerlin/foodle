@@ -116,7 +116,7 @@ export default function Step1() {
             </span>
           )}
         </div>
-        <div className="spacer"></div>
+        <div className={styles["spacer"]}></div>
       </div>
     </div>
   );

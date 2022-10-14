@@ -176,7 +176,7 @@ export default function Step3() {
       </div>
       <div className={styles['formItem']}>
         <h2 className={'header-secondary'}>What are the rules?</h2>
-        <p className="body-text-secondary mb-two">
+        <p className={styles["step3__rules-subtitle"] + " body-text-secondary"}>
           Please let the prospective booker know about cleanliness standards, key pick up and drop off processes, and
           anything else they should know.
         </p>

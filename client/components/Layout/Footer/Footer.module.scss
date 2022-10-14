@@ -9,19 +9,31 @@
     height: 13rem;
     border-bottom: 2px solid rgb(255, 255, 255, 0.2);
     padding-bottom: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
   :nth-child(2) {
     gap: 2rem;
   }
 
   &__logo {
-    margin-top: 0.3rem;
-    margin-left: 0.7rem;
-    color: #ffffff;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    h3{
+      margin-top: 0.3rem;
+      margin-left: 0.7rem;
+      color: #ffffff;
+    }
   }
 
   &__elements {
-    display: flex;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top:1rem;
   }
 
   &__end {

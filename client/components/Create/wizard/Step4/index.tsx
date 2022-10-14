@@ -41,8 +41,8 @@ export default function Step4() {
 
   return (
     <div className={styles['step4']}>
-      <h1 className="header-secondary mb-two">Photo time</h1>
-      <h2 className="body-text subtle-text mb-two">
+      <h1 className="header-secondary">Photo time</h1>
+      <h2 className={styles['step4__subheader']+" body-text subtle-text"}>
         Upload at least 5 photos of the kitchen.Features should be visible. If your kitchen is not verified, these
         photos will be the major selling point.
       </h2>

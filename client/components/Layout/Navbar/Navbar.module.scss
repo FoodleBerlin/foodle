@@ -28,6 +28,11 @@
     border-radius: 100%;
   }
 
+  &__logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   &__logo {
     display: flex;
     justify-content: center;

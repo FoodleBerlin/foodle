@@ -17,7 +17,7 @@ const BurgerMenu = () => {
         <div className="bm-top__right">
           <Tab href="/" iconSrc="/world-icon.svg" title="EN" />
         </div>
-        <div className="bm-top__left mt-two">
+        <div className="bm-top__left">
           <Tab href="/not-done-yet" title={findKitchen} burger />
           <Tab href="/not-done-yet" title={listKitchen} burger />
           <Tab href="/not-done-yet" title="F.A.Q." burger />
@@ -25,7 +25,7 @@ const BurgerMenu = () => {
         </div>
       </header>
       <footer>
-        <div className="flex-center">
+        <div className={styles["bm__footer"]}>
           <Image src={'/foodle_logo.svg'} alt="foodle logo" width={40} height={29} />
           <h3 className={styles['bm__logo'] + ' logo-text'}>Foodle</h3>
         </div>

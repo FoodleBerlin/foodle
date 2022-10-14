@@ -14,12 +14,12 @@ const Footer = () => {
   const privacy = intl.formatMessage({ id: 'component.footer.privacy' });
   return (
     <div className={styles['footer']}>
-      <div className={styles['footer__main'] + ' flex-center__column'}>
-        <div className="flex-center">
+      <div className={styles['footer__main']}>
+        <div className={styles['footer__logo']}>
           <Image src={'/foodle_logo.svg'} alt="foodle logo" width={40} height={29} />
-          <h3 className={styles['footer__logo'] + ' logo-text'}>Foodle</h3>
+          <h3 className={'logo-text'}>Foodle</h3>
         </div>
-        <div className={styles['footer__elements'] + ' flex-center mt-one'}>
+        <div className={styles['footer__elements']}>
           <Link href={'/not-done-yet'}>
             <a className="body-text--hover">{about}</a>
           </Link>

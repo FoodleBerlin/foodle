@@ -16,7 +16,7 @@ import styles from './Wizard.module.scss';
 export default function Wizard(props: AuthenticatedProps) {
   const wizardContext = useWizardContext();
   return (
-    <div className="flex">
+    <div className={styles["wizard-container"]}>
       <Sidebar user={props.session}>
         <div className={styles['sidebar-container']}>
           {/* <div> */}

@@ -4,7 +4,7 @@ import styles from './Socials.module.scss';
 
 const Socials = () => {
   return (
-    <div className={styles['socials'] + ' flex-center'}>
+    <div className={styles['socials']}>
       <Link href={'https://www.instagram.com/foodle.berlin/?hl=en'}>
         <a>
           <Image

@@ -15,28 +15,28 @@ const Sidebar = (props: SidebarProps) => {
           props.children
         ) : (
           <>
-            <div className={'mt-three'}>
+            <div className={styles['menu__link']}>
               <Link href="/account/profile">
                 <a className="body-text">
-                  <span className={'underline-link  green-text'}>Profile</span>
+                  <span className={styles["underline-link"] +  ' green-text'}>Profile</span>
                 </a>
               </Link>
             </div>
-            <div className={'mt-three'}>
+            <div className={styles['menu__link']}>
               <Link href="/account/bookings">
                 <a className="body-text bold">
-                  <span className={'underline-link'}>My Bookings</span>
+                  <span className={styles["underline-link"]}>My Bookings</span>
                 </a>
               </Link>
             </div>
-            <div className={'mt-three'}>
+            <div className={styles['menu__link']}>
               <Link href="/account/payments">
                 <a className="body-text bold">
-                  <span className={'underline-link'}>My Payments</span>
+                  <span className={styles["underline-link"]}>My Payments</span>
                 </a>
               </Link>
             </div>
-            <button className={'primary-btn mt-two body-text bold'}>Contact support</button>
+            <button className={'primary-btn body-text bold'}>Contact support</button>
           </>
         )}
       </div>

@@ -1,4 +1,8 @@
 @use '../../../../styles/base/colors';
+
+.wizard-container{
+    display:flex;
+}
 .wizard {
     color: hsl(0, 0%, 17%);
     flex: 1 1 75%;
