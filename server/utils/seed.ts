@@ -90,6 +90,8 @@ export async function seed() {
           partialSpace: false,
           ownerId: '1',
           handle: 'prop1',
+          frequency: 'weekly',
+          facilities: ['Unfurnished'],
         },
         {
           zip: 1355,
@@ -107,6 +109,8 @@ export async function seed() {
           partialSpace: false,
           ownerId: '2',
           handle: 'prop2',
+          frequency: 'weekly',
+          facilities: ['Elevator', 'Parking', 'Dishwasher'],
         },
         {
           zip: 1355,
@@ -124,6 +128,8 @@ export async function seed() {
           partialSpace: false,
           ownerId: '2',
           handle: 'prop3',
+          frequency: 'weekly',
+          facilities: ['Elevator', 'Parking'],
         },
       ],
     }),
