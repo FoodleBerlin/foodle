@@ -1,6 +1,11 @@
 @use '../../../styles/base/colors';
 @use '../../../styles/components/buttons';
-@use '../../../styles/components/weekdays';
+@use '../../../styles/abstracts/mixins';
+
+
+.weekDays {
+  @include mixins.weekDays
+}
 
 .wizard {
   color: hsl(0, 0%, 17%);
@@ -17,6 +22,7 @@
     margin-bottom: 50px;
   }
 }
+
 
 .error {
   color: #f44336;

@@ -1,5 +1,9 @@
-@use '../../../styles/components/weekdays';
 @use '../../../styles/base/colors';
+@use '../../../styles/abstracts/mixins';
+
+.weekDays {
+    @include mixins.weekDays
+}
 
 .sidebar {
     display: grid;
