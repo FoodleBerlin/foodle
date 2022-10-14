@@ -1,4 +1,4 @@
-import { Booking } from '../../pages/myBookings';
+import { Booking } from '../../../pages/myBookings';
 import { BookingCard } from '../BookingCard';
 
 export type BookingStatusContainerProps = {

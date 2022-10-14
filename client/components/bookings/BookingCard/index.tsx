@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Booking } from '../../pages/myBookings';
+import { Booking } from '../../../pages/myBookings';
 import styles from './BookingCard.module.scss';
 
 export const BookingCard = (props: Booking) => {

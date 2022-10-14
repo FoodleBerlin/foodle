@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { useFindUserQuery } from '../../codegen';
 import Navbar from '../../components/layout/Navbar/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
-import ProfileForm from '../../components/Profile2/ProfileForm';
+import ProfileForm from '../../components/profile/ProfileForm';
 import { extractUserFromToken } from '../../utils/context';
 import styles from './Account.module.scss';
 import { AuthenticatedProps } from './payments';

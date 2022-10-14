@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import FaqAccordion from '../../components/FaqAccordion/index';
+import FaqAccordion from '../../components/faq/FaqAccordion/index';
 import Navbar from '../../components/layout/Navbar/Navbar';
 import styles from './Faq.module.scss';
 
