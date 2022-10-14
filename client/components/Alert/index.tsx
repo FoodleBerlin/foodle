@@ -2,13 +2,10 @@ import Image from "next/image";
 import styles from "./Alert.module.scss";
 import { useAlertContext } from "./AlertContext";
 
-
 type AlertProps = {
     message?: string | undefined;
     type: "error" | "success" | "info";
 }
-
-
 
 const Alert = (props: AlertProps) => {
     const alertContext = useAlertContext();
