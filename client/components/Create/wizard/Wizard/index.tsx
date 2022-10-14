@@ -4,7 +4,7 @@ import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue 
 import { z } from 'zod';
 import { FrequencyEnum } from '../../../../codegen';
 import { AuthenticatedProps } from '../../../../pages/account/payments';
-import Sidebar from '../../../Layout/Sidebar';
+import Sidebar from '../../../Layout2/Sidebar';
 import Footer from '../Footer';
 import Step1 from '../Step1';
 import Step2 from '../Step2';
