@@ -91,6 +91,7 @@ const Footer = (props: FooterProps) => {
       startDate: new Date(wiz.startDate).toISOString(),
       endDate: new Date(wiz.endDate).toISOString(),
       frequency: wiz.frequency,
+      facilities: wiz.facilities,
       availableDays: selectedDaySlots,
     });
     router.push('/create-listing-success');
