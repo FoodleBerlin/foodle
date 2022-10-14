@@ -130,10 +130,6 @@ export default function Step3() {
               <DaySelector weekday={'Saturday'} short={'sat'} shortest={'S'} register={register} setValue={setValue} context={context} />
               <DaySelector weekday={'Sunday'} short={'sun'} shortest={'S'} register={register} setValue={setValue} context={context} />
             </div>
-            {/* TODO: Add validation and error messages for all day inputs  */}
-            {/* {formState.errors.days && (
-              <span className={styles['error']}>{formState.errors.days.map((e) => e.message)}</span>
-            )} */}
           </div>
           <div className={styles['step3__timeInput']}>
             {monday.selected && <TimeInput shortest={'M'} short={'mon'} register={register} setValue={setValue} />}
