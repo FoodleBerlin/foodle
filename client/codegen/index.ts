@@ -22,7 +22,7 @@ function fetcher<TData, TVariables>(endpoint: string, requestInit: RequestInit, 
     }
 
     return json.data;
-  }
+  };
 }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -45,11 +45,9 @@ export type Query = {
   findUser: FindUserResult;
 };
 
-
 export type QueryFindPropertyArgs = {
   handle: Scalars['String'];
 };
-
 
 export type QueryFindUserArgs = {
   handle?: InputMaybe<Scalars['String']>;
@@ -68,6 +66,8 @@ export type Property = {
   daySlots: Array<DaySlot>;
   deposit: Scalars['Int'];
   description: Scalars['String'];
+  facilities: Array<Scalars['String']>;
+  frequency: FrequencyEnum;
   handle: Scalars['String'];
   hourlyPrice: Scalars['Int'];
   images: Array<Scalars['String']>;
@@ -102,7 +102,7 @@ export type Booking = {
 export enum BookingStatus {
   Accepted = 'ACCEPTED',
   Pending = 'PENDING',
-  Rejected = 'REJECTED'
+  Rejected = 'REJECTED',
 }
 
 export type DaySlot = {
@@ -118,7 +118,7 @@ export type DaySlot = {
 export enum FrequencyEnum {
   Monthly = 'MONTHLY',
   None = 'NONE',
-  Weekly = 'WEEKLY'
+  Weekly = 'WEEKLY',
 }
 
 export type User = {
@@ -212,7 +212,6 @@ export type Mutation = {
   updateUser: FindUserResult;
 };
 
-
 export type MutationCreateBookingArgs = {
   daySlots: Array<AvailableDay>;
   endDate: Scalars['DateTime'];
@@ -221,13 +220,13 @@ export type MutationCreateBookingArgs = {
   startDate: Scalars['DateTime'];
 };
 
-
 export type MutationCreateListingArgs = {
   availableDays: Array<AvailableDay>;
   city: Scalars['String'];
   deposit: Scalars['Int'];
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
+  facilities: Array<Scalars['String']>;
   frequency: FrequencyEnum;
   hourlyPrice: Scalars['Int'];
   images: Array<Scalars['String']>;
@@ -243,7 +242,6 @@ export type MutationCreateListingArgs = {
   title: Scalars['String'];
   zip: Scalars['Int'];
 };
-
 
 export type MutationUpdateUserArgs = {
   description?: InputMaybe<Scalars['String']>;
@@ -305,8 +303,49 @@ export type FindUserQueryVariables = Exact<{
   handle: Scalars['String'];
 }>;
 
-
-export type FindUserQuery = { __typename?: 'Query', findUser: { __typename: 'findUserResult', User?: { __typename: 'User', email: string, handle: string, fullName: string, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle', message: string } | null } };
+export type FindUserQuery = {
+  __typename?: 'Query';
+  findUser: {
+    __typename: 'findUserResult';
+    User?: {
+      __typename: 'User';
+      email: string;
+      handle: string;
+      fullName: string;
+      zip?: number | null;
+      dob?: any | null;
+      passportS3Id?: string | null;
+      solvencyS3Id?: string | null;
+      licenseS3Id?: string | null;
+      charges: Array<{
+        __typename?: 'CustomerCharge';
+        amount?: number | null;
+        date?: number | null;
+        card?: string | null;
+        status?: string | null;
+        description?: string | null;
+        invoiceId?: string | null;
+        currency?: string | null;
+      }>;
+      paymentMethods: Array<{
+        __typename?: 'PaymentInformation';
+        cardNumber?: string | null;
+        expiryMonth?: number | null;
+        expiryYear?: number | null;
+        type?: string | null;
+      }>;
+      defaultPayment?: {
+        __typename?: 'PaymentInformation';
+        cardNumber?: string | null;
+        expiryMonth?: number | null;
+        expiryYear?: number | null;
+        type?: string | null;
+      } | null;
+    } | null;
+    ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists'; message: string } | null;
+    ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle'; message: string } | null;
+  };
+};
 
 export type UpdateUserMutationVariables = Exact<{
   updateUserId?: InputMaybe<Scalars['String']>;
@@ -319,13 +358,71 @@ export type UpdateUserMutationVariables = Exact<{
   licenseS3Id?: InputMaybe<Scalars['String']>;
 }>;
 
+export type UpdateUserMutation = {
+  __typename?: 'Mutation';
+  updateUser: {
+    __typename?: 'findUserResult';
+    User?: {
+      __typename?: 'User';
+      id: string;
+      fullName: string;
+      email: string;
+      handle: string;
+      zip?: number | null;
+      dob?: any | null;
+      passportS3Id?: string | null;
+      solvencyS3Id?: string | null;
+      licenseS3Id?: string | null;
+      charges: Array<{
+        __typename?: 'CustomerCharge';
+        amount?: number | null;
+        date?: number | null;
+        card?: string | null;
+        status?: string | null;
+        description?: string | null;
+        currency?: string | null;
+        invoiceId?: string | null;
+      }>;
+      paymentMethods: Array<{
+        __typename?: 'PaymentInformation';
+        cardNumber?: string | null;
+        expiryMonth?: number | null;
+        expiryYear?: number | null;
+        type?: string | null;
+      }>;
+      defaultPayment?: {
+        __typename?: 'PaymentInformation';
+        cardNumber?: string | null;
+        expiryYear?: number | null;
+        expiryMonth?: number | null;
+        type?: string | null;
+      } | null;
+    } | null;
+    ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists'; message: string } | null;
+    ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput'; message: string } | null;
+    UnknownError?: { __typename?: 'UnknownError'; message: string } | null;
+  };
+};
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'findUserResult', User?: { __typename?: 'User', id: string, fullName: string, email: string, handle: string, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, currency?: string | null, invoiceId?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryYear?: number | null, expiryMonth?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
+export type FindBookingsOfUserQueryVariables = Exact<{ [key: string]: never }>;
 
-export type FindBookingsOfUserQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FindBookingsOfUserQuery = { __typename?: 'Query', findBookingsOfUser: { __typename?: 'GetBookingsOfUser', Bookings?: Array<{ __typename?: 'Booking', id: string, bookingStatus: BookingStatus, frequency: FrequencyEnum, totalPrice: number, startDate: string, endDate: string, property: { __typename?: 'Property', handle: string, title: string }, daySlots: Array<{ __typename?: 'DaySlot', startTime: any, endTime: any }> }> | null } };
+export type FindBookingsOfUserQuery = {
+  __typename?: 'Query';
+  findBookingsOfUser: {
+    __typename?: 'GetBookingsOfUser';
+    Bookings?: Array<{
+      __typename?: 'Booking';
+      id: string;
+      bookingStatus: BookingStatus;
+      frequency: FrequencyEnum;
+      totalPrice: number;
+      startDate: string;
+      endDate: string;
+      property: { __typename?: 'Property'; handle: string; title: string };
+      daySlots: Array<{ __typename?: 'DaySlot'; startTime: any; endTime: any }>;
+    }> | null;
+  };
+};
 
 export type CreateBookingMutationVariables = Exact<{
   propertyHandle: Scalars['String'];
@@ -335,8 +432,28 @@ export type CreateBookingMutationVariables = Exact<{
   daySlots: Array<AvailableDay> | AvailableDay;
 }>;
 
-
-export type CreateBookingMutation = { __typename?: 'Mutation', createBooking: { __typename?: 'CreateBookingReturn', Booking?: { __typename?: 'Booking', bookingStatus: BookingStatus, frequency: FrequencyEnum, totalPrice: number, startDate: string, endDate: string, tenant: { __typename?: 'User', fullName: string, handle: string, zip?: number | null }, property: { __typename?: 'Property', handle: string, title: string, size: number } } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorPropertyNotExists?: { __typename?: 'ClientErrorPropertyNotExists', message: string } | null, ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput', message: string } | null, NoAvailableSlots?: { __typename?: 'NoAvailableSlots', message: string } | null, ClientErrorInvalidPropertyInput?: { __typename?: 'ClientErrorInvalidPropertyInput', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
+export type CreateBookingMutation = {
+  __typename?: 'Mutation';
+  createBooking: {
+    __typename?: 'CreateBookingReturn';
+    Booking?: {
+      __typename?: 'Booking';
+      bookingStatus: BookingStatus;
+      frequency: FrequencyEnum;
+      totalPrice: number;
+      startDate: string;
+      endDate: string;
+      tenant: { __typename?: 'User'; fullName: string; handle: string; zip?: number | null };
+      property: { __typename?: 'Property'; handle: string; title: string; size: number };
+    } | null;
+    ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists'; message: string } | null;
+    ClientErrorPropertyNotExists?: { __typename?: 'ClientErrorPropertyNotExists'; message: string } | null;
+    ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput'; message: string } | null;
+    NoAvailableSlots?: { __typename?: 'NoAvailableSlots'; message: string } | null;
+    ClientErrorInvalidPropertyInput?: { __typename?: 'ClientErrorInvalidPropertyInput'; message: string } | null;
+    UnknownError?: { __typename?: 'UnknownError'; message: string } | null;
+  };
+};
 
 export type CreateListingMutationVariables = Exact<{
   size: Scalars['Int'];
@@ -356,18 +473,79 @@ export type CreateListingMutationVariables = Exact<{
   startDate: Scalars['DateTime'];
   endDate: Scalars['DateTime'];
   frequency: FrequencyEnum;
+  facilities: Array<Scalars['String']> | Scalars['String'];
   availableDays: Array<AvailableDay> | AvailableDay;
   pickup?: InputMaybe<Scalars['Boolean']>;
 }>;
 
+export type CreateListingMutation = {
+  __typename?: 'Mutation';
+  createListing: {
+    __typename?: 'CreateListingReturn';
+    Property?: {
+      __typename?: 'Property';
+      kind: string;
+      rules: Array<string>;
+      handle: string;
+      title: string;
+      size: number;
+      street: string;
+      streetNumber: string;
+      zip: number;
+      city: string;
+      description: string;
+      images: Array<string>;
+      partialSpace: boolean;
+      deposit: number;
+      pickup?: boolean | null;
+      isVerified: boolean;
+      hourlyPrice: number;
+      serviceFee: number;
+      facilities: Array<string>;
+      frequency: FrequencyEnum;
+      daySlots: Array<{ __typename?: 'DaySlot'; startTime: any; endTime: any }>;
+      owner?: { __typename?: 'User'; dob?: any | null } | null;
+    } | null;
+    ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists'; message: string } | null;
+    ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput'; message: string } | null;
+    NoAvailableSlots?: { __typename?: 'NoAvailableSlots'; message: string } | null;
+    UnknownError?: { __typename?: 'UnknownError'; message: string } | null;
+  };
+};
 
-export type CreateListingMutation = { __typename?: 'Mutation', createListing: { __typename?: 'CreateListingReturn', Property?: { __typename?: 'Property', kind: string, rules: Array<string>, handle: string, title: string, size: number, street: string, streetNumber: string, zip: number, city: string, description: string, images: Array<string>, partialSpace: boolean, deposit: number, pickup?: boolean | null, isVerified: boolean, hourlyPrice: number, serviceFee: number, daySlots: Array<{ __typename?: 'DaySlot', startTime: any, endTime: any }>, owner?: { __typename?: 'User', dob?: any | null } | null } | null, ClientErrorUserNotExists?: { __typename?: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidInput?: { __typename?: 'ClientErrorInvalidInput', message: string } | null, NoAvailableSlots?: { __typename?: 'NoAvailableSlots', message: string } | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
+export type FindAllPropertiesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type FindAllPropertiesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FindAllPropertiesQuery = { __typename?: 'Query', findAllProperties: { __typename?: 'findAllPropertiesReturn', Properties?: Array<{ __typename?: 'Property', kind: string, handle: string, title: string, size: number, street: string, streetNumber: string, zip: number, city: string, description: string, pickup?: boolean | null, deposit: number, images: Array<string>, partialSpace: boolean, isVerified: boolean, hourlyPrice: number, serviceFee: number, rules: Array<string>, owner?: { __typename?: 'User', fullName: string } | null, bookings: Array<{ __typename?: 'Booking', tenant: { __typename?: 'User', fullName: string } }>, daySlots: Array<{ __typename?: 'DaySlot', startTime: any, endTime: any }> }> | null, UnknownError?: { __typename?: 'UnknownError', message: string } | null } };
-
+export type FindAllPropertiesQuery = {
+  __typename?: 'Query';
+  findAllProperties: {
+    __typename?: 'findAllPropertiesReturn';
+    Properties?: Array<{
+      __typename?: 'Property';
+      kind: string;
+      handle: string;
+      title: string;
+      size: number;
+      street: string;
+      streetNumber: string;
+      zip: number;
+      city: string;
+      description: string;
+      pickup?: boolean | null;
+      deposit: number;
+      images: Array<string>;
+      partialSpace: boolean;
+      isVerified: boolean;
+      hourlyPrice: number;
+      serviceFee: number;
+      rules: Array<string>;
+      facilities: Array<string>;
+      frequency: FrequencyEnum;
+      owner?: { __typename?: 'User'; fullName: string; description?: string | null; dob?: any | null } | null;
+      bookings: Array<{ __typename?: 'Booking'; tenant: { __typename?: 'User'; fullName: string } }>;
+      daySlots: Array<{ __typename?: 'DaySlot'; startTime: any; endTime: any }>;
+    }> | null;
+  };
+};
 
 export const FindUserDocument = `
     query FindUser($handle: String!) {
@@ -416,17 +594,19 @@ export const FindUserDocument = `
   }
 }
     `;
-export const useFindUserQuery = <
-  TData = FindUserQuery,
-  TError = unknown
->(
-  dataSource: { endpoint: string, fetchParams?: RequestInit },
+export const useFindUserQuery = <TData = FindUserQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
   variables: FindUserQueryVariables,
   options?: UseQueryOptions<FindUserQuery, TError, TData>
 ) =>
   useQuery<FindUserQuery, TError, TData>(
     ['FindUser', variables],
-    fetcher<FindUserQuery, FindUserQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindUserDocument, variables),
+    fetcher<FindUserQuery, FindUserQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      FindUserDocument,
+      variables
+    ),
     options
   );
 export const UpdateUserDocument = `
@@ -476,16 +656,19 @@ export const UpdateUserDocument = `
   }
 }
     `;
-export const useUpdateUserMutation = <
-  TError = unknown,
-  TContext = unknown
->(
-  dataSource: { endpoint: string, fetchParams?: RequestInit },
+export const useUpdateUserMutation = <TError = unknown, TContext = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
   options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>
 ) =>
   useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
     ['UpdateUser'],
-    (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdateUserDocument, variables)(),
+    (variables?: UpdateUserMutationVariables) =>
+      fetcher<UpdateUserMutation, UpdateUserMutationVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        UpdateUserDocument,
+        variables
+      )(),
     options
   );
 export const FindBookingsOfUserDocument = `
@@ -510,17 +693,19 @@ export const FindBookingsOfUserDocument = `
   }
 }
     `;
-export const useFindBookingsOfUserQuery = <
-  TData = FindBookingsOfUserQuery,
-  TError = unknown
->(
-  dataSource: { endpoint: string, fetchParams?: RequestInit },
+export const useFindBookingsOfUserQuery = <TData = FindBookingsOfUserQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
   variables?: FindBookingsOfUserQueryVariables,
   options?: UseQueryOptions<FindBookingsOfUserQuery, TError, TData>
 ) =>
   useQuery<FindBookingsOfUserQuery, TError, TData>(
     variables === undefined ? ['FindBookingsOfUser'] : ['FindBookingsOfUser', variables],
-    fetcher<FindBookingsOfUserQuery, FindBookingsOfUserQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindBookingsOfUserDocument, variables),
+    fetcher<FindBookingsOfUserQuery, FindBookingsOfUserQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      FindBookingsOfUserDocument,
+      variables
+    ),
     options
   );
 export const CreateBookingDocument = `
@@ -564,21 +749,24 @@ export const CreateBookingDocument = `
   }
 }
     `;
-export const useCreateBookingMutation = <
-  TError = unknown,
-  TContext = unknown
->(
-  dataSource: { endpoint: string, fetchParams?: RequestInit },
+export const useCreateBookingMutation = <TError = unknown, TContext = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
   options?: UseMutationOptions<CreateBookingMutation, TError, CreateBookingMutationVariables, TContext>
 ) =>
   useMutation<CreateBookingMutation, TError, CreateBookingMutationVariables, TContext>(
     ['CreateBooking'],
-    (variables?: CreateBookingMutationVariables) => fetcher<CreateBookingMutation, CreateBookingMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateBookingDocument, variables)(),
+    (variables?: CreateBookingMutationVariables) =>
+      fetcher<CreateBookingMutation, CreateBookingMutationVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        CreateBookingDocument,
+        variables
+      )(),
     options
   );
 export const CreateListingDocument = `
-    mutation CreateListing($size: Int!, $title: String!, $ownerHandle: String!, $street: String!, $streetNumber: String!, $zip: Int!, $city: String!, $description: String!, $hourlyPrice: Int!, $serviceFee: Int!, $rules: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $availableDays: [AvailableDay!]!, $pickup: Boolean) {
-  createListing(size: $size, title: $title, ownerHandle: $ownerHandle, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, rules: $rules, deposit: $deposit, images: $images, partialSpace: $partialSpace, startDate: $startDate, endDate: $endDate, frequency: $frequency, availableDays: $availableDays, pickup: $pickup) {
+    mutation CreateListing($size: Int!, $title: String!, $ownerHandle: String!, $street: String!, $streetNumber: String!, $zip: Int!, $city: String!, $description: String!, $hourlyPrice: Int!, $serviceFee: Int!, $rules: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $facilities: [String!]!, $availableDays: [AvailableDay!]!, $pickup: Boolean) {
+  createListing(size: $size, title: $title, ownerHandle: $ownerHandle, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, rules: $rules, deposit: $deposit, images: $images, partialSpace: $partialSpace, startDate: $startDate, endDate: $endDate, frequency: $frequency, facilities: $facilities, availableDays: $availableDays, pickup: $pickup) {
     Property {
       kind
       rules
@@ -604,6 +792,8 @@ export const CreateListingDocument = `
       isVerified
       hourlyPrice
       serviceFee
+      facilities
+      frequency
     }
     ClientErrorUserNotExists {
       message
@@ -620,16 +810,19 @@ export const CreateListingDocument = `
   }
 }
     `;
-export const useCreateListingMutation = <
-  TError = unknown,
-  TContext = unknown
->(
-  dataSource: { endpoint: string, fetchParams?: RequestInit },
+export const useCreateListingMutation = <TError = unknown, TContext = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
   options?: UseMutationOptions<CreateListingMutation, TError, CreateListingMutationVariables, TContext>
 ) =>
   useMutation<CreateListingMutation, TError, CreateListingMutationVariables, TContext>(
     ['CreateListing'],
-    (variables?: CreateListingMutationVariables) => fetcher<CreateListingMutation, CreateListingMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateListingDocument, variables)(),
+    (variables?: CreateListingMutationVariables) =>
+      fetcher<CreateListingMutation, CreateListingMutationVariables>(
+        dataSource.endpoint,
+        dataSource.fetchParams || {},
+        CreateListingDocument,
+        variables
+      )(),
     options
   );
 export const FindAllPropertiesDocument = `
@@ -641,6 +834,8 @@ export const FindAllPropertiesDocument = `
       title
       owner {
         fullName
+        description
+        dob
       }
       size
       bookings {
@@ -665,23 +860,24 @@ export const FindAllPropertiesDocument = `
       hourlyPrice
       serviceFee
       rules
-    }
-    UnknownError {
-      message
+      facilities
+      frequency
     }
   }
 }
     `;
-export const useFindAllPropertiesQuery = <
-  TData = FindAllPropertiesQuery,
-  TError = unknown
->(
-  dataSource: { endpoint: string, fetchParams?: RequestInit },
+export const useFindAllPropertiesQuery = <TData = FindAllPropertiesQuery, TError = unknown>(
+  dataSource: { endpoint: string; fetchParams?: RequestInit },
   variables?: FindAllPropertiesQueryVariables,
   options?: UseQueryOptions<FindAllPropertiesQuery, TError, TData>
 ) =>
   useQuery<FindAllPropertiesQuery, TError, TData>(
     variables === undefined ? ['FindAllProperties'] : ['FindAllProperties', variables],
-    fetcher<FindAllPropertiesQuery, FindAllPropertiesQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindAllPropertiesDocument, variables),
+    fetcher<FindAllPropertiesQuery, FindAllPropertiesQueryVariables>(
+      dataSource.endpoint,
+      dataSource.fetchParams || {},
+      FindAllPropertiesDocument,
+      variables
+    ),
     options
   );
