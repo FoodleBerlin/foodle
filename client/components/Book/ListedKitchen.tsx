@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import PriceLine from '../Create2/PriceLine';
+import PriceLine from '../create/PriceLine';
 import styles from '../Create/wizard/Wizard.module.scss';
 
 /*
