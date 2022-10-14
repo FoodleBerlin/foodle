@@ -1,6 +1,6 @@
 import { UseFormRegister } from 'react-hook-form';
 import { FormData, touchDirtyValidate, WizardContext } from '../Create/wizard/Wizard';
-import { BookingContext } from '../Listing/BookingContext';
+import { BookingContext } from '../listing/BookingContext';
 
 ///Checks if a context is a [BookingContext]
 function isBookingContext(

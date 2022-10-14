@@ -1,5 +1,5 @@
-@use "./ListingOverview.module.scss";
-@use '../../styles/base/colors';
+@use "../ListingOverview/ListingOverview.module.scss";
+@use '../../../styles/base/colors';
 
 .sidebar {
     display: grid;

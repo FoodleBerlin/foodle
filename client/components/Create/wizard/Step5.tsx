@@ -1,4 +1,4 @@
-import ListingsOverview from '../..//Listing/ListingOverview';
+import ListingsOverview from '../../listing/ListingOverview';
 import { useWizardContext } from './Wizard';
 export default function Step5() {
   const wiz = useWizardContext().getValues();

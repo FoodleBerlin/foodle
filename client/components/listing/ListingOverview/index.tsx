@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import { UploaderImg } from "../Create/wizard/Step4";
-import { FormData } from "../Create/wizard/Wizard";
-import PriceLine from '../PriceLine';
-import { BookingProvider } from './BookingContext';
+import { UploaderImg } from "../../Create/wizard/Step4";
+import { FormData } from "../../Create/wizard/Wizard";
+import PriceLine from '../../PriceLine';
+import { BookingProvider } from '../BookingContext';
+import ListingSideBar from '../ListingSideBar/ListingSideBar';
 import styles from "./ListingOverview.module.scss";
-import ListingSideBar from './ListingSideBar';
 
 
 function ListingOverview({ listingsData, handle, owner, hideSidebar = false }: { listingsData: FormData, handle: string, owner: any, hideSidebar: boolean }) {

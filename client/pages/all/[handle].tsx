@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { FrequencyEnum, useFindAllPropertiesQuery } from '../../codegen/index';
 import Navbar from '../../components/Layout/Navbar';
-import ListingOverview from '../../components/Listing/ListingOverview';
+import ListingOverview from '../../components/listing/ListingOverview';
 import styles from '../../styles/pages/All.module.scss';
 
 const Kitchen: NextPage = () => {
