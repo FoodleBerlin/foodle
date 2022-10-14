@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import DaySelector from '../DaySelector';
-import TimeInput from '../TimeInput';
+import DaySelector from '../../DaySelector';
+import TimeInput from '../../TimeInput';
 import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';
 
@@ -11,6 +11,7 @@ export type DaySlot = {
 };
 
 export default function Step3() {
+  const context = useWizardContext();
   const { formState, nextStep, register, setValue } = useWizardContext();
   const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = useWizardContext().getValues().daySlots;
   const [isUp, changeUp] = useState(false);
@@ -117,31 +118,27 @@ export default function Step3() {
         ></input>
         {formState.errors.startDate && <span className={styles['error']}>{formState.errors.startDate.message}</span>}
         {/* <--------- DAYS OF WEEK INPUTS ---------> */}
-        <div className={styles['step3__weekDaysSelector']}>
-          <div className={styles['step3__daysOfWeek']}>
+        <div className={styles['weekDays__weekDaysSelector']}>
+          <div className={styles['weekDays__daysOfWeek']}>
             <label className="label-text">Days of week</label>
-            <div className={styles['step3__weekDayCheckboxWrapper']}>
-              <DaySelector weekday={'Monday'} short={'mon'} shortest={'M'} />
-              <DaySelector weekday={'Tuesday'} short={'tue'} shortest={'T'} />
-              <DaySelector weekday={'Wednesday'} short={'wed'} shortest={'W'} />
-              <DaySelector weekday={'Thursday'} short={'thu'} shortest={'T'} />
-              <DaySelector weekday={'Friday'} short={'fri'} shortest={'F'} />
-              <DaySelector weekday={'Saturday'} short={'sat'} shortest={'S'} />
-              <DaySelector weekday={'Sunday'} short={'sun'} shortest={'S'} />
+            <div className={styles['weekDays__weekDayCheckboxWrapper']}>
+              <DaySelector weekday={'Monday'} short={'mon'} shortest={'M'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Tuesday'} short={'tue'} shortest={'T'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Wednesday'} short={'wed'} shortest={'W'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Thursday'} short={'thu'} shortest={'T'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Friday'} short={'fri'} shortest={'F'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Saturday'} short={'sat'} shortest={'S'} register={register} setValue={setValue} context={context} />
+              <DaySelector weekday={'Sunday'} short={'sun'} shortest={'S'} register={register} setValue={setValue} context={context} />
             </div>
-            {/* TODO: Add validation and error messages for all day inputs  */}
-            {/* {formState.errors.days && (
-              <span className={styles['error']}>{formState.errors.days.map((e) => e.message)}</span>
-            )} */}
           </div>
           <div className={styles['step3__timeInput']}>
-            {monday.selected && <TimeInput shortest={'M'} short={'mon'} />}
-            {tuesday.selected && <TimeInput shortest={'T'} short={'tue'} />}
-            {wednesday.selected && <TimeInput shortest={'W'} short={'wed'} />}
-            {thursday.selected && <TimeInput shortest={'T'} short={'thu'} />}
-            {friday.selected && <TimeInput shortest={'F'} short={'fri'} />}
-            {saturday.selected && <TimeInput shortest={'S'} short={'sat'} />}
-            {sunday.selected && <TimeInput shortest={'S'} short={'sun'} />}
+            {monday.selected && <TimeInput shortest={'M'} short={'mon'} register={register} setValue={setValue} />}
+            {tuesday.selected && <TimeInput shortest={'T'} short={'tue'} register={register} setValue={setValue} />}
+            {wednesday.selected && <TimeInput shortest={'W'} short={'wed'} register={register} setValue={setValue} />}
+            {thursday.selected && <TimeInput shortest={'T'} short={'thu'} register={register} setValue={setValue} />}
+            {friday.selected && <TimeInput shortest={'F'} short={'fri'} register={register} setValue={setValue} />}
+            {saturday.selected && <TimeInput shortest={'S'} short={'sat'} register={register} setValue={setValue} />}
+            {sunday.selected && <TimeInput shortest={'S'} short={'sun'} register={register} setValue={setValue} />}
           </div>
 
           <div className={styles['step3__weekFrequencySelect']}>

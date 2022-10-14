@@ -1,14 +1,14 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useListingsQuery } from '../../client/codegen/index';
-import ListedKitchen from '../../components/Book/ListedKitchen';
+import { FrequencyEnum, useFindAllPropertiesQuery } from '../../codegen/index';
 import Navbar from '../../components/Layout/Navbar';
+import ListingOverview from '../../components/listing/ListingOverview';
 import styles from '../../styles/pages/All.module.scss';
 
 const Kitchen: NextPage = () => {
   const router = useRouter();
   const { handle } = router.query;
-  const { status, data, error, isFetching, isLoading } = useListingsQuery({
+  const { data, isLoading } = useFindAllPropertiesQuery({
     endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
     fetchParams: {
       headers: {
@@ -20,32 +20,20 @@ const Kitchen: NextPage = () => {
   if (isLoading) console.log('is Loading...');
 
   const properties = [data?.findAllProperties.Properties][0];
-
   return (
     <>
       <Navbar />
       <div className={styles['properties-container']}>
-        {properties?.map((property: any, index) => {
+        {properties?.map((property: any, index: any) => {
           if (property.handle === handle) {
+            //TODO: Remove dummy data with missing data from db
+            property.facilities = ["Lift"];
+            property.frequency = FrequencyEnum.Weekly;
+            //TODO: Needs a type change
+            property.images = [{ url: "/kitchen-test.jpg", id: 1, description: "description" }]
+
             return (
-              <ListedKitchen
-                title={property.title}
-                images={property.images}
-                isVerified={property.isVerified}
-                hourlyPrice={property.hourlyPrice}
-                size={property.size}
-                facilities={property.facilities}
-                description={property.description}
-                deposit={property.deposit}
-                rules={property.rules}
-                availability={property.availabilities}
-                partialSpace={property.partialSpace}
-                street={property.street}
-                streetNumber={property.streetNumber}
-                city={property.city}
-                zip={property.zip}
-                key={index + 1}
-              />
+              <ListingOverview hideSidebar={false} key={index + "-key"} handle={property.handle} listingsData={property} owner={property.owner} />
             );
           }
         })}

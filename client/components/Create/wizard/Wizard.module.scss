@@ -1,5 +1,11 @@
 @use '../../../styles/base/colors';
 @use '../../../styles/components/buttons';
+@use '../../../styles/abstracts/mixins';
+
+
+.weekDays {
+  @include mixins.weekDays
+}
 
 .wizard {
   color: hsl(0, 0%, 17%);
@@ -17,43 +23,11 @@
   }
 }
 
+
 .error {
   color: #f44336;
 }
 
-.weekDays {
-  &__container {
-    white-space: nowrap;
-
-    input[type='checkbox'] {
-      display: none !important;
-    }
-
-    input[type='checkbox'] + label {
-      display: inline-block;
-      border-radius: 3px;
-      background: #ecf4f1;
-      font-weight: 500;
-      font-size: 1.5rem;
-      color: black;
-      height: 30px;
-      width: 30px;
-      margin-right: 6px;
-      line-height: 30px;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    input[type='checkbox']:checked + label {
-      background: colors.$color-primary-light;
-      color: #ffffff;
-    }
-  }
-
-  &__checkbox {
-    display: inline-block;
-  }
-}
 
 .step1 {
   width: 100%;
@@ -235,59 +209,8 @@
     align-items: center;
   }
 
-  &__timeInputWrapper {
-    display: flex;
-    gap: 2.8rem;
-    align-items: center;
-  }
 
   // wrapper - for date
-
-  &__weekDaysSelector input[type='checkbox'] {
-    display: none !important;
-  }
-
-  &__weekDaysSelector input[type='checkbox'] + label {
-    display: inline-block;
-    border-radius: 6px;
-    background: #ecf4f1;
-    color: black;
-    height: 30px;
-    width: 30px;
-    margin-right: 10px;
-    line-height: 30px;
-    text-align: center;
-    cursor: pointer;
-  }
-
-  &__weekDaysSelector input[type='checkbox']:checked + label {
-    background: colors.$color-primary-light;
-    color: #ffffff;
-  }
-
-  &__weekDayCheckboxWrapper {
-    white-space: nowrap;
-    margin-bottom: 1rem;
-  }
-
-  &__weekDayCheckbox {
-    display: inline-block;
-  }
-
-  // inner availability grid
-  &__weekDaysSelector {
-    margin-top: 3rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    height: 33rem;
-  }
-
-  &__daysOfWeek {
-    margin-right: 3rem;
-    align-self: center;
-    grid-column: 1 / 2;
-    grid-row: 1/2;
-  }
 
   &__timeInput {
     grid-column: 2 / 3;
@@ -317,112 +240,6 @@
   padding: 0 10rem;
 }
 
-.step5 {
-  width: 100%;
-  padding: 0 10rem;
-
-  &__marginHeadline {
-    margin-top: 5rem;
-    margin-bottom: 2rem;
-  }
-
-  &__overview {
-    &--img {
-      border-radius: 1.5rem;
-      object-fit: cover;
-    }
-
-    &--container span {
-      height: 15rem !important;
-      width: 100% !important;
-    }
-
-    &--container {
-      margin-top: 4rem;
-    }
-  }
-
-  &__flexWrapper {
-    display: flex;
-  }
-
-  &__titleWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  &__featureTagWrapper {
-    display: flex;
-    justify-content: flex-start;
-    gap: 1.5rem;
-  }
-
-  &__priceLinesContainer {
-    padding: 2rem 0;
-    border-bottom: 1px solid colors.$color-grey;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-
-    &:last-of-type {
-      border: none;
-    }
-  }
-
-  &__priceLineLeft {
-    grid-column: 1/2;
-  }
-
-  &__priceLineRight {
-    grid-column: 2/3;
-  }
-
-  @media (min-width: 800px) {
-    &__availabilityGrid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-gap: 1rem 3.5rem;
-    }
-
-    &__availabilityDate {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      grid-column: 1/2;
-      grid-row: 1/2;
-    }
-
-    &__bookingFrequency {
-      justify-self: start;
-      justify-content: space-between;
-      display: flex;
-      grid-column: 2/3;
-      grid-row: 2/2;
-    }
-
-    &__weekDayCheckboxWrapper {
-      &--week1 {
-        grid-column: 1/2;
-        grid-row: 2/3;
-      }
-
-      &--week2 {
-        grid-column: 2/3;
-        grid-row: 2/3;
-      }
-
-      &--week3 {
-        grid-column: 1/2;
-        grid-row: 3/4;
-      }
-
-      &--week4 {
-        grid-column: 2/3;
-        grid-row: 3/4;
-      }
-    }
-  }
-}
 
 .footer {
   background-color: white;
@@ -538,4 +355,5 @@
       grid-row: 1/2;
     }
   }
+
 }

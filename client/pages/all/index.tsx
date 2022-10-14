@@ -1,12 +1,12 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useListingsQuery } from '../../client/codegen/index';
+import { useFindAllPropertiesQuery } from '../../codegen/index';
 import Navbar from '../../components/Layout/Navbar';
 import styles from '../../styles/pages/All.module.scss';
 
 const All: NextPage = () => {
-  const { status, data, error, isFetching, isLoading } = useListingsQuery({
+  const { data, isLoading } = useFindAllPropertiesQuery({
     endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
     fetchParams: {
       headers: {
@@ -28,6 +28,7 @@ const All: NextPage = () => {
         ) : (
           <ul className="body-text-secondary">
             {properties?.map((property: any, index) => {
+              property.facilities = ["Lift"];
               return (
                 <li className={styles['list-wrapper']} key={index + 1}>
                   <div className="flex-center">

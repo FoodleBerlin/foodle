@@ -16,6 +16,7 @@
     text-decoration: none;
     color: #2b2b2b;
   }
+
   &__text {
     margin-left: 4rem;
   }
@@ -27,7 +28,15 @@
   &__verification {
     margin-top: 6rem;
   }
+
   &__price {
     margin-left: 6rem;
+  }
+}
+
+@media(max-width: 800px) {
+  .properties-container {
+    padding: 0;
+    margin-top: 10vh;
   }
 }

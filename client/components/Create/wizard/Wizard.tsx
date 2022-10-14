@@ -163,7 +163,7 @@ export const formData = z.object({
 });
 
 export type FormData = z.infer<typeof formData>;
-type WizardContext = {
+export type WizardContext = {
   step: number;
   defaults: FormData;
   formState: FormState<FormData>;
@@ -175,7 +175,7 @@ type WizardContext = {
   getValues: UseFormGetValues<FormData>;
 };
 
-const WizardContext = React.createContext<WizardContext>({
+export const WizardContext = React.createContext<WizardContext>({
   step: 1,
   defaults: {
     /* STEP 1 */
@@ -243,9 +243,9 @@ const WizardContext = React.createContext<WizardContext>({
     images: [],
   },
   formState: {} as FormState<FormData>,
-  nextStep: () => {},
-  previousStep: () => {},
-  submitForm: () => {},
+  nextStep: () => { },
+  previousStep: () => { },
+  submitForm: () => { },
   register: {} as UseFormRegister<FormData>,
   setValue: {} as UseFormSetValue<FormData>,
   getValues: {} as UseFormGetValues<FormData>,
