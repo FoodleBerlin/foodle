@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useFindAllPropertiesQuery } from '../../codegen/index';
-import Navbar from '../../components/Layout2/Navbar';
+import Navbar from '../../components/layout/Navbar';
 import styles from './All.module.scss';
 
 import ListedKitchen ../../components/Layout/Navbar/NavbaristedKitchen';

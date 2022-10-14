@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useFindAllPropertiesQuery } from '../../codegen/index';
-import Navbar from '../../components/Layout2/Navbar/Navbar';
+import Navbar from '../../components/layout/Navbar/Navbar';
 import styles from '../../styles/pages/All.module.scss';
 
 const All: NextPage = () => {

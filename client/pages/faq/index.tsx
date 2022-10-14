@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import FaqAccordion from '../../components/FaqAccordion/index';
-import Navbar from '../../components/Layout2/Navbar/Navbar';
+import Navbar from '../../components/layout/Navbar/Navbar';
 import styles from './Faq.module.scss';
 
 const Faq: NextPage = () => {
