@@ -40,8 +40,8 @@ function ListingSideBar(props: { listingsData: FormData, handle: string, owner: 
                 </div>
                 <div className={styles["sidebar__dateTimeSelection"]}>
                     <h3 className={styles["sidebar__smallheading"]}>Days of the week</h3>
-                    <div className={styles['listingoverview__weekDayCheckboxWrapper--week1'] + ' ' + styles['weekDays__container'] + ' ' + styles["sidebar__weekDayMargin"]}>
-                        <div className={styles['weekDays__daysOfWeek']}>
+                    <div className={styles['sidebar__weekDayCheckboxWrapper--week1'] + ' ' + styles['weekDays__container'] + ' ' + styles["sidebar__weekDayMargin"]}>
+                        <div className={'weekDays__daysOfWeek'}>
                             <div className={styles['weekDays__weekDayCheckboxWrapper']}>
                                 <DaySelector weekday={'Monday'} short={'mon'} shortest={'M'} register={register} setValue={setValue} context={bookingContext} />
                                 <DaySelector weekday={'Tuesday'} short={'tue'} shortest={'T'} register={register} setValue={setValue} context={bookingContext} />

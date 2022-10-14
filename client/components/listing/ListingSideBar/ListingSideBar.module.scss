@@ -1,4 +1,4 @@
-@use "../ListingOverview/ListingOverview.module.scss";
+@use '../../../styles/components/weekdays';
 @use '../../../styles/base/colors';
 
 .sidebar {
@@ -67,6 +67,12 @@
         padding: 8px;
     }
 
+    &_weekDayCheckboxWrapper {
+        &--week1 {
+            grid-column: 1/2;
+            grid-row: 2/3;
+        }
+    }
 }
 
 
