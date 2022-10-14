@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import DaySelector from '../DaySelector';
+import DaySelector from '../../DaySelector';
 import TimeInput from '../TimeInput';
 import { FormData, touchDirtyValidate, useWizardContext } from './Wizard';
 import styles from './Wizard.module.scss';

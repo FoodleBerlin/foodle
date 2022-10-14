@@ -1,7 +1,6 @@
 import { UseFormRegister } from 'react-hook-form';
-import styles from '../Create/wizard/Wizard.module.scss';
+import { FormData, touchDirtyValidate, WizardContext } from '../Create/wizard/Wizard';
 import { BookingContext } from '../Listing/BookingContext';
-import { FormData, touchDirtyValidate, WizardContext } from './wizard/Wizard';
 
 ///Checks if a context is a [BookingContext]
 function isBookingContext(
@@ -111,7 +110,7 @@ const DaySelector = (props: DaySelectorProps) => {
         type="checkbox"
         id={'weekday-' + props.short}
         value={registered()?.weekday}
-        className={styles['weekDays__weekDayCheckbox'] + ' weekday'}
+        className={'weekDays__weekDayCheckbox' + ' weekday'}
         onChange={(c) => toggleDay(c.target.value)}
       />
       <label className="bold" htmlFor={'weekday-' + props.short}>
