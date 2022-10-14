@@ -1,8 +1,8 @@
 //TODO: Refactor FormData out from Wizard.tsx
 import { AvailableDay, FrequencyEnum, useCreateBookingMutation } from "../../codegen";
-import TimeInput from "../Create/TimeInput";
 import { FormData, touchDirtyValidate } from "../Create/wizard/Wizard";
 import DaySelector from "../DaySelector";
+import TimeInput from "../TimeInput";
 import { useBookingContext } from "./BookingContext";
 import styles from "./ListingSideBar.module.scss";
 

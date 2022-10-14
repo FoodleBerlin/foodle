@@ -1,6 +1,6 @@
 import { UseFormRegister } from 'react-hook-form';
-import styles from '../Create/wizard/Wizard.module.scss';
-import { FormData, touchDirtyValidate } from './wizard/Wizard';
+import { FormData, touchDirtyValidate } from '../Create/wizard/Wizard';
+import styles from './TimeInput.module.scss';
 interface TimeInputProps {
   shortest: string;
   short: string;
@@ -152,7 +152,7 @@ const TimeInput = (props: TimeInputProps) => {
   };
 
   return (
-    <span className={styles['step3__timeInputWrapper'] + ' mb-one'}>
+    <span className={styles['timeInputWrapper'] + ' mb-one'}>
       <input type="checkbox" checked id={'time-' + short} />
       <label className="bold" htmlFor={'time-' + short}>
         {shortest}
