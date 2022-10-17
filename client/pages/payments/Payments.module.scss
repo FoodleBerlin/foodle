@@ -40,4 +40,20 @@
 
 .pastPayment{
     margin: 5rem 0;
+    padding-bottom: 10rem;
+}
+
+.blocks{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    padding: 2rem 0;
+    border: 1px solid colors.$color-grey;
+    border-radius: 1.5rem;
+
+    margin: 1.5rem 0;
+
+    font-size: 2rem;
+
 }

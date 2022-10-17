@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Navbar from '../../components/Layout/Navbar';
 import Sidebar from '../../components/Layout/Sidebar';
-import PastPayment from '../../components/PastPayment/index';
 import Payment from '../../components/Payment/index';
 import styles from './Payments.module.scss';
 
@@ -105,8 +104,25 @@ const Payments: NextPage = () => {
                             <div>Status</div>
                             <div>Booking Ref</div>
                         </div>
-                        <PastPayment payments={paymentData} />
 
+                        <div className="">
+                            {paymentData.length === 0 ? (
+                                <p>No payments have been made yet.</p>
+                            ) : (
+
+                                paymentData.map(({ date, amount, id, status, type }) => (
+                                    <div className={styles["blocks"]}>
+                                        <div>{date}</div>
+                                        <div>{amount}€</div>
+                                        <div>{type}</div>
+                                        <div>{status}</div>
+                                        <div>{id}</div>
+                                    </div>
+                                ))
+
+                            )}
+                        </div>
+                        
                     </div>
                 </div>
             </div>
