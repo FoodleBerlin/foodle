@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import BookingStatusContainer from '../../components/BookingStatusContainer';
-import Navbar from '../../components/Layout/Navbar';
-import Sidebar from '../../components/Layout/Sidebar';
+import BookingStatusContainer from '../../../components/BookingStatusContainer';
+import Navbar from '../../../components/Layout/Navbar';
+import Sidebar from '../../../components/Layout/Sidebar';
 import styles from './myBookings.module.scss';
 
 export type Booking = {

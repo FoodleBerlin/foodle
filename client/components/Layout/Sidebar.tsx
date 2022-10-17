@@ -1,9 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import styles from './Sidebar.module.scss';
-import Tab from './Tab';
+import React from 'react';
 import { AuthenticatedProps } from '../../pages/account/payments';
+import styles from './Sidebar.module.scss';
 
 type SidebarProps = {
   user?: AuthenticatedProps['session'];
@@ -18,14 +16,14 @@ const Sidebar = (props: SidebarProps) => {
         ) : (
           <>
             <div className={'mt-three'}>
-              <Link href="/account/profile">
+              <Link href="/account">
                 <a className="body-text">
                   <span className={'underline-link  green-text'}>Profile</span>
                 </a>
               </Link>
             </div>
             <div className={'mt-three'}>
-              <Link href="/account/bookings">
+              <Link href="/account/myBookings">
                 <a className="body-text bold">
                   <span className={'underline-link'}>My Bookings</span>
                 </a>
