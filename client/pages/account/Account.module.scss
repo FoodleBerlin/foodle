@@ -1,9 +1,11 @@
 .account {
   color: black;
   display: flex;
+
   .container {
     width: 100%;
     flex: 1 1 70%;
+
     .row {
       display: flex;
       border: 1px;
@@ -11,27 +13,33 @@
       justify-content: space-around;
     }
   }
+
   &__document-btns {
     width: 100% !important;
+
     button {
       &:nth-child(1) {
         width: 13rem !important;
         height: 5rem;
       }
+
       margin: 0 1.3vw 0 0;
     }
+
     &:nth-of-type(1) {
       grid-column-start: 3;
       grid-column-end: 6;
       grid-row-start: 1;
       grid-row-end: 2;
     }
+
     &:nth-of-type(2) {
       grid-column-start: 3;
       grid-column-end: 6;
       grid-row-start: 2;
       grid-row-end: 3;
     }
+
     &:nth-of-type(3) {
       grid-column-start: 3;
       grid-column-end: 6;
@@ -39,11 +47,15 @@
       grid-row-end: 4;
     }
   }
+
   main {
+    margin-top: 1rem;
     border-left: 0.3rem solid rgb(214, 214, 214);
     flex: 1 1 75%;
     padding: calc(7rem + 5vh) calc(30rem + 20vw) 100px 5vw;
+
     h2 {
+
       // font-size: 2.5rem;?
       &:nth-of-type(1) {
         grid-column-start: 1;
@@ -51,12 +63,14 @@
         grid-row-start: 1;
         grid-row-end: 2;
       }
+
       &:nth-of-type(2) {
         grid-column-start: 1;
         grid-column-end: 3;
         grid-row-start: 2;
         grid-row-end: 3;
       }
+
       &:nth-of-type(3) {
         grid-column-start: 1;
         grid-column-end: 3;
@@ -64,6 +78,7 @@
         grid-row-end: 4;
       }
     }
+
     p {
       margin-bottom: 6rem;
     }
@@ -71,9 +86,11 @@
     section {
       margin: 4rem 0;
     }
+
     input[type='file'] {
       display: none;
     }
+
     footer {
       width: 100%;
       max-width: 60rem;
@@ -84,9 +101,11 @@
     }
   }
 }
+
 .description-input {
   height: 15vh;
 }
+
 .save-button {
   position: fixed !important;
   top: 10rem !important;

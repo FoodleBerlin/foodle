@@ -1,38 +1,29 @@
 @use '../../styles/base/colors';
 
-.myBookings{
+.myBookings {
     display: flex;
     flex-direction: row !important;
-    margin-top: 7rem;
-    font-family: 'Inter', sans-serif !important;
-    
-    
 }
 
-.bookingList{
-    margin: 2rem 4rem;
+.bookingList {
+    margin-top: 1rem;
+    padding: calc(7rem + 5vh) 0 100px 5vw;
+    border-left: 0.3rem solid rgb(214, 214, 214);
     width: 80%;
-    padding-left: 5rem;
-    border-left: 1px solid colors.$color-light-grey;
 
-    h4{
-        font-size: 3.5rem;
+    h4 {
+        font-size: 4rem;
         margin-bottom: 1rem;
     }
 
-    h5{
-        font-size: 1.7rem;
-        color: colors.$color-subtle;
-        font-weight: 100;
-        margin-bottom: 4rem;
-    }
 }
 
-.bookingCard{
+.bookingCard {
+    margin-top: 6rem;
     align-self: flex-start;
 }
+
 .bookingContainer {
-    margin: 2rem 0;
     width: 90%;
 
 
@@ -45,11 +36,6 @@
         height: 1px;
 
         margin: 2rem 0;
-    }
-
-    h4 {
-        font-size: 2rem;
-        margin: 3rem 0;
     }
 
     p {

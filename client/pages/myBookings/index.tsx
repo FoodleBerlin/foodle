@@ -84,8 +84,8 @@ const myBookings: NextPage = () => {
         <Sidebar />
 
         <div className={styles['bookingList']}>
-          <h4>My bookings</h4>
-          <h5>A list of all bookings made, requested, rejected, cancelled and confirmed</h5>
+          <h4 className="header-secondary bold">My bookings</h4>
+          <p className="body-text grey-text mt-one">A list of all bookings made, requested, rejected, cancelled and confirmed</p>
 
           <div className={styles['bookingCard']}>
             <div className={styles['bookingContainer']}>
@@ -97,7 +97,7 @@ const myBookings: NextPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
