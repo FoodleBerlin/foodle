@@ -1,33 +1,32 @@
-import styles from './PastPayment.module.scss'
-import {Payment} from '../../pages/payments/index'
+import styles from './PastPayment.module.scss';
 
-export type PastPaymentProps={
+export type PastPaymentProps = {
     payments: Payment[];
 }
 
-const PastPayment=(props: PastPaymentProps)=>{
+const PastPayment = (props: PastPaymentProps) => {
 
-return(
-    <div className={styles['pastPayment']}>
+    return (
+        <div className={styles['pastPayment']}>
 
-        {props.payments.length===0?(
-            <p>No payments have been made yet.</p>
-        ):(
-            
-            props.payments.map(({date, amount, id, status, type})=>(
-                <div className={styles["pastPayment__info"]}>
-                    <div>{date}</div>
-                    <div>{amount}€</div>
-                    <div>{type}</div>
-                    <div>{status}</div>
-                    <div>{id}</div>
-                </div>
-            ))
-                
-        )}
-        
-    </div>
-);
+            {props.payments.length === 0 ? (
+                <p>No payments have been made yet.</p>
+            ) : (
+
+                props.payments.map(({ date, amount, id, status, type }) => (
+                    <div className={styles["pastPayment__info"]}>
+                        <div>{date}</div>
+                        <div>{amount}€</div>
+                        <div>{type}</div>
+                        <div>{status}</div>
+                        <div>{id}</div>
+                    </div>
+                ))
+
+            )}
+
+        </div>
+    );
 
 };
 
