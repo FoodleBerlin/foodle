@@ -29,10 +29,8 @@ const PaymentMethod = (props: PaymentMethodProps) => {
     };
 
     const removeMethod=(method:Method)=>{
-        let methods=[...paymentMethods];
-
-        methods=methods.filter(obj=> obj!==method);
-        setPaymentMethods(methods);
+       
+        setPaymentMethods([...paymentMethods].filter(obj=> obj!==method));
     };
 
     return (
