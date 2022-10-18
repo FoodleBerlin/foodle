@@ -1,4 +1,5 @@
 @use '../../styles/base/colors';
+@use '../../styles/abstracts/mixins';
 
 .payments{
     display: flex;
@@ -35,6 +36,10 @@
     font-size: 2rem;
     justify-content: space-around;
     margin-bottom: 1.5rem;
+
+    @include mixins.mobile{
+        flex-direction: column;
+    }
     
 }
 
@@ -55,5 +60,10 @@
     margin: 1.5rem 0;
 
     font-size: 2rem;
+
+    @include mixins.mobile{
+        flex-direction: column;
+        width: 17rem;
+    }
 
 }
