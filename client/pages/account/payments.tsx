@@ -50,7 +50,7 @@ const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   return (
     <div className={styles['account']}>
       <Navbar user={props.session}></Navbar>
-      <Sidebar></Sidebar>
+      <Sidebar sitePosition={2}></Sidebar>
       <div className={styles['container']}>
         <h2>Payment Methods</h2>
         {data?.findUser.User?.paymentMethods.map((method, index) => {

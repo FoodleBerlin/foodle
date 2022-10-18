@@ -1,13 +1,16 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { AuthenticatedProps } from '../../pages/account/payments';
 import styles from './Sidebar.module.scss';
 
 type SidebarProps = {
   user?: AuthenticatedProps['session'];
   children?: React.ReactElement;
+  sitePosition: number
 };
 const Sidebar = (props: SidebarProps) => {
+  const [position, setPosition] = useState<number>(props.sitePosition);
+  console.log(props.children)
   return (
     <div className={styles['sidebar']}>
       <div className={styles['menu']}>
@@ -17,22 +20,22 @@ const Sidebar = (props: SidebarProps) => {
           <>
             <div className={'mt-three'}>
               <Link href="/account">
-                <a className="body-text">
-                  <span className={'underline-link  green-text'}>Profile</span>
+                <a className="body-text bold" onClick={() => setPosition(0)}>
+                  <span className={'underline-link' + ' ' + (position === 0 ? 'green-text' : '')}>Profile</span>
                 </a>
               </Link>
             </div>
             <div className={'mt-three'}>
-              <Link href="/account/myBookings">
-                <a className="body-text bold">
-                  <span className={'underline-link'}>My Bookings</span>
+              <Link href="/account/myBookings" >
+                <a className="body-text bold" onClick={() => setPosition(1)}>
+                  <span className={'underline-link' + ' ' + (position === 1 ? 'green-text' : '')}>My Bookings</span>
                 </a>
               </Link>
             </div>
             <div className={'mt-three'}>
-              <Link href="/account/payments">
-                <a className="body-text bold">
-                  <span className={'underline-link'}>My Payments</span>
+              <Link href="/account/payments" >
+                <a className="body-text bold" onClick={() => setPosition(2)}>
+                  <span className={'underline-link' + ' ' + (position === 2 ? 'green-text' : '')}>My Payments</span>
                 </a>
               </Link>
             </div>

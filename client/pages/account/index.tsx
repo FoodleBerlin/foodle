@@ -50,7 +50,7 @@ const Profile: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   return (
     <div className={styles['account']}>
       <Navbar user={props.session} />
-      <Sidebar />
+      <Sidebar sitePosition={0} />
       <main>
         <ProfileForm session={props.session} isMountedRef={isMounted} jwt={props.jwt} user={findUserData} />
       </main>

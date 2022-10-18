@@ -81,7 +81,7 @@ const myBookings: NextPage = () => {
       <Navbar />
 
       <div className={styles['myBookings']}>
-        <Sidebar />
+        <Sidebar sitePosition={1} />
 
         <div className={styles['bookingList']}>
           <h4 className="header-secondary bold">My bookings</h4>
