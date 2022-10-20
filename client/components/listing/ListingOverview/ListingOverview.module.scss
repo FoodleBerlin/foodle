@@ -1,0 +1,134 @@
+@use '../../../styles/base/colors';
+@use '../../../styles/abstracts/mixins';
+
+.gallery{
+    @include mixins.gallery;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+}
+
+.sidebarContainer {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    justify-self: end;
+}
+
+.listingoverview {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    width: 100%;
+    padding: 0 10rem;
+
+    .formItem {
+        margin-bottom: 50px;
+    }
+
+    &__marginHeadline {
+        margin-top: 5rem;
+        margin-bottom: 2rem;
+    }
+
+    &__overview {
+        &--img {
+            border-radius: 1.5rem;
+            object-fit: cover;
+        }
+
+        &--container span {
+            height: 15rem !important;
+            width: 100% !important;
+        }
+
+        &--container {
+            margin-top: 4rem;
+        }
+    }
+
+    &__flexWrapper {
+        display: flex;
+    }
+
+    &__titleWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__featureTagWrapper {
+        display: flex;
+        justify-content: flex-start;
+        gap: 1.5rem;
+    }
+
+
+    @media (min-width: 800px) {
+        &__availabilityGrid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 1rem 3.5rem;
+        }
+
+        &__availabilityDate {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            grid-column: 1/2;
+            grid-row: 1/2;
+        }
+
+        &__bookingFrequency {
+            justify-self: start;
+            justify-content: space-between;
+            display: flex;
+            grid-column: 2/3;
+            grid-row: 1s/2;
+        }
+
+        &__weekDayCheckboxWrapper {
+            &--week1 {
+                grid-column: 1/2;
+                grid-row: 2/3;
+            }
+
+            &--week2 {
+                grid-column: 2/3;
+                grid-row: 2/3;
+            }
+
+            &--week3 {
+                grid-column: 1/2;
+                grid-row: 3/4;
+            }
+
+            &--week4 {
+                grid-column: 2/3;
+                grid-row: 3/4;
+            }
+        }
+    }
+}
+
+@media (max-width:800px) {
+    .grid {
+        width: 100%;
+        margin: 0;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 0.5fr;
+    }
+
+    .listingoverview {
+        justify-self: center;
+    }
+
+    .sidebarContainer {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row: 2/3;
+        justify-self: center;
+    }
+}

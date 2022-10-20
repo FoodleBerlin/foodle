@@ -1,13 +1,17 @@
 import { FormData, touchDirtyValidate, useWizardContext } from '../wizard/Wizard';
+import { UseFormRegister } from 'react-hook-form';
 import styles from './TimeInput.module.scss';
 interface TimeInputProps {
   shortest: string;
   short: string;
+  setValue: (a: any, b: any, c: any) => void;
+  register: UseFormRegister<any>;
 }
 const TimeInput = (props: TimeInputProps) => {
+  const setValue = props.setValue;
+  const register = props.register;
   let shortest = props.shortest,
     short = props.short;
-  const { setValue, register } = useWizardContext();
   const setDayStartingTime = (day: string, startingTime: string) => {
     switch (day) {
       case 'Monday':
@@ -148,7 +152,7 @@ const TimeInput = (props: TimeInputProps) => {
   };
 
   return (
-    <span className={styles['timeInput']}>
+    <span className={styles['timeInputWrapper']}>
       <input type="checkbox" checked id={'time-' + short} />
       <label className="bold" htmlFor={'time-' + short}>
         {shortest}

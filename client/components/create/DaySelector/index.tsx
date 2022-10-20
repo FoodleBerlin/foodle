@@ -1,84 +1,106 @@
-import { FormData, touchDirtyValidate, useWizardContext } from '../wizard/Wizard';
+import { UseFormRegister } from 'react-hook-form';
+import { FormData, touchDirtyValidate, WizardContext } from '../wizard/Wizard';
+import { BookingContext } from '../../listing/BookingContext';
 import styles from './DaySelector.module.scss';
+///Checks if a context is a [BookingContext]
+function isBookingContext(
+  context: BookingContext | WizardContext
+): context is BookingContext {
+  return (context as BookingContext).setF !== undefined
+}
 
 interface DaySelectorProps {
   weekday: string;
   short: string;
   shortest: string;
+  setValue: (a: any, b: any, c: any) => void;
+  register: UseFormRegister<any>;
+  context: BookingContext | WizardContext;
 }
 const DaySelector = (props: DaySelectorProps) => {
-  const { register, setValue } = useWizardContext();
-
-  const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = useWizardContext().getValues().daySlots;
+  const context = props.context;
   const toggleDay = (day: string) => {
     switch (day) {
       case 'Monday':
-        setValue(
+        props.setValue(
           'daySlots.monday.selected',
-          !monday.selected as FormData['daySlots']['monday']['selected'],
+          !context.getValues().daySlots.monday.selected as FormData['daySlots']['monday']['selected'],
           touchDirtyValidate
         );
+        ///Workaround to force rerender
+        isBookingContext(context) ? (context as BookingContext).setF() : null;
+
         break;
       case 'Tuesday':
-        setValue(
+
+        props.setValue(
           'daySlots.tuesday.selected',
-          !tuesday.selected as FormData['daySlots']['tuesday']['selected'],
+          !context.getValues().daySlots.tuesday.selected as FormData['daySlots']['tuesday']['selected'],
           touchDirtyValidate
         );
+        isBookingContext(context) ? (context as BookingContext).setF() : null;
+
         break;
       case 'Wednesday':
-        setValue(
+
+        props.setValue(
           'daySlots.wednesday.selected',
-          !wednesday.selected as FormData['daySlots']['wednesday']['selected'],
+          !context.getValues().daySlots.wednesday.selected as FormData['daySlots']['wednesday']['selected'],
           touchDirtyValidate
         );
+        isBookingContext(context) ? (context as BookingContext).setF() : null;
+
         break;
       case 'Thursday':
-        setValue(
+        props.setValue(
           'daySlots.thursday.selected',
-          !thursday.selected as FormData['daySlots']['thursday']['selected'],
+          !context.getValues().daySlots.thursday.selected as FormData['daySlots']['thursday']['selected'],
           touchDirtyValidate
         );
+        typeof context === typeof BookingContext ? (context as BookingContext).setF() : null;
         break;
       case 'Friday':
-        setValue(
+        props.setValue(
           'daySlots.friday.selected',
-          !friday.selected as FormData['daySlots']['friday']['selected'],
+          !context.getValues().daySlots.friday.selected as FormData['daySlots']['friday']['selected'],
           touchDirtyValidate
         );
+        isBookingContext(context) ? (context as BookingContext).setF() : null;
         break;
       case 'Saturday':
-        setValue(
+        props.setValue(
           'daySlots.saturday.selected',
-          !saturday.selected as FormData['daySlots']['saturday']['selected'],
+          !context.getValues().daySlots.saturday.selected as FormData['daySlots']['saturday']['selected'],
           touchDirtyValidate
         );
+        isBookingContext(context) ? (context as BookingContext).setF() : null;
         break;
       case 'Sunday':
-        setValue(
+        props.setValue(
           'daySlots.sunday.selected',
-          !sunday.selected as FormData['daySlots']['sunday']['selected'],
+          !context.getValues().daySlots.sunday.selected as FormData['daySlots']['sunday']['selected'],
           touchDirtyValidate
         );
+        isBookingContext(context) ? (context as BookingContext).setF() : null;
         break;
     }
   };
   const registered: any = () => {
     switch (props.short) {
       case 'mon':
-        return { selectedRegister: { ...register('daySlots.monday.selected') }, weekday: 'Monday' };
+        return { selectedRegister: props.register('daySlots.monday.selected'), weekday: 'Monday' };
       case 'tue':
-        return { selectedRegister: { ...register('daySlots.tuesday.selected') }, weekday: 'Tuesday' };
+        return { selectedRegister: { ...props.register('daySlots.tuesday.selected') }, weekday: 'Tuesday' };
       case 'wed':
-        return { selectedRegister: { ...register('daySlots.wednesday.selected') }, weekday: 'Wednesday' };
+        return { selectedRegister: { ...props.register('daySlots.wednesday.selected') }, weekday: 'Wednesday' };
       case 'thu':
-        return { selectedRegister: { ...register('daySlots.thursday.selected') }, weekday: 'Thursday' };
+        return { selectedRegister: { ...props.register('daySlots.thursday.selected') }, weekday: 'Thursday' };
       case 'fri':
-        return { selectedRegister: { ...register('daySlots.friday.selected') }, weekday: 'Friday' };
+        return { selectedRegister: { ...props.register('daySlots.friday.selected') }, weekday: 'Friday' };
       case 'sat':
-        return { selectedRegister: { ...register('daySlots.saturday.selected') }, weekday: 'Saturday' };
+        return { selectedRegister: { ...props.register('daySlots.saturday.selected') }, weekday: 'Saturday' };
       case 'sun':
-        return { selectedRegister: { ...register('daySlots.sunday.selected') }, weekday: 'Sunday' };
+        return { selectedRegister: { ...props.register('daySlots.sunday.selected') }, weekday: 'Sunday' };
     }
   };
   return (

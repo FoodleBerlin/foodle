@@ -122,6 +122,11 @@
         grid-row: 3/4;
     }
 }
+
+.weekDays {
+  @include mixins.weekDays
+}
+
 // .time-container{
 //     width: 200rem !important;
     

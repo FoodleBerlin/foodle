@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
-import Navbar from '../components/layout/Navbar/Navbar';
+import Navbar from '../components/layout/Navbar';
 import { extractUserFromToken } from '../utils/context';
 import { AuthenticatedProps } from './account/payments';
 

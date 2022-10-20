@@ -25,9 +25,10 @@ Default setting is 'none'. By chaning the LOG_LEVEL environment variable to info
 
 1. Ensure the dev server is on
 2. `cd client`
-3. Add a `.env.local` file to the root of /clinet, all the environment variables will be sent to you by one of the teammates over a private Slack message.
-4. `yarn codegen:generate`
-5. `yarn next:dev` to run the file watcher. front end should be accessible at localhost:3000
+3. `yarn` to install deps.
+4. Add a `.env.local` file to the root of /clinet, all the environment variables will be sent to you by one of the teammates over a private Slack message.
+5. `yarn codegen:generate`
+6. `yarn next:dev` to run the file watcher. front end should be accessible at localhost:3000
    NOTE: when you change front end queries or mutations to the backend you need to manually run step 1 again.
 
 ## Api Tests
@@ -39,7 +40,8 @@ Default setting is 'none'. By chaning the LOG_LEVEL environment variable to info
 
 Frontend and end-to-end test are currently developed in the branch "frontend-tests" and will be merged to master shortly.
 
-`yarn cy:run` to run the tests
+Add NEXT_PUBLIC_GOOGLE_REFRESH_TOKEN env variable to run these.
+`yarn cy:run-only` to run the tests after starting both the client and server.
 
 ### Foodle's Architecture
 
@@ -127,4 +129,5 @@ Foodle's Security Protections:
 - Turned off introspection for Apollo Server in production and added csrfPrevention and a CORS config to it
 
 ### Attribution:
+
 <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by ariefstudio - Flaticon</a>

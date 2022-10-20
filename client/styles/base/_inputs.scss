@@ -1,9 +1,11 @@
+input[type='checkbox']::before {
+}
 
 @mixin input($width: auto, $font-size: 1.8rem) {
   font-size: $font-size;
   outline: $color-grey;
   border: 1px solid $color-grey;
-  border-radius: 1.8rem;
+  border-radius: 0.8rem;
   padding: 1rem 1rem;
   margin-right: -2rem;
   width: $width;
@@ -11,7 +13,6 @@
 
 .standard-form {
   @include input();
-  
 
   &__inputSmall {
     @include input(6rem);
@@ -20,10 +21,10 @@
   &__inputMedium {
     @include input(8rem);
   }
-    &__inputLarge {
-      @include input(100%);
-    }
-  
+
+  &__inputLarge {
+    @include input(100%);
+  }
 
   &__textarea {
     @include input(750px);

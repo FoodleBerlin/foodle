@@ -14,7 +14,7 @@ import StoryCarousel from '../../components/landing/StoryCarousel';
 import BurgerMenu from '../../components/layout/BurgerMenu';
 import Footer from '../../components/layout/Footer';
 import Modal from '../../components/layout/Modal';
-import Navbar from '../../components/layout/Navbar/Navbar';
+import Navbar from '../../components/layout/Navbar';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { kitchenCards } from '../../utils/kitchenCards';
 import styles from './Home.module.scss';

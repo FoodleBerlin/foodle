@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { useRef } from 'react';
 import { useFindUserQuery } from '../../codegen';
-import Navbar from '../../components/layout/Navbar/Navbar';
+import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
 import ProfileForm from '../../components/profile/ProfileForm';
 import { extractUserFromToken } from '../../utils/context';

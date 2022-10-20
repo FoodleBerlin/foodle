@@ -1,4 +1,5 @@
 @use '../../../styles/base/colors';
+
 .priceLine {
     padding: 2rem 0;
     border-bottom: 1px solid colors.$color-grey;
@@ -14,5 +15,7 @@
     &__right {
         grid-column: 2/3;
     }
+
 }
+
 
