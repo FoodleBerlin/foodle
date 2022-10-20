@@ -9,6 +9,9 @@
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
 }
+.feature-tag{
+    @include mixins.feature-tag;
+}
 
 .sidebarContainer {
     grid-column-start: 2;

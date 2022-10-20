@@ -57,7 +57,7 @@ const DaySelector = (props: DaySelectorProps) => {
           !context.getValues().daySlots.thursday.selected as FormData['daySlots']['thursday']['selected'],
           touchDirtyValidate
         );
-        typeof context === typeof BookingContext ? (context as BookingContext).setF() : null;
+        isBookingContext(context) ? (context as BookingContext).setF() : null;
         break;
       case 'Friday':
         props.setValue(

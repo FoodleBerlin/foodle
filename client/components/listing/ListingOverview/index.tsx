@@ -55,7 +55,7 @@ function ListingOverview({ listingsData, handle, owner, hideSidebar = false }: {
                     </div>
                     <div className={styles['listingoverview__featureTagWrapper']}>
                         {listingsData.facilities.map((feature: string) => (
-                            <span key={"span-key-" + feature} className="feature-tag">
+                            <span key={"span-key-" + feature} className={styles["feature-tag"]}>
                                 <p key={"p-feature-" + feature}>{feature.toUpperCase()}</p>
                             </span>
                         ))}
