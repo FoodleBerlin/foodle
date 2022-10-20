@@ -1,9 +1,9 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { FrequencyEnum, useFindAllPropertiesQuery } from '../../codegen/index';
-import Navbar from '../../components/Layout/Navbar';
+import Navbar from '../../components/layout/Navbar';
 import ListingOverview from '../../components/listing/ListingOverview';
-import styles from '../../styles/pages/All.module.scss';
+import styles from './All.module.scss';
 
 const Kitchen: NextPage = () => {
   const router = useRouter();

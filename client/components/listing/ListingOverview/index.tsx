@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import { UploaderImg } from "../../Create/wizard/Step4";
-import { FormData } from "../../Create/wizard/Wizard";
-import PriceLine from '../../PriceLine';
+import { UploaderImg } from "../../create/wizard/Step4";
+import { FormData } from "../../create/wizard/Wizard";
+import PriceLine from '../../create/PriceLine';
 import { BookingProvider } from '../BookingContext';
 import ListingSideBar from '../ListingSideBar/ListingSideBar';
 import styles from "./ListingOverview.module.scss";
@@ -21,11 +21,11 @@ function ListingOverview({ listingsData, handle, owner, hideSidebar = false }: {
             <div className={styles['listingoverview']}>
                 <div className={styles['formItem']}>
                     <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
-                    <div className="gallery__container">
-                        <div className="gallery">
+                    <div className={styles["gallery__container"]}>
+                        <div className={styles["gallery"]}>
                             {listingsData.images.map((image: UploaderImg, index) => (
-                                <div key={"key-image-" + image.fileName} className={'gallery__item gallery__item--' + index}>
-                                    <Image src={image.url} width={460} height={516} className="gallery__img" alt={'Image ' + index} key={"image--" + index.toString()} />
+                                <div key={"key-image-" + image.fileName} className={styles['gallery__item']+ ' ' + styles['gallery__item--' + index]}>
+                                    <Image src={image.url} width={460} height={516} className={styles["gallery__img"]} alt={'Image ' + index} key={"image--" + index.toString()} />
                                 </div>
                             ))}
                         </div>
@@ -55,7 +55,7 @@ function ListingOverview({ listingsData, handle, owner, hideSidebar = false }: {
                     </div>
                     <div className={styles['listingoverview__featureTagWrapper']}>
                         {listingsData.facilities.map((feature: string) => (
-                            <span key={"span-key-" + feature} className="feature-tag">
+                            <span key={"span-key-" + feature} className={styles["feature-tag"]}>
                                 <p key={"p-feature-" + feature}>{feature.toUpperCase()}</p>
                             </span>
                         ))}

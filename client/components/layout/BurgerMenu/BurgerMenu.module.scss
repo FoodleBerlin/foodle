@@ -1,0 +1,13 @@
+.bm{
+    //DUPLICATED IN SOCIALS AND BURGERMENU
+    &__logo {
+        margin-top: 0.3rem;
+        margin-left: 0.7rem;
+        color: #ffffff;
+    }
+    &__footer{
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+}
