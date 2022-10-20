@@ -10,30 +10,30 @@ const ContentSecurityPolicy = `
   img-src 'self' data:;
   connect-src 'self' ${process.env.NEXT_PUBLIC_SERVER_URL} https://s3.eu-central-1.amazonaws.com;
   font-src 'self' data: http://db.onlinewebfonts.com https://db.onlinewebfonts.com https://fonts.gstatic.com;  
-`
+`;
 const securityHeaders = [
-  // { 
+  // {
   // NOT NECESSARY currently since we are deploying to Vercel which automatically does this
-  // /** Enforces https connections for 2 years **/ 
+  // /** Enforces https connections for 2 years **/
   // key: 'Strict-Transport-Security',
   // value: 'max-age=63072000; includeSubDomains; preload'
   // }
-  { 
-    /** Detects reflected XSS attacks and prevents them **/ 
+  {
+    /** Detects reflected XSS attacks and prevents them **/
     key: 'X-XSS-Protection',
-    value: '1; mode=block'
+    value: '1; mode=block',
   },
-  { 
+  {
     /** Disables site from being displayed in iframe, prevents clickjacking **/
     key: 'X-Frame-Options',
-    value: 'SAMEORIGIN'
+    value: 'SAMEORIGIN',
   },
-  { 
+  {
     /** Allows geolocation to autogenerate a user's zip, disables Google's FLoC to protect user's privacy from Google **/
     key: 'Permissions-Policy',
-    value: 'geolocation=(), interest-cohort=()' 
+    value: 'geolocation=(), interest-cohort=()',
   },
-  { 
+  {
     /** Prevents browser from guessing content-type if header is not explicitly set, can prevent XSS exploits **/
     key: 'X-Content-Type-Options',
     value: 'nosniff',
@@ -41,23 +41,23 @@ const securityHeaders = [
   {
     /** Retains much of the referrer's usefulness, while mitigating the risk of leaking data cross-origins. **/
     key: 'Referrer-Policy',
-    value: 'strict-origin-when-cross-origin'
+    value: 'strict-origin-when-cross-origin',
   },
   {
     key: 'Content-Security-Policy',
-    value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
-  }
-]
+    value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim(),
+  },
+];
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["foodle-bucket.s3.eu-central-1.amazonaws.com"]
+    domains: ['foodle-bucket.s3.eu-central-1.amazonaws.com'],
   },
-  
+
   i18n: {
-   locales: ["en", "de"],
-   defaultLocale: "de",
- },
+    locales: ['en', 'de'],
+    defaultLocale: 'de',
+  },
   async headers() {
     return [
       {
@@ -65,18 +65,23 @@ const nextConfig = {
         source: '/:path*',
         headers: securityHeaders,
       },
-    ]
+    ];
   },
   async redirects() {
     return [
       {
         source: '/heroku-auth',
-        destination: process.env.NEXT_PUBLIC_SERVER_URL+'api/auth',
+        destination: process.env.NEXT_PUBLIC_SERVER_URL + 'api/auth',
         permanent: false,
-        basePath: false
+        basePath: false,
       },
-    ]
+      {
+        source: '/',
+        destination: '/home',
+        permanent: true,
+      },
+    ];
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

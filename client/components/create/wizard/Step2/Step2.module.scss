@@ -1,0 +1,54 @@
+.error {
+    color: #f44336;
+}
+// TODO: NEED TO MAKE  ERROR MIXIN IN ALL STEPS
+
+.step2 {
+    width: 100%;
+    padding: 0 10rem;
+
+    &__formWrapper {
+        margin-bottom: 50px;
+    }
+
+    &__flexWrapper {
+        display: flex;
+        gap: 3rem;
+        margin-top: 3rem;
+    }
+
+    /*   &__labelButtonWrapper {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 2rem;
+  } */
+    &__label {
+        margin-top: 1rem;
+        align-items: center;
+    }
+
+    &__buttonsGridWrapper {
+        margin-top:2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-top: 1rem;
+    }
+
+    @media (min-width: 750px) {
+        &__buttonsGridWrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr));
+            grid-gap: 1.5rem 3rem;
+        }
+    }
+}
+
+.step1n2flex {
+    display: flex;
+    gap: 30px;
+    margin-top: 3rem;
+}
+.formItem {
+    margin-bottom: 50px;
+}
