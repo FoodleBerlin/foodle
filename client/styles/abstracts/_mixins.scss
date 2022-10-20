@@ -1,3 +1,5 @@
+@use "../base/colors";
+
 @mixin btn($color, $bg-color, $hover-bg-color) {
   height: 100%;
   max-height: 6.9rem;
@@ -11,6 +13,27 @@
   &:hover {
     background-color: $hover-bg-color;
   }
+}
+@mixin input($width: auto, $font-size: 1.8rem) {
+  font-size: $font-size;
+  outline: $color-grey;
+  border: 1px solid $color-grey;
+  border-radius: 1.8rem;
+  padding: 1rem 1rem;
+  margin-right: -2rem;
+  width: $width;
+}
+@mixin labelButton(){
+      height: 90px;
+      width: 200px;
+      border: 1px solid #00695c;
+      position: relative;
+      margin: auto;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
 }
 
 @mixin submit-msg {
@@ -58,6 +81,86 @@
   animation: fadeIn .5s;
 }
 
+@mixin weekDays {
+  &__container {
+    white-space: nowrap;
+
+    input[type='checkbox'] {
+      display: none !important;
+    }
+
+    input[type='checkbox']+label {
+      display: inline-block;
+      border-radius: 3px;
+      background: #ecf4f1;
+      font-weight: 500;
+      font-size: 1.5rem;
+      color: black;
+      height: 30px;
+      width: 30px;
+      margin-right: 6px;
+      line-height: 30px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    input[type='checkbox']:checked+label {
+      background: colors.$color-primary-light;
+      color: #ffffff;
+    }
+  }
+
+  &__checkbox {
+    display: inline-block;
+  }
+
+  &__weekDaysSelector input[type='checkbox'] {
+    display: none !important;
+  }
+
+  &__weekDaysSelector input[type='checkbox']+label {
+    display: inline-block;
+    border-radius: 6px;
+    background: #ecf4f1;
+    color: black;
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  &__weekDaysSelector input[type='checkbox']:checked+label {
+    background: colors.$color-primary-light;
+    color: #ffffff;
+  }
+
+  &__weekDayCheckboxWrapper {
+    white-space: nowrap;
+    margin-bottom: 1rem;
+  }
+
+  &__weekDayCheckbox {
+    display: inline-block;
+  }
+
+  // inner availability grid
+  &__weekDaysSelector {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    height: 33rem;
+  }
+
+  &__daysOfWeek {
+    margin-right: 3rem;
+    align-self: center;
+    grid-column: 1 / 2;
+    grid-row: 1/2;
+  }
+}
+
 @keyframes fadeIn {
   0% {
     top: 0rem
@@ -66,4 +169,87 @@
   100% {
     top: 7rem
   }
+}
+@mixin gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 10vw);
+  grid-gap: 1rem;
+
+  &__container {
+    width: 100%;
+    margin: 2rem auto;
+  }
+
+  &__item {
+    overflow: hidden;
+  }
+
+  &__item span {
+    height: 100% !important;
+    width: 100% !important;
+    border-radius: 1.5rem;
+    display: block;
+  }
+
+  &__img {
+    min-height: 0;
+    max-width: 10vw;
+    min-width: 0;
+    min-height: 100vh;
+    object-fit: cover;
+    display: block;
+  }
+
+  &__item--1 {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 3;
+  }
+
+  &__item--2 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+
+  &__item--3 {
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+
+  &__item--4 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  &__item--5 {
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+}
+
+@mixin feature-tag{
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-radius: 3rem;
+    background-color: colors.$color-light-green;
+    padding: 0rem 1.5rem;
+    color: colors.$color-primary;
+  
+    &__not-verified {
+      font-size: 1.5rem;
+      font-weight: 600;
+      border-radius: 3rem;
+      background-color: colors.$color-secondary-light;
+      padding: 0rem 1.5rem;
+      color: colors.$color-secondary;
+    }
 }

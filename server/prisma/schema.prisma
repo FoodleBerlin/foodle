@@ -128,6 +128,8 @@ model Property {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   daySlots     DaySlot[] @relation("daySlotToProperty")
+  frequency    Frequency
+  facilities   String[]
 
   @@index([handle, hourlyPrice])
 }

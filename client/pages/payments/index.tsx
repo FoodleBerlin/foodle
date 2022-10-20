@@ -1,10 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Navbar from '../../components/Layout/Navbar';
-import Sidebar from '../../components/Layout/Sidebar';
+import Navbar from '../../components/layout/Navbar';
+import Sidebar from '../../components/layout/Sidebar';
 import styles from './Payments.module.scss';
-import PastPayment from '../../components/PastPayment/index';
-import PaymentMethod from '../../components/PaymentMethod/index';
+import PastPayment from '../../components/payments/PastPayment/index';
+import PaymentMethod from '../../components/payments/PaymentMethod';
 
 export type Payment ={
     date: string;

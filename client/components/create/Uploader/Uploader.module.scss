@@ -1,0 +1,58 @@
+
+
+.uploader {
+    width: 100%;
+    height: 37rem;
+
+    border: 1px dashed #c4c4c4;
+    border-radius: 2rem;
+    color: black;
+    margin-bottom: 4rem;
+
+    p {
+        width: 100%;
+        margin-top: 2rem;
+        text-align: center;
+        color: black;
+        font-family: Arial;
+
+        &:first-of-type {
+            margin-top: 13rem;
+            margin-bottom: -2rem;
+        }
+    }
+
+    input {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        width: 10rem;
+        height: 10rem;
+        outline: none;
+        opacity: 0;
+    }
+
+    button {
+        margin: 0;
+        color: black;
+        background: #16a085;
+        border: none;
+        width: 508px;
+        height: 35px;
+        margin-top: -20px;
+        margin-left: -4px;
+        border-radius: 4px;
+        border-bottom: 4px solid #117a60;
+        transition: all 0.2s ease;
+        outline: none;
+
+        :hover {
+            background: #149174;
+            color: #0c5645;
+        }
+
+        :active {
+            border: 0;
+        }
+    }
+}

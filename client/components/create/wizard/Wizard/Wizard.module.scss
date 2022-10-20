@@ -1,0 +1,58 @@
+@use '../../../../styles/base/colors';
+
+.wizard-container{
+    display:flex;
+}
+.wizard {
+    color: hsl(0, 0%, 17%);
+    flex: 1 1 75%;
+    height: fit-content;
+
+    padding: 15rem calc(20vw) 30rem 0;
+    // max-width: calc(65rem + 20vw);
+    min-width: 110rem;
+
+    border-left: 0.2rem solid rgb(214, 214, 214);
+
+    .formItem {
+        margin-bottom: 50px;
+    }
+}
+.sidebar-container {
+    width: 50%;
+}
+.item {
+    display: flex;
+    align-items: center;
+    margin-top: 3.5rem;
+
+    &__activeOrPassed {
+        display: flex;
+        align-items: center;
+        margin-top: 3.5rem;
+
+        .dots {
+            width: 40px;
+            height: 40px;
+            border-radius: 100%;
+            background-color: colors.$color-primary-light;
+        }
+
+        span {
+            padding-left: 1rem;
+            color: colors.$color-primary-light;
+        }
+    }
+
+    .dots {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        background-color: colors.$color-grey;
+    }
+
+    span {
+        padding-left: 1rem;
+        color: colors.$color-grey;
+    }
+}

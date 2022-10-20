@@ -66,6 +66,8 @@ export type Property = {
   daySlots: Array<DaySlot>;
   deposit: Scalars['Int'];
   description: Scalars['String'];
+  facilities: Array<Scalars['String']>;
+  frequency: FrequencyEnum;
   handle: Scalars['String'];
   hourlyPrice: Scalars['Int'];
   images: Array<Scalars['String']>;
@@ -224,6 +226,7 @@ export type MutationCreateListingArgs = {
   deposit: Scalars['Int'];
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
+  facilities: Array<Scalars['String']>;
   frequency: FrequencyEnum;
   hourlyPrice: Scalars['Int'];
   images: Array<Scalars['String']>;
@@ -470,6 +473,7 @@ export type CreateListingMutationVariables = Exact<{
   startDate: Scalars['DateTime'];
   endDate: Scalars['DateTime'];
   frequency: FrequencyEnum;
+  facilities: Array<Scalars['String']> | Scalars['String'];
   availableDays: Array<AvailableDay> | AvailableDay;
   pickup?: InputMaybe<Scalars['Boolean']>;
 }>;
@@ -497,6 +501,8 @@ export type CreateListingMutation = {
       isVerified: boolean;
       hourlyPrice: number;
       serviceFee: number;
+      facilities: Array<string>;
+      frequency: FrequencyEnum;
       daySlots: Array<{ __typename?: 'DaySlot'; startTime: any; endTime: any }>;
       owner?: { __typename?: 'User'; dob?: any | null } | null;
     } | null;
@@ -532,11 +538,12 @@ export type FindAllPropertiesQuery = {
       hourlyPrice: number;
       serviceFee: number;
       rules: Array<string>;
-      owner?: { __typename?: 'User'; fullName: string } | null;
+      facilities: Array<string>;
+      frequency: FrequencyEnum;
+      owner?: { __typename?: 'User'; fullName: string; description?: string | null; dob?: any | null } | null;
       bookings: Array<{ __typename?: 'Booking'; tenant: { __typename?: 'User'; fullName: string } }>;
       daySlots: Array<{ __typename?: 'DaySlot'; startTime: any; endTime: any }>;
     }> | null;
-    UnknownError?: { __typename?: 'UnknownError'; message: string } | null;
   };
 };
 
@@ -758,8 +765,8 @@ export const useCreateBookingMutation = <TError = unknown, TContext = unknown>(
     options
   );
 export const CreateListingDocument = `
-    mutation CreateListing($size: Int!, $title: String!, $ownerHandle: String!, $street: String!, $streetNumber: String!, $zip: Int!, $city: String!, $description: String!, $hourlyPrice: Int!, $serviceFee: Int!, $rules: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $availableDays: [AvailableDay!]!, $pickup: Boolean) {
-  createListing(size: $size, title: $title, ownerHandle: $ownerHandle, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, rules: $rules, deposit: $deposit, images: $images, partialSpace: $partialSpace, startDate: $startDate, endDate: $endDate, frequency: $frequency, availableDays: $availableDays, pickup: $pickup) {
+    mutation CreateListing($size: Int!, $title: String!, $ownerHandle: String!, $street: String!, $streetNumber: String!, $zip: Int!, $city: String!, $description: String!, $hourlyPrice: Int!, $serviceFee: Int!, $rules: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $facilities: [String!]!, $availableDays: [AvailableDay!]!, $pickup: Boolean) {
+  createListing(size: $size, title: $title, ownerHandle: $ownerHandle, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, rules: $rules, deposit: $deposit, images: $images, partialSpace: $partialSpace, startDate: $startDate, endDate: $endDate, frequency: $frequency, facilities: $facilities, availableDays: $availableDays, pickup: $pickup) {
     Property {
       kind
       rules
@@ -785,6 +792,8 @@ export const CreateListingDocument = `
       isVerified
       hourlyPrice
       serviceFee
+      facilities
+      frequency
     }
     ClientErrorUserNotExists {
       message
@@ -825,6 +834,8 @@ export const FindAllPropertiesDocument = `
       title
       owner {
         fullName
+        description
+        dob
       }
       size
       bookings {
@@ -849,9 +860,8 @@ export const FindAllPropertiesDocument = `
       hourlyPrice
       serviceFee
       rules
-    }
-    UnknownError {
-      message
+      facilities
+      frequency
     }
   }
 }

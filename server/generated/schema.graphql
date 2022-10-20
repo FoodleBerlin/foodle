@@ -145,6 +145,7 @@ type Mutation {
     deposit: Int!
     description: String!
     endDate: DateTime!
+    facilities: [String!]!
     frequency: FrequencyEnum!
     hourlyPrice: Int!
     images: [String!]!
@@ -193,6 +194,8 @@ type Property {
   daySlots: [DaySlot!]!
   deposit: Int!
   description: String!
+  facilities: [String!]!
+  frequency: FrequencyEnum!
   handle: String!
   hourlyPrice: Int!
   images: [String!]!
