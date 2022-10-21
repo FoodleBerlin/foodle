@@ -12,7 +12,7 @@
     "prisma:migrate:dev": "dotenv -e .env.local prisma migrate dev",
     "prisma:migrate:deploy": "dotenv -e .env.local prisma migrate deploy",
     "dev": "dotenv -e .env.local -- ts-node-dev --no-notify --respawn --transpile-only index.ts",
-    "nexus:watch": "nodemon --exec 'yarn ts-node schema' --ext 'ts' --watch 'graphql/**/*.ts' --ignore 'generated/schema.graphql'",
+    "nexus:watch": "nodemon --exec 'dotenv -e .env.local yarn ts-node schema' --ext 'ts' --watch 'graphql/**/*.ts' --ignore 'generated/schema.graphql'",
     "codegen:generate": "graphql-codegen",
     "db:seed": "dotenv -e .env.local yarn ts-node utils/runSeed.ts",
     "db:clean": "dotenv -e .env.local yarn ts-node utils/runClean.ts",

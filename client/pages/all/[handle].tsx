@@ -27,7 +27,6 @@ const Kitchen: NextPage = () => {
         {properties?.map((property: any, index: any) => {
           if (property.handle === handle) {
             //TODO: Remove dummy data with missing data from db
-            property.facilities = ["Lift"];
             property.frequency = FrequencyEnum.Weekly;
             //TODO: Needs a type change
             property.images = [{ url: "/kitchen-test.jpg", id: 1, description: "description" }]
