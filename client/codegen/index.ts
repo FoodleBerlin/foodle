@@ -505,8 +505,6 @@ export type CreateListingMutation = {
       isVerified: boolean;
       hourlyPrice: number;
       serviceFee: number;
-      facilities: Array<string>;
-      frequency: FrequencyEnum;
       daySlots: Array<{ __typename?: 'DaySlot'; startTime: any; endTime: any }>;
       owner?: { __typename?: 'User'; dob?: any | null } | null;
     } | null;
