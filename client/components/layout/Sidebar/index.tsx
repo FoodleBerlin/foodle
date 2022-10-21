@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { AuthenticatedProps } from '../../pages/account/payments';
+import { AuthenticatedProps } from '../../../pages/account/payments';
 import styles from './Sidebar.module.scss';
 type SidebarProps = {
   user?: AuthenticatedProps['session'];
