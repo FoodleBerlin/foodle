@@ -66,6 +66,7 @@ export type Property = {
   daySlots: Array<DaySlot>;
   deposit: Scalars['Int'];
   description: Scalars['String'];
+  endDate: Scalars['String'];
   facilities: Array<Scalars['String']>;
   frequency: FrequencyEnum;
   handle: Scalars['String'];
@@ -79,6 +80,7 @@ export type Property = {
   rules: Array<Scalars['String']>;
   serviceFee: Scalars['Int'];
   size: Scalars['Int'];
+  startDate: Scalars['String'];
   street: Scalars['String'];
   streetNumber: Scalars['String'];
   title: Scalars['String'];
@@ -312,6 +314,7 @@ export type FindUserQuery = {
       email: string;
       handle: string;
       fullName: string;
+      description?: string | null;
       zip?: number | null;
       dob?: any | null;
       passportS3Id?: string | null;
@@ -366,6 +369,7 @@ export type UpdateUserMutation = {
       __typename?: 'User';
       id: string;
       fullName: string;
+      description?: string | null;
       email: string;
       handle: string;
       zip?: number | null;
@@ -540,6 +544,8 @@ export type FindAllPropertiesQuery = {
       rules: Array<string>;
       facilities: Array<string>;
       frequency: FrequencyEnum;
+      startDate: string;
+      endDate: string;
       owner?: { __typename?: 'User'; fullName: string; description?: string | null; dob?: any | null } | null;
       bookings: Array<{ __typename?: 'Booking'; tenant: { __typename?: 'User'; fullName: string } }>;
       daySlots: Array<{ __typename?: 'DaySlot'; startTime: any; endTime: any }>;
@@ -556,6 +562,7 @@ export const FindUserDocument = `
       email
       handle
       fullName
+      description
       zip
       dob
       passportS3Id
@@ -615,6 +622,7 @@ export const UpdateUserDocument = `
     User {
       id
       fullName
+      description
       email
       handle
       zip
@@ -862,6 +870,8 @@ export const FindAllPropertiesDocument = `
       rules
       facilities
       frequency
+      startDate
+      endDate
     }
   }
 }

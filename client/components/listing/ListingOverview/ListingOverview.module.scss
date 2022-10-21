@@ -1,9 +1,16 @@
 @use '../../../styles/base/colors';
+@use '../../../styles/abstracts/mixins';
 
+.gallery{
+    @include mixins.gallery;
+}
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
+}
+.feature-tag{
+    @include mixins.feature-tag;
 }
 
 .sidebarContainer {

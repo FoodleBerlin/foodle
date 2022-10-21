@@ -37,6 +37,8 @@ export const Listings = gql`
         rules
         facilities
         frequency
+        startDate
+        endDate
       }
     }
   }

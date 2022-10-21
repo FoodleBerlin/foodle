@@ -194,6 +194,7 @@ type Property {
   daySlots: [DaySlot!]!
   deposit: Int!
   description: String!
+  endDate: String!
   facilities: [String!]!
   frequency: FrequencyEnum!
   handle: String!
@@ -207,6 +208,7 @@ type Property {
   rules: [String!]!
   serviceFee: Int!
   size: Int!
+  startDate: String!
   street: String!
   streetNumber: String!
   title: String!
