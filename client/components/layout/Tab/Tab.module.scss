@@ -1,0 +1,39 @@
+.tab {
+    background-image: linear-gradient(to right, #009688, #00695c 50%, #000 50%);
+    background-size: 200% 100%;
+    background-position: 100%;
+    display: inline-block;
+    font-weight: 570;
+    padding: 0px 0;
+    position: relative;
+    line-height: 2rem;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+  
+    img {
+      margin-right: 0.1rem !important;
+      transition: transform 0.7s ease-in-out;
+    }
+  
+    svg {
+      margin-top: -50px;
+      color: linear-gradient(to right, #009688, #00695c 50%, #000 50%);
+    }
+  }
+  
+  .tab:hover {
+    background-position: 0;
+  
+    img {
+      fill: #00695c;
+      transform: rotate(360deg);
+    }
+  }
+  .tab:hover::before {
+    width: 100%;
+  }

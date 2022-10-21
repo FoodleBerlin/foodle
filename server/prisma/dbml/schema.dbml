@@ -65,9 +65,13 @@ Table Property {
   deposit Int [not null]
   images String [not null]
   partialSpace Boolean [not null, default: false]
+  startDate DateTime [not null]
+  endDate DateTime [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   daySlots DaySlot [not null]
+  frequency Frequency [not null]
+  facilities String [not null]
 }
 
 Table Booking {

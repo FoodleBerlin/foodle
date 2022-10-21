@@ -1,0 +1,22 @@
+// .step4 {
+//     width: 100%;
+//     padding: 0 10rem;
+// }
+.step4 {
+    width: 100%;
+    padding: 0 10rem;ä
+    &__subheader {
+        margin: 2rem 0;
+    }
+}
+
+
+.drag-drop {
+    background-color: white;
+    height: 80vh;
+
+    &__error-msg {
+        color: salmon;
+    }
+
+}

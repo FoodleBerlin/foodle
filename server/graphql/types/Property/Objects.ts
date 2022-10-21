@@ -2,6 +2,7 @@ import moment from 'moment';
 import { inputObjectType, objectType } from 'nexus';
 import { Booking } from '../Booking';
 import { DaySlot } from '../DaySlot/Objects';
+import { FrequencyEnum } from '../EnumsScalars/Enums';
 
 import { User } from '../User';
 
@@ -55,6 +56,10 @@ export const Property = objectType({
     p.int('hourlyPrice');
     p.int('serviceFee');
     p.list.string('rules');
+    p.list.string('facilities');
+    p.field('frequency', { type: FrequencyEnum });
+    p.string('startDate');
+    p.string('endDate');
   },
 });
 

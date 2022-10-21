@@ -1,0 +1,109 @@
+@use '../../../../styles/abstracts/mixins';
+.step1 {
+    width: 100%;
+    height: 100%;
+    padding: 0 10rem;
+
+    &__buttonWrapper {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 3rem;
+    }
+
+    &_textareaWrapper {
+        display: inline-flex;
+    }
+
+    &__label {
+        margin-top: 1rem;
+    }
+
+    &__flexWrapper {
+        display: flex;
+        gap: 30px;
+        margin-top: 3rem;
+    }
+
+    &__addressHeader {
+        margin-bottom: 3rem;
+    }
+
+    &__addressGridWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    @media (min-width: 800px) {
+        &__addressGridWrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1rem 3.5rem;
+        }
+
+        &__input--street {
+            grid-column: 1 / 3;
+            grid-row: 1 / 2;
+        }
+
+        &__validationSpan--street {
+            grid-column: 1 / 3;
+            grid-row: 2 / 3;
+        }
+
+        &__input--number {
+            grid-column: 1 / 2;
+            grid-row: 3 / 4;
+        }
+
+        &__validationSpan--number {
+            grid-column: 1 / 2;
+            grid-row: 4 / 5;
+        }
+
+        &__input--zip {
+            grid-column: 2 / 3;
+            grid-row: 3 / 4;
+        }
+
+        &__validationSpan--zip {
+            grid-column: 2 / 3;
+            grid-row: 4 / 5;
+        }
+
+        &__input--city {
+            grid-column: 1 / 2;
+            grid-row: 5 / 6;
+        }
+
+        &__validationSpan--city {
+            grid-column: 1 / 2;
+            grid-row: 6 / 7;
+        }
+
+        &__input--country {
+            grid-column: 2 / 3;
+            grid-row: 5 / 6;
+        }
+
+        &__validationSpan--country {
+            grid-column: 2 / 3;
+            grid-row: 6 / 7;
+        }
+    }
+}
+.formItem {
+    margin-bottom: 50px;
+    //TODO: MAKE MIXIN FOR ALL STEPS
+}
+.labelButton{
+    @include mixins.labelButton();
+}
+.error {
+    color: #f44336;
+}
+.spacer {
+    height: 20rem;
+}

@@ -125,9 +125,13 @@ model Property {
   deposit      Int
   images       String[]
   partialSpace Boolean   @default(false)
+  startDate     DateTime
+  endDate       DateTime
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   daySlots     DaySlot[] @relation("daySlotToProperty")
+  frequency    Frequency
+  facilities   String[]
 
   @@index([handle, hourlyPrice])
 }

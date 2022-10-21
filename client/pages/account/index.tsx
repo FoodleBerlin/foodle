@@ -1,9 +1,9 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { useRef } from 'react';
 import { useFindUserQuery } from '../../codegen';
-import Navbar from '../../components/Layout/Navbar';
-import Sidebar from '../../components/Layout/Sidebar';
-import ProfileForm from '../../components/Profile/ProfileForm';
+import Navbar from '../../components/layout/Navbar';
+import Sidebar from '../../components/layout/Sidebar';
+import ProfileForm from '../../components/profile/ProfileForm';
 import { extractUserFromToken } from '../../utils/context';
 import styles from './Account.module.scss';
 import { AuthenticatedProps } from './payments';

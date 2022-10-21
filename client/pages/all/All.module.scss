@@ -1,0 +1,60 @@
+@use '../../styles/base/colors';
+@use '../../styles/abstracts/mixins';
+
+.properties-container {
+  color: #2b2b2b;
+  width: 100%;
+  padding: 0 10rem;
+  margin-top: 15vh;
+  margin-bottom: 15vh;
+}
+// DUPLICATED FROM OLD.WIZARD.MODULE.SCSS
+.feature-tag {
+  @include mixins.feature-tag;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 4rem;
+
+
+  &__wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+  &__link {
+    text-decoration: none;
+    color: #2b2b2b;
+  }
+
+  &__text {
+    margin-left: 4rem;
+  }
+
+  &__facilities {
+    margin-top: 2rem;
+  }
+
+  &__verification {
+    margin-top: 6rem;
+    display: flex;
+  justify-content: column !important;
+  align-items: column;
+  }
+
+  &__price {
+    margin-left: 6rem;
+  }
+}
+ 
+
+@media(max-width: 800px) {
+  .properties-container {
+    padding: 0;
+    margin-top: 10vh;
+  }
+}

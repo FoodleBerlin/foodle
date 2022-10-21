@@ -51,6 +51,7 @@ export const CreateListing = extendType({
         startDate: nonNull('DateTime'),
         endDate: nonNull('DateTime'),
         frequency: nonNull(FrequencyEnum),
+        facilities: nonNull(list(nonNull(stringArg()))),
         availableDays: nonNull(list(nonNull(AvailableDay))),
       },
       async resolve(_root, args, ctx) {
@@ -159,6 +160,10 @@ export const CreateListing = extendType({
               images: args.images,
               partialSpace: args.partialSpace,
               pickup: args.pickup ?? false,
+              frequency: args.frequency,
+              facilities: args.facilities,
+              startDate: args.startDate,
+              endDate: args.endDate,
             },
           });
         } catch (error) {
