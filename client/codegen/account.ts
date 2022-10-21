@@ -36,6 +36,15 @@ export const FindUser = gql`
           expiryYear
           type
         }
+        charges {
+          amount
+          date
+          status
+          description
+          invoiceId
+          currency
+          card
+        }
       }
       ClientErrorUserNotExists {
         __typename
