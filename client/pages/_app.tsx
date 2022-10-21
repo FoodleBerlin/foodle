@@ -12,7 +12,7 @@ import '../styles/app.scss';
 
 import { useRouter } from 'next/router';
 import { IntlProvider } from 'react-intl';
-import AlertProvider from '../components/Alert/AlertContext';
+import AlertProvider from '../components/utilities/Alert/AlertContext';
 const SafeHydrate = ({ children }: { children: any }) => {
   return <div suppressHydrationWarning>{typeof window === 'undefined' ? null : children}</div>;
 };

@@ -1,12 +1,12 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useListingsQuery } from '../../client/codegen/index';
-import Navbar from '../../components/Layout/Navbar';
-import styles from '../../styles/pages/All.module.scss';
+import { useFindAllPropertiesQuery } from '../../codegen/index';
+import Navbar from '../../components/layout/Navbar';
+import styles from './All.module.scss';
 
 const All: NextPage = () => {
-  const { status, data, error, isFetching, isLoading } = useListingsQuery({
+  const { data, isLoading } = useFindAllPropertiesQuery({
     endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
     fetchParams: {
       headers: {
@@ -28,9 +28,10 @@ const All: NextPage = () => {
         ) : (
           <ul className="body-text-secondary">
             {properties?.map((property: any, index) => {
+              property.facilities = ["Lift"];
               return (
-                <li className={styles['list-wrapper']} key={index + 1}>
-                  <div className="flex-center">
+                <li className={styles['list']} key={index + 1}>
+                  <div className={styles['list__wrapper']}>
                     <div>
                       <Image
                         src="/kitchen-test.jpg"
@@ -40,22 +41,22 @@ const All: NextPage = () => {
                         alt="Image 1"
                       />
                     </div>
-                    <div className={styles['list-wrapper__text']}>
+                    <div className={styles['list__text']}>
                       <Link href={`/all/${property.handle}`}>
-                        <a className={styles['list-wrapper__link']}>{property.title}</a>
+                        <a className={styles['list__link']}>{property.title}</a>
                       </Link>
-                      <div className={styles['list-wrapper__facilities']}>
+                      <div className={styles['list__facilities']}>
                         {property.facilities.map((feature: {} | null | undefined, index: number) => (
                           <span key={index + 1}>{feature} </span>
                         ))}
                       </div>
-                      <div className={styles['list-wrapper__verification'] + ' flex-column'}>
+                      <div className={styles['list__verification']}>
                         {property.isVerified ? (
-                          <span className="feature-tag">VERIFIED</span>
+                          <span className={styles['feature-tag']}>VERIFIED</span>
                         ) : (
-                          <span className="feature-tag__not-verified">NOT VERIFIED</span>
+                          <span className={styles['feature-tag__not-verified']}>NOT VERIFIED</span>
                         )}
-                        <p className={styles['list-wrapper__price'] + ' body-text__small'}>
+                        <p className={styles['list__price'] + ' body-text__small'}>
                           €{property.hourlyPrice * 8}/Day
                         </p>
                       </div>
