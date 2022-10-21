@@ -9,7 +9,6 @@ type SidebarProps = {
 };
 const Sidebar = (props: SidebarProps) => {
   const [position, setPosition] = useState<number>(props.sitePosition);
-  console.log(props.children)
   return (
     <div className={styles['sidebar']}>
       <div className={styles['menu']}>
@@ -17,24 +16,24 @@ const Sidebar = (props: SidebarProps) => {
           props.children
         ) : (
           <>
-            <div className={'mt-three'}>
+            <div className={styles['menu__element']}>
               <Link href="/account">
                 <a className="body-text bold" onClick={() => setPosition(0)}>
-                  <span className={'underline-link' + ' ' + (position === 0 ? 'green-text' : '')}>Profile</span>
+                  <span className={styles['underline-link'] + ' ' + (position === 0 ? 'green-text' : '')}>Profile</span>
                 </a>
               </Link>
             </div>
-            <div className={'mt-three'}>
+            <div className={styles['menu__element']}>
               <Link href="/account/myBookings" >
                 <a className="body-text bold" onClick={() => setPosition(1)}>
-                  <span className={'underline-link' + ' ' + (position === 1 ? 'green-text' : '')}>My Bookings</span>
+                  <span className={styles['underline-link'] + ' ' + (position === 1 ? 'green-text' : '')}>My Bookings</span>
                 </a>
               </Link>
             </div>
-            <div className={'mt-three'}>
+            <div className={styles['menu__element']}>
               <Link href="/account/payments" >
                 <a className="body-text bold" onClick={() => setPosition(2)}>
-                  <span className={'underline-link' + ' ' + (position === 2 ? 'green-text' : '')}>My Payments</span>
+                  <span className={styles['underline-link'] + ' ' + (position === 2 ? 'green-text' : '')}>My Payments</span>
                 </a>
               </Link>
             </div>

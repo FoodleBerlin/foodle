@@ -52,7 +52,7 @@ const ProfileForm = (props: ProfileFormProps) => {
       <p className="body-text grey-text mt-one">
         This is your personal information, autofilled during booking requests for you to customize.
       </p>
-      <form className="mt-three" action="">
+      <form className={styles["menu__element"]} action="">
         <section>
           <label className="body-text bold-medium">First and last name</label>
           <br />

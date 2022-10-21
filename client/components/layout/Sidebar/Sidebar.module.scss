@@ -4,13 +4,18 @@
   min-width: 29rem;
   height: 100%;
   background-color: white;
-  button{
-    margin-top:2rem;
+
+  button {
+    margin-top: 2rem;
   }
 
   .menu {
     color: green;
     text-align: left;
+
+    &__element {
+      margin-top: 3rem;
+    }
 
     a {
       margin-left: -1vw;
@@ -18,8 +23,9 @@
       position: sticky;
       top: 0rem;
     }
-    &__link{
-      margin-top:3rem;
+
+    &__link {
+      margin-top: 3rem;
     }
 
     button {
@@ -29,7 +35,7 @@
       border-radius: 2rem !important;
       padding: 1.5rem 2.5rem !important;
       width: 100%;
-      margin-top:2rem;
+      margin-top: 2rem;
 
       transition: 500ms;
     }
@@ -42,11 +48,14 @@
     visibility: collapse;
   }
 }
+
 .underline-link {
   display: inline-block;
+
   &:hover::after {
     width: 100%;
   }
+
   &::after {
     content: '';
     width: 0px;
