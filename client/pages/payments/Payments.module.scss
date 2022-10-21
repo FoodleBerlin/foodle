@@ -1,15 +1,17 @@
 @use '../../styles/base/colors';
+@use '../../styles/abstracts/mixins';
 
 .payments{
     display: flex;
     flex-direction: row !important;
     font-family: 'Inter', sans-serif !important;
+    
 
 }
 
 .mypayments{
     margin-top: 9rem;
-    width: 90%;
+    width: 77%;
     border-left: 1px solid colors.$color-grey;
     padding-left: 6rem;
     padding-right: 6rem;
@@ -34,9 +36,34 @@
     font-size: 2rem;
     justify-content: space-around;
     margin-bottom: 1.5rem;
+
+    @include mixins.mobile{
+        flex-direction: column;
+    }
     
 }
 
 .pastPayment{
     margin: 5rem 0;
+    padding-bottom: 10rem;
+}
+
+.blocks{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    padding: 2rem 0;
+    border: 1px solid colors.$color-grey;
+    border-radius: 1.5rem;
+
+    margin: 1.5rem 0;
+
+    font-size: 2rem;
+
+    @include mixins.mobile{
+        flex-direction: column;
+        width: 17rem;
+    }
+
 }
