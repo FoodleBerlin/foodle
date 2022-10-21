@@ -589,6 +589,15 @@ export const FindUserDocument = `
         expiryYear
         type
       }
+      charges {
+        amount
+        date
+        status
+        description
+        invoiceId
+        currency
+        card
+      }
     }
     ClientErrorUserNotExists {
       __typename
