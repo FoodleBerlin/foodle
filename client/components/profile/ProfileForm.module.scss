@@ -1,0 +1,57 @@
+.form {
+    h2 {
+
+        // font-size: 2.5rem;?
+        &:nth-of-type(1) {
+            grid-column-start: 1;
+            grid-column-end: 3;
+            grid-row-start: 1;
+            grid-row-end: 2;
+        }
+
+        &:nth-of-type(2) {
+            grid-column-start: 1;
+            grid-column-end: 3;
+            grid-row-start: 2;
+            grid-row-end: 3;
+        }
+
+        &:nth-of-type(3) {
+            grid-column-start: 1;
+            grid-column-end: 3;
+            grid-row-start: 3;
+            grid-row-end: 4;
+        }
+    }
+
+    p {
+        margin-bottom: 6rem;
+    }
+
+    section {
+        margin: 4rem 0;
+    }
+
+    input[type='file'] {
+        display: none;
+    }
+
+    footer {
+        width: 100%;
+        max-width: 60rem;
+        display: grid;
+        grid-template-columns: repeat(6, 8vw);
+        grid-template-rows: repeat(4, 6.5rem);
+        gap: 1rem;
+    }
+
+    &__profileButtonColumn {
+        margin-top: 2rem;
+        gap: 1rem;
+        grid-column-start: 3;
+        grid-column-end: 5;
+        grid-row-start: 1;
+        grid-row-end: 4;
+        display: grid;
+    }
+}
