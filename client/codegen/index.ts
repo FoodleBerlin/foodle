@@ -310,8 +310,50 @@ export type FindUserQueryVariables = Exact<{
   handle: Scalars['String'];
 }>;
 
-
-export type FindUserQuery = { __typename?: 'Query', findUser: { __typename: 'findUserResult', User?: { __typename: 'User', email: string, handle: string, fullName: string, description?: string | null, zip?: number | null, dob?: any | null, passportS3Id?: string | null, solvencyS3Id?: string | null, licenseS3Id?: string | null, charges: Array<{ __typename?: 'CustomerCharge', amount?: number | null, date?: number | null, card?: string | null, status?: string | null, description?: string | null, invoiceId?: string | null, currency?: string | null }>, paymentMethods: Array<{ __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null }>, defaultPayment?: { __typename?: 'PaymentInformation', cardNumber?: string | null, expiryMonth?: number | null, expiryYear?: number | null, type?: string | null } | null } | null, ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists', message: string } | null, ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle', message: string } | null } };
+export type FindUserQuery = {
+  __typename?: 'Query';
+  findUser: {
+    __typename: 'findUserResult';
+    User?: {
+      __typename: 'User';
+      email: string;
+      handle: string;
+      fullName: string;
+      description?: string | null;
+      zip?: number | null;
+      dob?: any | null;
+      passportS3Id?: string | null;
+      solvencyS3Id?: string | null;
+      licenseS3Id?: string | null;
+      charges: Array<{
+        __typename?: 'CustomerCharge';
+        amount?: number | null;
+        date?: number | null;
+        card?: string | null;
+        status?: string | null;
+        description?: string | null;
+        invoiceId?: string | null;
+        currency?: string | null;
+      }>;
+      paymentMethods: Array<{
+        __typename?: 'PaymentInformation';
+        cardNumber?: string | null;
+        expiryMonth?: number | null;
+        expiryYear?: number | null;
+        type?: string | null;
+      }>;
+      defaultPayment?: {
+        __typename?: 'PaymentInformation';
+        cardNumber?: string | null;
+        expiryMonth?: number | null;
+        expiryYear?: number | null;
+        type?: string | null;
+      } | null;
+    } | null;
+    ClientErrorUserNotExists?: { __typename: 'ClientErrorUserNotExists'; message: string } | null;
+    ClientErrorInvalidHandle?: { __typename: 'ClientErrorInvalidHandle'; message: string } | null;
+  };
+};
 
 export type UpdateUserMutationVariables = Exact<{
   updateUserId?: InputMaybe<Scalars['String']>;
@@ -410,6 +452,15 @@ export const FindUserDocument = `
         expiryMonth
         expiryYear
         type
+      }
+      charges {
+        amount
+        date
+        status
+        description
+        invoiceId
+        currency
+        card
       }
     }
     ClientErrorUserNotExists {
