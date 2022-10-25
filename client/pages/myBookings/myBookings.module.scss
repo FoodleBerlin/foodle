@@ -1,4 +1,5 @@
 @use '../../styles/base/colors';
+@use '../../../styles/abstracts/mixins';
 
 .myBookings{
     display: flex;
@@ -76,6 +77,10 @@
         align-self: center;
 
         transition: 500ms;
+
+        @include mixins.mobile{
+            margin-top: 2rem;
+        }
 
         &:hover {
             color: colors.$color-white;
