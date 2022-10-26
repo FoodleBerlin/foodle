@@ -4,69 +4,27 @@ import BookingStatusContainer from '../../components/bookings/BookingStatusConta
 import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
 import styles from './myBookings.module.scss';
+import {useFindBookingsOfUserQuery} from '../../codegen/index'
 
-export type Booking = {
-  id: string;
-  area: string;
-  name: string;
-  endDate: string;
-  availableDays: Array<string>;
-  duration: string;
-  startDate: string;
-  img: string;
-  status: string;
-};
 const myBookings: NextPage = () => {
-  const bookingData: Booking[] = [
-    {
-      id: '38579234252',
-      area: 'Mitte',
-      name: 'Industrial Grade Kitchen',
-      endDate: 'May 5',
-      availableDays: ['Monday', 'Tuesday'],
-      duration: '3 Months',
-      startDate: 'Feb 5',
-      img: '/kitchen-image-1.png',
-      status: 'REQUESTED',
+
+  const { data, isLoading } = useFindBookingsOfUserQuery({
+    endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
+    fetchParams: {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-    {
-      id: '3857976752',
-      area: 'Lichtenberg',
-      name: 'Industrial Grade Kitchen',
-      endDate: 'March 5',
-      availableDays: ['Monday', 'Thursday'],
-      duration: '1 Month',
-      startDate: 'Feb 5',
-      img: '/kitchen-image-2.png',
-      status: 'CANCELED',
-    },
-    {
-      id: '103832352',
-      area: 'Neukölln',
-      name: 'Industrial Grade Kitchen',
-      endDate: 'Apr 5',
-      availableDays: ['Tuesday', 'Friday'],
-      duration: '4 Months',
-      startDate: 'Jan 5',
-      img: '/kitchen-image-3.png',
-      status: 'REJECTED',
-    },
-    {
-      id: '7493492948',
-      area: 'Wedding',
-      name: 'Industrial Grade Kitchen',
-      endDate: 'March 5',
-      availableDays: ['Saturday', 'Sunday'],
-      duration: '3 Months',
-      startDate: 'Jan 5',
-      img: '/kitchen-image-4.png',
-      status: 'REJECTED',
-    },
-  ];
-  const rejected = bookingData.filter((booking) => booking.status === 'REJECTED');
-  const requested = bookingData.filter((booking) => booking.status === 'REQUESTED');
-  const canceled = bookingData.filter((booking) => booking.status === 'CANCELED');
-  const confirmed = bookingData.filter((booking) => booking.status === 'CONFIRMED');
+  });
+
+  if (isLoading) console.log('is Loading...');
+
+  const bookings = [data?.findBookingsOfUser.Bookings][0];
+
+  const rejected = bookings?.filter((booking) => booking?.bookingStatus === 'REJECTED');
+  const requested = bookings?.filter((booking) => booking?.bookingStatus === 'PENDING');
+  // const canceled = bookings?.filter((booking) => booking?.bookingStatus === 'CANCELED');
+  const confirmed = bookings?.filter((booking) => booking.bookingStatus === 'ACCEPTED');
 
   return (
     <div>
@@ -90,7 +48,7 @@ const myBookings: NextPage = () => {
           <div className={styles['bookingCard']}>
             <div className={styles['bookingContainer']}>
               <BookingStatusContainer bookings={requested} status={'requested'} />
-              <BookingStatusContainer bookings={canceled} status={'canceled'} />
+              {/* <BookingStatusContainer bookings={canceled} status={'canceled'} /> */}
               <BookingStatusContainer bookings={confirmed} status={'confirmed'} />
               <BookingStatusContainer bookings={rejected} status={'rejected'} />
             </div>
