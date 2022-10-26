@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { mutationObj } from '../../../../index';
 import { useCreateListingMutation } from '../../../../codegen';
-import { UploaderImg } from '../Step4';
+import { mutationObj } from '../../../../index';
 import { useAlertContext } from '../../../utilities/Alert/AlertContext';
+import { UploaderImg } from '../Step4';
 import { useWizardContext } from '../Wizard';
 import styles from './Footer.module.scss';
 
@@ -95,11 +95,18 @@ const Footer = (props: FooterProps) => {
       facilities: wiz.facilities,
       availableDays: selectedDaySlots,
     });
-    if (!isError)
-      router.push('/create-listing-success');
-    else {
-      setMessage((error ?? "Could not submit your restaurant!" as any).toString())
-      shouldHide(false)
+    const possibleErrors = [data?.createListing.ClientErrorInvalidInput, data?.createListing.ClientErrorUserNotExists, data?.createListing.NoAvailableSlots, data?.createListing.UnknownError];
+    if (possibleErrors.some((v) => v != null)) {
+      let silentError = possibleErrors.filter((v) => v != null)[0];
+      setMessage(silentError!.message)
+      shouldHide(false);
+    } else {
+      if (!isError)
+        router.push('/create-listing-success');
+      else {
+        setMessage((error ?? "Could not submit your restaurant!" as any).toString())
+        shouldHide(false)
+      }
     }
   };
 
