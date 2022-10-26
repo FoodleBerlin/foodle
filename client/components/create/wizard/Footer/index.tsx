@@ -17,7 +17,7 @@ const Footer = (props: FooterProps) => {
   const { formState, nextStep, register, setValue, previousStep, getValues } = useWizardContext();
   const { mutate, data } = useCreateListingMutation(mutationObj(props.jwt));
 
-  const isoString = (time: string) => {
+  const isoString = (time: string): any => {
     if (time == '') {
       return new Date('1900-01-01T01:00:00').toISOString();
     }
