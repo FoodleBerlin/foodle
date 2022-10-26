@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import styles from './ProfileButton.module.scss';
 
 interface ProfileButtonProps {
   imageSetter: (image: UploaderImage | null) => void;
@@ -28,7 +27,7 @@ const ProfileButton = (props: ProfileButtonProps) => {
   };
 
   return !props.alreadyUploaded ? (
-    <aside className={styles['profileButton']}>
+    <aside className={'profileButton'}>
       <label htmlFor="upload" className={'primary-btn bold'}>
         Upload
       </label>
@@ -44,7 +43,7 @@ const ProfileButton = (props: ProfileButtonProps) => {
       />
     </aside>
   ) : (
-    <aside className={styles['profileButton']}>
+    <aside className={'profileButton'}>
       <a href={getSignedUrl(props?.image?.s3Id ? props.image?.s3Id : '')} download>
         <button
           onClick={(e) => {
