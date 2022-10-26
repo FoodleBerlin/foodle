@@ -3,6 +3,7 @@ import { Token } from '../../../server/utils/forgeJWT';
 import { useFindUserQuery } from '../../codegen';
 import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
+import { useAlertContext } from '../../components/utilities/Alert/AlertContext';
 import { extractUserFromToken } from '../../utils/context';
 import styles from './Account.module.scss';
 
@@ -28,8 +29,9 @@ export type AuthenticatedProps = {
   jwt: string;
 };
 const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
+  const alertContext = useAlertContext();
   console.log({ props });
-  const { status, data, error, isFetching } = useFindUserQuery(
+  const { status, data, error, isFetching, isError } = useFindUserQuery(
     {
       endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
       fetchParams: {
@@ -45,6 +47,11 @@ const Account: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   );
   console.log({ data });
   console.log({ error });
+  console.log(alertContext.isHidden)
+  if (isError) {
+    alertContext.setMessage((error ?? "error" as any).toString())
+    alertContext.shouldHide(false)
+  }
 
   // TODO show default
   return (

@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { FrequencyEnum, useFindAllPropertiesQuery } from '../../codegen/index';
 import Navbar from '../../components/layout/Navbar';
 import ListingOverview from '../../components/listing/ListingOverview';
+import Alert from '../../components/utilities/Alert';
+import AlertProvider from '../../components/utilities/Alert/AlertContext';
 import styles from './All.module.scss';
 
 const Kitchen: NextPage = () => {
@@ -22,22 +24,25 @@ const Kitchen: NextPage = () => {
   const properties = [data?.findAllProperties.Properties][0];
   return (
     <>
-      <Navbar />
-      <div className={styles['properties-container']}>
-        {properties?.map((property: any, index: any) => {
-          if (property.handle === handle) {
-            //TODO: Remove dummy data with missing data from db
-            property.facilities = ["Lift"];
-            property.frequency = FrequencyEnum.Weekly;
-            //TODO: Needs a type change
-            property.images = [{ url: "/kitchen-test.jpg", id: 1, description: "description" }]
+      <AlertProvider>
+        <Navbar />
+        <Alert type="error" />
+        <div className={styles['properties-container']}>
+          {properties?.map((property: any, index: any) => {
+            if (property.handle === handle) {
+              //TODO: Remove dummy data with missing data from db
+              property.facilities = ["Lift"];
+              property.frequency = FrequencyEnum.Weekly;
+              //TODO: Needs a type change
+              property.images = [{ url: "/kitchen-test.jpg", id: 1, description: "description" }]
 
-            return (
-              <ListingOverview hideSidebar={false} key={index + "-key"} handle={property.handle} listingsData={property} owner={property.owner} />
-            );
-          }
-        })}
-      </div>
+              return (
+                <ListingOverview hideSidebar={false} key={index + "-key"} handle={property.handle} listingsData={property} owner={property.owner} />
+              );
+            }
+          })}
+        </div>
+      </AlertProvider>
     </>
   );
 };

@@ -6,6 +6,7 @@ import { FrequencyEnum } from '../../../../codegen';
 import { AuthenticatedProps } from '../../../../pages/account/payments';
 import Sidebar from '../../../layout/Sidebar';
 import Footer from '../Footer';
+import Alert from '../../../utilities/Alert';
 import Step1 from '../Step1';
 import Step2 from '../Step2';
 import Step3 from '../Step3';
@@ -15,7 +16,8 @@ import styles from './Wizard.module.scss';
 
 export default function Wizard(props: AuthenticatedProps) {
   const wizardContext = useWizardContext();
-  return (
+  return (<>
+    <Alert type='error'/>
     <div className={styles["wizard-container"]}>
       <Sidebar user={props.session}>
         <div className={styles['sidebar-container']}>
@@ -42,7 +44,7 @@ export default function Wizard(props: AuthenticatedProps) {
         {wizardContext.step == 5 && <Step5></Step5>}
       </div>
       <Footer jwt={props.jwt} session={props.session} step={wizardContext.step} />
-    </div>
+    </div ></>
   );
 }
 export const touchDirtyValidate = {

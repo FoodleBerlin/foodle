@@ -12,6 +12,7 @@ import '../styles/app.scss';
 
 import { useRouter } from 'next/router';
 import { IntlProvider } from 'react-intl';
+import AlertProvider from '../components/utilities/Alert/AlertContext';
 const SafeHydrate = ({ children }: { children: any }) => {
   return <div suppressHydrationWarning>{typeof window === 'undefined' ? null : children}</div>;
 };
@@ -51,10 +52,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     <SafeHydrate>
       {/* @ts-ignore */}
       <IntlProvider locale={locale!} messages={messages[locale!]}>
-        <QueryClientProvider client={queryClient}>
-          {/* @ts-ignore */}
-          <Component {...pageProps} />
-        </QueryClientProvider>
+        <AlertProvider>
+          <QueryClientProvider client={queryClient}>
+            {/* @ts-ignore */}
+            <Component {...pageProps} />
+          </QueryClientProvider>
+        </AlertProvider>
       </IntlProvider>
     </SafeHydrate>
   );
