@@ -162,6 +162,8 @@ export const CreateListing = extendType({
               pickup: args.pickup ?? false,
               frequency: args.frequency,
               facilities: args.facilities,
+              startDate: args.startDate,
+              endDate: args.endDate,
             },
           });
         } catch (error) {

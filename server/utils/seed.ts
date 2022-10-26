@@ -92,6 +92,8 @@ export async function seed() {
           handle: 'prop1',
           frequency: 'weekly',
           facilities: ['Unfurnished'],
+          startDate: '2022-06-27T08:00:00.003Z',
+          endDate: '2022-06-30T08:00:00.003Z',
         },
         {
           zip: 1355,
@@ -111,6 +113,8 @@ export async function seed() {
           handle: 'prop2',
           frequency: 'weekly',
           facilities: ['Elevator', 'Parking', 'Dishwasher'],
+          startDate: '2022-08-27T08:00:00.003Z',
+          endDate: '2022-09-30T08:00:00.003Z',
         },
         {
           zip: 1355,
@@ -130,6 +134,8 @@ export async function seed() {
           handle: 'prop3',
           frequency: 'weekly',
           facilities: ['Elevator', 'Parking'],
+          startDate: '2022-10-27T08:00:00.003Z',
+          endDate: '2022-11-30T08:00:00.003Z',
         },
       ],
     }),

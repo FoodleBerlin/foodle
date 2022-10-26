@@ -58,6 +58,8 @@ export const Property = objectType({
     p.list.string('rules');
     p.list.string('facilities');
     p.field('frequency', { type: FrequencyEnum });
+    p.string('startDate');
+    p.string('endDate');
   },
 });
 
