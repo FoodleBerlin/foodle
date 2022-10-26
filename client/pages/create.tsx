@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
+import AlertProvider from '../components/utilities/Alert/AlertContext';
 import Wizard, { WizardProvider } from '../components/create/wizard/Wizard';
 import Navbar from '../components/layout/Navbar';
 import { extractUserFromToken } from '../utils/context';
@@ -26,9 +27,11 @@ const Create: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
   return (
     <>
       <Navbar user={props.session}></Navbar>
-      <WizardProvider>
-        <Wizard session={props.session} jwt={props.jwt}></Wizard>
-      </WizardProvider>
+      <AlertProvider>
+        <WizardProvider>
+          <Wizard session={props.session} jwt={props.jwt}></Wizard>
+        </WizardProvider>
+      </AlertProvider>
     </>
   );
 };

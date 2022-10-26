@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { useFindAllPropertiesQuery } from '../../codegen/index';
 import Navbar from '../../components/layout/Navbar';
 import ListingOverview from '../../components/listing/ListingOverview';
+import Alert from '../../components/utilities/Alert';
+import AlertProvider from '../../components/utilities/Alert/AlertContext';
 import styles from './All.module.scss';
 
 
@@ -23,18 +25,22 @@ const Kitchen: NextPage = () => {
   const properties = [data?.findAllProperties.Properties][0];
   return (
     <>
-      <Navbar />
-      <div className={styles['properties-container']}>
-        {properties?.map((property, index: any) => {
-          if (property.handle === handle) {
-            //TODO: Needs a type change
-            property.images = ["/kitchen-test.jpg"]
-            return (
-              <ListingOverview key={index + "-key"} listingsData={{ hideSidebar: false, ...property }} />
-            );
-          }
-        })}
-      </div>
+      <AlertProvider>
+        <Navbar />
+        <Alert type="error" />
+        <div className={styles['properties-container']}>
+          {properties?.map((property, index: any) => {
+            if (property.handle === handle) {
+              //TODO: Needs a type change
+              property.images = ["/kitchen-test.jpg"]
+              return (
+                <ListingOverview key={index + "-key"} listingsData={{ hideSidebar: false, ...property }} />
+              );
+            }
+          })}
+        </div>
+      </AlertProvider>
+
     </>
   );
 };

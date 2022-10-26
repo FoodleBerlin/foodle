@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { FrequencyEnum } from '~/codegen';
+import { FrequencyEnum } from '../../../codegen';
 import PriceLine from '../../create/PriceLine';
 import { BookingProvider } from '../BookingContext';
 import ListingSideBar from '../ListingSideBar/ListingSideBar';
@@ -41,13 +41,14 @@ function ListingOverview({ listingsData }: { listingsData: ListingOverViewProps 
                     <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
                     <div className={styles["gallery__container"]}>
                         <div className={styles["gallery"]}>
-                            {listingsData.images.map((image, index) => (
-                                <div key={"key-image-" + image} className={styles['gallery__item'] + ' ' + styles['gallery__item--' + index]}>
-                                    <Image src={image} width={460} height={516} className={styles["gallery__img"]} alt={'Image ' + index} key={"image--" + index.toString()} />
-                                </div>
-                            ))}
+                            {
+                                listingsData.images.map((image, index) => (
+                                    <div key={"key-image-" + image} className={styles['gallery__item'] + ' ' + styles['gallery__item--' + index]}>
+                                        <Image src={image} width={460} height={516} className={styles["gallery__img"]} alt={'Image ' + index} key={"image--" + index.toString()} />
+                                    </div>
+                                ))}
                         </div>
-                    </div>
+                    </div >
 
                     <div className={styles['listingoverview__titleWrapper'] + ' ' + styles['step2__marginHeadline']}>
                         <h3 className="header-tertiary">{listingsData.title}</h3>
@@ -56,7 +57,7 @@ function ListingOverview({ listingsData }: { listingsData: ListingOverViewProps 
                             <p className="body-text">€/h</p>
                         </div>
                     </div>
-                </div>
+                </div >
                 <div className={styles['formItem']}>
                     <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Overview</h2>
                     <div className={styles['listingoverview__flexWrapper']}>
@@ -122,7 +123,7 @@ function ListingOverview({ listingsData }: { listingsData: ListingOverViewProps 
                     </div>
                 </div>
                 <div className={styles['listingoverview__thingsToKnowContainer']}></div>
-            </div>
+            </div >
         </div >
     );
 }
