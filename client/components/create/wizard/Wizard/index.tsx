@@ -4,9 +4,8 @@ import { FormState, useForm, UseFormGetValues, UseFormRegister, UseFormSetValue 
 import { z } from 'zod';
 import { FrequencyEnum } from '../../../../codegen';
 import { AuthenticatedProps } from '../../../../pages/account/payments';
-import Sidebar from '../../../layout/Sidebar';
-import Footer from '../Footer';
 import Alert from '../../../utilities/Alert';
+import Footer from '../Footer';
 import Step1 from '../Step1';
 import Step2 from '../Step2';
 import Step3 from '../Step3';
@@ -17,25 +16,23 @@ import styles from './Wizard.module.scss';
 export default function Wizard(props: AuthenticatedProps) {
   const wizardContext = useWizardContext();
   return (<>
-    <Alert type='error'/>
+    <Alert type='error' />
     <div className={styles["wizard-container"]}>
-      <Sidebar user={props.session}>
-        <div className={styles['sidebar-container']}>
-          {/* <div> */}
-          {['Property', 'Features', 'Logistics', 'Photos', 'Summary'].map((stage: string, index) => {
-            return (
-              <div
-                key={index + 1}
-                className={wizardContext.step >= index + 1 ? styles['item__activeOrPassed'] : styles['item']}
-              >
-                <div className={styles['dots']}></div>
-                <span className={'small-text'}>{stage}</span>
-              </div>
-            );
-          })}
-          {/* </div> */}
-        </div>
-      </Sidebar>
+      <div className={styles['sidebar-container']}>
+        {/* <div> */}
+        {['Property', 'Features', 'Logistics', 'Photos', 'Summary'].map((stage: string, index) => {
+          return (
+            <div
+              key={index + 1}
+              className={wizardContext.step >= index + 1 ? styles['item__activeOrPassed'] : styles['item']}
+            >
+              <div className={styles['dots']}></div>
+              <span className={'small-text'}>{stage}</span>
+            </div>
+          );
+        })}
+        {/* </div> */}
+      </div>
       <div className={styles['wizard']}>
         {wizardContext.step == 1 && <Step1></Step1>}
         {wizardContext.step == 2 && <Step2></Step2>}
