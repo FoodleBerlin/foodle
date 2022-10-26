@@ -1,8 +1,9 @@
 //TODO: Refactor FormData out from Wizard.tsx
 import { AvailableDay, FrequencyEnum, useCreateBookingMutation } from "../../../codegen";
-import { FormData, touchDirtyValidate } from "../../create/wizard/Wizard";
+import { useAlertContext } from "../../../components/utilities/Alert/AlertContext";
 import DaySelector from "../../create/DaySelector";
 import TimeInput from "../../create/TimeInput";
+import { FormData, touchDirtyValidate } from "../../create/wizard/Wizard";
 import { useBookingContext } from "../BookingContext";
 import styles from "./ListingSideBar.module.scss";
 
@@ -10,6 +11,7 @@ import styles from "./ListingSideBar.module.scss";
 function ListingSideBar(props: { listingsData: FormData, handle: string, owner: any }) {
     //TODO: REFACTOR
     const { register, setValue } = useBookingContext();
+    const { shouldHide, setMessage } = useAlertContext();
     const weekDays = useBookingContext().getValues().daySlots;
     const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = useBookingContext().getValues().daySlots;
     const bookingContext = useBookingContext();
@@ -17,7 +19,7 @@ function ListingSideBar(props: { listingsData: FormData, handle: string, owner: 
     register("propertyHandle");
     setValue("propertyHandle", props.handle, touchDirtyValidate);
 
-    const { mutate, data } = useCreateBookingMutation({
+    const { mutate, data, isError, error } = useCreateBookingMutation({
         endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
         fetchParams: {
             headers: {
@@ -25,6 +27,23 @@ function ListingSideBar(props: { listingsData: FormData, handle: string, owner: 
             },
         }
     });
+
+    function onSubmitt() {
+        mutate({ propertyHandle: values.propertyHandle, startDate: new Date(values.startDate), endDate: new Date(values.endDate), frequency: values.frequency == FrequencyEnum.Monthly ? FrequencyEnum.Monthly : FrequencyEnum.Weekly, daySlots: convertToAvailableDays(values) })
+        //A list of all errors that can occure
+        const possibleErrors = [data?.createBooking.ClientErrorInvalidInput, data?.createBooking.ClientErrorInvalidPropertyInput, data?.createBooking.ClientErrorPropertyNotExists, data?.createBooking.ClientErrorPropertyNotExists, data?.createBooking.ClientErrorUserNotExists, data?.createBooking.NoAvailableSlots];
+        if (isError) {
+            setMessage((error ?? "Could not create booking!" as any).toString())
+            shouldHide(false)
+        }
+        if (possibleErrors.some((v) => v != null)) {
+            setMessage(((possibleErrors.filter((e) => e != null))[0]?.message) as string);
+            shouldHide(false)
+        }
+
+    }
+
+
 
 
     return (
@@ -83,8 +102,7 @@ function ListingSideBar(props: { listingsData: FormData, handle: string, owner: 
                         }} />
                 </div>
                 {/*TODO: For what ever reason all types need to be manually converted to their type again, if not the input will not be accepted*/}
-                <button onClick={() => mutate({ propertyHandle: values.propertyHandle, startDate: new Date(values.startDate), endDate: new Date(values.endDate), frequency: values.frequency == FrequencyEnum.Monthly ? FrequencyEnum.Monthly : FrequencyEnum.Weekly, daySlots: convertToAvailableDays(values) })
-                } className={styles["sidebar__bookingbutton"]}>REQUEST TO BOOK</button>
+                <button onClick={() => onSubmitt()} className={styles["sidebar__bookingbutton"]}>REQUEST TO BOOK</button>
             </div>
             <div className={styles["ownercard"]}>
                 <div className={styles["ownercard__avatar"]}></div>
