@@ -98,7 +98,7 @@ const Footer = (props: FooterProps) => {
     if (!isError)
       router.push('/create-listing-success');
     else {
-      setMessage((error ?? "Could not submitt your resturant!" as any).toString())
+      setMessage((error ?? "Could not submit your restaurant!" as any).toString())
       shouldHide(false)
     }
   };
