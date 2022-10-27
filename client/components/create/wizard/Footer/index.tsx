@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { mutationObj } from '../../../../index';
-
 import { useCreateListingMutation } from '../../../../codegen';
+import { mutationObj } from '../../../../index';
+import { useAlertContext } from '../../../utilities/Alert/AlertContext';
 import { UploaderImg } from '../Step4';
 import { useWizardContext } from '../Wizard';
 import styles from './Footer.module.scss';
@@ -15,8 +15,8 @@ type FooterProps = {
 
 const Footer = (props: FooterProps) => {
   const { formState, nextStep, register, setValue, previousStep, getValues } = useWizardContext();
-  const { mutate, data } = useCreateListingMutation(mutationObj(props.jwt));
-
+  const { mutate, data, isError, error } = useCreateListingMutation(mutationObj(props.jwt));
+  const { shouldHide, setMessage } = useAlertContext();
   const isoString = (time: string) => {
     if (time == '') {
       return new Date('1900-01-01T01:00:00').toISOString();
@@ -76,7 +76,7 @@ const Footer = (props: FooterProps) => {
     mutate({
       size: Number(wiz.size),
       title: wiz.title,
-      ownerHandle: props.session.email.substring(0, props.session.email.indexOf('@')),
+      ownerHandle: "alex.alber.aa@gmail.com".substring(0, "alex.alber.aa@gmail.com".indexOf('@')), //props.session.email
       street: wiz.location.street,
       streetNumber: wiz.location.streetNumber,
       zip: Number(wiz.location.zip),
@@ -95,10 +95,22 @@ const Footer = (props: FooterProps) => {
       facilities: wiz.facilities,
       availableDays: selectedDaySlots,
     });
-    router.push('/create-listing-success');
+    const possibleErrors = [data?.createListing.ClientErrorInvalidInput, data?.createListing.ClientErrorUserNotExists, data?.createListing.NoAvailableSlots, data?.createListing.UnknownError];
+    if (possibleErrors.some((v) => v != null)) {
+      let silentError = possibleErrors.filter((v) => v != null)[0];
+      setMessage(silentError!.message)
+      shouldHide(false);
+    } else {
+      if (!isError)
+        router.push('/create-listing-success');
+      else {
+        setMessage((error ?? "Could not submit your restaurant!" as any).toString())
+        shouldHide(false)
+      }
+    }
   };
 
-  const error = () => {
+  const hasError = () => {
     if (
       formState.errors.partialSpace ||
       formState.errors.size ||
@@ -131,7 +143,7 @@ const Footer = (props: FooterProps) => {
 
         <button
           className={'primary-btn-small'} //NEEDS TO BE CHANGED
-          disabled={error() ? true : false}
+          disabled={hasError() ? true : false}
           onClick={() => {
             nextStep(props.step);
             props.step === 5 ? handleSubmit() : console.log(getValues());
