@@ -37,7 +37,7 @@ const Sidebar = (props: SidebarProps) => {
                 </a>
               </Link>
             </div>
-            <button className={'primary-btn body-text bold'}>Contact support</button>
+            <button className={'support-btn'}>Contact support</button>
           </>
         )}
       </div>
