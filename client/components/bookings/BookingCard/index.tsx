@@ -14,12 +14,41 @@ interface BookingCardProps {
 export const BookingCard = (props: BookingCardProps) => {
   const { title, availableDays, startDate, endDate, id } = props;
 
-  function returnAvailableDays(availableDays: any){
-    
+  function numberToDay(number: number){
+    if(number==0){
+      return 'Monday'
+    }else if(number==1){
+      return 'Tuesday'
+    }else if(number==2){
+      return 'Wednesday'
+    }else if(number==3){
+      return 'Thurday'
+    }else if(number==4){
+      return 'Friday'
+    }else if(number==5){
+      return 'Saturday'
+    }else if(number==6){
+      return 'Sunday'
+    }
   };
 
-  function returnDate(string:string){
+  function returnAvailableDays(availableDays: any){
+    const initialStartDate= new Date(availableDays.startTime);
+    const startDateNumber= initialStartDate.getDay();
 
+    const initialEndDate= new Date(availableDays.endTime);
+    const endDateNumber= initialEndDate.getDay();
+
+    const startDate= numberToDay(startDateNumber);
+    const endDate=numberToDay(endDateNumber);
+
+    return startDate+ ', '+endDate;
+
+  };
+
+  function returnDate(date:string){
+    const array= date.split(" ");
+    return array[0];
   };
 
   return (
@@ -31,7 +60,7 @@ export const BookingCard = (props: BookingCardProps) => {
             {title}
           </h5>
           <h6>
-            {availableDays} <br /> {startDate}-{endDate}
+            {returnAvailableDays(availableDays)} <br /> {returnDate(startDate)}-{returnDate(endDate)}
           </h6>
           <h6>
             Booking ref: <br />
