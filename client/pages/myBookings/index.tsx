@@ -1,10 +1,12 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { useFindBookingsOfUserQuery } from '../../codegen/index';
 import BookingStatusContainer from '../../components/bookings/BookingStatusContainer';
 import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
 import styles from './myBookings.module.scss';
-import {useFindBookingsOfUserQuery} from '../../codegen/index'
+
+
 
 const myBookings: NextPage = () => {
 
@@ -22,9 +24,12 @@ const myBookings: NextPage = () => {
   const bookings = [data?.findBookingsOfUser.Bookings][0];
 
   const rejected = bookings?.filter((booking) => booking?.bookingStatus === 'REJECTED');
+  console.log('Rejected: ' + rejected);
   const requested = bookings?.filter((booking) => booking?.bookingStatus === 'PENDING');
+  console.log('Requested: ' + requested);
   // const canceled = bookings?.filter((booking) => booking?.bookingStatus === 'CANCELED');
   const confirmed = bookings?.filter((booking) => booking.bookingStatus === 'ACCEPTED');
+  console.log('Confirmed: ' + confirmed);
 
   return (
     <div>

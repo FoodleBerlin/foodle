@@ -1,9 +1,8 @@
 import Image from 'next/image';
-import { Booking } from '../../../pages/myBookings';
 import styles from './BookingCard.module.scss';
 
-export const BookingCard = (props: Booking) => {
-  const { img, name, area, availableDays, startDate, endDate, duration, id } = props;
+export const BookingCard = (props: '') => {
+  const { img, name, area, availableDays, startDate, endDate, id } = props;
   return (
     <div className={styles['bookingCard']}>
       <div className={styles['bookingCard__imgtext']}>
@@ -13,7 +12,7 @@ export const BookingCard = (props: Booking) => {
             {name} in {area}
           </h5>
           <h6>
-            {availableDays.join(', ')} <br /> {startDate}-{endDate} ({duration})
+            {availableDays.join(', ')} <br /> {startDate}-{endDate}
           </h6>
           <h6>
             Booking ref: <br />

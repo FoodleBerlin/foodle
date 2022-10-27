@@ -1,4 +1,4 @@
-import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -433,18 +433,18 @@ export const FindUserDocument = `
 }
     `;
 export const useFindUserQuery = <
-      TData = FindUserQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables: FindUserQueryVariables,
-      options?: UseQueryOptions<FindUserQuery, TError, TData>
-    ) =>
-    useQuery<FindUserQuery, TError, TData>(
-      ['FindUser', variables],
-      fetcher<FindUserQuery, FindUserQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindUserDocument, variables),
-      options
-    );
+  TData = FindUserQuery,
+  TError = unknown
+>(
+  dataSource: { endpoint: string, fetchParams?: RequestInit },
+  variables: FindUserQueryVariables,
+  options?: UseQueryOptions<FindUserQuery, TError, TData>
+) =>
+  useQuery<FindUserQuery, TError, TData>(
+    ['FindUser', variables],
+    fetcher<FindUserQuery, FindUserQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindUserDocument, variables),
+    options
+  );
 export const UpdateUserDocument = `
     mutation UpdateUser($updateUserId: String, $fullName: String, $zip: Int, $description: String, $dob: String, $passportS3Id: String, $solvencyS3Id: String, $licenseS3Id: String) {
   updateUser(id: $updateUserId, fullName: $fullName, zip: $zip, description: $description, dob: $dob, passportS3Id: $passportS3Id, solvencyS3Id: $solvencyS3Id, licenseS3Id: $licenseS3Id) {
@@ -494,17 +494,17 @@ export const UpdateUserDocument = `
 }
     `;
 export const useUpdateUserMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>
-    ) =>
-    useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
-      ['UpdateUser'],
-      (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdateUserDocument, variables)(),
-      options
-    );
+  TError = unknown,
+  TContext = unknown
+>(
+  dataSource: { endpoint: string, fetchParams?: RequestInit },
+  options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>
+) =>
+  useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
+    ['UpdateUser'],
+    (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdateUserDocument, variables)(),
+    options
+  );
 export const FindBookingsOfUserDocument = `
     query FindBookingsOfUser {
   findBookingsOfUser {
@@ -528,18 +528,18 @@ export const FindBookingsOfUserDocument = `
 }
     `;
 export const useFindBookingsOfUserQuery = <
-      TData = FindBookingsOfUserQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables?: FindBookingsOfUserQueryVariables,
-      options?: UseQueryOptions<FindBookingsOfUserQuery, TError, TData>
-    ) =>
-    useQuery<FindBookingsOfUserQuery, TError, TData>(
-      variables === undefined ? ['FindBookingsOfUser'] : ['FindBookingsOfUser', variables],
-      fetcher<FindBookingsOfUserQuery, FindBookingsOfUserQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindBookingsOfUserDocument, variables),
-      options
-    );
+  TData = FindBookingsOfUserQuery,
+  TError = unknown
+>(
+  dataSource: { endpoint: string, fetchParams?: RequestInit },
+  variables?: FindBookingsOfUserQueryVariables,
+  options?: UseQueryOptions<FindBookingsOfUserQuery, TError, TData>
+) =>
+  useQuery<FindBookingsOfUserQuery, TError, TData>(
+    variables === undefined ? ['FindBookingsOfUser'] : ['FindBookingsOfUser', variables],
+    fetcher<FindBookingsOfUserQuery, FindBookingsOfUserQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindBookingsOfUserDocument, variables),
+    options
+  );
 export const CreateBookingDocument = `
     mutation CreateBooking($propertyHandle: String!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $daySlots: [AvailableDay!]!) {
   createBooking(propertyHandle: $propertyHandle, startDate: $startDate, endDate: $endDate, frequency: $frequency, daySlots: $daySlots) {
@@ -582,17 +582,17 @@ export const CreateBookingDocument = `
 }
     `;
 export const useCreateBookingMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      options?: UseMutationOptions<CreateBookingMutation, TError, CreateBookingMutationVariables, TContext>
-    ) =>
-    useMutation<CreateBookingMutation, TError, CreateBookingMutationVariables, TContext>(
-      ['CreateBooking'],
-      (variables?: CreateBookingMutationVariables) => fetcher<CreateBookingMutation, CreateBookingMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateBookingDocument, variables)(),
-      options
-    );
+  TError = unknown,
+  TContext = unknown
+>(
+  dataSource: { endpoint: string, fetchParams?: RequestInit },
+  options?: UseMutationOptions<CreateBookingMutation, TError, CreateBookingMutationVariables, TContext>
+) =>
+  useMutation<CreateBookingMutation, TError, CreateBookingMutationVariables, TContext>(
+    ['CreateBooking'],
+    (variables?: CreateBookingMutationVariables) => fetcher<CreateBookingMutation, CreateBookingMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateBookingDocument, variables)(),
+    options
+  );
 export const CreateListingDocument = `
     mutation CreateListing($size: Int!, $title: String!, $ownerHandle: String!, $street: String!, $streetNumber: String!, $zip: Int!, $city: String!, $description: String!, $hourlyPrice: Int!, $serviceFee: Int!, $rules: [String!]!, $deposit: Int!, $images: [String!]!, $partialSpace: Boolean!, $startDate: DateTime!, $endDate: DateTime!, $frequency: FrequencyEnum!, $facilities: [String!]!, $availableDays: [AvailableDay!]!, $pickup: Boolean) {
   createListing(size: $size, title: $title, ownerHandle: $ownerHandle, street: $street, streetNumber: $streetNumber, zip: $zip, city: $city, description: $description, hourlyPrice: $hourlyPrice, serviceFee: $serviceFee, rules: $rules, deposit: $deposit, images: $images, partialSpace: $partialSpace, startDate: $startDate, endDate: $endDate, frequency: $frequency, facilities: $facilities, availableDays: $availableDays, pickup: $pickup) {
@@ -640,17 +640,17 @@ export const CreateListingDocument = `
 }
     `;
 export const useCreateListingMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      options?: UseMutationOptions<CreateListingMutation, TError, CreateListingMutationVariables, TContext>
-    ) =>
-    useMutation<CreateListingMutation, TError, CreateListingMutationVariables, TContext>(
-      ['CreateListing'],
-      (variables?: CreateListingMutationVariables) => fetcher<CreateListingMutation, CreateListingMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateListingDocument, variables)(),
-      options
-    );
+  TError = unknown,
+  TContext = unknown
+>(
+  dataSource: { endpoint: string, fetchParams?: RequestInit },
+  options?: UseMutationOptions<CreateListingMutation, TError, CreateListingMutationVariables, TContext>
+) =>
+  useMutation<CreateListingMutation, TError, CreateListingMutationVariables, TContext>(
+    ['CreateListing'],
+    (variables?: CreateListingMutationVariables) => fetcher<CreateListingMutation, CreateListingMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateListingDocument, variables)(),
+    options
+  );
 export const FindAllPropertiesDocument = `
     query FindAllProperties {
   findAllProperties {
@@ -695,15 +695,15 @@ export const FindAllPropertiesDocument = `
 }
     `;
 export const useFindAllPropertiesQuery = <
-      TData = FindAllPropertiesQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables?: FindAllPropertiesQueryVariables,
-      options?: UseQueryOptions<FindAllPropertiesQuery, TError, TData>
-    ) =>
-    useQuery<FindAllPropertiesQuery, TError, TData>(
-      variables === undefined ? ['FindAllProperties'] : ['FindAllProperties', variables],
-      fetcher<FindAllPropertiesQuery, FindAllPropertiesQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindAllPropertiesDocument, variables),
-      options
-    );
+  TData = FindAllPropertiesQuery,
+  TError = unknown
+>(
+  dataSource: { endpoint: string, fetchParams?: RequestInit },
+  variables?: FindAllPropertiesQueryVariables,
+  options?: UseQueryOptions<FindAllPropertiesQuery, TError, TData>
+) =>
+  useQuery<FindAllPropertiesQuery, TError, TData>(
+    variables === undefined ? ['FindAllProperties'] : ['FindAllProperties', variables],
+    fetcher<FindAllPropertiesQuery, FindAllPropertiesQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, FindAllPropertiesDocument, variables),
+    options
+  );
