@@ -277,31 +277,4 @@ export async function seed() {
       ],
     }),
   ]);
-
-  await prisma.$transaction([
-    prisma.booking.createMany({
-      data: [
-        {
-          propertyHandle: 'prop1',
-          frequency: 'weekly',
-          startDate: '2022-06-27T08:00:00.003Z',
-          endDate: '2022-06-30T08:00:00.003Z',
-          daySlots: {
-            startTime: '2022-07-25T08:00:00.003Z',
-            endTime: '2022-07-25T16:00:00.003Z',
-          },
-        },
-        {
-          propertyHandle: 'prop2',
-          frequency: 'weekly',
-          startDate: '2022-06-27T08:00:00.003Z',
-          endDate: '2022-06-30T08:00:00.003Z',
-          daySlots: {
-            startTime: '2022-07-25T08:00:00.003Z',
-            endTime: '2022-07-25T16:00:00.003Z',
-          },
-        },
-      ],
-    }),
-  ]);
 }

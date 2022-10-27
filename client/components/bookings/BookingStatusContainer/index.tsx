@@ -1,8 +1,9 @@
 
+import { Key } from 'react';
 import { BookingCard } from '../BookingCard';
 
 export type BookingStatusContainerProps = {
-  bookings: Object[];
+  bookings: any;
   status: 'requested' | 'confirmed' | 'canceled' | 'rejected';
 };
 const BookingStatusContainer = (props: BookingStatusContainerProps) => {
@@ -16,16 +17,15 @@ const BookingStatusContainer = (props: BookingStatusContainerProps) => {
       {props.bookings.length === 0 ? (
         <p>No {props.status} bookings yet.</p>
       ) : (
-        props.bookings.map(({ id, area, name, endDate, availableDays, startDate, img }, index) => (
+        props.bookings.map((booking: any, index: any) => (
           <BookingCard
-            id={id}
-            area={area}
-            name={name}
-            endDate={endDate}
-            availableDays={availableDays}
-            startDate={startDate}
-            img={img}
-            status={''}
+            id={booking.id}
+            title={booking.property.title}
+            endDate={booking.endDate}
+            availableDays={booking.daySlots}
+            startDate={booking.startDate}
+            status={booking.bookingStatus}
+            // totalPrice={booking.totalPrice}
             key={index}
           />
         ))
