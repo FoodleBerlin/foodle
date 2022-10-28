@@ -14,10 +14,10 @@ const BookingStatusContainer = (props: BookingStatusContainerProps) => {
     <div className={props.status}>
       <h4>{capitalizeFirstLetter(props.status)}</h4>
 
-      {props.bookings.length === 0 ? (
+      {props.bookings?.length === 0 ? (
         <p>No {props.status} bookings yet.</p>
       ) : (
-        props.bookings.map((booking: any, index: any) => (
+        props.bookings?.map((booking: any, index: any) => (
           <BookingCard
             id={booking.id}
             title={booking.property.title}
