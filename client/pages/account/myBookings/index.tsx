@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import BookingStatusContainer from '../../components/bookings/BookingStatusContainer';
-import Navbar from '../../components/layout/Navbar';
-import Sidebar from '../../components/layout/Sidebar';
+import BookingStatusContainer from "../../../components/bookings/BookingStatusContainer";
+import Navbar from "../../../components/layout/Navbar";
+import Sidebar from "../../../components/layout/Sidebar";
 import styles from './myBookings.module.scss';
 
 export type Booking = {
@@ -81,11 +81,11 @@ const myBookings: NextPage = () => {
       <Navbar />
 
       <div className={styles['myBookings']}>
-        <Sidebar />
+        <Sidebar sitePosition={1} />
 
         <div className={styles['bookingList']}>
-          <h4>My bookings</h4>
-          <h5>A list of all bookings made, requested, rejected, cancelled and confirmed</h5>
+          <h2 className="header-secondary bold">My bookings</h2>
+          <p className="body-text grey-text mt-one">A list of all bookings made, requested, rejected, cancelled and confirmed</p>
 
           <div className={styles['bookingCard']}>
             <div className={styles['bookingContainer']}>
@@ -97,7 +97,7 @@ const myBookings: NextPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

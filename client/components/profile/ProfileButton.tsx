@@ -1,8 +1,5 @@
-import styles from '../../pages/account/Account.module.scss';
+import { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useRef, useState } from 'react';
-import Image from 'next';
-import Link from 'next/link';
 
 interface ProfileButtonProps {
   imageSetter: (image: UploaderImage | null) => void;
@@ -30,7 +27,7 @@ const ProfileButton = (props: ProfileButtonProps) => {
   };
 
   return !props.alreadyUploaded ? (
-    <aside className={styles['account__document-btns'] + ' mt-two'}>
+    <aside className={'profileButton'}>
       <label htmlFor="upload" className={'primary-btn bold'}>
         Upload
       </label>
@@ -46,7 +43,7 @@ const ProfileButton = (props: ProfileButtonProps) => {
       />
     </aside>
   ) : (
-    <aside className={styles['account__document-btns'] + ' mt-one'}>
+    <aside className={'profileButton'}>
       <a href={getSignedUrl(props?.image?.s3Id ? props.image?.s3Id : '')} download>
         <button
           onClick={(e) => {
