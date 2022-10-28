@@ -1,33 +1,36 @@
-import { Booking } from '../../../pages/myBookings';
+
+import { Key, useState } from 'react';
 import { BookingCard } from '../BookingCard';
 
 export type BookingStatusContainerProps = {
-  bookings: Booking[];
+  bookings: any;
   status: 'requested' | 'confirmed' | 'canceled' | 'rejected';
 };
 const BookingStatusContainer = (props: BookingStatusContainerProps) => {
+
+  const [bookings, setBookings]= useState<any>(props.bookings);
+
   function capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+
+  const removeBooking= (booking: any)=>{
+
+    setBookings([...bookings].filter(obj=>obj!==booking))
+
+  };
+
   return (
     <div className={props.status}>
       <h4>{capitalizeFirstLetter(props.status)}</h4>
 
-      {props.bookings.length === 0 ? (
+      {props.bookings?.length === 0 ? (
         <p>No {props.status} bookings yet.</p>
       ) : (
-        props.bookings.map(({ id, area, name, endDate, availableDays, duration, startDate, img }, index) => (
+        props.bookings?.map((booking: any) => (
           <BookingCard
-            id={id}
-            area={area}
-            name={name}
-            endDate={endDate}
-            availableDays={availableDays}
-            duration={duration}
-            startDate={startDate}
-            img={img}
-            status={''}
-            key={index}
+            booking={booking}
+            removeBooking={removeBooking}
           />
         ))
       )}

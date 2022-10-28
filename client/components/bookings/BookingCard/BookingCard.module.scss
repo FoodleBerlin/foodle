@@ -1,12 +1,22 @@
+@use '../../../styles/abstracts/mixins';
+
 .bookingCard {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 3rem;
 
+    @include mixins.mobile{
+        flex-direction: column;
+    }
+
     &__imgtext {
         display: flex;
         flex-direction: row;
+
+        @include mixins.mobile{
+            flex-direction: column;
+        }
     }
 
     &__text {
