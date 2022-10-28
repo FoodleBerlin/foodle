@@ -2,18 +2,12 @@ import Image from 'next/image';
 import styles from './BookingCard.module.scss';
 
 interface BookingCardProps {
-  id: string,
-  title: string,
-  endDate: string,
-  availableDays: string,
-  startDate: string,
-  status: string,
-  // totalPrice: string
+  booking:any;
+  removeBooking: (booking:any)=>void;
 }
 
 export const BookingCard = (props: BookingCardProps) => {
-  const { title, availableDays, startDate, endDate, id } = props;
-
+ 
   function numberToDay(number: number){
     if(number==0){
       return 'Monday'
@@ -57,18 +51,18 @@ export const BookingCard = (props: BookingCardProps) => {
         <Image alt={'Kitchen Image'} src={'/kitchen-image-3.png'} width={350} height={250} />
         <div className={styles['bookingCard__text']}>
           <h5>
-            {title}
+            {props.booking.title}
           </h5>
           <h6>
-            {returnAvailableDays(availableDays)} <br /> {returnDate(startDate)}-{returnDate(endDate)}
+            {returnAvailableDays(props.booking.availableDays)} <br /> {returnDate(props.booking.startDate)}-{returnDate(props.booking.endDate)}
           </h6>
           <h6>
             Booking ref: <br />
-            {id}
+            {props.booking.id}
           </h6>
         </div>
       </div>
-      <button>DELETE</button>
+      <button onClick={()=>props.removeBooking(props.booking)}>DELETE</button>
     </div>
   );
 };
