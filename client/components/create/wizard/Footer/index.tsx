@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { mutationObj } from '../../../../index';
 
 import { useCreateListingMutation } from '../../../../codegen';
-import { useAlertContext } from '../../../components/utilities/Alert/AlertContext';
+import { useAlertContext } from '../../../../components/utilities/Alert/AlertContext';
 import { UploaderImg } from '../Step4';
 import { useWizardContext } from '../Wizard';
 import styles from './Footer.module.scss';
