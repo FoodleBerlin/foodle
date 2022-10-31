@@ -1,13 +1,14 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { AuthenticatedProps } from '../../../pages/account/payments';
 import styles from './Sidebar.module.scss';
-
 type SidebarProps = {
   user?: AuthenticatedProps['session'];
   children?: React.ReactElement;
+  sitePosition: number
 };
 const Sidebar = (props: SidebarProps) => {
+  const [position, setPosition] = useState<number>(props.sitePosition);
   return (
     <div className={styles['sidebar']}>
       <div className={styles['menu']}>
@@ -15,28 +16,28 @@ const Sidebar = (props: SidebarProps) => {
           props.children
         ) : (
           <>
-            <div className={styles['menu__link']}>
-              <Link href="/account/profile">
-                <a className="body-text">
-                  <span className={styles["underline-link"] +  ' green-text'}>Profile</span>
+            <div className={styles['menu__element']}>
+              <Link href="/account">
+                <a className="body-text bold" onClick={() => setPosition(0)}>
+                  <span className={styles['underline-link'] + ' ' + (position === 0 ? 'green-text' : '')}>Profile</span>
                 </a>
               </Link>
             </div>
-            <div className={styles['menu__link']}>
-              <Link href="/account/bookings">
-                <a className="body-text bold">
-                  <span className={styles["underline-link"]}>My Bookings</span>
+            <div className={styles['menu__element']}>
+              <Link href="/account/myBookings" >
+                <a className="body-text bold" onClick={() => setPosition(1)}>
+                  <span className={styles['underline-link'] + ' ' + (position === 1 ? 'green-text' : '')}>My Bookings</span>
                 </a>
               </Link>
             </div>
-            <div className={styles['menu__link']}>
-              <Link href="/account/payments">
-                <a className="body-text bold">
-                  <span className={styles["underline-link"]}>My Payments</span>
+            <div className={styles['menu__element']}>
+              <Link href="/account/payments" >
+                <a className="body-text bold" onClick={() => setPosition(2)}>
+                  <span className={styles['underline-link'] + ' ' + (position === 2 ? 'green-text' : '')}>My Payments</span>
                 </a>
               </Link>
             </div>
-            <button className={'primary-btn body-text bold'}>Contact support</button>
+            <button className={'support-btn'}>Contact support</button>
           </>
         )}
       </div>

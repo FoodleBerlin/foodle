@@ -1,8 +1,9 @@
 @use '../../../../styles/base/colors';
 
-.wizard-container{
-    display:flex;
+.wizard-container {
+    display: flex;
 }
+
 .wizard {
     color: hsl(0, 0%, 17%);
     flex: 1 1 75%;
@@ -18,9 +19,16 @@
         margin-bottom: 50px;
     }
 }
+
 .sidebar-container {
-    width: 50%;
+    flex: 1 1 15%;
+    padding: 10rem 1vw 0 calc(2rem + 2vw);
+    min-width: 29rem;
+    height: 100%;
+    background-color: white;
+    width: 30%;
 }
+
 .item {
     display: flex;
     align-items: center;

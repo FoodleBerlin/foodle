@@ -2,8 +2,8 @@ import { ChangeEvent, MutableRefObject, useState } from 'react';
 import { mutationObj } from '../..';
 import { Token } from '../../../server/utils/forgeJWT';
 import { FindUserQuery, useUpdateUserMutation } from '../../codegen';
-import styles from '../../pages/account/Account.module.scss';
 import ProfileButton, { UploaderImage } from './ProfileButton';
+import styles from './ProfileForm.module.scss';
 interface ProfileFormProps {
   session: Token['user'];
   jwt: string;
@@ -21,7 +21,7 @@ const ProfileForm = (props: ProfileFormProps) => {
     const dobChecked = !isNaN(Date.parse(dob ? dob : '')) ? dob + 'T00:00:00Z' : null;
     const zipChecked = zip && zip !== '' ? parseInt(zip) : null;
     mutate({
-      id: props.session.id,
+      updateUserId: props.session.id,
       fullName: fullName,
       zip: zipChecked,
       description: description,
@@ -42,92 +42,95 @@ const ProfileForm = (props: ProfileFormProps) => {
   const [fullName, setFullName] = useState<string>(user ? user.fullName : '');
   const [zip, setZip] = useState<string>(user && user.zip ? user.zip?.toString() : '');
   const [description, setDescription] = useState<string>(user && user.description ? user?.description : '');
-
   const text = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     return e?.target?.value ? e?.target?.value : '';
   };
 
   return (
     <>
-      <h3 className="header-secondary bold">My Profile</h3>
-      <p className="body-text grey-text mt-one">
-        This is your personal information, autofilled during booking requests for you to customize.
-      </p>
-      <form className="mt-three" action="">
-        <section>
-          <label className="body-text bold-medium">First and last name</label>
-          <br />
-          <input
-            onChange={(e) => setFullName(text(e))}
-            maxLength={50}
-            value={fullName}
-            className="profile-form mt-one"
-            type="text"
-            placeholder={user && user?.fullName ? user?.fullName : 'Jane Doe'}
-          />
-        </section>
+      <div className={styles["form"]}>
 
-        <section>
-          <label className="body-text bold-medium">Date of Birth</label>
-          <br />
-          <input
-            onChange={(e) => {
-              setDob(text(e));
-            }}
-            value={dob}
-            maxLength={50}
-            className="profile-form"
-            type="text"
-            placeholder={user && user.dob ? user.dob : '2000-12-24'}
-          />
-        </section>
-        <section>
-          <label className="body-text bold-medium">Zip Code</label>
-          <br />
-          <input
-            onChange={(e) => setZip(text(e))}
-            maxLength={50}
-            value={zip}
-            className="profile-form mt-one"
-            type="text"
-            placeholder={user && user.zip ? user?.zip?.toString() : '13407'}
-          />
-        </section>
-        <section>
-          <label className="body-text  bold-medium">Please tell us about yourself</label>
-          <br />
-          <textarea
-            onChange={(e) => setDescription(text(e))}
-            className={styles['description-input'] + ' profile-form mt-one'}
-            placeholder={user && user.description ? user.description : 'Please tell us about yourself'}
-            cols={60}
-            value={description}
-            rows={20}
-            style={{ height: 200 }}
-            maxLength={200}
-          />
-        </section>
-        <footer className={styles['account__document-grid'] + ' flex-space-between'}>
-          <h2 className="mt-one-half body-text">Passport</h2>
-          <h2 className="mt-one-half body-text">License</h2>
-          <h2 className="mt-one-half body-text">Solvency</h2>
-          <ProfileButton
-            imageSetter={(image: UploaderImage | null) => setPassport(image)}
-            alreadyUploaded={checkExists(passport)}
-            image={passport}
-          />
-          <ProfileButton
-            imageSetter={(image: UploaderImage | null) => setLicense(image)}
-            alreadyUploaded={checkExists(license)}
-            image={license}
-          />
-          <ProfileButton
-            imageSetter={(image: UploaderImage | null) => setSolvency(image)}
-            alreadyUploaded={checkExists(solvency)}
-            image={solvency}
-          />
-        </footer>
-      </form>
+        <h3 className="header-secondary bold">My Profile</h3>
+        <p className="body-text grey-text mt-one">
+          This is your personal information, autofilled during booking requests for you to customize.
+        </p>
+        <form className={styles["mrg-top"]} action="">
+          <section>
+            <label className="body-text bold-medium">First and last name</label>
+            <br />
+            <input
+              onChange={(e) => setFullName(text(e))}
+              maxLength={50}
+              value={fullName}
+              className={"profile-form " + " " + styles["mrg-one"]}
+              type="text"
+              placeholder={user && user?.fullName ? user?.fullName : 'Jane Doe'}
+            />
+          </section>
+
+          <section>
+            <label className="body-text bold-medium">Date of Birth</label>
+            <br />
+            <input
+              onChange={(e) => {
+                setDob(text(e));
+              }}
+              value={dob}
+              maxLength={50}
+              className="profile-form"
+              type="text"
+              placeholder={user && user.dob ? user.dob : '2000-12-24'}
+            />
+          </section>
+          <section>
+            <label className="body-text bold-medium">Zip Code</label>
+            <br />
+            <input
+              onChange={(e) => setZip(text(e))}
+              maxLength={50}
+              value={zip}
+              className={"profile-form " + " " + styles["mrg-one"]}
+              type="text"
+              placeholder={user && user.zip ? user?.zip?.toString() : '13407'}
+            />
+          </section>
+          <section>
+            <label className="body-text  bold-medium">Please tell us about yourself</label>
+            <br />
+            <textarea
+              onChange={(e) => setDescription(text(e))}
+              className={styles['description-input'] + ' profile-form' + " " + styles["mrg-one"]}
+              placeholder={user && user.description ? user.description : 'Please tell us about yourself'}
+              cols={60}
+              value={description}
+              rows={20}
+              style={{ height: 200 }}
+              maxLength={200}
+            />
+          </section>
+          <footer className={styles['footer'] + ' ' + 'flex-space-between'}>
+            <h2 className={styles["footer__option"] + " " + "body-text"}>Passport</h2>
+            <h2 className={styles["footer__option"] + " " + "body-text"}>License</h2>
+            <h2 className={styles["footer__option"] + " " + "body-text"}>Solvency</h2>
+            <ProfileButton
+              imageSetter={(image: UploaderImage | null) => setPassport(image)}
+              alreadyUploaded={checkExists(passport)}
+              image={passport}
+            />
+            <ProfileButton
+              imageSetter={(image: UploaderImage | null) => setLicense(image)}
+              alreadyUploaded={checkExists(license)}
+              image={license}
+            />
+            <ProfileButton
+              imageSetter={(image: UploaderImage | null) => setSolvency(image)}
+              alreadyUploaded={checkExists(solvency)}
+              image={solvency}
+            />
+          </footer>
+        </form>
+      </div>
+
       <button onClick={() => submit()} className={'primary-btn-small save-btn'}>
         Save
       </button>

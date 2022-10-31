@@ -12,7 +12,7 @@
     "prisma:migrate:dev": "dotenv -e .env.local prisma migrate dev",
     "prisma:migrate:deploy": "dotenv -e .env.local prisma migrate deploy",
     "dev": "dotenv -e .env.local -- ts-node-dev --no-notify --respawn --transpile-only index.ts",
-    "nexus:watch": "nodemon --exec 'dotenv -e .env.local yarn ts-node schema' --ext 'ts' --watch 'graphql/**/*.ts' --ignore 'generated/schema.graphql'",
+    "nexus:watch": "nodemon --exec 'dotenv -e .env.local -- yarn ts-node schema' --ext 'ts' --watch 'graphql/**/*.ts' --ignore 'generated/schema.graphql'",
     "codegen:generate": "graphql-codegen",
     "db:seed": "dotenv -e .env.local yarn ts-node utils/runSeed.ts",
     "db:clean": "dotenv -e .env.local yarn ts-node utils/runClean.ts",
@@ -46,7 +46,6 @@
     "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
-    
     "start-server-and-test": "^1.14.0",
     "stripe": "^8.207.0",
     "swiper": "^8.4.2",
