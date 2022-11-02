@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import styles from './BookingCard.module.scss';
-import {AvailableDay} from '../../../codegen/index'
+import {AvailableDay, Booking} from '../../../codegen/index'
 
 interface BookingCardProps {
-  booking:any;
+  booking: Booking;
   removeBooking: (booking:any)=>void;
 }
 
@@ -15,11 +15,11 @@ export const BookingCard = (props: BookingCardProps) => {
     
   };
 
-  function returnAvailableDays(availableDays: AvailableDay){
-    const initialStartDate= new Date(availableDays.startTime);
+  function returnAvailableDays(availableDays: AvailableDay[]){
+    const initialStartDate= new Date(availableDays[0].startTime);
     const startDateNumber= initialStartDate.getDay();
 
-    const initialEndDate= new Date(availableDays.endTime);
+    const initialEndDate= new Date(availableDays[0].endTime);
     const endDateNumber= initialEndDate.getDay();
 
     const startDate= dayOfWeekAsString(startDateNumber);
@@ -40,10 +40,10 @@ export const BookingCard = (props: BookingCardProps) => {
         <Image alt={'Kitchen Image'} src={'/kitchen-image-3.png'} width={350} height={250} />
         <div className={styles['bookingCard__text']}>
           <h5>
-            {props.booking.title}
+            {props.booking.property.title}
           </h5>
           <h6>
-            {returnAvailableDays(props.booking.availableDays)} <br /> {returnDate(props.booking.startDate)}-{returnDate(props.booking.endDate)}
+            {returnAvailableDays(props.booking.daySlots)} <br /> {returnDate(props.booking.startDate)}-{returnDate(props.booking.endDate)}
           </h6>
           <h6>
             Booking ref: <br />

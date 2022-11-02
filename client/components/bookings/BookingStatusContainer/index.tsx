@@ -1,6 +1,6 @@
-
 import { Key, useState } from 'react';
 import { BookingCard } from '../BookingCard';
+import {Booking} from '../../../codegen/index'
 
 export type BookingStatusContainerProps = {
   bookings: any;
@@ -27,7 +27,7 @@ const BookingStatusContainer = (props: BookingStatusContainerProps) => {
       {props.bookings?.length === 0 ? (
         <p>No {props.status} bookings yet.</p>
       ) : (
-        props.bookings?.map((booking: any) => (
+        props.bookings?.map((booking: Booking) => (
           <BookingCard
             booking={booking}
             removeBooking={removeBooking}

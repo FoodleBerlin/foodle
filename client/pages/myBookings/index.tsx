@@ -7,7 +7,6 @@ import Sidebar from '../../components/layout/Sidebar';
 import styles from './myBookings.module.scss';
 
 
-
 const myBookings: NextPage = () => {
 
   const { data, isLoading } = useFindBookingsOfUserQuery({
