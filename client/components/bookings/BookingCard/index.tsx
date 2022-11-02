@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import styles from './BookingCard.module.scss';
+import {AvailableDay} from '../../../codegen/index'
 
 interface BookingCardProps {
   booking:any;
@@ -14,7 +15,7 @@ export const BookingCard = (props: BookingCardProps) => {
     
   };
 
-  function returnAvailableDays(availableDays: any){
+  function returnAvailableDays(availableDays: AvailableDay){
     const initialStartDate= new Date(availableDays.startTime);
     const startDateNumber= initialStartDate.getDay();
 
