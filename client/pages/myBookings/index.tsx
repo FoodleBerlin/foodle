@@ -18,17 +18,15 @@ const myBookings: NextPage = () => {
     },
   });
 
-  if (isLoading) console.log('is Loading...');
+
 
   const bookings = [data?.findBookingsOfUser.Bookings][0];
 
   const rejected = bookings?.filter((booking) => booking?.bookingStatus === 'REJECTED');
-  console.log('Rejected: ' + rejected);
   const requested = bookings?.filter((booking) => booking?.bookingStatus === 'PENDING');
-  console.log('Requested: ' + requested);
   // const canceled = bookings?.filter((booking) => booking?.bookingStatus === 'CANCELED');
   const confirmed = bookings?.filter((booking) => booking.bookingStatus === 'ACCEPTED');
-  console.log('Confirmed: ' + confirmed);
+
 
   return (
     <div>
