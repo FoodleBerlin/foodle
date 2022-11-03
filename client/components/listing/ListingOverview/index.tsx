@@ -1,20 +1,38 @@
 import Image from 'next/image';
+import { FrequencyEnum } from '../../../codegen';
 import PriceLine from '../../create/PriceLine';
-import { UploaderImg } from "../../create/wizard/Step4";
-import { FormData } from "../../create/wizard/Wizard";
 import { BookingProvider } from '../BookingContext';
 import ListingSideBar from '../ListingSideBar/ListingSideBar';
 import styles from "./ListingOverview.module.scss";
 
+export type ListingOverViewProps = {
+    handle: string,
+    owner?: any,
+    hideSidebar: boolean,
+    title: string,
+    hourlyPrice: number,
+    serviceFee: number,
+    deposit: number,
+    size: number,
+    pickup?: boolean | null | undefined,
+    facilities: string[],
+    description: string,
+    rules: string[],
+    startDate: string,
+    endDate: string,
+    images: string[],
+    frequency: FrequencyEnum
+}
 
-function ListingOverview({ listingsData, handle, owner, hideSidebar = false }: { listingsData: FormData, handle: string, owner: any, hideSidebar: boolean }) {
-    const startDate = new Date(listingsData.startDate);
-    const endDate = new Date(listingsData.endDate);
+
+function ListingOverview({ listingsData }: { listingsData: ListingOverViewProps }) {
+    const startDate = new Date(Number.parseInt((listingsData.startDate as any)))
+    const endDate = new Date(Number.parseInt((listingsData.endDate as any)))
     return (
         <div className={styles["grid"]}>
-            {hideSidebar ? <p></p> : <div className={styles["sidebarContainer"]}>
+            {listingsData.hideSidebar ? <p></p> : <div className={styles["sidebarContainer"]}>
                 <BookingProvider>
-                    <ListingSideBar listingsData={listingsData} handle={handle} owner={owner} />
+                    <ListingSideBar handle={listingsData.handle} owner={listingsData.owner} />
                 </BookingProvider>
             </div>}
 
@@ -23,13 +41,14 @@ function ListingOverview({ listingsData, handle, owner, hideSidebar = false }: {
                     <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Summary</h2>
                     <div className={styles["gallery__container"]}>
                         <div className={styles["gallery"]}>
-                            {listingsData.images.map((image: UploaderImg, index) => (
-                                <div key={"key-image-" + image.fileName} className={styles['gallery__item'] + ' ' + styles['gallery__item--' + index]}>
-                                    <Image src={image.url} width={460} height={516} className={styles["gallery__img"]} alt={'Image ' + index} key={"image--" + index.toString()} />
-                                </div>
-                            ))}
+                            {
+                                listingsData.images.map((image, index) => (
+                                    <div key={"key-image-" + image} className={styles['gallery__item'] + ' ' + styles['gallery__item--' + index]}>
+                                        <Image src={image} width={460} height={516} className={styles["gallery__img"]} alt={'Image ' + index} key={"image--" + index.toString()} />
+                                    </div>
+                                ))}
                         </div>
-                    </div>
+                    </div >
 
                     <div className={styles['listingoverview__titleWrapper'] + ' ' + styles['step2__marginHeadline']}>
                         <h3 className="header-tertiary">{listingsData.title}</h3>
@@ -38,7 +57,7 @@ function ListingOverview({ listingsData, handle, owner, hideSidebar = false }: {
                             <p className="body-text">€/h</p>
                         </div>
                     </div>
-                </div>
+                </div >
                 <div className={styles['formItem']}>
                     <h2 className={styles['step2__marginHeadline'] + ' header-tertiary'}>Overview</h2>
                     <div className={styles['listingoverview__flexWrapper']}>
@@ -50,7 +69,7 @@ function ListingOverview({ listingsData, handle, owner, hideSidebar = false }: {
                     <div className={styles['formItem']}>
                         <div className={styles['listingoverview__flexWrapper']}>
                             <p className='body-text-secondary'>Pickup: - &nbsp;</p>
-                            <p className="body-text-secondary">{listingsData.pickup == "pickup-no" ? "No" : "Yes"}</p>
+                            <p className="body-text-secondary">{listingsData.pickup === false ? "No" : "Yes"}</p>
                         </div>
                     </div>
                     <div className={styles['listingoverview__featureTagWrapper']}>
@@ -104,7 +123,7 @@ function ListingOverview({ listingsData, handle, owner, hideSidebar = false }: {
                     </div>
                 </div>
                 <div className={styles['listingoverview__thingsToKnowContainer']}></div>
-            </div>
+            </div >
         </div >
     );
 }
