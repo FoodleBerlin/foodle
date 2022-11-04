@@ -15,9 +15,9 @@ jobs:
       - name: Save secrets into file
         run: echo -e "rootPass = $ROOT_PASS\nlinodeAuthKey = $LINODE_AUTH_KEY"\nauthorized_key = $SSH_KEY > terraform.tfvars
         env:
-          SSH_KEY: "${{secrets.AUTHORIZED_KEY}}"
-          ROOT_PASS: "${{secrets.LINODE_ROOT_PASSWORD}}"
-          LINODE_AUTH_KEY: "${{secrets.LINODE_AUTH_KEY}}"
+          SSH_KEY: "${{secrets.AUTHORIZED_KEY}}\n"
+          ROOT_PASS: "${{secrets.LINODE_ROOT_PASSWORD}}\n"
+          LINODE_AUTH_KEY: "${{secrets.LINODE_AUTH_KEY}}\n"
 
       - uses: hashicorp/setup-terraform@v2
       - name: Init terraform
