@@ -13,4 +13,4 @@ COPY ./ ./server
 WORKDIR /server
 RUN yarn
 RUN yarn tsc --build
-CMD [ "node", "build/index.js" ]
+CMD [ "doppler", "run", "--","node", "build/index.js" ]
