@@ -111,7 +111,9 @@ type findPropertyResult {
 
 type findUserResult {
   ClientErrorInvalidHandle: ClientErrorInvalidHandle
+  ClientErrorInvalidInput: ClientErrorInvalidInput
   ClientErrorUserNotExists: ClientErrorUserNotExists
+  UnknownError: UnknownError
   User: User
 }
 
@@ -143,6 +145,7 @@ type Mutation {
     deposit: Int!
     description: String!
     endDate: DateTime!
+    facilities: [String!]!
     frequency: FrequencyEnum!
     hourlyPrice: Int!
     images: [String!]!
@@ -154,10 +157,24 @@ type Mutation {
     size: Int!
     startDate: DateTime!
     street: String!
-    streetNumber: Int!
+    streetNumber: String!
     title: String!
     zip: Int!
   ): CreateListingReturn!
+
+  """
+  Edit user profile data
+  """
+  updateUser(
+    description: String
+    dob: String
+    fullName: String
+    id: String
+    licenseS3Id: String
+    passportS3Id: String
+    solvencyS3Id: String
+    zip: Int
+  ): findUserResult!
 }
 
 type NoAvailableSlots {
@@ -177,6 +194,9 @@ type Property {
   daySlots: [DaySlot!]!
   deposit: Int!
   description: String!
+  endDate: String!
+  facilities: [String!]!
+  frequency: FrequencyEnum!
   handle: String!
   hourlyPrice: Int!
   images: [String!]!
@@ -188,8 +208,9 @@ type Property {
   rules: [String!]!
   serviceFee: Int!
   size: Int!
+  startDate: String!
   street: String!
-  streetNumber: Int!
+  streetNumber: String!
   title: String!
   zip: Int!
 }
@@ -208,7 +229,7 @@ type Query {
   findProperty(handle: String!): findPropertyResult!
 
   """
-  Takes a handle and returns the user
+  Takes a handle and returns the user.
   """
   findUser(handle: String): findUserResult!
 }
@@ -220,6 +241,7 @@ type UnknownError {
 type User {
   charges: [CustomerCharge!]!
   defaultPayment: PaymentInformation
+  description: String
   dob: DateTime
   email: String!
   fullName: String!

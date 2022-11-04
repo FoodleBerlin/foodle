@@ -1,6 +1,6 @@
-import { apollo as server } from '../server/index';
 import { clean } from '../utils/clean';
 import { seed } from '../utils/seed';
+import { apollo as server } from './server/index';
 
 beforeAll(async () => {
   await clean();

@@ -1,8 +1,8 @@
-import prisma from '../../server/singletons/prisma';
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import prisma from '../../singletons/prisma';
+import StripeWrapper from '../../singletons/stripe/endpoints';
 import { Token } from '../../utils/forgeJWT';
-import StripeWrapper from '../../server/singletons/stripe/endpoints';
 export type Context = {
   req: any;
   res: any;
@@ -13,11 +13,21 @@ export type Context = {
   dataSources?: Record<'stripeWrapper', StripeWrapper>;
 };
 
+const testUser = {
+  id: '1',
+  fullName: 'testUser',
+  email: 'testMail',
+  stripeId: 'testStripeId',
+};
+
 export async function createContext(req: any, res: any): Promise<Context> {
   return {
     req: res,
     res: req,
-    user: extractUserFromToken(req?.req?.cookies?.jwt, req?.req?.headers?.jwt),
+    user:
+      process.env.ENVIRONMENT == 'dev'
+        ? testUser
+        : extractUserFromToken(req?.req?.cookies?.jwt, req?.req?.headers?.jwt),
     prisma,
   };
 }

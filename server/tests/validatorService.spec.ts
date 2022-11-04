@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { clean } from '../utils/clean';
 import { seed } from '../utils/seed';
-import { ValidatorService } from './../server/singletons/validatorService';
+import { ValidatorService } from './../singletons/validatorService';
 
 beforeAll(async () => {
   await clean();

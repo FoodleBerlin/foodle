@@ -1,6 +1,6 @@
 import moment from 'moment';
-import { DaySlotInterface } from '../server/graphql/types';
-import { calculatePrice, createHandle } from '../server/graphql/types/helperFunctions';
+import { DaySlotInterface } from '../graphql/types';
+import { calculatePrice, createHandle } from '../graphql/types/helperFunctions';
 
 test('test createHandle', () => {
   const handle = createHandle('My Amazing Kitchen');
