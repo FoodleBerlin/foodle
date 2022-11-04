@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  backend:
+    image: "ghcr.io/foodle/foodle-backend"
+    container_name: foodle-backend
+    restart: always
+    init: true
+    ports:
+      - 443:5000
+    env_file:
+      - .env
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json # docker login needs to be called first for this to work
+    command: --interval 60
