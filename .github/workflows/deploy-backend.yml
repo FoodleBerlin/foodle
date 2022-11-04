@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Save secrets into file
-        run: echo -e 'rootPass ="${{secrets.LINODE_ROOT_PASSWORD}}"\nlinodeAuthKey ="${{secrets.LINODE_AUTH_KEY}}"}\nauthorized_key = "${{secrets.AUTHORIZED_KEY}}" > terraform.tfvars
+        run: echo -e 'rootPass ="${{secrets.LINODE_ROOT_PASSWORD}}"\nlinodeAuthKey ="${{secrets.LINODE_AUTH_KEY}}"}\nauthorized_key = "${{secrets.AUTHORIZED_KEY}}"' > terraform.tfvars
 
       - uses: hashicorp/setup-terraform@v2
       - name: Init terraform
