@@ -1,0 +1,126 @@
+name: "Deploy Backend"
+on:
+  push:
+    branches: ["212-feat-deploy-backend"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Save secrets into file
+        run: echo -e "authorized_key = $SSH_KEY\nrootPass = $ROOT_PASS\nlinodeAuthKey = $LINODE_AUTH_KEY" >> terraform.tfvars
+        env:
+          SSH_KEY: ${{secrets.AUTHORIZED_KEY}}
+          ROOT_PASS: ${{secrets.LINODE_ROOT_PASSWORD}}
+          LINODE_AUTH_KEY: ${{secrets.LINODE_AUTH_KEY}}
+
+      - uses: hashicorp/setup-terraform@v2
+      - name: Init terraform
+        run: terraform init
+
+      - name: Plan ressources
+        if: github.event_name == 'pull_request'
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+
+      - name: Update Pull Request
+        uses: actions/github-script@v6
+
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n ${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Apply ressources
+        if: github.event_name == 'push'
+        run: terraform apply -auto-approve -input=false
+
+      - name: Exit if pull_request
+        if: github.event_name == "pull_request"
+        run: exit 0
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ${{ github.workspace }}/server
+          push: true
+          tags: foodle/backend:latest
+
+      - name: cURL AxiosJS
+        uses: indiesdev/curl@v1.1
+        with:
+          url: https://api.linode.com/v4/networking/ips
+          bearer-token: ${{secrets.LINODE_TOKEN}}
+          method: GET
+          accept: 200
+
+      - name: Run jq
+        uses: sergeysova/jq-action@v2
+        with:
+          cmd: ${{steps.api.outputs.response.data}} | jq .data[] |  jq 'select(.type=="ipv4").address'
+
+      - name: Copy compose file via ssh
+        uses: garygrossgarten/github-action-scp@v0.7.3
+        with:
+          username: root
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY}}
+          port: 22
+          local: ${{github.workspace}}/.deployConfig
+          remote: /.deployConfig
+          host: ${{steps.version.outputs.value}}
+      - name: Docker login via ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: $ ${{steps.version.outputs.value}}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: docker login --username ${{secrets.DOCKER_USERNAME}} --password ${{secrets.DOCKER_PASSWORD}}
+
+      - name: Set DOPPLER ENV via ssh and start container
+        uses: appleboy/ssh-action@master
+        with:
+          host: $ ${{steps.version.outputs.value}}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: cd /.deployConfig && echo ${{secrets.DOPPLER_TOKEN}} > .env && docker-compose up
