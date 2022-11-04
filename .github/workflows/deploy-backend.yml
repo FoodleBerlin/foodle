@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Save secrets into file
-        run: echo -e "authorized_key = $SSH_KEY\nrootPass = $ROOT_PASS\nlinodeAuthKey = $LINODE_AUTH_KEY" >> terraform.tfvars
+        run: echo -e "rootPass = $ROOT_PASS\nlinodeAuthKey = $LINODE_AUTH_KEY"\nauthorized_key = $SSH_KEY > terraform.tfvars
         env:
           SSH_KEY: "${{secrets.AUTHORIZED_KEY}}"
           ROOT_PASS: "${{secrets.LINODE_ROOT_PASSWORD}}"
