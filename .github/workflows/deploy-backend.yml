@@ -3,7 +3,6 @@ on:
   push:
     branches: ["212-feat-deploy-backend"]
   pull_request:
-
 jobs:
   build:
     runs-on: ubuntu-latest
