@@ -17,11 +17,11 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v2
       - name: Init terraform
-        run: terraform init
+        run: cd ${{github.workspace}}/terraform &&  terraform init
 
       - name: Plan ressources
         if: github.event_name == 'pull_request'
-        run: terraform plan -no-color -input=false
+        run: cd ${{github.workspace}}/terraform && terraform plan -no-color -input=false
         continue-on-error: true
 
       - name: Update Pull Request
@@ -57,7 +57,7 @@ jobs:
 
       - name: Apply ressources
         if: github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: cd ${{github.workspace}}/terraform && terraform apply -auto-approve -input=false
 
       - name: Exit if pull_request
         if: github.event_name == 'pull_request'
