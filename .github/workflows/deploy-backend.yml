@@ -92,6 +92,7 @@ jobs:
 
       - name: Run jq
         uses: sergeysova/jq-action@v2
+        id: address
         with:
           cmd: ${{steps.api.outputs.response}} | jq .data.data[] |  jq 'select(.type=="ipv4").address'
 
@@ -103,11 +104,11 @@ jobs:
           port: 22
           local: ${{github.workspace}}/.deployConfig
           remote: /.deployConfig
-          host: ${{steps.version.outputs.value}}
+          host: ${{steps.address.outputs.value}}
       - name: Docker login via ssh
         uses: appleboy/ssh-action@master
         with:
-          host: $ ${{steps.version.outputs.value}}
+          host: $ ${{steps.address.outputs.value}}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
