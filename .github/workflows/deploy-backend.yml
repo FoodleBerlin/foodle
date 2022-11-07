@@ -94,7 +94,7 @@ jobs:
         uses: sergeysova/jq-action@v2
         id: address
         with:
-          cmd: ${{steps.api.outputs.response}} | jq .data.data[] |  jq 'select(.type=="ipv4").address'
+          cmd: '${{steps.api.outputs.response}} | jq .data.data[] |  jq select(.type=="ipv4").address'
 
       - name: Copy compose file via ssh
         uses: garygrossgarten/github-action-scp@v0.7.3
@@ -105,6 +105,7 @@ jobs:
           local: ${{github.workspace}}/.deployConfig
           remote: /.deployConfig
           host: ${{steps.address.outputs.value}}
+
       - name: Docker login via ssh
         uses: appleboy/ssh-action@master
         with:
