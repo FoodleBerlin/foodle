@@ -83,6 +83,7 @@ jobs:
 
       - name: cURL AxiosJS
         uses: indiesdev/curl@v1.1
+        id: api
         with:
           url: https://api.linode.com/v4/networking/ips
           bearer-token: ${{secrets.LINODE_AUTH_KEY}}
