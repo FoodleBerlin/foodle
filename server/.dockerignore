@@ -1,5 +1,5 @@
 *.png
 *.md
 *.jpg
-#node_modules/ # Some issues appear if this one is not commented out, idk why exactly. TODO: Investigate at later on
+node_modules/
 tests/

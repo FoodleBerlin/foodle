@@ -12,5 +12,6 @@ RUN corepack prepare yarn@1.22.19 --activate
 COPY ./ ./server
 WORKDIR /server
 RUN yarn
+RUN yarn prisma:generate
 RUN yarn tsc --build
 CMD [ "doppler", "run", "--","node", "build/index.js" ]
