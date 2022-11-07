@@ -58,6 +58,7 @@ jobs:
       - name: Apply ressources
         if: github.event_name == 'push'
         run: cd ${{github.workspace}}/terraform && terraform apply -auto-approve -input=false
+        continue-on-error: true
 
       - name: Exit if pull_request
         if: github.event_name == 'pull_request'
