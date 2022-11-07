@@ -92,7 +92,7 @@ jobs:
       - name: Run jq
         uses: sergeysova/jq-action@v2
         with:
-          cmd: ${{steps.api.outputs.response.data}} | jq .data[] |  jq 'select(.type=="ipv4").address'
+          cmd: '${{steps.api.outputs.response.data}} | jq .data[] |  jq "select(.type=="ipv4").address" '
 
       - name: Copy compose file via ssh
         uses: garygrossgarten/github-action-scp@v0.7.3
