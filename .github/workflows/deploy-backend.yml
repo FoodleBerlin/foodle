@@ -118,7 +118,7 @@ jobs:
       - name: Set DOPPLER ENV via ssh and start container
         uses: appleboy/ssh-action@master
         with:
-          host: ${{steps.version.outputs.value}}
+          host: ${{steps.address.outputs.value}}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
