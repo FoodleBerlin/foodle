@@ -122,4 +122,4 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          script: cd /.deployConfig && echo ${{secrets.DOPPLER_TOKEN}} > .env && docker-compose up
+          script: cd /.deployConfig && echo ${{secrets.DOPPLER_TOKEN}} > .env && docker-compose up -d
