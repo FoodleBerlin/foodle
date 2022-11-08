@@ -94,11 +94,7 @@ jobs:
         uses: sergeysova/jq-action@v2
         id: address
         with:
-          cmd: echo '${{steps.api.outputs.response}}' | jq .data.data[] |  jq 'select(.type=="ipv4").address'
-
-      - name: Trim result
-        run: echo "trimmed=${${{steps.address.outputs.value}}//\"/}" >> $GITHUB_OUTPUT
-        id: trimmed
+          cmd: echo '${{steps.api.outputs.response}}' | jq .data.data[] |  jq 'select(.type=="ipv4").address' | jq --raw-ouput
 
       - name: Copy compose file via ssh
         uses: garygrossgarten/github-action-scp@v0.7.3
@@ -108,7 +104,7 @@ jobs:
           port: 22
           local: ${{github.workspace}}/.deployConfig
           remote: /.deployConfig
-          host: "${{steps.address.trimmed.outputs.trimmed}}"
+          host: "${{steps.address.adress.outputs.value}}"
 
       - name: Docker login via ssh
         uses: appleboy/ssh-action@master
