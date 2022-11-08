@@ -2,7 +2,7 @@ version: '3'
 
 services:
   backend:
-    image: "ghcr.io/foodle/foodle-backend"
+    image: "index.docker.io/foodle/foodle-backend"
     container_name: foodle-backend
     restart: always
     init: true
