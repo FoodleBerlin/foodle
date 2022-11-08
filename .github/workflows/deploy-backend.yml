@@ -96,8 +96,9 @@ jobs:
         with:
           cmd: echo '${{steps.api.outputs.response}}' | jq .data.data[] |  jq 'select(.type=="ipv4").address'
 
-      - name: Test outputs
-        run: echo ${{steps.address.outputs}}
+      - name: Trim result
+        run: echo "trimmed=${${{steps.address.outputs.value}}//\"/}" >> $GITHUB_OUTPUT
+        id: trimmed
 
       - name: Copy compose file via ssh
         uses: garygrossgarten/github-action-scp@v0.7.3
@@ -107,7 +108,7 @@ jobs:
           port: 22
           local: ${{github.workspace}}/.deployConfig
           remote: /.deployConfig
-          host: "${{steps.address.outputs.value}}"
+          host: "${{steps.address.trimmed.outputs.trimmed}}"
 
       - name: Docker login via ssh
         uses: appleboy/ssh-action@master
