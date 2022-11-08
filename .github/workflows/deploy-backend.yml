@@ -104,7 +104,7 @@ jobs:
           port: 22
           local: ${{github.workspace}}/.deployConfig
           remote: /.deployConfig
-          host: "${{steps.address.adress.outputs.value}}"
+          host: "${{steps.address.outputs.value}}"
 
       - name: Docker login via ssh
         uses: appleboy/ssh-action@master
