@@ -106,10 +106,10 @@ jobs:
           remote: /.deployConfig
           host: "${{steps.address.outputs.value}}"
 
-      - name: Docker login via ssh
+      - name: Run docker login on server via ssh
         uses: appleboy/ssh-action@master
         with:
-          host: $ ${{steps.address.outputs.value}}
+          host: ${{steps.address.outputs.value}}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
@@ -118,7 +118,7 @@ jobs:
       - name: Set DOPPLER ENV via ssh and start container
         uses: appleboy/ssh-action@master
         with:
-          host: $ ${{steps.version.outputs.value}}
+          host: ${{steps.version.outputs.value}}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
