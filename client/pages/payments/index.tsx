@@ -1,36 +1,37 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
+import { Token } from '../../../server/utils/forgeJWT';
+import { useFindUserQuery } from '../../codegen';
+import { PaymentInformation } from '../../codegen/index';
 import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
 import Payment from '../../components/payments/Payment';
-import styles from './Payments.module.scss';
 import { useAlertContext } from '../../components/utilities/Alert/AlertContext';
-import { useFindUserQuery } from '../../codegen';
-import { Token } from '../../../server/utils/forgeJWT';
 import { extractUserFromToken } from '../../utils/context';
+import styles from './Payments.module.scss';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
     if (!req.cookies['jwt']) {
-      return {
-        props: {},
-        redirect: {
-          permanent: false,
-          destination: '/',
-        },
-      };
+        return {
+            props: {},
+            redirect: {
+                permanent: false,
+                destination: '/',
+            },
+        };
     }
     return {
-      props: {
-        session: extractUserFromToken(null, req.cookies['jwt']),
-        jwt: req.cookies['jwt'],
-      },
+        props: {
+            session: extractUserFromToken(null, req.cookies['jwt']),
+            jwt: req.cookies['jwt'],
+        },
     };
-  }
+}
 
 export type AuthenticatedProps = {
     session: Token['user'];
     jwt: string;
-  };
+};
 
 const Payments: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
 
@@ -38,13 +39,13 @@ const Payments: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
     console.log({ props });
     const { status, data, error, isFetching, isError } = useFindUserQuery(
         {
-        endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
-        fetchParams: {
-            headers: {
-            'Content-Type': 'application/json',
-            jwt: props.jwt,
+            endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
+            fetchParams: {
+                headers: {
+                    'Content-Type': 'application/json',
+                    jwt: props.jwt,
+                },
             },
-        },
         },
         // TODO type props
         { handle: props.session.email },
@@ -58,7 +59,7 @@ const Payments: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
         alertContext.shouldHide(false)
     }
 
-    const methods= data?.findUser.User?.paymentMethods;
+    const methods: PaymentInformation[] = data!.findUser!.User!.paymentMethods;
 
 
     return (
@@ -72,7 +73,7 @@ const Payments: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
                 />
                 <link rel="icon" href="/foodle_logo.svg" />
             </Head>
-            <Navbar user={props.session}/>
+            <Navbar user={props.session} />
             <div className={styles['payments']}>
                 <Sidebar />
                 <div className={styles['mypayments']}>
@@ -112,7 +113,7 @@ const Payments: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
 
                             )}
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
