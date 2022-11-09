@@ -1,77 +1,66 @@
-import type { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
+import { Token } from '../../../server/utils/forgeJWT';
+import { useFindUserQuery } from '../../codegen';
+import { PaymentInformation } from '../../codegen/index';
 import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
 import Payment from '../../components/payments/Payment';
+import { useAlertContext } from '../../components/utilities/Alert/AlertContext';
+import { extractUserFromToken } from '../../utils/context';
 import styles from './Payments.module.scss';
 
-export type Payment = {
-    date: string;
-    amount: number;
-    type: string;
-    status: string;
-    id: number;
+export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+    if (!req.cookies['jwt']) {
+        return {
+            props: {},
+            redirect: {
+                permanent: false,
+                destination: '/',
+            },
+        };
+    }
+    return {
+        props: {
+            session: extractUserFromToken(null, req.cookies['jwt']),
+            jwt: req.cookies['jwt'],
+        },
+    };
 }
 
-export type Method = {
-    type: string;
-    date: string;
-    number: number;
-    default: boolean;
-}
+export type AuthenticatedProps = {
+    session: Token['user'];
+    jwt: string;
+};
 
-const Payments: NextPage = () => {
+const Payments: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
 
-    const paymentData: Payment[] = [
+    const alertContext = useAlertContext();
+    console.log({ props });
+    const { status, data, error, isFetching, isError } = useFindUserQuery(
         {
-            date: '01.22.2022',
-            amount: 900,
-            type: 'Reservation',
-            status: 'Paid',
-            id: 385792352
+            endpoint: process.env.NEXT_PUBLIC_SERVER_URL + 'graphql',
+            fetchParams: {
+                headers: {
+                    'Content-Type': 'application/json',
+                    jwt: props.jwt,
+                },
+            },
         },
-        {
-            date: '01.22.2022',
-            amount: 900,
-            type: 'Reservation',
-            status: 'Paid',
-            id: 385792352
-        },
-        {
-            date: '01.22.2022',
-            amount: 900,
-            type: 'Reservation',
-            status: 'Paid',
-            id: 385792352
-        }
-    ];
+        // TODO type props
+        { handle: props.session.email },
+        {}
+    );
+    console.log({ data });
+    console.log({ error });
+    console.log(alertContext.isHidden)
+    if (isError) {
+        alertContext.setMessage((error ?? "error" as any).toString())
+        alertContext.shouldHide(false)
+    }
 
-    const methodData: Method[] = [
-        {
-            type: 'MasterCard',
-            date: '21/01/2022',
-            number: 23456789,
-            default: true
-        },
-        {
-            type: 'VisaCard',
-            date: '29/10/2021',
-            number: 99999999,
-            default: false
-        },
-        {
-            type: 'MasterCard',
-            date: '01/07/2019',
-            number: 22222222,
-            default: false
-        },
-        {
-            type: 'VisaCard',
-            date: '17/05/2018',
-            number: 55555555,
-            default: false
-        }
-    ];
+    const methods: PaymentInformation[] = data!.findUser!.User!.paymentMethods;
+
 
     return (
 
@@ -84,7 +73,7 @@ const Payments: NextPage = () => {
                 />
                 <link rel="icon" href="/foodle_logo.svg" />
             </Head>
-            <Navbar />
+            <Navbar user={props.session} />
             <div className={styles['payments']}>
                 <Sidebar />
                 <div className={styles['mypayments']}>
@@ -92,9 +81,9 @@ const Payments: NextPage = () => {
                     <h5 className="subtitle-text subtle-text">PAYMENTS PENDING, PAID, REFUNDED.</h5>
                     <div className={styles['paymentMethod']}>
                         <h6 className='header-tertiary'>Payment methods</h6>
-                        <Payment methods={methodData} />
-
+                        <Payment methods={methods} />
                     </div>
+
                     <div className={styles['pastPayment']}>
                         <h6 className='header-tertiary'>Past payments</h6>
                         <div className={styles['namebox']}>
@@ -106,23 +95,25 @@ const Payments: NextPage = () => {
                         </div>
 
                         <div className="">
-                            {paymentData.length === 0 ? (
+                            {data?.findUser.User?.charges.length === 0 ? (
                                 <p>No payments have been made yet.</p>
                             ) : (
 
-                                paymentData.map(({ date, amount, id, status, type }) => (
+                                data?.findUser.User?.charges.map((charge, index) => (
                                     <div className={styles["blocks"]}>
-                                        <div>{date}</div>
-                                        <div>{amount}€</div>
-                                        <div>{type}</div>
-                                        <div>{status}</div>
-                                        <div>{id}</div>
+                                        <div>{new Date(charge.date! * 1000).toUTCString()}</div>
+                                        <div>
+                                            {charge.amount! * 0.01}{charge.currency}
+                                        </div>
+                                        <div>{charge.card}</div>
+                                        <div>{charge.status}</div>
+                                        <div>{charge.description}: {charge.invoiceId}</div>
                                     </div>
                                 ))
 
                             )}
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

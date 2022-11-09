@@ -1,17 +1,17 @@
 import styles from './PaymentMethodInfo.module.scss';
-import { Method } from '../../../pages/payments/index';
+import {PaymentInformation} from '../../../codegen/index';
 
 
 interface PaymentMethodInfoProps {
-    method: Method;
+    method: PaymentInformation;
 };
 
 const PaymentMethodInfo=(props: PaymentMethodInfoProps)=>{
 
     return(
         <div>
-                <div> {props.method.type} {props.method.number}</div>
-                <div className={styles['greytext']}>Expiry {props.method.date}</div>
+                <div> {props.method.type} {props.method.cardNumber}</div>
+                <div className={styles['greytext']}>Expiry {props.method.expiryMonth}/{props.method.expiryYear}</div>
         </div>
     );
 
