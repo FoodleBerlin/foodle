@@ -1,26 +1,25 @@
 import { useState } from 'react';
-import { Method } from '../../../pages/payments/index';
+import {PaymentInformation} from '../../../codegen/index';
 import PaymentMethod from '../PaymentMethod/index';
 import styles from './Payment.module.scss';
 
 interface PaymentProps {
-    methods: Method[];
+    methods: PaymentInformation[];
 }
 
 const Payment = (props: PaymentProps) => {
-    const [paymentMethods, setPaymentMethods] = useState<Method[]>(props.methods);
-
-    const makeDefault = (method: Method) => {
+    const [paymentMethods, setPaymentMethods] = useState<PaymentInformation[]>(props.methods);
+    const makeDefault = (method: PaymentInformation) => {
 
         let methods = [...paymentMethods];
 
         methods.map(object => {
             if (method === object) {
-                object.default = true;
+                // object.default = true;
                 methods = methods.filter(obj => obj !== object);
                 methods.unshift(object);
             } else {
-                object.default = false;
+                // object.default = false;
             }
         })
 
@@ -28,7 +27,7 @@ const Payment = (props: PaymentProps) => {
 
     };
 
-    const removeMethod = (method: Method) => {
+    const removeMethod = (method: PaymentInformation) => {
 
         setPaymentMethods([...paymentMethods].filter(obj => obj !== method));
     };
