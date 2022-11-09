@@ -58,6 +58,9 @@ const Payments: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
         alertContext.shouldHide(false)
     }
 
+    const methods= data?.findUser.User?.paymentMethods;
+
+
     return (
 
         <div>
@@ -77,9 +80,9 @@ const Payments: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
                     <h5 className="subtitle-text subtle-text">PAYMENTS PENDING, PAID, REFUNDED.</h5>
                     <div className={styles['paymentMethod']}>
                         <h6 className='header-tertiary'>Payment methods</h6>
-                        <Payment methods={data?.findUser.User?.paymentMethods} />
+                        <Payment methods={methods} />
                     </div>
-                    
+
                     <div className={styles['pastPayment']}>
                         <h6 className='header-tertiary'>Past payments</h6>
                         <div className={styles['namebox']}>
@@ -91,17 +94,19 @@ const Payments: NextPage<AuthenticatedProps> = (props: AuthenticatedProps) => {
                         </div>
 
                         <div className="">
-                            {paymentData.length === 0 ? (
+                            {data?.findUser.User?.charges.length === 0 ? (
                                 <p>No payments have been made yet.</p>
                             ) : (
 
-                                paymentData.map(({ date, amount, id, status, type }) => (
+                                data?.findUser.User?.charges.map((charge, index) => (
                                     <div className={styles["blocks"]}>
-                                        <div>{date}</div>
-                                        <div>{amount}€</div>
-                                        <div>{type}</div>
-                                        <div>{status}</div>
-                                        <div>{id}</div>
+                                        <div>{new Date(charge.date! * 1000).toUTCString()}</div>
+                                        <div>
+                                            {charge.amount! * 0.01}{charge.currency}
+                                        </div>
+                                        <div>{charge.card}</div>
+                                        <div>{charge.status}</div>
+                                        <div>{charge.description}: {charge.invoiceId}</div>
                                     </div>
                                 ))
 
