@@ -15,7 +15,7 @@ app.use(passport.initialize());
 export const isProduction = process.env.NEXT_PUBLIC_SERVER_URL !== 'http://localhost:5000/';
 if (isProduction) {
   // Sets CSP header, enforces HTTPS, sets X-Frame-Options Header
-  app.use(helmet);
+  app.use(helmet());
 }
 app.use(
   session({
