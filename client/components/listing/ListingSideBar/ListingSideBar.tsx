@@ -8,7 +8,7 @@ import { useBookingContext } from "../BookingContext";
 import styles from "./ListingSideBar.module.scss";
 
 
-function ListingSideBar(props: { listingsData: FormData, handle: string, owner: any }) {
+function ListingSideBar(props: { handle: string, owner: any }) {
     //TODO: REFACTOR
     const { register, setValue } = useBookingContext();
     const { shouldHide, setMessage } = useAlertContext();
