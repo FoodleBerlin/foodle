@@ -58,7 +58,12 @@ if (!process.env.TEST) {
   main();
 }
 
-router.get('/api/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/api/auth', passport.authenticate('google', {
+  scope: [
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email'
+  ]
+}));
 
 router.get('/api/callback', (req: any, res: any, next) => {
   passport.authenticate('google', async (err: any, user: any) => {
