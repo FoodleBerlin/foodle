@@ -1,8 +1,8 @@
 const GoogleStrategy = require('passport-google-oauth20');
 import passport from 'passport';
 import { v4 as uuidv4 } from 'uuid';
-import prisma from '../server/singletons/prisma';
 import datasources from './singletons/datasources';
+import prisma from './singletons/prisma';
 
 const { stripeWrapper } = datasources();
 

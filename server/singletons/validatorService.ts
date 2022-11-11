@@ -1,5 +1,4 @@
-import { Property } from '.prisma/client';
-import { User } from '@prisma/client';
+import { Property, User } from '@prisma/client';
 import moment from 'moment';
 import prisma from './prisma';
 

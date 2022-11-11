@@ -15,7 +15,7 @@ app.use(passport.initialize());
 export const isProduction = process.env.NEXT_PUBLIC_SERVER_URL !== 'http://localhost:5000/';
 if (isProduction) {
   // Sets CSP header, enforces HTTPS, sets X-Frame-Options Header
-  app.use(helmet);
+  app.use(helmet());
 }
 app.use(
   session({
@@ -58,7 +58,12 @@ if (!process.env.TEST) {
   main();
 }
 
-router.get('/api/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/api/auth', passport.authenticate('google', {
+  scope: [
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email'
+  ]
+}));
 
 router.get('/api/callback', (req: any, res: any, next) => {
   passport.authenticate('google', async (err: any, user: any) => {
@@ -67,7 +72,7 @@ router.get('/api/callback', (req: any, res: any, next) => {
       // Is session cookie, expires on client shutdown
       httpOnly: true, // prevents scripts from reading cookie
       secure: isProduction ? true : false, // prevents cookie from being sent over unencrypted connection
-      sameSite: isProduction ? 'strict' : 'lax', // Strict=browser will not send the cookie to our website if the request comes from a different domain,
+      sameSite: 'lax', // Strict=browser will not send the cookie to our website if the request comes from a different domain,
       //Lax= Browser only blocks cookies with unsafe HTTP methods like POST
     });
     return res.redirect(process.env.CLIENT_URL);

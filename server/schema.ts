@@ -17,11 +17,11 @@ const schema = makeSchema({
   },
   outputs: {
     typegen: path.join(process.cwd(), '/node_modules/@types/nexus-typegen/index.d.ts'),
-    schema: path.join(__dirname, '/generated/schema.graphql'),
+    schema: path.join(process.cwd(), '/generated/schema.graphql'),
   },
   contextType: {
     export: 'Context',
-    module: path.join(__dirname, '/context.ts'),
+    module: path.join(process.cwd(), '/context.ts'),
   },
   sourceTypes: {
     modules: [{ module: '.prisma/client', alias: 'PrismaClient' }],

@@ -1,4 +1,4 @@
-import { KitchenCardInfo } from '../../client/components/Landing/SwiperCard';
+import { KitchenCardInfo } from "../components/landing/SwiperCard";
 
 export const kitchenCards: KitchenCardInfo[] = [
   {

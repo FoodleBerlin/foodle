@@ -1,0 +1,5 @@
+*.png
+*.md
+*.jpg
+node_modules/
+tests/
