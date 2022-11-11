@@ -1,5 +1,5 @@
-schema: http://localhost:5000/graphql
-documents: 'codegen/**/*.ts'
+schema: https://server.foodle-kitchens.com/graphql
+documents: "codegen/**/*.ts"
 generates:
   codegen/index.ts:
     plugins:
