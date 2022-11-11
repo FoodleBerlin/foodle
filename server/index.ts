@@ -72,7 +72,7 @@ router.get('/api/callback', (req: any, res: any, next) => {
       // Is session cookie, expires on client shutdown
       httpOnly: true, // prevents scripts from reading cookie
       secure: isProduction ? true : false, // prevents cookie from being sent over unencrypted connection
-      sameSite: isProduction ? 'strict' : 'lax', // Strict=browser will not send the cookie to our website if the request comes from a different domain,
+      sameSite: 'lax', // Strict=browser will not send the cookie to our website if the request comes from a different domain,
       //Lax= Browser only blocks cookies with unsafe HTTP methods like POST
     });
     return res.redirect(process.env.CLIENT_URL);
