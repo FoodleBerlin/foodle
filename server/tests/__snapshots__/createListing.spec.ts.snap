@@ -11,12 +11,12 @@ Object {
         "city": "Berlin",
         "daySlots": Array [
           Object {
-            "endTime": 2022-07-02T12:00:00.003Z,
-            "startTime": 2022-07-02T09:00:00.003Z,
-          },
-          Object {
             "endTime": 2022-07-02T13:00:00.003Z,
             "startTime": 2022-07-02T07:00:00.003Z,
+          },
+          Object {
+            "endTime": 2022-07-02T12:00:00.003Z,
+            "startTime": 2022-07-02T09:00:00.003Z,
           },
         ],
         "deposit": 2,
@@ -25,7 +25,7 @@ Object {
           "Unfurnished",
         ],
         "frequency": "WEEKLY",
-        "handle": "prop_title_a4859a",
+        "handle": "prop_title_60e99d",
         "hourlyPrice": 12,
         "images": Array [
           "test-image-url",
@@ -195,20 +195,20 @@ Object {
             "startTime": 2022-06-03T08:00:51.063Z,
           },
           Object {
-            "endTime": 2022-06-17T11:00:51.063Z,
-            "startTime": 2022-06-17T08:00:51.063Z,
+            "endTime": 2022-06-24T11:00:51.063Z,
+            "startTime": 2022-06-24T08:00:51.063Z,
           },
           Object {
-            "endTime": 2022-06-10T11:00:51.063Z,
-            "startTime": 2022-06-10T08:00:51.063Z,
+            "endTime": 2022-06-17T11:00:51.063Z,
+            "startTime": 2022-06-17T08:00:51.063Z,
           },
           Object {
             "endTime": 2022-05-20T11:00:51.063Z,
             "startTime": 2022-05-20T08:00:51.063Z,
           },
           Object {
-            "endTime": 2022-06-24T11:00:51.063Z,
-            "startTime": 2022-06-24T08:00:51.063Z,
+            "endTime": 2022-06-10T11:00:51.063Z,
+            "startTime": 2022-06-10T08:00:51.063Z,
           },
         ],
         "deposit": 2,
@@ -217,7 +217,7 @@ Object {
           "Unfurnished",
         ],
         "frequency": "WEEKLY",
-        "handle": "prop_title_b75cd4",
+        "handle": "prop_title_8500a7",
         "hourlyPrice": 12,
         "images": Array [
           "test-image-url",
@@ -289,7 +289,7 @@ Object {
           "Unfurnished",
         ],
         "frequency": "MONTHLY",
-        "handle": "prop_title_2cfdd8",
+        "handle": "prop_title_af7d93",
         "hourlyPrice": 12,
         "images": Array [
           "test-image-url",
@@ -346,7 +346,7 @@ Object {
           "Unfurnished",
         ],
         "frequency": "NONE",
-        "handle": "prop_title_62746b",
+        "handle": "prop_title_7da476",
         "hourlyPrice": 12,
         "images": Array [
           "test-image-url",
@@ -403,7 +403,7 @@ Object {
           "Unfurnished",
         ],
         "frequency": "WEEKLY",
-        "handle": "prop_title_f22c2c",
+        "handle": "prop_title_a987aa",
         "hourlyPrice": 12,
         "images": Array [
           "test-image-url",

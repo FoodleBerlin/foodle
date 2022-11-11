@@ -17,7 +17,7 @@
     "db:seed": "dotenv -e .env.local yarn ts-node utils/runSeed.ts",
     "db:clean": "dotenv -e .env.local yarn ts-node utils/runClean.ts",
     "format": "eslint --fix .",
-    "test:api": "cross-env TEST=true dotenv -e .env.local -- jest --config ./jest.config.ts --runInBand --force-exit",
+    "test:api": "cross-env TEST=true dotenv -e .env.local -- jest --config ./jest.config.ts --runInBand --forceExit --detectOpenHandles",
     "heroku:deploy": "yarn prisma migrate deploy && node build/server/index.js"
   },
   "dependencies": {

@@ -102,13 +102,14 @@ export const apollo: ApolloServer = new ApolloServer({
 });
 
 export const router = express.Router();
+const port = 0;
 
 export async function main() {
   await apollo.start();
   app.use(router);
   apollo.applyMiddleware({ app });
   app.listen({
-    port: 5000,
+    port: port,
   });
 }
 main();
