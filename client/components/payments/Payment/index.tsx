@@ -38,8 +38,8 @@ const Payment = (props: PaymentProps) => {
             {paymentMethods.length === 0 ? (
                 <p>No payment method added yet.</p>
             ) : (
-                paymentMethods.map((method) => (
-                    <div className={styles['paymentMethod__block']}>
+                paymentMethods.map((method, index) => (
+                    <div key={"method-key-" + index.toString()} className={styles['paymentMethod__block']}>
                         <PaymentMethod method={method} makeDefault={makeDefault} removeMethod={removeMethod} />
                     </div>
                 ))

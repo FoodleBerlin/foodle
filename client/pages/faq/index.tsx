@@ -54,8 +54,8 @@ const Faq: NextPage = () => {
             <hr />
 
             <div className="">
-              {faqData.map(({ title, content }) => (
-                <FaqAccordion title={title} content={content} />
+              {faqData.map(({ title, content }, index) => (
+                <FaqAccordion key={"faq-step-" + index.toString()} title={title} content={content} />
               ))}
             </div>
           </div>
