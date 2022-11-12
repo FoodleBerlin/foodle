@@ -133,7 +133,7 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          script: docker exec -it foodle-backend doppler run -- yarn prisma:migrate:deploy
+          script: docker exec foodle-backend doppler run -- yarn prisma:migrate:deploy
 
       - name: Set DOPPLER ENV via ssh and start container #TODO trigger only if compose file changed
         uses: appleboy/ssh-action@master
