@@ -12,13 +12,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          ref: ${{github.ref}} # TODO: remove before mering into master
 
       - name: Save secrets into file
         run: cd ${{github.workspace}}/terraform && echo -e 'rootPass ="${{secrets.LINODE_ROOT_PASSWORD}}"\nlinodeAuthKey ="${{secrets.LINODE_AUTH_KEY}}"\nauthorized_key = "${{secrets.AUTHORIZED_KEY}}"' > terraform.tfvars
-      - name: Verify index.ts
-        run: cd ${{github.workspace}}/server && cat index.ts
+
       - uses: hashicorp/setup-terraform@v2
       - name: Init terraform
         run: cd ${{github.workspace}}/terraform &&  terraform init
@@ -101,7 +98,7 @@ jobs:
         with:
           cmd: echo '${{steps.api.outputs.response}}' | jq .data.data[] |  jq 'select(.type=="ipv4").address' | jq --raw-output
 
-      - name: Copy compose file via ssh
+      - name: Copy compose file via ssh # TODO: Trigger only if compose file changes
         uses: garygrossgarten/github-action-scp@v0.7.3
         with:
           username: root
@@ -120,7 +117,25 @@ jobs:
           port: 22
           script: docker login --username ${{secrets.DOCKER_USERNAME}} --password ${{secrets.DOCKER_PASSWORD}}
 
-      - name: Set DOPPLER ENV via ssh and start container
+      - name: Prune docker images
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{steps.address.outputs.value}}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: docker image prune -f
+
+      - name: Prisma migrate deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{steps.address.outputs.value}}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: docker exec -it foodle-backend doppler run -- yarn prisma:migrate:deploy
+
+      - name: Set DOPPLER ENV via ssh and start container #TODO trigger only if compose file changed
         uses: appleboy/ssh-action@master
         with:
           host: ${{steps.address.outputs.value}}
