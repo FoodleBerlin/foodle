@@ -65,16 +65,17 @@ router.get('/api/auth', passport.authenticate('google', {
   ]
 }));
 
-router.get('/api/callback', (req: any, res: any, next) => {
+router.get('/api/callback', (req, res, next) => {
   passport.authenticate('google', async (err: any, user: any) => {
     const token = await forgeJWT(user);
     res.cookie('jwt', token, {
+      domain: "foodle-kitchens.com",
       // Is session cookie, expires on client shutdown
       httpOnly: true, // prevents scripts from reading cookie
       secure: isProduction ? true : false, // prevents cookie from being sent over unencrypted connection
       sameSite: 'lax', // Strict=browser will not send the cookie to our website if the request comes from a different domain,
       //Lax= Browser only blocks cookies with unsafe HTTP methods like POST
     });
-    return res.redirect(process.env.CLIENT_URL);
+    return res.redirect(process.env.CLIENT_URL!);
   })(req, res, next);
 });
