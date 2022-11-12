@@ -54,6 +54,7 @@ export async function main() {
     port: port,
   });
 }
+
 if (!process.env.TEST) {
   main();
 }
