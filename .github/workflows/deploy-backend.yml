@@ -81,15 +81,6 @@ jobs:
           port: 22
           script: docker image prune -f
 
-      - name: Prisma migrate deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{steps.address.outputs.value}}
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: docker exec foodle-backend doppler run -- yarn prisma:migrate:deploy
-
       - name: Set DOPPLER ENV via ssh and start container #TODO trigger only if compose file changed
         uses: appleboy/ssh-action@master
         with:
@@ -98,3 +89,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: cd /.deployConfig && docker-compose down && echo DOPPLER_TOKEN=${{secrets.DOPPLER_TOKEN}} > .env && docker-compose up -d
+
+      - name: Prisma migrate deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{steps.address.outputs.value}}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: docker exec foodle-backend doppler run -- yarn prisma:migrate:deploy
