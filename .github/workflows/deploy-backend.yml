@@ -1,7 +1,7 @@
 name: "Deploy Backend"
 on:
   push:
-    branches: ["212-feat-deploy-backend"]
+    branches: ["master"]
   pull_request:
 jobs:
   build:
