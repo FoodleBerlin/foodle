@@ -70,7 +70,7 @@ router.get('/api/callback', (req, res, next) => {
   passport.authenticate('google', async (err: any, user: any) => {
     const token = await forgeJWT(user);
     res.cookie('jwt', token, {
-      domain: "foodle-kitchens.com",
+      domain: process.env.NODE_ENV === "production" ? "foodle-kitchens.com" : "",
       // Is session cookie, expires on client shutdown
       httpOnly: true, // prevents scripts from reading cookie
       secure: isProduction ? true : false, // prevents cookie from being sent over unencrypted connection
