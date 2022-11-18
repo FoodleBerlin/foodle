@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
-import AlertProvider from '../components/utilities/Alert/AlertContext';
 import Wizard, { WizardProvider } from '../components/create/wizard/Wizard';
 import Navbar from '../components/layout/Navbar';
+import AlertProvider from '../components/utilities/Alert/AlertContext';
 import { extractUserFromToken } from '../utils/context';
 import { AuthenticatedProps } from './account/payments';
 
@@ -15,6 +15,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
       },
     };
   }
+
   return {
     props: {
       session: extractUserFromToken(null, req.cookies['jwt']),

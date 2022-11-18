@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y apt-transport-https ca-certificates cur
 RUN npm i -g corepack
 RUN corepack prepare yarn@1.22.19 --activate
 WORKDIR /
-COPY ./ ./server
+COPY . ./server
 WORKDIR /server
 RUN yarn
 RUN yarn prisma:generate

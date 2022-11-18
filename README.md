@@ -128,6 +128,65 @@ Foodle's Security Protections:
 - Made cookies enfore Https and Samesite-strict
 - Turned off introspection for Apollo Server in production and added csrfPrevention and a CORS config to it
 
+
+### Deployment
+
+This section covers everything important to know about the deployment
+
+#### Infrastructure:
+- Provider: Linode, Vercel
+- Products used (Linode): Shared Compute, Managed Postgresql DB
+- Products used (Vercel): Stadard offering provided
+
+#### Files & Folders:
+A large chunk of the deployment is automated, in fact everything can run fully automated as long as it's not setup from scratch again.
+To enable this we use the verecel integration with Github, terraform for deployment and our github action workflows.**
+
+*.github/workflows* contains all workflows
+- `.github/workflows/deploy-backend`: Is responsible to deploy our backend as a container on the linode instance
+- `.github/workflows/terraform-plan`: Shows terraform changes which might happen if you edit the terraform files
+- `.deployConfig`: Contains the docker-compose file which is used to deploy our backend + traeffik, a proxy which enables SSL without much config
+- `server/Dockerfile`: contains the dockerfile to build the image for the servers
+- `terraform/*`: Contains all terrafrom files to provision the required infrastructure
+- `terraform/linode-compute`: Provisions the compute instance, if you need a more ressources edit this file
+- `terraform/linode-db`: Will be used to provision the database, if you need more storage and such, edit this file
+- `terraform/linode-firewall`: Will put up the firewall between the linode compute instance and the internet
+- `terraform/variables`: Variables which will need to supplied via a `terraform.tfvars` file, can also be supplied while running terraform apply
+
+#### How to use terraform?
+You can run it via the official cli
+1. Install cli
+2. setup `terraform.tfvars`
+3. run `terraform init`
+4. run `terraform plan` shows ressources and configuration
+5. run `terraform apply` if you want to provision these ressources
+
+If you want to remove this ressources run:
+`terraform destroy`
+
+#### How does the deployment work:
+- view the comments in the gh actions workflow
+
+#### Things to keep in mind
+- It's important to run `docker image prune` at regular intervalls, to prevent running out of storage. (will be done automatically)
+- If you setup the deployment from scratch, you need to change some enviroment variables as well
+- If you setup the deployment from scratch, you also need to change the pointer of the subdomain (server.foodle-kitchens.com) to the new, public ipv4 of the linode instance or else you wont be able to access it (simply replace the ip in the domain registrar)
+- The doppler token needs to be supplied manually or via ssh (currently via ssh)
+- If you want to access the db either whitelist all IPS in linode or find out your public ip. *AFTER YOU ARE DONE, REMOVE IT!*
+- if you change enviroment varibles in doppler, nodejs wont have the newest one, restart the container for this
+- The private and public ssh key can be found in doppler
+- There is a stack script referenced, this is a script which will run the first time the compute instance is created, and in our case should install docker & docker-compose. If that for whatever reason fails, simply copy the contents, ssh into the compute instance and run past it there.
+- doppler contains all enviroment variables which will be used in production, no .env file or something else, exepct one for the doppler secret is used!
+- DB migrations need to be run in the backend container and via: `doppler run -- yarn prisma:migrate:deploy`
+- There seems to be the slight chance that above step in the backend workflow will fail, you can run it from the container again and it will work
+- If you run the project from scratch you might need to change the DB url and rerun the action
+
+#### Improvments:
+There are still some things left which can be improved upon.
+1. Copy the docker-compose file only over if there are changes to it, or if you create the enviroment from scratch
+2. Disable password access for ssh completly
+3. See backend-deployment workflow
+
 ### Attribution:
 
 <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by ariefstudio - Flaticon</a>

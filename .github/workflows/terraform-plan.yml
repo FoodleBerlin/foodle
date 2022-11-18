@@ -1,0 +1,20 @@
+name: "Deploy Backend"
+on:
+  pull_request:
+    branches: ["master"]
+jobs:
+  plan:
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Save secrets into file
+        run: cd ${{github.workspace}}/terraform && echo -e 'rootPass ="${{secrets.LINODE_ROOT_PASSWORD}}"\nlinodeAuthKey ="${{secrets.LINODE_AUTH_KEY}}"\nauthorized_key = "${{secrets.AUTHORIZED_KEY}}"' > terraform.tfvars
+      - uses: hashicorp/setup-terraform@v2
+      - name: Init terraform
+        run: cd ${{github.workspace}}/terraform &&  terraform init
+
+      - name: Plan ressources
+        if: github.event_name == 'pull_request'
+        run: cd ${{github.workspace}}/terraform && terraform plan -no-color -input=false
+        continue-on-error: true

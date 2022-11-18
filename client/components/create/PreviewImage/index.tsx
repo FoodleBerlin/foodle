@@ -36,6 +36,7 @@ const PreviewImage = (props: PreviewImageProps) => {
       onDrop={(e) => props.handleDrop(e)}
     >
       <Image
+        unoptimized
         src={props.image.url}
         width={460}
         height={516}
@@ -46,15 +47,15 @@ const PreviewImage = (props: PreviewImageProps) => {
         style={
           isHovered
             ? {
-                fill: 'black',
-                position: 'absolute',
-                strokeWidth: '1.6',
-                stroke: 'black',
-                margin: '2rem 3rem 0rem -4rem',
-                height: '1.65rem',
-                width: '1.65rem',
-                cursor: 'pointer',
-              }
+              fill: 'black',
+              position: 'absolute',
+              strokeWidth: '1.6',
+              stroke: 'black',
+              margin: '2rem 3rem 0rem -4rem',
+              height: '1.65rem',
+              width: '1.65rem',
+              cursor: 'pointer',
+            }
             : { display: 'none' }
         }
         onClick={() => props.deleteImage(id ? id : -1)}
