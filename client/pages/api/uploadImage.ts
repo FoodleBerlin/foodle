@@ -24,6 +24,9 @@ export const uploadResource = async (file: File | null, filename: string) => {
 export default async function handler(req: any, res: any, props: AuthenticatedProps) {
   try {
     s3.listObjectsV2({ Bucket: 'foodle-bucket' }, async (err, data) => {
+      if (err) {
+        return res.status(500).json({ awsError: err })
+      }
       if (data.Contents!.length < 100) {
         try {
           const post = s3.createPresignedPost({
@@ -38,15 +41,13 @@ export default async function handler(req: any, res: any, props: AuthenticatedPr
           })
           return res.status(200).json(post)
         } catch (error) {
-          res.status(500).json({ error: error })
+          return res.status(500).json({ error: error })
         }
       } else {
         return res.status(400).json({ message: "Too many objects in bucket" })
       }
-      if (err) {
-        return res.status(500).json({ awsError: err })
-      }
     })
+
   }
   catch (error) {
     return res.status(500).json({ error2: error })
