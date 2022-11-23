@@ -86,7 +86,7 @@ const Payments: NextPage = () => {
             </Head>
             <Navbar />
             <div className={styles['payments']}>
-                <Sidebar />
+                <Sidebar sitePosition={3} />
                 <div className={styles['mypayments']}>
                     <h4 className="header-secondary">My payments</h4>
                     <h5 className="subtitle-text subtle-text">PAYMENTS PENDING, PAID, REFUNDED.</h5>
@@ -110,8 +110,8 @@ const Payments: NextPage = () => {
                                 <p>No payments have been made yet.</p>
                             ) : (
 
-                                paymentData.map(({ date, amount, id, status, type }) => (
-                                    <div className={styles["blocks"]}>
+                                paymentData.map(({ date, amount, id, status, type }, index) => (
+                                    <div key={"key-" + index.toString()} className={styles["blocks"]}>
                                         <div>{date}</div>
                                         <div>{amount}€</div>
                                         <div>{type}</div>
@@ -122,13 +122,13 @@ const Payments: NextPage = () => {
 
                             )}
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
 
 
-        </div>
+        </div >
 
     );
 

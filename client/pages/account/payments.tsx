@@ -1,10 +1,10 @@
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { Token } from '../../../server/utils/forgeJWT';
 import { useFindUserQuery } from '../../codegen';
 import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
 import { useAlertContext } from '../../components/utilities/Alert/AlertContext';
 import { extractUserFromToken } from '../../utils/context';
+import { Token } from "../../utils/forgeJWT";
 import styles from './Account.module.scss';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {

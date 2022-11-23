@@ -1,0 +1,99 @@
+name: "Deploy Backend"
+on:
+  push:
+    branches: ["master"]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout #copys the repository
+        uses: actions/checkout@v3
+
+      - name: Save secrets into file # craetes secrets for terraform
+        run: cd ${{github.workspace}}/terraform && echo -e 'rootPass ="${{secrets.LINODE_ROOT_PASSWORD}}"\nlinodeAuthKey ="${{secrets.LINODE_AUTH_KEY}}"\nauthorized_key = "${{secrets.AUTHORIZED_KEY}}"' > terraform.tfvars
+
+      - uses: hashicorp/setup-terraform@v2
+      - name: Init terraform # inits terraform
+        run: cd ${{github.workspace}}/terraform &&  terraform init
+
+      - name: Apply ressources
+        if: github.event_name == 'push' # applys terraform ressource changes
+        run: cd ${{github.workspace}}/terraform && terraform apply -auto-approve -input=false
+        continue-on-error: true # there are sometimes errors, check this output in case you updated the ressources
+
+      - name: Log in to the Container registry #logs into theour docker repo
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image #will build the docker image and push it
+        uses: docker/build-push-action@v3
+        with:
+          context: ${{ github.workspace }}/server
+          push: true
+          tags: foodle/backend:latest
+
+      - name: cURL AxiosJS
+        uses: indiesdev/curl@v1.1 #uses curl to get all ip adresses of the nodes we run
+        id: api
+        with:
+          url: https://api.linode.com/v4/networking/ips
+          bearer-token: ${{secrets.LINODE_AUTH_KEY}}
+          method: GET
+          accept: 200
+
+      - name: Run jq # uses a sh compatible json parser, to get our ip address of the linode IMPORTANT: Needs rework in case of multiple linodes
+        uses: sergeysova/jq-action@v2
+        id: address
+        with:
+          cmd: echo '${{steps.api.outputs.response}}' | jq .data.data[] |  jq 'select(.type=="ipv4").address' | jq --raw-output
+
+      - name: Copy compose file via ssh # TODO: Trigger only if compose file changes
+        uses: garygrossgarten/github-action-scp@v0.7.3 # Will copy over the docker-compose file
+        with:
+          username: root
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY}}
+          port: 22
+          local: ${{github.workspace}}/.deployConfig
+          remote: /.deployConfig
+          host: "${{steps.address.outputs.value}}"
+
+      - name: Run docker login on server via ssh
+        uses: appleboy/ssh-action@master # Will login into docker repository to allow pulling it
+        with:
+          host: ${{steps.address.outputs.value}}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: docker login --username ${{secrets.DOCKER_USERNAME}} --password ${{secrets.DOCKER_PASSWORD}} #TODO: use --stdin to pass password
+
+      - name: Prune docker images
+        uses: appleboy/ssh-action@master # remove all old docker images from the machine to prevent storage issues
+        with:
+          host: ${{steps.address.outputs.value}}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: docker image prune -f
+
+      - name: Set DOPPLER ENV via ssh and start container #TODO trigger only if compose file changed
+        uses: appleboy/ssh-action@master # sets up the doppler token in an .env file and restart docker-compose
+        with:
+          host: ${{steps.address.outputs.value}}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: cd /.deployConfig && docker-compose down && echo DOPPLER_TOKEN=${{secrets.DOPPLER_TOKEN}} > .env && docker-compose up -d
+
+      - name: Prisma migrate deploy
+        uses: appleboy/ssh-action@master # Should run primsa migration from backend container
+        with:
+          host: ${{steps.address.outputs.value}}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: docker exec foodle-backend doppler run -- yarn prisma:migrate:deploy

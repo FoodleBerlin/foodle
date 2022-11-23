@@ -1,7 +1,7 @@
 import { ChangeEvent, MutableRefObject, useState } from 'react';
 import { mutationObj } from '../..';
-import { Token } from '../../../server/utils/forgeJWT';
 import { FindUserQuery, useUpdateUserMutation } from '../../codegen';
+import { Token } from "../../utils/forgeJWT";
 import ProfileButton, { UploaderImage } from './ProfileButton';
 import styles from './ProfileForm.module.scss';
 interface ProfileFormProps {
